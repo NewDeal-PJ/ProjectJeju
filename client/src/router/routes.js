@@ -28,7 +28,13 @@ const routes = [
       { path: '', component: () => import('pages/FindPassword.vue') }
     ]
   },
-
+  {
+    path: '/settingpassword',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/SettingPassword.vue') }
+    ]
+  },
   {
     path: '/mypage',
     component: () => import('layouts/MainLayout.vue'),
@@ -70,13 +76,6 @@ const routes = [
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/Cart3.vue') }
-    ]
-  },
-  {
-    path: '/api/account',
-    component: () => import('layouts/MainLayout.vue'),
-    children: [
-      { path: '', component: () => import('pages/user.vue') }
     ]
   },
   // Always leave this as last one,

@@ -1,14 +1,23 @@
 <template>
 <Header></Header>
-<div class="cartbox"> 장바구니</div>
-
-<div class="totalbox">
- total
-</div>
-
-<div class="paymentbox">
-  <a href="http://localhost:9000/#/cart2" style="color: black;">결제하기</a>
+<div class="row">
+  <div class="col-lg-6">
+   <fieldset style="margin: 70px;">
+      <legend class="title"> </legend>
+      <table class="jointable">
+      상품정보
+      </table>
+    </fieldset>
   </div>
+  <div class="col-lg-6">
+<fieldset style="margin: 70px;">
+      <legend class="title"> </legend>
+      <table class="jointable">
+      상품정보
+      </table>
+    </fieldset>
+  </div>
+</div>
 </template>
 
 
@@ -20,45 +29,5 @@ export default{
 </script>
 
 <style>
-.cartbox{
-  position: absolute;
-width: 859px;
-height: 390px;
-left: 66px;
-margin-top: 50px;
 
-background: #D9D9D9;
-}
-
-.totalbox{
-  box-sizing: border-box;
-
-position: absolute;
-width: 389px;
-height: 320px;
-left: 983px;
-margin-top: 50px;
-
-background: #FFFFFF;
-border: 1px solid #000000;
-}
-
-.paymentbox{
-  position: absolute;
-width: 286px;
-height: 68px;
-left: 1035px;
-margin-top: 400px;
-
-background: #D9D9D9;
-border-radius: 10px;
-
-text-align: center;
-font-weight: bold;
-font-size: 25px;
-line-height: 65px;
-
-}
-
-a{text-decoration: none;}
 </style>

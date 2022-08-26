@@ -1,21 +1,23 @@
 <template>
 <Header></Header>
  <fieldset style="margin: 70px;border-radius: 10px;">
-    <legend class="title"> 비밀번호 찾기</legend>
+    <legend class="title"> 비밀번호 변경</legend>
       <table class="jointable">
         <tr>
-          <th class="first"><label for="user_id"> 아이디</label></th>
-          <td style="padding: 10px;"><input type="text" id="user_id" class="textForm" required autofocus>
-          </td>
+          <th><label for="user_pwd"> 새로운 비밀번호</label></th>
+          <td style="padding: 10px;"><input type="password" id="user_pwd" class="textForm"></td>
         </tr>
-        </table>
-
+        <tr>
+          <th><label for="user_pwd"> 비밀번호 확인</label></th>
+          <td style="padding: 10px;"><input type="password" id="user_pwd" class="textForm"></td>
+        </tr>
+      </table>
       <div class="button" >
         <div class="q-pa-md q-gutter-md">
           <q-btn style="color: white; background-color: #F79a38; width: 300px;
           height: 40px; margin: 0 auto; display: block; " >
           <div style="font-size: 25px;
-           font-family: 'Noto Sans KR', sans-serif;"> 이메일 보내기</div>
+          font-family: 'Noto Sans KR', sans-serif;">등록하기</div>
           </q-btn>
         </div>
       </div>
@@ -33,7 +35,7 @@ export default{
 text-align: center;
 font-size: 40px;
 font-weight: bold;
-font-family: 'Noto Sans KR', sans-serif;
+ font-family: 'Noto Sans KR', sans-serif;
 }
 .jointable{
   padding: 100px;

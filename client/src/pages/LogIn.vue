@@ -20,7 +20,7 @@
         </div>
         <div class="button" >
             <div class="q-pa-md q-gutter-md">
-              <q-btn style="color: white; background-color:  #F79a38; width: 600px; margin: 0 auto; display: block; padding: 10px; margin-top: 10px;" >
+              <q-btn style="color: white; background-color: #F79a38; width: 600px; margin: 0 auto; display: block; padding: 10px; margin-top: 10px;" >
                 <div style="font-size: 20px; font-weight: 900;">로그인</div>
               </q-btn>
            </div>
@@ -86,6 +86,19 @@ export default{
   display:inline-block;zoom:1;
 }
 
+#wrapper{
+  height: auto;
+  min-height: 100%;
+  padding-bottom: (100px);
+}
+
+Footer{
+    height: 100px;
+  position: relative;
+
+  transform: translateY(-100%);
+}
 
 a{text-decoration: none;}
 </style>
+

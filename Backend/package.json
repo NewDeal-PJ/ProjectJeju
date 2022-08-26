@@ -1,0 +1,32 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "concurrently \"node ./mapper/hotelMapper.js\" \"cd ../client && yarn quasar dev\""
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.4",
+    "body-parser": "^1.20.0",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
+    "ejs": "^3.1.8",
+    "express": "^4.18.1",
+    "express-session": "^1.17.3",
+    "firebase": "^9.9.1",
+    "http": "^0.0.1-security",
+    "jsonwebtoken": "^8.5.1",
+    "mybatis-mapper": "^0.6.8",
+    "nodemon": "^2.0.19",
+    "oracledb": "^5.4.0",
+    "path": "^0.12.7",
+    "proxy": "^1.0.2",
+    "quasar": "^2.7.7",
+    "session": "^0.1.0"
+  }
+}

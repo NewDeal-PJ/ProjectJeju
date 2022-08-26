@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="oracleMapper">
+  <select id="getListHotel">
+    SELECT
+    * FROM TBL_HOTEL
+     NATURAL JOIN TBL_OTHER
+     NATURAL JOIN TBL_INTERNAL_FACILITIES
+     NATURAL JOIN TBL_PUBLIC_FACILITIES
+     NATURAL JOIN TBL_HOTEL_ATTACH
+     WHERE IMAGE=1
+     <if test="category == 1">
+      AND CATEGORY=1
+     </if>
+     <if test="category == 2">
+      AND CATEGORY=2
+     </if>
+     <if test="wifi == true">
+      AND WIFI=1
+     </if>
+     <if test="airconditioner == true">
+      AND AIRCONDITIONER=1
+     </if>
+     <if test="bathtub == true">
+      AND bathtub=1
+     </if>
+     <if test="pickup == true">
+      AND pickup=1
+     </if>
+     <if test="cooking == true">
+      AND cooking=1
+     </if>
+     <if test="breakfast == true">
+      AND breakfast=1
+     </if>
+     <if test="freeparking == true">
+      AND freeparking=1
+     </if>
+     <if test="tv == true">
+      AND tv=1
+     </if>
+     <if test="minibar == true">
+      AND minibar=1
+     </if>
+     <if test="refrigerator == true">
+      AND refrigerator=1
+     </if>
+     <if test="karaoke == true">
+      AND karaoke=1
+     </if>
+     <if test="karaoke == true">
+      AND karaoke=1
+     </if>
+     <if test="conveniencestore == true">
+      AND conveniencestore=1
+     </if>
+     <if test="parkinglot == true">
+      AND parkinglot=1
+     </if>
+     <if test="seminarroom == true">
+      AND seminarroom=1
+     </if>
+     <if test="bbq == true">
+      AND bbq=1
+     </if>
+     <if test="restaurant == true">
+      AND restaurant=1
+     </if>
+  </select>
+  <select id="getListCharger">
+    SELECT
+    * FROM TBL_CHARGERLOC
+  </select>
+  <select id="getListTopTen">
+    SELECT * FROM (
+      select * from TBL_HOTEL NATURAL JOIN TBL_HOTEL_ATTACH where starrate is not null ORDER BY STARRATE DESC
+      ) WHERE ROWNUM<![CDATA[ <= ]]>10
+  </select>

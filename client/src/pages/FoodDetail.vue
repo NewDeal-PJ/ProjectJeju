@@ -117,7 +117,7 @@ export default{
     border-radius: 10px;
     width:70%;
    display: flex;
-    margin-top: 20px;
+    margin-top: 40px;
 }
 .foodDetailInfo{
 
@@ -134,6 +134,8 @@ export default{
     border-radius: 10px;
     width: 70%;
     margin: 0 auto;
+    padding: 10px;
+    margin-bottom: 40px;
     
 }
 .foodDetailComment{

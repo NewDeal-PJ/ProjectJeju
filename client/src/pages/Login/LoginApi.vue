@@ -2,10 +2,10 @@
 <!-- 로그인 아이콘 -->
 <div class="logo" >
             <div class="kakao">
-            <a @click="loginWithKakao">
+            <button @click="loginWithKakao">
                 <img src=https://velog.velcdn.com/images/kimjyunny_dev/post/c68a56c7-23a6-41e0-9b82-0d0fc5f37e7e/image.png width="50"
                 />
-              </a>
+            </button>
             </div>
             <div class="google">
             <a>
@@ -20,17 +20,17 @@
 export default{
   name: 'LoginPage',
   methods: {
-    kakaoInit() {
+    kakaoInit() { 
         Kakao.init('81423af9935f23cdd7cda810e21a0837')
         Kakao.isInitialized()
       },
-    async loginWithKakao () {
+    async loginWithKakao (){
       await Kakao.Auth.authorize({
         redirectUri: `${window.location.origin}/kakao-callback`
       })
     }
   },
-  mounted() {
+  mounted() {  
     this.kakaoInit()
   }
 }

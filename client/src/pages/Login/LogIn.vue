@@ -30,7 +30,6 @@
         <a href="http://localhost:9000/#/signup"  style="color: black;">회원가입 </a>
         <a href="http://localhost:9000/#/findpassword" style="color:black;">비밀번호찾기</a>
        </div>
-
        <hr class="two" style="width: 600px; color:gray; border: thin solid;"/>
 </div>
 <LoginApi></LoginApi>

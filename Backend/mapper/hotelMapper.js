@@ -1,13 +1,14 @@
-const DataList = [];
-const TopTenList = [];
-const ChargerList = [];
-var OracleDB = require('oracledb');
-var cors = require('cors')
 require("dotenv").config();
 const db_user = process.env.DB_USER
 const db_password = process.env.DB_PASSWORD
 const db_string = process.env.DB_CONNECTSTRING
 const jwt_key = process.env.JWT_KEY
+const DataList = [];
+const TopTenList = [];
+const ChargerList = [];
+var OracleDB = require('oracledb');
+var cors = require('cors')
+
 
 // mybatis-mapper 추가
 var mybatisMapper = require('mybatis-mapper');
@@ -51,6 +52,7 @@ app.use(express.urlencoded({ extended: true }))
 
 // 기본 라우트
 
+// 임의 설정한 멤버
 const members = [
   {
     id: 1,
@@ -65,6 +67,21 @@ const members = [
     loginPw: "b1"
   }
 ]
+
+// DB 연결
+
+const client = OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
+  function (err, connection) {
+    if (err) {
+      console.error(err.message);
+      return;
+    }
+  });
+
+
+
+
+
 
 app.get('/', function (req, res) { // '/' 위치에 'get'요청을 받는 경우,
   res.send('Hello World!!!!!'); // "Hello World!"를 보냅니다.
@@ -149,6 +166,26 @@ app.delete('/api/account', (req, res) => {
   res.sendStatus(200)
 });
 
+
+// 회원가입 api
+
+app.get('/api/signup', (req, res) => {
+  console.log(" 회원가입 페이지에 접속 하셨습니다. ")
+  res.render('./client\src\pages\signuptest.vue')
+});
+
+app.post('/api/signup', (req, res) => {
+  console.log("회원가입 하는 중 !")
+  const body = req.body
+  const id = body.user_id;
+  const pw = body.user_pwd;
+  const name = body.user_name;
+  const birth = body.user_birth;
+  const gender = body.user_gender;
+  const tel = body.user_tel;
+  const email = body.user_email;
+  const nickname = body.user_nickname;
+})
 
 
 

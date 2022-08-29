@@ -72,7 +72,7 @@ const routes = [
       { path: '', component: () => import('pages/MyPage/LikeInfo.vue') }
     ]
   },
-  
+
   {
     path: '/shop',
     component: () => import('layouts/MainLayout.vue'),
@@ -117,10 +117,25 @@ const routes = [
     ]
   },
   {
+
     path: '/customerservice',
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/CustomerService.vue') }
+    ]
+    },
+{
+    path: '/api/account',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/user.vue') }
+    ]
+  },
+  {
+    path: '/api/signup',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/signuptest.vue') }
     ]
   },
 

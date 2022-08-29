@@ -84,7 +84,7 @@
     .footerInfo{
       text-align: center;
       color: black;
-      background-color: #E7E7E7;
+      background-color: #f0ededf3;
       bottom: 0;
       right: 0; left: 0;
       font-size: 11px;

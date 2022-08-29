@@ -1,6 +1,6 @@
 <template>
 <Header></Header>
-  <div class="container">
+  <div class="resisterContainer">
     <h4 class="text-center"> 제품등록 </h4>
 
   <div class="q-pa-md"> 제품명
@@ -52,11 +52,13 @@
     </div>
     </div>
   </div>
+  <Footer></Footer>
 </template>
 
 <script>
 import { ref } from 'vue'
 import Header from 'src/components/Home/Header.vue';
+import Footer from '../../components/Home/Footer.vue';
 
 export default{
     setup () {
@@ -66,7 +68,7 @@ export default{
       files: ref(null)
     }
   },
-    components: { Header }
+    components: { Header, Footer }
   }
 </script>
 

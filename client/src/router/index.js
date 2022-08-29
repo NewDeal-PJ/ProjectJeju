@@ -28,3 +28,7 @@ export default route(function (/* { store, ssrContext } */) {
 
   return Router
 })
+
+globals: {
+  Kakao: true
+}

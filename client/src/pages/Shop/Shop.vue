@@ -3,15 +3,16 @@
 
 
 <!-- 제품 -->
+<!-- 물량 추가버튼 수정하기 -->
 <main style="margin: 60px">
-  <div class="container">
+  <div class="shopContainer">
     <div class="row g-3">
-      <div class="col-lg-2 col-md-6">
+      <div >
         <q-card class="my-card">
           <q-img src="https://s3.marpple.co/files/u_1686012/2022/4/original/20e610c531fa9ae667cefe084a0f23e6701c96481.jpeg" />
             <q-card-section class="goods">
               <div class="row no-wrap items-center">
-                <div class="col text-h6 ellipsis">
+                <div style="font-weight:bold">
                   아이폰13 PRO 젤리케이스
                 <div class="text-caption text-grey">
                   투명한과 그립감을 동시에 원한다면
@@ -37,11 +38,14 @@
     </div>
   </div>
 </main>
+
+<Footer></Footer>
 </template>
 
 <script>
 import Header from 'src/components/Home/Header.vue';
 import { ref } from 'vue';
+import Footer from '../../components/Home/Footer.vue';
 
 export default{
   setup () {
@@ -49,7 +53,7 @@ export default{
       model: ref(10)
     }
   },
-    components: { Header }
+    components: { Header, Footer }
 }</script>
 
 

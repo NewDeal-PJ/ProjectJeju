@@ -1,0 +1,146 @@
+<template>
+<Header></Header>
+<div class="foodDetailPic">
+    <div class="q-pa-sm"
+    style="width: 50%; padding: 20px;">
+        <q-carousel
+        animated
+        v-model="slide"
+        navigation
+        infinite
+        :autoplay="autoplay"
+        arrows
+        transition-prev="slide-right"
+        transition-next="slide-left"
+        @mouseenter="autoplay = false"
+        @mouseleave="autoplay = true"
+        >
+        <q-carousel-slide :name="1" img-src="https://cdn.quasar.dev/img/mountains.jpg" />
+        <q-carousel-slide :name="2" img-src="https://cdn.quasar.dev/img/parallax1.jpg" />
+        <q-carousel-slide :name="3" img-src="https://cdn.quasar.dev/img/parallax2.jpg" />
+        <q-carousel-slide :name="4" img-src="https://cdn.quasar.dev/img/quasar.jpg" />
+        </q-carousel>
+    </div>
+    <div class="foodDetailInfo">
+        <p>식당이름</p>
+        <p>식당주소</p>
+        <p>영업시간</p>
+        <p>식당소개</p>
+        <p>테마키워드</p>
+        <p>⭐5.0</p>
+    
+    </div>
+</div>
+
+<div class="foodDetailComment">
+    <div class="date" style="display: flex; gap: 10px;">
+        <p> 닉네임</p>
+        <span>⭐⭐⭐⭐⭐</span>
+        <span> yyyy.mm.dd</span>
+    </div>
+    <div class="foodDetailWriting">
+        <span> 고사리 육개장 맛있어요</span>
+    </div>
+</div>
+
+<div class="foodDetailReview">
+    <div class="star" style="padding:0 30% ;text-align: center; margin-top: 1%;">  
+        <q-form @submit="onSubmit" class>
+                <q-rating 
+                    name="quality"
+                    v-model="quality"
+                    max="5"
+                    size="3em"
+                    color="yellow"
+                    icon="star_border"
+                    icon-selected="star"
+                    no-dimming/>
+        </q-form> 
+    </div>
+    
+    <div style="padding: 1% 20%;">  
+        <div style="display: flex;">
+            <div style="width: 500px;">
+                <q-input
+                    v-model="text"
+                    filled
+                    autogrow/>
+        </div>
+
+        <div style="padding:10px;">
+                <q-btn label="Submit" type="submit"  color="orange"/>
+            </div>
+        </div>
+    </div>
+</div>
+<Footer></Footer>
+</template>
+
+<script>
+import Header from 'src/components/Home/Header.vue';
+import { ref } from 'vue'
+import Footer from '../components/Home/Footer.vue'
+export default{
+        setup () { 
+        const submitResult = ref([])
+        return {
+        slide: ref(1),
+        fullscreen: ref(false),
+
+        quality: ref(3),
+        submitResult,
+        onSubmit (evt) {
+        const formData = new FormData(evt.target)
+        const data = []
+        for (const [ name, value ] of formData.entries()) {
+          data.push({
+            name,
+            value
+          })
+        }
+        submitResult.value = data
+        }
+    }
+    },
+    components: { Header, Footer }
+
+};
+
+
+
+</script>
+
+<style>
+.foodDetailPic{
+    margin: 0 auto;
+    background-color: #E7E7E7;
+    border-radius: 10px;
+    width:70%;
+   display: flex;
+    margin-top: 20px;
+}
+.foodDetailInfo{
+
+    width: 50%;
+    text-align: center;
+    font-size: 25px;
+    font-weight: bold;
+    padding: 30px;
+ 
+}
+
+.foodDetailReview{
+    border: 3px solid #E7E7E7;
+    border-radius: 10px;
+    width: 70%;
+    margin: 0 auto;
+    
+}
+.foodDetailComment{
+   border-top: 3px solid  #E7E7E7;
+    width: 70%;
+    padding: 1% 1%;
+     margin: 0 auto;
+     font-size: 15px;
+}
+</style>

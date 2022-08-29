@@ -5,12 +5,12 @@
   <form action="aaa.html" method="get">
     <!-- 실제사용할때 보낼 페이지url 넣기  -->
     <fieldset style="margin: 70px; border-radius: 10px;">
-      <legend class="title"> 회원가입</legend>
-      <table class="jointable">
+      <p class="userInfoTitle" style="padding-top: 4%;"> 회원정보</p>
+      <table class="userInfoJointable">
 
         <tr>
-          <th class="first"><label for="user_id"> 아이디</label></th>
-          <td style="padding: 10px;"><input type="text" id="user_id" class="textForm" required autofocus>
+          <th class="userInfoFirst"><label for="user_id"> 아이디</label></th>
+          <td style="padding: 10px;"><input type="text" id="user_id" class="userInfoTextForm" required autofocus>
           <input type="button" value="중복확인" class="btn"
           style="  background-color: #F79a38;
           color: white;
@@ -69,12 +69,12 @@
         </tr>
       </table>
 
-      <div class="button" >
+      <div class="userInfoButton" >
         <div class="q-pa-md q-gutter-md">
           <q-btn style="color: white; background-color: #F79a38; width: 300px;
           height: 40px; margin: 0 auto; display: block; " >
           <div style="font-size: 25px; font-weight: 900;
-           font-family: 'Noto Sans KR', sans-serif;">가입하기</div>
+           font-family: 'Noto Sans KR', sans-serif;">수정하기</div>
           </q-btn>
         </div>
       </div>
@@ -82,33 +82,33 @@
 
   </form>
 </div>
-
-
+<Footer></Footer>
 </template>
 
 <script>
 import Header from 'src/components/Home/Header.vue';
+import Footer from '../../components/Home/Footer.vue';
 export default{
-    components: { Header }
+    components: { Header, Footer }
 }
 </script>
 
 <style>
-.title{
+.userInfoTitle{
 text-align: center;
 font-size: 40px;
 font-weight: bold;
  font-family: 'Noto Sans KR', sans-serif;
 }
 
-.jointable{
-  padding: 70px;
+.userInfoJointable{
+  padding: 4%;
   margin: 0 auto;
   font-size: 28px;
   font-family: 'Noto Sans KR', sans-serif;
 }
 
-.textForm{
+.userInfoTextForm{
   width: 500px;
   height: 50px;
   border: 1px solid #ddd;
@@ -120,3 +120,4 @@ font-weight: bold;
 
 
 </style>
+

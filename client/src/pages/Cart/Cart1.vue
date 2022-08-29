@@ -19,21 +19,21 @@
             <img src="https://velog.velcdn.com/images/kimjyunny_dev/post/726e1fc4-be7c-48a9-8f50-99d4b8edf2c2/image.png" width="50">
             <span>아이폰</span>
             <span>가격</span>
-            <button>쓰레기</button>
+            <button> 쓰레기통 </button>
           </li>
           
           <li style="padding: 10px; display: flex; gap: 160px">       
             <img src="https://velog.velcdn.com/images/kimjyunny_dev/post/726e1fc4-be7c-48a9-8f50-99d4b8edf2c2/image.png" width="50">
             <span>아이폰</span>
             <span>가격</span>
-            <button> 쓰레기통</button>
+            <button> 쓰레기통 </button>
           </li>
           
           <li style="padding: 10px; display: flex; gap: 160px">
             <img src="https://velog.velcdn.com/images/kimjyunny_dev/post/726e1fc4-be7c-48a9-8f50-99d4b8edf2c2/image.png" width="50">
             <span>아이폰</span>
             <span>가격</span>
-            <button>쓰레기</button>
+            <button> 쓰레기통 </button>
           </li>
         </ul>
       </div>

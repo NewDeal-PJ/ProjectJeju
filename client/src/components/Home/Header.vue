@@ -2,13 +2,14 @@
     <header>
         <div class="headBackground">
         <div class="menuWrap">
-          <div class="headTitle"> JEJU Olle? </div>
+          <a href="http://localhost:9000" style="color: white;"> <div class="headTitle">  Jeju Olle?  </div></a>
           <ul class="headMenu">
             <a href="http://localhost:9000" style="color: white; padding-left: 3%;"> Home</a>
             <a href="http://localhost:9000/#/shop"  style="color: white; padding-left: 3%;"> Shop</a>
             <a href="http://localhost:9000/#/cart1"  style="color: white; padding-left: 3%;"> Cart</a>
             <a href="http://localhost:9000/#/mypage" style="color: white; padding-left: 3%;"> MyPage</a>
             <a href="http://localhost:9000/#/login" style="color: white; padding-left: 3%;"> LogIn</a>
+            <a href="http://localhost:9000/#/CustomerService" style="color: white; padding-left: 3%;">Q&A</a> 
           </ul>
         </div>
         </div>
@@ -36,21 +37,18 @@
             position: absolute;
             /* width: 329px;
             height: 94px; */
-            padding-top: 3%;
+            padding-top: 40px;
             padding-left: 3%;
-    
-    
             font-family: 'Rubik', sans-serif;
             font-style: normal;
             font-weight: 600;
             font-size: 40px;
             line-height: 62px;
-            color: #FFFFFF;
         }
         .headMenu{
           float: right;
-          padding-top: 1%;
-          padding-right: 7%;
+          padding-top: 10px;
+          padding-right: 9%;
           color: #FFFFFF;
           font-weight: bold;
           font-size: 20px;

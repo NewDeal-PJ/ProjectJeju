@@ -3,7 +3,9 @@ q-page
   Header
   Home
   HomeMap
-  HomeBody
+  BestHotel
+  BestRestaurant
+
   Footer
 </template>
 
@@ -12,7 +14,9 @@ import Header from '../components/Home/Header.vue';
 import Home from '../components/Home/Home.vue';
 import HomeMap from 'src/components/Home/HomeMap.vue';
 import Footer from '../components/Home/Footer.vue';
-import HomeBody from 'src/components/Home/HomeBody.vue';
+import BestHotel from 'src/components/Home/BestHotel.vue';
+import BestRestaurant from '../components/Home/BestRestaurant.vue';
+
 
 
 
@@ -23,13 +27,9 @@ export default {
     Home,
     Header,
     HomeMap,
-    HomeBody,
     Footer,
-    Header,
-    Home,
-    HomeMap,
-    Footer,
-    HomeBody
+    BestHotel,
+    BestRestaurant
 }
 }
 </script>

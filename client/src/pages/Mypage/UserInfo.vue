@@ -10,17 +10,16 @@
   
           <tr>
             <th class="userInfoFirst"><label for="user_id"> 아이디</label></th>
-            <td style="padding: 10px;"><input type="text" id="user_id" class="textForm" required autofocus>
-            <input type="button" value="중복확인" class="btn"
-            style="  background-color: #F79a38;
-            color: white;
-            width: 70px;
-            height: 40px;
-            border: 0;
-            font-size: 15px;
-            border-radius: 5px;
-            margin-left: 10px;
-             font-family: 'Noto Sans KR', sans-serif;">
+            <td style="padding: 10px; display: flex;"><input type="text" id="user_id" class="textForm" required autofocus>
+              <div class="CheckButton" >
+              <div class="q-pa-md q-gutter-md">
+                <q-btn style="color: white; background-color: #F79a38; width: 90px;
+                height: 30px; margin: 0 auto; display: block; " >
+                <div style="font-size: 15px; font-weight: 500;
+                font-family: 'Noto Sans KR', sans-serif;">중복확인</div>
+                </q-btn>
+              </div>
+            </div>
             </td>
           </tr>
   

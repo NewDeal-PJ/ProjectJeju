@@ -1,7 +1,7 @@
 <template>
 <Header></Header>
 <div id="join-wrap">
-  
+      <div class="orderInfoTitle"> Order Information</div>
       <div class="orderInfo" style="text-align: center;">
       <table class="orderInfoJointable" style="width: 1200px; height: 180px; padding: 30px; margin-left: 140px;">
           <tr style="background-color: #E7E7E7; height: 30px; font-size: 15px;">
@@ -57,7 +57,7 @@
           <q-btn style="color: white; background-color: #F79a38; width: 150px;
           height: 30px; margin-left:700px; display: block; " >
           <div style="font-size: 15px; font-weight: 900;
-           font-family: 'Noto Sans KR', sans-serif;">결제하기</div>
+           font-family: 'Noto Sans KR', sans-serif;">취소하기</div>
           </q-btn>
         </div>
       </div>
@@ -74,4 +74,13 @@ export default{
 </script>
 
 <style>
+  .orderInfoTitle{
+    text-align: center;
+      font-size: 35px;
+      font-weight: bold;
+      margin-top: 70px;
+      font-family: 'Rubik', sans-serif;
+
+      margin-bottom: 70px;
+  }
 </style>

@@ -198,15 +198,6 @@ app.post('/hotel', function (request, response) {
           console.error(err.message);
           return;
         }
-        const HOTELID = result.metaData[0].name
-        const NAME = result.metaData[1].name
-        const ADDRESS = result.metaData[2].name
-        const COMMENTS = result.metaData[3].name
-        const PRICE = result.metaData[4].name
-        const STARRATE = result.metaData[5].name
-        const LATITUDE = result.metaData[6].name
-        const LONGITUDE = result.metaData[7].name
-        const CATEGORY = result.metaData[8].name
         for (const i in result.rows) {
           if (Object.hasOwnProperty.call(result.rows, i)) {
             let rows = result.rows[i]
@@ -219,7 +210,9 @@ app.post('/hotel', function (request, response) {
               STARRATE: rows[5],
               LATITUDE: rows[6],
               LONGITUDE: rows[7],
-              CATEGORY: rows[8]
+              CATEGORY: rows[8],
+              UUID : rows[25],
+              PATH : rows[27]
             }
             if (DataList.length < 529) {
               DataList.push(jsonData)

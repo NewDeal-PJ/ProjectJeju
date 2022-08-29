@@ -18,21 +18,21 @@
 
 <script>
 export default{
-  name: 'LoginPage',
-  methods: {
-    kakaoInit() { 
-        Kakao.init('81423af9935f23cdd7cda810e21a0837')
-        Kakao.isInitialized()
-      },
-    async loginWithKakao (){
-      await Kakao.Auth.authorize({
-        redirectUri: `${window.location.origin}/kakao-callback`
-      })
-    }
-  },
-  mounted() {  
-    this.kakaoInit()
-  }
+  // name: 'LoginPage',
+  // methods: {
+  //   kakaoInit() { 
+  //       Kakao.init('81423af9935f23cdd7cda810e21a0837')
+  //       Kakao.isInitialized()
+  //     },
+  //   async loginWithKakao (){
+  //     await Kakao.Auth.authorize({
+  //       redirectUri: `${window.location.origin}/kakao-callback`
+  //     })
+  //   }
+  // },
+  // mounted() {  
+  //   this.kakaoInit()
+  // }
 }
 
 </script>

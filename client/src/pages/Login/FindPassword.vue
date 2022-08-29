@@ -1,6 +1,7 @@
 <template>
 <Header></Header>
- <div style="margin: 70px;border-radius: 10px;">
+ <div style="margin: 70px;border-radius: 10px;
+ margin-bottom: 100px;">
     <p class="findPasswordTitle" >Find password </p>
       <table class="findPasswordJointable">
         <tr>

@@ -1,71 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="oracleMapper">
-  <select id="getListHotel">
+ <sql id="filter">
+  <if test="category == 1">
+		AND CATEGORY = 1
+	</if>
+	<if test="category == 2">
+		AND CATEGORY = 2
+	</if>
+	<if test="karaoke == 1">
+		AND KARAOKE = 1
+	</if>
+	<if test="convenienceStore == 1">
+		AND CONVENIENCESTORE = 1
+	</if>
+	<if test="parkingLot == 1">
+		AND PARKINGLOT = 1
+	</if>
+	<if test="seminarRoom == 1">
+		AND SEMINARROOM = 1
+	</if>
+	<if test="bbq == 1">
+		AND BBQ = 1
+	</if>
+	<if test="restaurant == 1">
+		AND RESTAURANT = 1
+	</if>
+	<if test="wifi == 1">
+		AND WIFI = 1
+	</if>
+	<if test="tv == 1">
+		AND TV = 1
+	</if>
+	<if test="airConditioner == 1">
+		AND AIRCONDITIONER = 1
+	</if>
+	<if test="miniBar == 1">
+		AND MINIBAR = 1
+	</if>
+	<if test="bathTub == 1">
+		AND BATHTUB = 1
+	</if>
+	<if test="refrigerator == 1">
+		AND REFRIGERATOR = 1
+	</if>
+	<if test="pickup == 1">
+		AND PICKUP = 1
+	</if>
+	<if test="cooking == 1">
+		AND COOKING = 1
+	</if>
+	<if test="breakfast == 1">
+		AND BREAKFAST = 1
+	</if>
+	<if test="freeParking == 1">
+		AND FREEPARKING = 1
+	</if>
+ </sql>
+
+  <select id="getListHotelwithFilter">
     SELECT
-    * FROM TBL_HOTEL
-     NATURAL JOIN TBL_OTHER
-     NATURAL JOIN TBL_INTERNAL_FACILITIES
-     NATURAL JOIN TBL_PUBLIC_FACILITIES
-     NATURAL JOIN TBL_HOTEL_ATTACH
-     WHERE IMAGE=1
-     <if test="category == 1">
-      AND CATEGORY=1
-     </if>
-     <if test="category == 2">
-      AND CATEGORY=2
-     </if>
-     <if test="wifi == true">
-      AND WIFI=1
-     </if>
-     <if test="airconditioner == true">
-      AND AIRCONDITIONER=1
-     </if>
-     <if test="bathtub == true">
-      AND bathtub=1
-     </if>
-     <if test="pickup == true">
-      AND pickup=1
-     </if>
-     <if test="cooking == true">
-      AND cooking=1
-     </if>
-     <if test="breakfast == true">
-      AND breakfast=1
-     </if>
-     <if test="freeparking == true">
-      AND freeparking=1
-     </if>
-     <if test="tv == true">
-      AND tv=1
-     </if>
-     <if test="minibar == true">
-      AND minibar=1
-     </if>
-     <if test="refrigerator == true">
-      AND refrigerator=1
-     </if>
-     <if test="karaoke == true">
-      AND karaoke=1
-     </if>
-     <if test="karaoke == true">
-      AND karaoke=1
-     </if>
-     <if test="conveniencestore == true">
-      AND conveniencestore=1
-     </if>
-     <if test="parkinglot == true">
-      AND parkinglot=1
-     </if>
-     <if test="seminarroom == true">
-      AND seminarroom=1
-     </if>
-     <if test="bbq == true">
-      AND bbq=1
-     </if>
-     <if test="restaurant == true">
-      AND restaurant=1
-     </if>
+    * FROM V_HOTEL
+    WHERE HOTELID IS NOT NULL
+  <include refid="filter"></include>
   </select>
   <select id="getListCharger">
     SELECT

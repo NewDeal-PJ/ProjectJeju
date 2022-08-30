@@ -20,7 +20,7 @@
 export default{
   // name: 'LoginPage',
   // methods: {
-  //   kakaoInit() { 
+  //   kakaoInit() {
   //       Kakao.init('81423af9935f23cdd7cda810e21a0837')
   //       Kakao.isInitialized()
   //     },
@@ -30,10 +30,11 @@ export default{
   //     })
   //   }
   // },
-  // mounted() {  
+  // mounted() {
   //   this.kakaoInit()
   // }
 }
+//여기에 넣기
 
 </script>
 

@@ -8,6 +8,10 @@ const TopTenList = [];
 const ChargerList = [];
 var OracleDB = require('oracledb');
 var cors = require('cors')
+var database = require('../mapper/database.js')
+const session = require("express-session")
+const FileStore = require('session-file-store')(session); 
+
 
 
 // mybatis-mapper 추가
@@ -29,6 +33,12 @@ const jwt = require('jsonwebtoken')
 // parse application/json
 app.use(bodyParser.json())
 app.use(cookieParser())
+app.use(session({
+  secret : 'blackzat',
+  resave : false,
+  saveUninitialized : true,
+  store : new FileStore()
+}))
 
 
 app.use(express.static(__dirname));
@@ -169,12 +179,10 @@ app.delete('/api/account', (req, res) => {
 
 // 회원가입 api
 
-app.get('/api/signup', (req, res) => {
-  console.log(" 회원가입 페이지에 접속 하셨습니다. ")
-  res.render('./client\src\pages\signuptest.vue')
+app.get('/api/signup', (req,res)=>{
+  res.sendStatus(200);
 });
-
-app.post('/api/signup', (req, res) => {
+app.post('/api/signup',(req,res)=>{
   console.log("회원가입 하는 중 !")
   const body = req.body
   const id = body.user_id;
@@ -185,7 +193,24 @@ app.post('/api/signup', (req, res) => {
   const tel = body.user_tel;
   const email = body.user_email;
   const nickname = body.user_nickname;
+    // res.send(result);
+  res.sendStatus(200)
+  console.log(body)
 })
+
+
+// app.post('/api/signup', (req, res) => {
+//   console.log("회원가입 하는 중 !")
+//   const body = req.body
+//   const id = body.user_id;
+//   const pw = body.user_pwd;
+//   const name = body.user_name;
+//   const birth = body.user_birth;
+//   const gender = body.user_gender;
+//   const tel = body.user_tel;
+//   const email = body.user_email;
+//   const nickname = body.user_nickname;
+// })
 
 
 

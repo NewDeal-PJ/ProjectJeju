@@ -1,6 +1,6 @@
 <template>
 <Header></Header>
-<div class="foodDetailPic">
+  <div class="foodDetailPic">
     <div class="q-pa-sm"
     style="width: 50%; padding: 20px;">
         <q-carousel
@@ -28,25 +28,31 @@
         <p>식당소개</p>
         <p>테마키워드</p>
         <p>⭐5.0</p>
-    
-    </div>
-</div>
 
-<div class="foodDetailComment">
-    <div class="date" style="display: flex; gap: 10px;">
-        <p> 닉네임</p>
-        <span>⭐⭐⭐⭐⭐</span>
-        <span> yyyy.mm.dd</span>
     </div>
-    <div class="foodDetailWriting">
-        <span> 고사리 육개장 맛있어요</span>
-    </div>
-</div>
+  </div>
 
-<div class="foodDetailReview">
-    <div class="star" style="padding:0 30% ;text-align: center; margin-top: 1%;">  
+  <div class="foodDetail">
+    <div class="foodDetailBox">
+      <table style="font-size: 16px; width: 70%; margin: 0 auto; text-align: center; padding: 20px 0px;">
+          <tr style="background-color: #E7E7E7;">
+                    <th> 닉네임 </th>
+                    <th> 별점 </th>
+                    <th> 내용 </th>
+                    <th> 날짜 </th>
+          </tr>
+          <td> 김제주</td>
+          <td> ⭐️⭐️⭐️⭐️⭐️</td>
+          <td> 음식이 너무 맛있고 사장님이 친절해요</td>
+          <td> YYYY.MM.DD</td>
+      </table>
+    </div>
+  </div>
+
+  <div class="foodDetailReview">
+    <div class="star" style="padding:0 30% ;text-align: center; margin-top: 1%;">
         <q-form @submit="onSubmit" class>
-                <q-rating 
+                <q-rating
                     name="quality"
                     v-model="quality"
                     max="5"
@@ -55,10 +61,10 @@
                     icon="star_border"
                     icon-selected="star"
                     no-dimming/>
-        </q-form> 
+        </q-form>
     </div>
-    
-    <div style="padding: 1% 20%;">  
+
+    <div style="padding: 1% 20%;">
         <div style="display: flex;">
             <div style="width: 500px;">
                 <q-input
@@ -72,7 +78,7 @@
             </div>
         </div>
     </div>
-</div>
+  </div>
 <Footer></Footer>
 </template>
 
@@ -81,7 +87,7 @@ import Header from 'src/components/Home/Header.vue';
 import { ref } from 'vue'
 import Footer from '../components/Home/Footer.vue'
 export default{
-        setup () { 
+        setup () {
         const submitResult = ref([])
         return {
         slide: ref(1),
@@ -126,23 +132,16 @@ export default{
     font-size: 25px;
     font-weight: bold;
     padding: 30px;
- 
+
 }
 
 .foodDetailReview{
-    border: 3px solid #E7E7E7;
-    border-radius: 10px;
+    border: 2px solid black;
+    border-radius: 5px;
     width: 70%;
     margin: 0 auto;
     padding: 10px;
     margin-bottom: 40px;
-    
-}
-.foodDetailComment{
-   border-top: 3px solid  #E7E7E7;
-    width: 70%;
-    padding: 1% 1%;
-     margin: 0 auto;
-     font-size: 15px;
+
 }
 </style>

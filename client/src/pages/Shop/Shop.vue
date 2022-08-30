@@ -39,13 +39,16 @@
   </div>
 </main>
 
+
 <Footer></Footer>
 </template>
 
 <script>
 import Header from 'src/components/Home/Header.vue';
 import { ref } from 'vue';
+import { Vue } from 'vue-demi';
 import Footer from '../../components/Home/Footer.vue';
+
 
 export default{
   setup () {

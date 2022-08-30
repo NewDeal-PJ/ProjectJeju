@@ -5,7 +5,7 @@
     Login
   </div>
         <div class="LoginIdBox">
-          <div class="q-pa-md">
+          <div class="q-pa-md" style="padding: 0px 16px;">
             <div class="q-gutter-y-md column"  style="max-width: 500px; margin: 0 auto;">
              <q-input outlined v-model="ph" placeholder="User  ID"  :dense="dense" />
             </div>
@@ -53,6 +53,7 @@ export default{
   font-weight: bold;
   margin-top: 70px;
   font-family: 'Rubik', sans-serif;
+  padding-bottom: 30px;
 }
 .LoginText{
   word-spacing: 20px;

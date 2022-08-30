@@ -27,7 +27,7 @@
    </tr>
 
     <tr>
-      
+
       <th></th>
       <td style="font-weight: bold; text-align: center;">수 령 인<input type="text" id="receiver_name" class="textForm" style="width: 500px; margin-left: 13px"></td>
     </tr>
@@ -55,14 +55,14 @@
 <div class="orderInfoButton" >
         <div class="q-pa-md q-gutter-md">
           <q-btn style="color: white; background-color: #F79a38; width: 150px;
-          height: 30px; margin-left:700px; display: block; " >
+          height: 30px; margin:0 auto; display: block; " >
           <div style="font-size: 15px; font-weight: 900;
            font-family: 'Noto Sans KR', sans-serif;">취소하기</div>
           </q-btn>
         </div>
       </div>
 
-<Footer></Footer>   
+<Footer></Footer>
 </template>
 
 <script>

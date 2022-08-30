@@ -27,7 +27,13 @@
           <th><label for="user_pwd"> 비밀번호</label></th>
           <td style="padding: 10px;"><input type="password" id="user_pwd" class="textForm"></td>
         </tr>
-
+        <tr>
+          <th><label for="user_pwd"> 비밀번호 재확인</label></th>
+          <td style="padding: 10px;"><input type="password" id="user_pwd" class="textForm"></td>
+        </tr>
+        <!-- <tr>
+          <td style="padding: 10px;"><input type="password" id="user_pwd" class="textForm"></td>
+        </tr> -->
         <!-- <tr>
           <th><label for="inputInvalid"> 비밀번호 재확인</label></th>
           <td><input type="password" id="inputInvalid" class="form-control is-invalid"><div class="invalid-feedback">비밀번호가 일치하지 않습니다.</div></td>

@@ -1,77 +1,65 @@
 <template>
 <Header></Header>
 <div style="width: 100%; display: flex;">
-  
+
     <div class="cartGoods">
-      <div class="cartTitle1">
-        <span style="margin-left: 50px;
-        margin-right: 200px;">Item</span>
-        <span>Price</span>
-        <span>Action</span>
+      <div class="foodDetail">
+        <div class="foodDetailBox">
+          <table style="width: 100%; margin: 0 auto; text-align: center; padding: 20px 0px;">
+            <tr style="background-color: #E7E7E7;">
+                      <th> Item </th>
+                      <th> Detail </th>
+                      <th> Price </th>
+                      <th> Action </th>
+            </tr>
+            <td> 사진 </td>
+            <td> 아이폰 </td>
+            <td> 15,300</td>
+            <td> 쓰레기통</td>
+          </table>
+        </div>
       </div>
-        <hr width="90%">
-
-
-        
-      <div class="cartItem" >
-        <ul style="list-style: none;">
-          <li style="padding: 10px;  display: flex; gap: 160px">
-            <img src="https://velog.velcdn.com/images/kimjyunny_dev/post/726e1fc4-be7c-48a9-8f50-99d4b8edf2c2/image.png" width="50">
-            <span>아이폰</span>
-            <span>가격</span>
-            <button> 쓰레기통 </button>
-          </li>
-          
-          <li style="padding: 10px; display: flex; gap: 160px">       
-            <img src="https://velog.velcdn.com/images/kimjyunny_dev/post/726e1fc4-be7c-48a9-8f50-99d4b8edf2c2/image.png" width="50">
-            <span>아이폰</span>
-            <span>가격</span>
-            <button> 쓰레기통 </button>
-          </li>
-          
-          <li style="padding: 10px; display: flex; gap: 160px">
-            <img src="https://velog.velcdn.com/images/kimjyunny_dev/post/726e1fc4-be7c-48a9-8f50-99d4b8edf2c2/image.png" width="50">
-            <span>아이폰</span>
-            <span>가격</span>
-            <button> 쓰레기통 </button>
-          </li>
-        </ul>
-      </div>
-      </div>
+    </div>
     <div class="cartTotal">
-      <span 
-      style="font-size: 23px; 
+      <span
+      style="font-size: 23px;
       font-family: 'Rubik', sans-serif;
       margin-left: 20px;">Total</span>
       <hr width="90%">
       <div>
-      <div style="margin:20px;  padding: 10px;   display: flex; gap: 30%">
-        <span>아이폰</span>
-        <span>3개</span>
-        <span> 13,800원</span>
+        <div class="foodDetail">
+        <div class="foodDetailBox">
+          <table style="width: 100%; margin: 0 auto; text-align: center; padding: 20px 0px;">
+
+            <td> 아이폰 </td>
+            <td> 1개 </td>
+            <td> 15,300</td>
+            <tr></tr>
+            <td> 배송비 </td>
+            <td> </td>
+            <td> 3,000</td>
+          </table>
+        </div>
       </div>
-      <div style="margin:20px; padding: 10px;  display: flex; gap: 70%">
-        <span>배송비</span>
-        <span> +3000원</span>
-      </div>
-        
       </div>
       <hr width="90%">
-      <div style="margin:20px; padding: 10px;  display: flex; gap: 70%">   
-        <span>합 계</span>
-        <span> 46,200원</span>
+      <div style="padding: 10px 40px;">
+        <table style="margin-left:auto;">
+          <td style="font-weight: bold;"> 합계 </td>
+          <td> 18,300</td>
+        </table>
       </div>
-  
-    </div>     
+
+    </div>
 </div>
 
   <div class="button" >
-      <q-btn style="color: white; 
-      background-color: #F79a38; 
+      <q-btn style="color: white;
+      background-color: #F79a38;
       width: 180px;
-      height: 30px;  
-      display: block; 
-      margin-left: 1180px;
+      height: 30px;
+      display: block;
+      margin-left: 75%;
       margin-bottom: 50px;" >
         <div style="font-size: 18px; font-weight: 900;
         font-family: 'Noto Sans KR', sans-serif;">결제하기</div>
@@ -91,24 +79,34 @@ export default{
 
 <style>
 .cartGoods{
-  background-color:#E7E7E7; 
-  width: 60%; 
-  height: 350px; 
+  background-color:#E7E7E7;
+  width: 60%;
+  height: 350px;
   margin: 60px;
 }
 .cartTitle1{
-   margin: 10px; 
-   font-size: 23px; 
+   margin: 10px;
+   font-size: 23px;
    font-family: 'Rubik', sans-serif;
    display: flex;
    gap: 0px 130px;
    padding: 5px;
-   
+
 }
 .cartTotal{
-  width: 30%; 
+  width: 30%;
   margin: 60px;
   border: 5px solid #E7E7E7;
   padding: 10px;
+}
+
+th{
+  font-family: 'Rubik', sans-serif;
+  font-weight: bold;
+  font-size: 23px;
+}
+
+td{
+  font-size: 15px;
 }
 </style>

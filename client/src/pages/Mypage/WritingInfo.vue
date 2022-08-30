@@ -7,6 +7,7 @@
                 <table style="width: 100%; font-size: 16px;">
                   <tr style="background-color: #E7E7E7;">
                     <th> 작성한 글 </th>
+                    <th> 수정 </th>
                     <th> 삭제 </th>
                   </tr>
                     <td>
@@ -21,7 +22,11 @@
                         </div>
                       </div>
                     </td>
-                    <td> 쓰레기통</td>
+
+                    <td> <span class="modifyContainer" style="color: black;" v-on:click="ModifyComment">
+                         <i class="fas fa-pencil" aria-hidden="true"></i> </span></td>
+                    <td> <span class="removeContainer" style="color: red;" v-on:click="RemoveComment">
+                         <i class="fa-solid fa-trash-can" aria-hidden="true"></i> </span></td>
                 </table>
               </div>
             </div>

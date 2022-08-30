@@ -35,7 +35,8 @@
   <div class="foodDetail">
     <div class="foodDetailBox">
       <table style="font-size: 16px; width: 70%; margin: 0 auto; text-align: center; padding: 20px 0px;">
-          <tr style="background-color: #E7E7E7;">
+          <tr style="background-color: #E7E7E7; font-size: 18px;
+    padding: 5px;">
                     <th> 닉네임 </th>
                     <th> 별점 </th>
                     <th> 내용 </th>

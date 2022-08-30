@@ -15,7 +15,9 @@
             <td> 사진 </td>
             <td> 아이폰 </td>
             <td> 15,300</td>
-            <td> 쓰레기통</td>
+            <td>  <span class="removeContainer" style="color: red;" v-on:click="RemoveComment">
+        <i class="fa-solid fa-trash-can" aria-hidden="true"></i> </span>
+      </td>
           </table>
         </div>
       </div>

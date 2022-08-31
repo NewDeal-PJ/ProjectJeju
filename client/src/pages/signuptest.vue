@@ -1,5 +1,5 @@
 <template>
-  <Header></Header>
+  <Header/>
   <div id="join-wrap">
 
     <form action="aaa.html" method="get">
@@ -10,7 +10,7 @@
 
           <tr>
             <th class="SignUpFirst"><label for="user_id"> 아이디</label></th>
-            <td style="padding: 10px;"><input type="text" id="user_id" class="textForm" required autofocus>
+            <td style="padding: 10px;"><input type="text" id="user_id" v-model="state.form.user_id" placeholder="example : dodozzang1234" class="textForm" required autofocus>
               <button @click="check_id()" class="btn" style="  background-color: #F79a38;
           color: white;
           width: 70px;
@@ -27,11 +27,11 @@
 
           <tr>
             <th><label for="user_pwd"> 비밀번호</label></th>
-            <td style="padding: 10px;"><input type="password" id="user_pwd" class="textForm"></td>
+            <td style="padding: 10px;"><input type="password" id="user_pwd" v-model="state.form.user_pwd" class="textForm" placeholder="***********"></td>
           </tr>
           <tr>
             <th><label for="user_pwd"> 비밀번호 확인</label></th>
-            <td style="padding: 10px;"><input type="password" id="user_pwd2" class="textForm"></td>
+            <td style="padding: 10px;"><input type="password" id="user_pwd2" v-model="state.form.user_cpwd" class="textForm" placeholder="***********"></td>
           </tr>
 
           <!-- <tr>
@@ -41,36 +41,35 @@
 
           <tr>
             <th><label for="user_name"> 이름</label></th>
-            <td style="padding: 5px;"><input type="text" id="user_name" class="textForm"></td>
+            <td style="padding: 5px;"><input type="text" id="user_name" v-model="state.form.user_name" class="textForm" placeholder="example : 황정민"></td>
           </tr>
 
           <tr>
             <th>생년월일</th>
-            <td style="padding: 5px;"><input type="date" id="user_birth" class="textForm">
-              <input type="radio" name="gender" id="male" style="margin-left: 10px;">
-              <label for="male"> 남</label>
-              <input type="radio" name="gender" id="female" style="margin-left: 10px;">
-              <label for="female">여</label>
+            <td style="padding: 5px;"><input type="date" id="user_birth" v-model="state.form.user_birth" class="textForm">
+              
+              <input type="radio" name="gender" value="1" id="male" v-model="state.form.user_gender" style="margin-left: 10px;">
+              <label for="male"> 남 </label>
+              <input type="radio" name="gender" value="2" id="female" v-model="state.form.user_gender" style="margin-left: 10px;">
+              <label for="female"> 여 </label>
             </td>
           </tr>
 
 
           <tr>
             <th><label for="user_tel"> 연락처</label></th>
-            <td style="padding: 5px;"><input type="tel" id="user_tel" class="textForm" style="width: 150px;"> -
-              <input type="tel" id="user_tel" class="textForm" style="width: 150px;"> -
-              <input type="tel" id="user_tel" class="textForm" style="width: 150px;">
+            <td style="padding: 5px;"><input type="tel" v-model="state.form.user_tel" id="user_tel" class="textForm" style="width: 400px;" placeholder="example : 01012345678">
             </td>
           </tr>
 
           <tr>
             <th><label for="user_add"> 이메일</label></th>
-            <td style="padding: 5px;"><input type="email" id="user_add" class="textForm"></td>
+            <td style="padding: 5px;"><input type="email" v-model="state.form.user_email" id="user_add" class="textForm" placeholder="example : dodo@naver.com"></td>
           </tr>
 
           <tr>
             <th><label for="user_nickname"> 닉네임</label></th>
-            <td style="padding: 5px;"><input type="text" id="user_nickname" class="textForm"></td>
+            <td style="padding: 5px;"><input type="text" v-model="state.form.user_nickname" id="user_nickname" class="textForm" placeholder="example : I am king"></td>
           </tr>
         </table>
 
@@ -87,19 +86,67 @@
 
     </form>
   </div>
-  <Footer></Footer>
+  <Footer/>
 
 </template>
 
 
 <script>
-import Header from 'src/components/Home/Header.vue';
+
+import Header from '../components/Home/Header.vue';
 import Footer from '../components/Home/Footer.vue';
+import {reactive} from 'vue';
+import axios from 'axios';
+
 export default {
-  components: { Header, Footer }
-},
-const state = 
+  components: { Header, Footer },
+  setup(){
+    const state = reactive({
+      data : [],
+      form : {
+        user_id : "",
+        user_pwd : "",
+        user_cpwd : "",
+        user_name : "",
+        user_birth : "",
+        user_gender : "",
+        user_tel : "",
+        user_email : "",
+        user_nickname : ""
+      },
+    });
+    const check_id = () => {
+
+    }
+    const submit = () => {
+        const args = {
+        user_id : state.form.user_id,
+        user_pwd : state.form.user_pwd,
+        user_name : state.form.user_name,
+        user_birth : state.form.user_birth,
+        user_gender : state.form.user_gender,
+        user_tel : state.form.user_tel,
+        user_email : state.form.user_email,
+        user_nickname : state.form.user_nickname
+      };
+  
+      axios
+      .post("/api/signup", args)
+      .then((res) => {
+        state.data = res.data;
+        alert(`회원가입을 축하드립니다`)
+      })
+      .catch(()=> {
+        alert("회원가입에 실패하셧습니다.")
+      })
+      }
+    return {state,submit,check_id}
+  }
+}
 </script>
+
+
+
 
 <style>
 .SignUpTitle {

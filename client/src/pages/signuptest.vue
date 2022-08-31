@@ -27,11 +27,11 @@
 
           <tr>
             <th><label for="user_pwd"> 비밀번호</label></th>
-            <td style="padding: 10px;"><input type="password" id="user_pwd" v-model="state.form.user_pwd" class="textForm" placeholder="***********"></td>
+            <td style="padding: 10px;"><input type="password" id="user_pwd" v-model="state.form.user_pwd" class="textForm" placeholder="***********" required></td>
           </tr>
           <tr>
             <th><label for="user_pwd"> 비밀번호 확인</label></th>
-            <td style="padding: 10px;"><input type="password" id="user_pwd2" v-model="state.form.user_cpwd" class="textForm" placeholder="***********"></td>
+            <td style="padding: 10px;"><input type="password" id="user_pwd2" v-model="state.form.user_cpwd" class="textForm" placeholder="***********" required></td>
           </tr>
 
           <!-- <tr>
@@ -57,14 +57,16 @@
 
 
           <tr>
-            <th><label for="user_tel"> 연락처</label></th>
-            <td style="padding: 5px;"><input type="tel" v-model="state.form.user_tel" id="user_tel" class="textForm" style="width: 400px;" placeholder="example : 01012345678">
-            </td>
-          </tr>
+          <th><label for="user_tel"> 연락처</label></th>
+          <td style="padding: 5px;"><input type="tel" id="user_tel" class="textForm" v-model="state.form.user_tel1" style="width: 150px;"> -
+          <input type="tel" id="user_tel" class="textForm" v-model="state.form.user_tel2" style="width: 150px;"> -
+          <input type="tel" id="user_tel" class="textForm" v-model="state.form.user_tel3" style="width: 150px;">
+          </td>
+        </tr>
 
           <tr>
             <th><label for="user_add"> 이메일</label></th>
-            <td style="padding: 5px;"><input type="email" v-model="state.form.user_email" id="user_add" class="textForm" placeholder="example : dodo@naver.com"></td>
+            <td style="padding: 5px;"><input type="email" v-model="state.form.user_email" id="user_email" class="textForm" placeholder="example : dodo@naver.com"></td>
           </tr>
 
           <tr>
@@ -95,8 +97,9 @@
 
 import Header from '../components/Home/Header.vue';
 import Footer from '../components/Home/Footer.vue';
-import {reactive} from 'vue';
+import {reactive, render} from 'vue';
 import axios from 'axios';
+// import {ValidationProvider} from 'vee-validate'
 
 export default {
   components: { Header, Footer },
@@ -110,7 +113,9 @@ export default {
         user_name : "",
         user_birth : "",
         user_gender : "",
-        user_tel : "",
+        user_tel1 : "",
+        user_tel2 : "",
+        user_tel3 : "",
         user_email : "",
         user_nickname : ""
       },
@@ -125,20 +130,31 @@ export default {
         user_name : state.form.user_name,
         user_birth : state.form.user_birth,
         user_gender : state.form.user_gender,
-        user_tel : state.form.user_tel,
+        user_tel1 : state.form.user_tel1,
+        user_tel2 : state.form.user_tel2,
+        user_tel3 : state.form.user_tel3,
         user_email : state.form.user_email,
         user_nickname : state.form.user_nickname
       };
-  
+
+      if(state.form.user_pwd === state.form.user_cpwd){
       axios
       .post("/api/signup", args)
       .then((res) => {
         state.data = res.data;
         alert(`회원가입을 축하드립니다`)
+        return 
+        
       })
+      
+      //redirect logic
       .catch(()=> {
-        alert("회원가입에 실패하셧습니다.")
+        return alert("회원가입에 실패하셧습니다.")
       })
+      }
+    else{
+      alert("비밀번호가 일치하지 않습니다 다시 입력해주세요 !")
+    }
       }
     return {state,submit,check_id}
   }

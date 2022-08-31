@@ -8,9 +8,9 @@ const TopTenList = [];
 const ChargerList = [];
 var OracleDB = require('oracledb');
 var cors = require('cors')
-var database = require('../mapper/database.js')
 const session = require("express-session")
 const FileStore = require('session-file-store')(session); 
+const database = require('./database.js')
 
 
 
@@ -80,16 +80,13 @@ const members = [
 
 // DB 연결
 
-const client = OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
-  function (err, connection) {
-    if (err) {
-      console.error(err.message);
-      return;
-    }
-  });
-
-
-
+// const client = OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
+//   function (err, connection) {
+//     if (err) {
+//       console.error(err.message);
+//       return;
+//     }
+//   });
 
 
 
@@ -179,23 +176,30 @@ app.delete('/api/account', (req, res) => {
 
 // 회원가입 api
 
+let sysdate = new Date();
+console.log(sysdate)
+
 app.get('/api/signup', (req,res)=>{
   res.sendStatus(200);
 });
-app.post('/api/signup',(req,res)=>{
+
+app.post('/api/signup',async(req,res)=>{
   console.log("회원가입 하는 중 !")
   const body = req.body
-  const id = body.user_id;
-  const pw = body.user_pwd;
-  const name = body.user_name;
-  const birth = body.user_birth;
-  const gender = body.user_gender;
-  const tel = body.user_tel;
-  const email = body.user_email;
-  const nickname = body.user_nickname;
-    // res.send(result);
+  // const u_id = body.user_id;
+  // const pw = body.user_pwd;
+  // const u_name = body.user_name;
+  // const birth = body.user_birth;
+  // const gender = body.user_gender;
+  // const tel1 = body.user_tel1;
+  // const tel2 = body.user_tel2;
+  // const tel3 = body.user_tel3;
+  // const email = body.user_email;
+  // const nickname = body.user_nickname;
+  // console.log(body)
+  await database.run(body)
   res.sendStatus(200)
-  console.log(body)
+  
 })
 
 

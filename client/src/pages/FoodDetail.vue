@@ -2,7 +2,7 @@
 <Header></Header>
   <div class="foodDetailPic">
     <div class="q-pa-sm"
-    style="width: 50%; padding: 20px;">
+    style="width: 60%; padding: 20px;">
         <q-carousel
         animated
         v-model="slide"
@@ -31,26 +31,59 @@
 
     </div>
   </div>
+<!-- 사진 사이즈 체크중 -->
+  <div class="foodDetailReview" style=" width: 50%; margin: 0 auto;padding: 20px;">
+    <div>
+    <div class="foodDetailNickname" style=" font-weight: bold; font-size: 18px;">
+      닉네임
+    </div>
+    <div style="display: flex;">
+      <span> ⭐️⭐️⭐️⭐️⭐️</span>
+      <span> YYYY.MM.DD</span>
+    </div>
+    <div class="cat" >
+      <img src="https://velog.velcdn.com/images/kimjyunny_dev/post/370f3dab-9470-4918-a11f-3f05348dcf4b/image.jpeg" >
+    </div>
+    <div class="reviewDescription" style="font-size: 15px;">
+      살면서 먹은 물회 중에 제일 맛있었습니다. 재방문 할게요~ 살면서 먹은 물회 중에 제일 맛있었습니다. 재방문 할게요~살면서 먹은 물회 중에 제일 맛있었습니다. 재방문 할게요~살면서 먹은 물회 중에 제일 맛있었습니다. 재방문 할게요~살면서 먹은 물회 중에 제일 맛있었습니다. 재방문 할게요~살면서 먹은 물회 중에 제일 맛있었습니다. 재방문 할게요~살면서 먹은 물회 중에 제일 맛있었습니다. 재방문 할게요~
+    </div>
+    </div>
+  <hr>
+    <div>
+      <div class="foodDetailNickname" style=" font-weight: bold; font-size: 18px;">
+        닉네임
+      </div>
+      <div style="display: flex;">
+        <span> ⭐️⭐️⭐️⭐️⭐️</span>
+        <span> YYYY.MM.DD</span>
+      </div>
+      <div class="cat" >
+        <img class="gogi" src="https://velog.velcdn.com/images/kimjyunny_dev/post/c254bcb4-3fc7-450f-a1bc-10c834e2f38a/image.jpeg" >
+      </div>
+      <div class="reviewDescription" style=" font-size: 15px;">
+        살면서 먹은 물회 중에 제일 맛있었습니다. 재방문 할게요~
+      </div>
+    </div>
 
-  <div class="foodDetail">
-    <div class="foodDetailBox">
-      <table style="font-size: 16px; width: 70%; margin: 0 auto; text-align: center; padding: 20px 0px;">
-          <tr style="background-color: #E7E7E7; font-size: 18px;
-    padding: 5px;">
-                    <th> 닉네임 </th>
-                    <th> 별점 </th>
-                    <th> 내용 </th>
-                    <th> 날짜 </th>
-          </tr>
-          <td> 김제주</td>
-          <td> ⭐️⭐️⭐️⭐️⭐️</td>
-          <td> 음식이 너무 맛있고 사장님이 친절해요</td>
-          <td> YYYY.MM.DD</td>
-      </table>
+  <hr>
+    <div>
+      <div class="foodDetailNickname" style=" font-weight: bold; font-size: 18px;">
+        닉네임
+      </div>
+      <div style="display: flex;">
+        <span> ⭐️⭐️⭐️⭐️⭐️</span>
+        <span> YYYY.MM.DD</span>
+      </div>
+      <div class="cat" >
+        <img src="https://velog.velcdn.com/images/kimjyunny_dev/post/c14d034d-bdef-4db4-9d72-688b466f9265/image.jpeg" >
+      </div>
+      <div class="reviewDescription" style=" font-size: 15px;">
+        살면서 먹은 물회 중에 제일 맛있었습니다. 재방문 할게요~
+      </div>
     </div>
   </div>
 
-  <div class="foodDetailReview">
+  <div class="foodDetailReviewStar">
     <div class="star" style="padding:0 30% ;text-align: center; margin-top: 1%;">
         <q-form @submit="onSubmit" class>
                 <q-rating
@@ -66,20 +99,54 @@
     </div>
 
     <div style="padding: 1% 20%;">
-        <div style="display: flex;">
+        <div>
             <div style="width: 500px;">
                 <q-input
                     v-model="text"
                     filled
                     autogrow/>
-        </div>
-
-        <div style="padding:10px;">
-                <q-btn label="Submit" type="submit"  color="orange"/>
             </div>
         </div>
     </div>
+
+    <div style="display: flex; padding: 1% 20%;">
+      <div style="width: 400px;">
+      <q-input
+        @update:model-value="val => { files = val }"
+        multiple
+        filled
+        type="file"
+        hint="Native file (multiple)"
+      />
+    </div>
+      <div style="padding:10px;">
+                <q-btn label="Submit" type="submit"  color="orange"/>
+        </div>
+    </div>
+
   </div>
+
+
+
+
+  <!-- <div class="foodDetail">
+    <div class="foodDetailBox">
+      <table style="font-size: 16px; width: 70%; margin: 0 auto; text-align: center; padding: 20px 0px;">
+          <tr style="background-color: #E7E7E7; font-size: 18px;
+    padding: 5px;">
+                    <th> 닉네임 </th>
+                    <th> 별점 </th>
+                    <th> 내용 </th>
+                    <th> 날짜 </th>
+          </tr>
+          <td> 김제주</td>
+          <td> ⭐️⭐️⭐️⭐️⭐️</td>
+          <td> 음식이 너무 맛있고 사장님이 친절해요</td>
+          <td> YYYY.MM.DD</td>
+      </table>
+    </div>
+  </div> -->
+
 <Footer></Footer>
 </template>
 
@@ -120,7 +187,7 @@ export default{
 <style>
 .foodDetailPic{
     margin: 0 auto;
-    background-color: #E7E7E7;
+    background-color: #f0ededf3;
     border-radius: 10px;
     width:70%;
    display: flex;
@@ -128,7 +195,7 @@ export default{
 }
 .foodDetailInfo{
 
-    width: 50%;
+    width: 40%;
     text-align: center;
     font-size: 25px;
     font-weight: bold;
@@ -136,13 +203,28 @@ export default{
 
 }
 
-.foodDetailReview{
-    border: 2px solid black;
-    border-radius: 5px;
-    width: 70%;
+img{
+  max-width:100%;
+  max-height:100%;
+
+}
+
+.cat {
+ height: 300px;
+ width: 300px;
+ margin: 0 auto;
+}
+
+
+
+.foodDetailReviewStar{
+
+    width: 60%;
     margin: 0 auto;
     padding: 10px;
     margin-bottom: 40px;
+    border-radius: 5px;
+    border: 1px solid;
 
 }
 </style>

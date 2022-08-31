@@ -55,7 +55,7 @@
   .likeBox2{
   margin: 0 auto;
   padding-bottom: 20px;
-  width: 60%;
+  width: 70%;
   }
 
   .likeBox{

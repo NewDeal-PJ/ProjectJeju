@@ -3,21 +3,35 @@
 <div id="join-wrap">
 
       <div class="cartInfo2" style="text-align: center;">
-      <table class="jointable" style="width: 1200px; height: 180px; padding: 30px; margin-left: 140px;">
-          <tr style="background-color: #E7E7E7; height: 30px; font-size: 15px;">
-          <th> 상품 사진</th>
-          <th> 상품명</th>
-          <th> 배송비 </th>
-          <th> 수량</th>
-          <th> 상품금액</th>
-        </tr>
-          <td>사진</td>
-          <td> 아이폰 </td>
-          <td> 2500원 </td>
-          <td> 1개 </td>
-          <td>15300원</td>
-      </table>
-    </div>
+        <table class="jointable" style="width: 1200px; height: 180px; padding: 30px; margin-left: 140px;">
+
+          <div  style=" margin:0 auto;">
+
+  <q-markup-table :separator="separator" flat >
+    <thead>
+      <tr>
+        <th class="text-middle" style="font-weight: bold; font-size: 15px; background-color: #FAEBD7">  </th>
+        <th class="text-middle " style="font-weight: bold; font-size: 15px; background-color:#FAEBD7"> 상품정보 </th>
+        <th class="text-middle" style="font-weight: bold; font-size: 15px; background-color:#FAEBD7"> 배송비</th>
+        <th class="text-middle" style="font-weight: bold; font-size: 15px; background-color:#FAEBD7"> 수량</th>
+        <th class="text-middle" style="font-weight: bold; font-size: 15px; background-color:#FAEBD7"> 상품금액</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th class="text-middle">사진</th>
+        <th class="text-middle">아이폰</th>
+        <th class="text-middle">3,000</th>
+        <th class="text-middle">1</th>
+        <th class="text-middle">18,300</th>
+      </tr>
+
+    </tbody>
+  </q-markup-table>
+  </div>
+
+        </table>
+      </div>
 
   <table class="jointable" style="width: 1200px; height: 200px; padding: 30px; margin-left: 140px;">
           <tr style="background-color: #E7E7E7; height: 30px; font-size: 15px;">

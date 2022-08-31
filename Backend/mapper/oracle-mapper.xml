@@ -2,10 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="oracleMapper">
  <sql id="filter">
-  <if test="category == 1">
+  <if test="category == '1'">
 		AND CATEGORY = 1
 	</if>
-	<if test="category == 2">
+	<if test="category == '2'">
 		AND CATEGORY = 2
 	</if>
 	<if test="karaoke == 1">

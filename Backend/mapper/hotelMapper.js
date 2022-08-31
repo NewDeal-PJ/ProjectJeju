@@ -1,6 +1,3 @@
-const DataList = [];
-const TopTenList = [];
-const ChargerList = [];
 var OracleDB = require('oracledb');
 var cors = require('cors')
 require("dotenv").config();
@@ -174,17 +171,17 @@ app.post('/hotel', function (req, res) {
         pickup: req.body.pickup,
         cooking: req.body.cooking,
         breakfast: req.body.breakfast,
-        freeparking: req.body.freeparking,
+        freeParking: req.body.freeParking,
         wifi: req.body.wifi,
         tv: req.body.tv,
-        airconditioner: req.body.airconditioner,
-        minibar: req.body.minibar,
-        bathtub: req.body.bathtub,
+        airConditioner: req.body.airConditioner,
+        miniBar: req.body.miniBar,
+        bathTub: req.body.bathTub,
         refrigerator: req.body.refrigerator,
         karaoke: req.body.karaoke,
-        conveniencestore: req.body.conveniencestore,
-        parkinglot: req.body.parkinglot,
-        seminarroom: req.body.seminarroom,
+        convenienceStore: req.body.convenienceStore,
+        parkingLot: req.body.parkingLot,
+        seminarRoom: req.body.seminarRoom,
         bbq: req.body.bbq,
         restaurant: req.body.restaurant,
       }
@@ -192,6 +189,7 @@ app.post('/hotel', function (req, res) {
       var query = mybatisMapper.getStatement('oracleMapper', 'getListHotelwithFilter', param, format);
       console.log(query)
       connection.execute(query, [], function (err, result) {
+        const DataList = [];
         if (err) {
           console.error(err.message);
           return;
@@ -242,6 +240,7 @@ app.post('/carousel', function (request, response) {
       var query = mybatisMapper.getStatement('oracleMapper', 'getListTopTen', format);
       console.log(query)
       connection.execute(query, {}, function (err, result) {
+        const TopTenList = [];
         if (err) {
           console.error(err.message);
           return;
@@ -282,6 +281,7 @@ app.post('/charger', function (request, response) {
       var query = mybatisMapper.getStatement('oracleMapper', 'getListCharger', format);
       console.log(query)
       connection.execute(query, {}, function (err, result) {
+        const ChargerList = [];
         if (err) {
           console.error(err.message);
           return;

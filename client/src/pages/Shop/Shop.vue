@@ -21,11 +21,12 @@
                   15,300원
                 </div>
               <div class="row">
-                <div class="col-auto">
+                <div class="col-auto bg-grey-1">
                     <q-input
                       v-model.number="model"
                       type="number"
-                      filled/>
+                      filled
+                      />
 
                 </div>
               </div>
@@ -38,7 +39,6 @@
     </div>
   </div>
 </main>
-
 
 <Footer></Footer>
 </template>

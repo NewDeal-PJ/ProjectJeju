@@ -1,10 +1,10 @@
 <template>
   <Header></Header>
-      <div class="likeDetailBox1">
+      <div class="likeBox1">
           <p> Like </p>
-          <div class="writingBox2">
+          <div class="likeBox2">
             <div class="likeBox">
-              <table style="width: 100%; font-size: 16px;">
+              <table class="likeBoxTable">
                 <tr style="background-color: #E7E7E7;">
                   <th> 작성한 글 </th>
                   <th> 삭제 </th>
@@ -12,7 +12,7 @@
                   <td>
                     <div class="likeDetail">
                       <div class="likeDetailBox">
-                      <table style="font-size: 16px; width: 70%; margin: 0 auto; text-align: center; padding: 20px 0px;">
+                      <table class="likeDetailBoxTable">
                         <td> 김제주</td>
                         <td> ⭐️⭐️⭐️⭐️⭐️</td>
                         <td> 음식이 너무 맛있고 사장님이 친절해요</td>
@@ -43,7 +43,7 @@
 
 
   <style>
-  .likeDetailBox1{
+  .likeBox1{
     text-align: center;
     font-size: 35px;
     font-weight: bold;
@@ -52,18 +52,21 @@
     margin-bottom: 70px;
   }
 
-  .likeDetailBox2{
+  .likeBox2{
   margin: 0 auto;
   padding-bottom: 20px;
   width: 60%;
   }
 
   .likeBox{
-      width: 100%;
       padding: 1% 1%;
-       margin: 0 auto;
-       font-size: 15px;
       }
 
+  .likeBoxTable{
+   width: 100%; font-size: 16px;
+  }
 
+  .likeDetailBoxTable{
+    font-size: 16px; width: 70%; margin: 0 auto; text-align: center; padding: 20px 0px;
+  }
   </style>

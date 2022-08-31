@@ -4,16 +4,16 @@
             <p> My Comment </p>
             <div class="writingBox2">
               <div class="writingBox">
-                <table style="width: 100%; font-size: 16px;">
+                <table class="writingBoxTable">
                   <tr style="background-color: #E7E7E7;">
                     <th> 작성한 글 </th>
                     <th> 수정 </th>
                     <th> 삭제 </th>
                   </tr>
                     <td>
-                      <div class="WritingDetail">
-                        <div class="WritingDetailBox">
-                        <table style="font-size: 16px; width: 70%; margin: 0 auto; text-align: center; padding: 20px 0px;">
+                      <div class="writingDetail">
+                        <div class="writingDetailBox">
+                        <table class="writingDetailBoxTable">
                           <td> 김제주</td>
                           <td> ⭐️⭐️⭐️⭐️⭐️</td>
                           <td> 음식이 너무 맛있고 사장님이 친절해요</td>
@@ -63,11 +63,14 @@
     }
 
     .writingBox{
-        width: 100%;
         padding: 1% 1%;
-         margin: 0 auto;
-         font-size: 15px;
         }
 
+    .writingBoxTable{
+     width: 100%; font-size: 16px;
+    }
 
+    .writingDetailBoxTable{
+      font-size: 16px; width: 70%; margin: 0 auto; text-align: center; padding: 20px 0px;
+    }
     </style>

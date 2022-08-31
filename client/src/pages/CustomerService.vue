@@ -55,4 +55,7 @@ import Footer from '../components/Home/Footer.vue';
     width: 60%;
     }
 
+    td{
+      padding: 10px;
+    }
     </style>

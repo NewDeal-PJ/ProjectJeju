@@ -31,8 +31,9 @@
 
     </div>
   </div>
+  <RestReview></RestReview>
 <!-- 사진 사이즈 체크중 -->
-  <div class="foodDetailReview" style=" width: 50%; margin: 0 auto;padding: 20px;">
+  <!-- <div class="foodDetailReview" style=" width: 50%; margin: 0 auto;padding: 20px;">
     <div>
     <div class="foodDetailNickname" style=" font-weight: bold; font-size: 18px;">
       닉네임
@@ -107,9 +108,9 @@
                     autogrow/>
             </div>
         </div>
-    </div>
+    </div> -->
 
-    <div style="display: flex; padding: 1% 20%;">
+    <!-- <div style="display: flex; padding: 1% 20%;">
       <div style="width: 400px;">
       <q-input
         @update:model-value="val => { files = val }"
@@ -122,9 +123,9 @@
       <div style="padding:10px;">
                 <q-btn label="Submit" type="submit"  color="orange"/>
         </div>
-    </div>
+    </div> -->
 
-  </div>
+  <!-- </div> -->
 
 
 
@@ -151,6 +152,7 @@
 </template>
 
 <script>
+import RestReview from "../components/Home/RestReview.vue";
 import Header from 'src/components/Home/Header.vue';
 import { ref } from 'vue'
 import Footer from '../components/Home/Footer.vue'
@@ -176,7 +178,7 @@ export default{
         }
     }
     },
-    components: { Header, Footer }
+    components: { Header, Footer,RestReview }
 
 };
 

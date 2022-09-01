@@ -1,50 +1,5 @@
 <template>
     <Header></Header>
-        <!-- <div class="customerService1">
-            <p> Q&A </p>
-            <div class="customerService2">
-              <div class="customerServiceBox">
-                <table style="width: 100%; font-size: 16px;">
-                  <tr style="background-color: #E7E7E7;">
-                    <th> 번호 </th>
-                    <th> 제목 </th>
-                  </tr>
-                    <td> 1</td>
-                    <td>
-                        <q-expansion-item
-                          label="어제 주문했는데 언제 발송될까요?">
-                          <q-card>
-                            <q-card-section>
-                              안녕하세요 고객님, 배송은 주문일로부터 7일정도 소요됩니다.
-                            </q-card-section>
-                          </q-card>
-                        </q-expansion-item>
-                    </td>
-
-                    <td> 2</td>
-                    <td>
-                        <q-expansion-item
-                          label="휴대폰케이스 재입고 예정있나요? 있다면 혹시 언제쯤 재입고 되나요?">
-                          <q-card>
-                            <q-card-section>
-                              안녕하세요 고객님, 죄송하게도 재입고 예정이 없습니다.
-                            </q-card-section>
-                          </q-card>
-                        </q-expansion-item>
-                    </td>
-                </table>
-              </div>
-            </div>
-            <div class="LoginButton" >
-            <div class="q-pa-md q-gutter-md">
-              <q-btn style="color: white; background-color: #F79a38; width: 150px; margin: 0 auto; display: block; padding: 10px; margin-top: 10px;" >
-                <div style="font-size: 15px; font-weight: 900;">글쓰기</div>
-              </q-btn>
-           </div>
-        </div>
-        </div> -->
-
-
 
 <div class="customerService1">
   <p> Q&A </p>

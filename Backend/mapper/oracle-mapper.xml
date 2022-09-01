@@ -73,3 +73,7 @@
       select * from TBL_HOTEL NATURAL JOIN TBL_HOTEL_ATTACH where starrate is not null ORDER BY STARRATE DESC
       ) WHERE ROWNUM<![CDATA[ <= ]]>10
   </select>
+  <select id="getListReply">
+    SELECT
+    * FROM TBL_REPLY
+  </select>

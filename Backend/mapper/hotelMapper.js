@@ -364,6 +364,46 @@ app.post('/charger', function (request, response) {
     })
 });
 
+
+app.post('/reply', function (request, response) {
+  const replyData=[];
+  OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
+    function (err, connection) {
+      if (err) {
+        console.error(err.message);
+        return;
+      }
+
+      var format = { language: 'sql', indent: ' ' }
+      var query = mybatisMapper.getStatement('oracleMapper', 'getListReply', format);
+      console.log(query)
+      connection.execute(query, {}, function (err, result) {
+        if (err) {
+          console.error(err.message);
+          return;
+        }
+        for (const i in result.rows) {
+          if (Object.hasOwnProperty.call(result.rows, i)) {
+            let rows = result.rows[i]
+            console.log(rows[4])
+            const jsonData = {
+              RNO: rows[0],
+              STARRATE: rows[1],
+              NICKNAME: rows[2],
+              DATE: rows[3],
+              STOREID: rows[4],
+              CONTENT: rows[5],
+            }
+              replyData.push(jsonData)
+          }
+        }
+        console.log(replyData.length)
+        response.send(replyData)
+      })
+    })
+});
+
+
 http.createServer(app).listen(app.get('port'), () => {
   console.log('Express server port : ' + app.get('port'))
 })

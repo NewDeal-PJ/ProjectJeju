@@ -1,8 +1,8 @@
 <template>
     <div class="foodDetailReview" style=" width: 50%; margin: 0 auto;padding: 20px;">
-        <div>
+        <!-- <div>
             <div class="foodDetailNickname" style=" font-weight: bold; font-size: 18px;">
-                닉네임
+                <p> 닉네임 </p>
             </div>
             <div style="display: flex;">
                 <span> ⭐️⭐️⭐️⭐️⭐️</span>
@@ -17,44 +17,36 @@
                 물회 중에 제일 맛있었습니다. 재방문 할게요~살면서 먹은 물회 중에 제일 맛있었습니다. 재방문 할게요~살면서 먹은 물회 중에 제일 맛있었습니다. 재방문 할게요~살면서 먹은 물회 중에 제일
                 맛있었습니다. 재방문 할게요~
             </div>
-        </div>
-        <hr>
-        <div>
-            <div class="foodDetailNickname" style=" font-weight: bold; font-size: 18px;">
-                닉네임
-            </div>
-            <div style="display: flex;">
-                <span> ⭐️⭐️⭐️⭐️⭐️</span>
-                <span> YYYY.MM.DD</span>
-            </div>
-            <div class="cat">
-                <img class="gogi"
-                    src="https://velog.velcdn.com/images/kimjyunny_dev/post/c254bcb4-3fc7-450f-a1bc-10c834e2f38a/image.jpeg">
-            </div>
-            <div class="reviewDescription" style=" font-size: 15px;">
-                살면서 먹은 물회 중에 제일 맛있었습니다. 재방문 할게요~
-            </div>
-        </div>
+        </div>-->
 
-        <hr>
-        <div>
-            <div class="foodDetailNickname" style=" font-weight: bold; font-size: 18px;">
-                닉네임
-            </div>
-            <div style="display: flex;">
-                <span> ⭐️⭐️⭐️⭐️⭐️</span>
-                <span> YYYY.MM.DD</span>
-            </div>
-            <div class="cat">
+
+        
+            <div class="foodDetailReview" style=" width: 50%; margin: 0 auto;padding: 20px;" v-for="dataItem in jsdata" :key="dataItem.RNO" :name="dataItem.RNO">
+                <!-- <p> {{ dataItem.RNO }} </p> -->
+                <hr>
+                <div class="foodDetailNickname" style=" font-weight: bold; font-size: 18px; display: flex; ">
+                    <span> 💛　</span>
+                    <p> {{ dataItem.NICKNAME }} </p>
+                </div>
+                <div style="display: flex;">
+                    <span> 📅　</span>
+                    <p> {{ dataItem.DATE }} </p>
+                </div>
+                <!-- <div class="cat">
                 <img
-                    src="https://velog.velcdn.com/images/kimjyunny_dev/post/c14d034d-bdef-4db4-9d72-688b466f9265/image.jpeg">
+                    src="https://velog.velcdn.com/images/kimjyunny_dev/post/370f3dab-9470-4918-a11f-3f05348dcf4b/image.jpeg">
+                </div> -->
+                <div class="reviewDescription" style="font-size: 15px; display: flex;">
+                    <span> 🗣️　 </span>
+                    <p> {{ dataItem.CONTENT }} </p>
+                </div>
+            
             </div>
-            <div class="reviewDescription" style=" font-size: 15px;">
-                살면서 먹은 물회 중에 제일 맛있었습니다. 재방문 할게요~
-            </div>
-        </div>
-    </div>
 
+
+        </div>
+
+        
     <div style="display: flex; padding: 1% 20%;">
         <div style="width: 400px;">
             <q-input @update:model-value="val => { files = val }" multiple filled type="file"
@@ -67,8 +59,11 @@
 
 </template>
 
+
 <script>
+import axios from "axios";
 import { ref } from 'vue'
+axios.defaults.withCredentials = true;
 export default {
     setup() {
         const submitResult = ref([])
@@ -92,13 +87,38 @@ export default {
         }
     },
     data() {
-
+        return {
+            jsdata: [],
+        }
     },
-    mounted() {
-
+    mounted(){
+        this.getReply()
     },
-    methods:{
-    
+    methods: {
+        getReply() {
+            axios({
+                method: 'post',
+                url: 'http://localhost:3000/reply',
+                headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                responseType: 'json'
+            }).then((Response) => {
+                for (let i = 0; i < Response.data.length; i++) {
+                    this.jsdata.push({
+                        RNO: Response.data[i].RNO,
+                        NICKNAME: Response.data[i].NICKNAME,
+                        DATE: Response.data[i].DATE.slice(0, -14),
+                        STOREID: Response.data[i].STOREID,
+                        CONTENT: Response.data[i].CONTENT
+                    })
+                }
+
+            })
+            .then(()=>{
+                console.log(this.jsdata)
+            }).catch(function (error) {
+                console.log(error.toJSON())
+            })
+        }
     }
 
 };

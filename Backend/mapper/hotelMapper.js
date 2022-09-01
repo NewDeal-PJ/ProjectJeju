@@ -385,20 +385,61 @@ app.post('/reply', function (request, response) {
         for (const i in result.rows) {
           if (Object.hasOwnProperty.call(result.rows, i)) {
             let rows = result.rows[i]
-            console.log(rows[4])
             const jsonData = {
               RNO: rows[0],
-              STARRATE: rows[1],
-              NICKNAME: rows[2],
-              DATE: rows[3],
-              STOREID: rows[4],
-              CONTENT: rows[5],
+              NICKNAME: rows[1],
+              DATE: rows[2],
+              STOREID: rows[3],
+              CONTENT: rows[4],
             }
               replyData.push(jsonData)
           }
         }
         console.log(replyData.length)
         response.send(replyData)
+      })
+    })
+});
+
+
+app.post('/store', function (request, response) {
+  const storeData=[];
+  OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
+    function (err, connection) {
+      if (err) {
+        console.error(err.message);
+        return;
+      }
+
+      var format = { language: 'sql', indent: ' ' }
+      var query = mybatisMapper.getStatement('oracleMapper', 'getListStore', format);
+      console.log(query)
+      connection.execute(query, {}, function (err, result) {
+        if (err) {
+          console.error(err.message);
+          return;
+        }
+        for (const i in result.rows) {
+          if (Object.hasOwnProperty.call(result.rows, i)) {
+            let rows = result.rows[i]
+            const jsonData = {
+              STOREID: rows[0],
+              STORENAME: rows[1],
+              CATEGORY: rows[2],
+              ADDRESS: rows[3],
+              LATITUDE: rows[4],
+              LONGITUDE: rows[5],
+              OPEN: rows[6],
+              TEL: rows[7],
+              INFO: rows[8],
+              KEYWORD: rows[9],
+              STARRATE: rows[10]
+            }
+            storeData.push(jsonData)
+          }
+        }
+        console.log(storeData.length)
+        response.send(storeData)
       })
     })
 });

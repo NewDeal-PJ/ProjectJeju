@@ -94,6 +94,7 @@ import { ref } from "vue";
 import axios from "axios";
 axios.defaults.withCredentials = true;
 export default {
+
   setup() {
     return {
       category: ref('1'),
@@ -101,6 +102,7 @@ export default {
     }
   },
   name: "KakaoMap",
+
   data() {
     return {
       hotelMarkers: [],
@@ -109,6 +111,7 @@ export default {
       chargerMarkerPositions: [],
     }
   },
+
   mounted() {
     if (window.kakako && window.kakako.maps) {
       this.initMap();
@@ -119,6 +122,7 @@ export default {
       document.head.appendChild(script)
     }
   },
+  
   methods: {
     initMap() {
       var mapContainer = document.getElementById('map'), // 지도를 표시할 div

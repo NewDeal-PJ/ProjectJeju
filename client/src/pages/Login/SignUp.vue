@@ -19,7 +19,7 @@
               </div>
               <div class="CheckButton">
                 <div class="q-pa-md q-gutter-md form-group">
-                  <q-btn style="color: white; background-color: #FF9800; width: 85px;
+                  <q-btn @click="check_id()" style="color: white; background-color: #FF9800; width: 85px;
                 height: 30px; margin: 0 auto; display: block; margin-left: 5px;">
                     <div style="font-size: 14px; font-weight: 500;
                 font-family: 'Noto Sans KR', sans-serif;">중복확인</div>
@@ -33,7 +33,7 @@
             <td style="padding-top: 20px; display: flex;">
               <div class="q-gutter-md form-group"
                 style="width: 400px;">
-                <q-input ref="PWDRef" outlined v-model="PWD" :dense="dense" id="user_pwd" lazy-rules
+                <q-input ref="PWDRef" type="password" outlined v-model="PWD" :dense="dense" id="user_pwd" lazy-rules
                   :rules="PWDRules" required />
               </div>
             </td>
@@ -43,7 +43,7 @@
             <td style="padding-top: 20px; display: flex;">
               <div class="q-gutter-md form-group"
                 style="width: 400px;">
-                <q-input ref="PWDChkRef" outlined v-model="PWDChk" :dense="dense" id="user_pwdChk" lazy-rules
+                <q-input ref="PWDChkRef" type="password" outlined v-model="PWDChk" :dense="dense" id="user_pwdChk" lazy-rules
                   :rules="PWDChkRules" required />
               </div>
             </td>
@@ -61,12 +61,11 @@
           <tr>
             <th><label for="date">생년월일 (6자리) </label></th>
             <td style="padding-top: 20px; display: flex;">
-              <div class="q-gutter-md form-group"
-                style="width: 400px;">
-                <q-btn-toggle v-model="model" spread no-caps toggle-color="orange" color="white" text-color="black"
+              <div class="q-gutter-md form-group" style="width: 400px;">
+                <q-btn-toggle v-model= gender no-caps toggle-color="orange" color="white" text-color="black"
                   :options="[
-                    { label: '남', value: 'male' },
-                    { label: '여', value: 'female' }
+                    { label: '남', value: '1' },
+                    { label: '여', value: '2' }
                   ]" style="width: 90px; height: 30px; float: right;" />
                 <q-input ref="dateRef" outlined v-model="date" :dense="dense" id="date" lazy-rules :rules="dateRules" required/>
               </div>
@@ -120,7 +119,7 @@
         <br>
         <div class="SignUpButton">
           <div class="q-pa-md q-gutter-md form-group">
-            <q-btn type="submit" style="color: white; background-color: #FF9800; width: 300px;
+            <q-btn @click="onsubmit()" style="color: white; background-color: #FF9800; width: 300px;
           height: 40px; margin: 0 auto; display: block; ">
             <div style="font-size: 18px; font-weight: 500;
            font-family: 'Noto Sans KR', sans-serif;">가입하기</div>
@@ -139,6 +138,8 @@ import Header from 'src/components/Home/Header.vue';
 import Footer from '../../components/Home/Footer.vue';
 import { useQuasar } from 'quasar';
 import { ref } from 'vue';
+import {reactive} from 'vue';
+import axios from 'axios';
 export default {
   components: { Header, Footer },
   setup() {
@@ -151,6 +152,7 @@ export default {
     const PWDChkRef = ref(null)
     const Name = ref(null)
     const NameRef = ref(null)
+    const gender = ref(null)
     const date = ref(null)
     const dateRef = ref(null)
     const Tel = ref(null)
@@ -163,8 +165,12 @@ export default {
     const NicknameRef = ref(null)
     const email = ref(null)
     const emailRef = ref(null)
+    const state = reactive({
+      data : [],
+    });
     return {
-      model: ref('male'),
+      gender,
+      state,
       dense: ref(true),
       ID,
       IDRef,
@@ -254,6 +260,18 @@ export default {
         NicknameRef.value.validate()
         emailRef.value.validate()
 
+        const args = {
+        user_id : ID,
+        user_pwd : PWD,
+        user_name : Name,
+        user_birth : date,
+        user_gender : gender,
+        user_tel1 : Tel,
+        user_tel2 : Tel2,
+        user_tel3 : Tel3,
+        user_email : email,
+        user_nickname : Nickname
+      };
         if (IDRef.value.hasError || PWDRef.value.hasError || PWDChkRef.value.hasError ||NameRef.value.hasError||dateRef.value.hasError||TelRef.value.hasError||TelRef2.value.hasError||TelRef3.value.hasError||NicknameRef.value.hasError||emailRef.value.hasError) {
           $q.notify({
             color: 'negative',
@@ -264,8 +282,19 @@ export default {
           $q.notify({
             icon: 'done',
             color: 'orange-10',
-            message: '환영합니다 '+Nickname+"님"
+            message: `환영합니다 회원님`
           })
+      axios
+      .post("/api/signup", args)
+      .then((res) => {
+      state.data = res.data;
+      alert(`회원가입을 축하드립니다`)
+      window.location.href = 'http://localhost:9000/#/api/login';
+      })
+      //redirect logic
+      .catch(()=> {
+        alert("회원가입에 실패하셧습니다.")
+      })
         }
       },
 
@@ -277,6 +306,28 @@ export default {
         IDRef.value.resetValidation()
         PWDRef.value.resetValidation()
         PWDChkRef.value.resetValidation()
+      },
+      check_id() {
+        const args = {
+        user_id : ID
+      };
+      axios
+      .post("/api/check_id", args)
+      .then((res) => {
+      state.data = res.data;
+      if(res.data.result === 1){
+        alert('중복된 아이디가 존재합니다.')
+        this.$refs.id.focus();
+        return false;
+      }
+      if(res.data.result === 0){
+        alert('사용가능한 아이디입니다')
+        this.$refs.pw.focus();
+      }    
+
+      
+      })
+      //redirect logic
       }
     }
   }

@@ -120,9 +120,7 @@ export default {
         user_nickname : ""
       },
     });
-    const check_id = () => {
-
-    }
+  
     const submit = () => {
         const args = {
         user_id : state.form.user_id,
@@ -141,7 +139,8 @@ export default {
       .post("/api/signup", args)
       .then((res) => {
       state.data = res.data;
-      alert(`회원가입을 축하드립니다`)
+      if(res.status === 200){
+      alert(`회원가입을 축하드립니다`)}
       })
       //redirect logic
       .catch(()=> {

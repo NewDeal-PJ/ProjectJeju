@@ -56,7 +56,7 @@
           axios.get("/api/login").then((res) => {
             state.account = res.data;
           });
-          return { state, submit, logout};
+          return { state,logout};
         }
       }
       </script>

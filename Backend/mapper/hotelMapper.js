@@ -11,7 +11,8 @@ const session = require("express-session")
 // const FileStore = require('session-file-store')(session);
 const database = require('./database.js')
 const bcrypt = require('bcrypt')
-const members=[];
+let members=[];
+let check_member = [];
 
 
 // mybatis-mapper 추가
@@ -119,6 +120,7 @@ app.post('/api/login',(req,res)=>{
           if (Object.hasOwnProperty.call(result.rows, i)) {
             let rows = result.rows[i]
             const jsonData = {
+              id : rows[0],
               name : rows[11],
               loginId: rows[0],
               loginPw : rows[1]
@@ -152,6 +154,7 @@ app.post('/api/login',(req,res)=>{
 
     res.cookie("token", token, options)
     res.send(member);
+    members = []
 
   }
   else {
@@ -160,47 +163,8 @@ app.post('/api/login',(req,res)=>{
   console.log('loginId:', loginId, 'loginPw:', loginPw)
       })
     })
+    
   })
-// app.post('/api/account', (req, res) => {
-//     //post방식으로 요청이 들어오면
-//   //들어온 id,pw값 대치하고
-//   //맞으면 로그인 처리한다.
-//   // 들어온 값과 서버의 값을 비교해서 유효성 검사
-//   const loginId = req.body.loginId;
-//   const loginPw = req.body.loginPw;
-//   const member = members.find(m => m.loginId === loginId && m.loginPw === loginPw)
-
-//   //member값이 있으면 member 정보를 send, 없으면 없다고 보냄
-//   if (member) {
-//     const options = {
-//       domain: "localhost",
-//       path: "/",
-//       httpOnly: true,
-//       sameSite: "strict"
-//     };
-
-//     const token = jwt.sign({
-//       // 우리가 필요한 객체 정보
-//       id: member.id,
-//       name: member.name,
-//     },
-//       // 2번째 인자로는 암호키, 만료시간, 토큰배급자
-//       jwt_key, {
-//       expiresIn: "15m",
-//       issuer: "jejuOlle"
-//     });
-
-//     // 클라이언트에 토큰값을 쏘자 !
-
-//     res.cookie("token", token, options)
-//     res.send(member);
-
-//   }
-//   else {
-//     res.sendStatus(404);
-//   }
-//   console.log('loginId:', loginId, 'loginPw:', loginPw)
-// })
 
 
 // 로그아웃 api
@@ -211,11 +175,55 @@ app.delete('/api/logout', (req, res) => {
   res.sendStatus(200)
 });
 
+// 아이디 중복 체크 api
+app.post('/api/check_id', async(req,res)=>{
+  // check_member = [];
+  const chk_id = req.body.user_id._value;
+  console.log('check_id_req:',chk_id)
+  OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
+    function (err, connection) {
+      if (err) {
+        console.error(err.message);
+        return;
+      }
+      var query = `SELECT USERID FROM TBL_MEMBER`;
+      connection.execute(query, {}, function (err, result) {
+        if (err) {
+          console.error(err.message);
+          return;
+        }
+        for (const i in result.rows) {
+          if (Object.hasOwnProperty.call(result.rows, i)) {
+            let rows = result.rows[i]
+            const jsonData = {
+              id : rows[0]
+            }
+              check_member.push(jsonData)
+          }
+        }
+        console.log(check_member.length)
+        console.log(check_member)
+    
+        for(let j=0; j <= check_member.length; j++){
+          try {
+            if(check_member[j].id === chk_id){
+              let result = 1;
+              return res.send({status : 200, result : result});
+            }
+            else {
+              result = 0;
+            }
+          } catch (err) {
+            console.error(err);
+            return res.send({status: -1, result : result});
+        }   
+        }
+      })
+    })
+    check_member = []
+  })
 
 // 회원가입 api
-
-let sysdate = new Date();
-console.log(sysdate)
 
 app.get('/api/signup', (req,res)=>{
   res.sendStatus(200);

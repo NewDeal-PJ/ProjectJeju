@@ -43,27 +43,6 @@
             },
       
           });
-      
-          const submit = () => {
-            const args = {
-            loginId : state.form.loginId,
-            loginPw : state.form.loginPw
-            }
-            
-            axios.post("/api/login", args).then((res) => {
-              //로그인에 성공
-              alert("로그인에 성공하셨습니다! 즐거운 여행 되세요 !")
-              state.account = res.data;
-            })
-            //로그인 실패
-              .catch(() => {
-              alert("로그인에 실패하였습니다. 계정 정보를 확인해주세요 !")
-            });
-      
-      
-          //submit함수가 실행이 되면 server에 post방식으로 던진다.
-      
-          }
           // 로그아웃  method
           const logout = () => {
             axios.delete("/api/logout").then((res) => {

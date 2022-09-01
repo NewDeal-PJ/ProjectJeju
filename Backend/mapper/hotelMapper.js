@@ -9,7 +9,7 @@ const ChargerList = [];
 var OracleDB = require('oracledb');
 var cors = require('cors')
 const session = require("express-session")
-const FileStore = require('session-file-store')(session); 
+// const FileStore = require('session-file-store')(session); 
 const database = require('./database.js')
 
 
@@ -37,7 +37,7 @@ app.use(session({
   secret : 'blackzat',
   resave : false,
   saveUninitialized : true,
-  store : new FileStore()
+  // store : new FileStore()
 }))
 
 
@@ -184,37 +184,18 @@ app.get('/api/signup', (req,res)=>{
 });
 
 app.post('/api/signup',async(req,res)=>{
-  console.log("회원가입 하는 중 !")
-  const body = req.body
-  // const u_id = body.user_id;
-  // const pw = body.user_pwd;
-  // const u_name = body.user_name;
-  // const birth = body.user_birth;
-  // const gender = body.user_gender;
-  // const tel1 = body.user_tel1;
-  // const tel2 = body.user_tel2;
-  // const tel3 = body.user_tel3;
-  // const email = body.user_email;
-  // const nickname = body.user_nickname;
-  // console.log(body)
-  await database.run(body)
-  res.sendStatus(200)
-  
+  try {
+    console.log("회원가입 하는 중 !")
+    const body = req.body
+    await database.create_user(body)
+    res.sendStatus(200)
+    console.log('회원가입이 완료되었습니다.')
+    
+  } catch (error) {
+    res.sendStatus(401)
+  }
 })
 
-
-// app.post('/api/signup', (req, res) => {
-//   console.log("회원가입 하는 중 !")
-//   const body = req.body
-//   const id = body.user_id;
-//   const pw = body.user_pwd;
-//   const name = body.user_name;
-//   const birth = body.user_birth;
-//   const gender = body.user_gender;
-//   const tel = body.user_tel;
-//   const email = body.user_email;
-//   const nickname = body.user_nickname;
-// })
 
 
 // marker 띄우기

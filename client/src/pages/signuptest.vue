@@ -137,24 +137,16 @@ export default {
         user_nickname : state.form.user_nickname
       };
 
-      if(state.form.user_pwd === state.form.user_cpwd){
       axios
       .post("/api/signup", args)
       .then((res) => {
-        state.data = res.data;
-        alert(`회원가입을 축하드립니다`)
-        return 
-        
+      state.data = res.data;
+      alert(`회원가입을 축하드립니다`)
       })
-      
       //redirect logic
       .catch(()=> {
         return alert("회원가입에 실패하셧습니다.")
       })
-      }
-    else{
-      alert("비밀번호가 일치하지 않습니다 다시 입력해주세요 !")
-    }
       }
     return {state,submit,check_id}
   }

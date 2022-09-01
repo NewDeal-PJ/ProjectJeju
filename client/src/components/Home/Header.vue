@@ -8,19 +8,58 @@
             <a href="http://localhost:9000/#/shop"  style="color: white; padding-left: 3%;"> Shop</a>
             <a href="http://localhost:9000/#/cart1"  style="color: white; padding-left: 3%;"> Cart</a>
             <a href="http://localhost:9000/#/mypage" style="color: white; padding-left: 3%;"> MyPage</a>
-            <a href="http://localhost:9000/#/login" style="color: white; padding-left: 3%;"> LogIn</a>
-            <a href="http://localhost:9000/#/CustomerService" style="color: white; padding-left: 3%;">Q&A</a> 
+            <div v-if="state.account.name">
+            <a href="http://localhost:9000/#/api/logout" @click='logout()' style="color: white; padding-left: 3%;"> 
+            LogOut</a>
+            </div>
+            <div v-else>
+            <a href="http://localhost:9000/#/api/login" style="color: white; padding-left: 3%;"> LogIn</a>
+          </div>
+            <a href="http://localhost:9000/#/CustomerService" style="color: white; padding-left: 3%;">Q&A</a>
           </ul>
         </div>
         </div>
+        
     </header>
     </template>
     
     <script>
-        export default{
-    
+      import axios from "axios";
+      import {reactive} from 'vue';
+      
+      export default {
+        //셋업 설정
+        //CORS 이슈는 quasar.config.js 파일에서 proxy 설정을 통해서 우회했다.
+        setup(){
+          const state = reactive({
+            account: {
+              id: null,
+              name : ''
+            },
+            // 로그인 정보 담아서 보내주려면 객체를 만들어줘야죠~
+            form: {
+              loginId : "",
+              loginPw : ""
+            },
+      
+          });
+          // 로그아웃  method
+          const logout = () => {
+            axios.delete("/api/logout").then((res) => {
+              alert("로그아웃이 완료되었습니다.")
+              state.account.name = "";
+            });
+      
+          }
+      
+          // 백엔드의 계정정보를 호출
+          axios.get("/api/login").then((res) => {
+            state.account = res.data;
+          });
+          return { state, submit, logout};
         }
-    </script>
+      }
+      </script>
     
     <style scoped>
         .headBackground {

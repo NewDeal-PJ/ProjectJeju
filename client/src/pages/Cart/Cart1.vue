@@ -86,13 +86,13 @@
     </div>
 </div>
 
-  <div class="button" >
+  <div class="cart1Button" >
       <q-btn style="color: white;
       background-color: #F79a38;
       width: 180px;
       height: 30px;
       display: block;
-      margin-left: 75%;
+      margin-left: 77%;
       margin-bottom: 50px;" >
         <div style="font-size: 18px; font-weight: 900;
         font-family: 'Noto Sans KR', sans-serif;">결제하기</div>
@@ -113,7 +113,7 @@ export default{
 <style>
 .cartGoods{
 
-  width: 60%;
+  width: 80%;
   height: 350px;
   margin: 60px;
 }

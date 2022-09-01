@@ -3,7 +3,7 @@
 <div id="join-wrap">
 
       <div class="cartInfo2" style="text-align: center;">
-        <table class="jointable" style="width: 1200px; height: 180px; padding: 30px; margin-left: 140px;">
+        <table class="jointable" style="width: 1200px;  height: 180px; padding: 30px; margin-left: 140px;">
 
           <div  style=" margin:0 auto;">
 
@@ -34,38 +34,44 @@
       </div>
 
   <table class="jointable" style="width: 1200px; height: 200px; padding: 30px; margin-left: 140px;">
-          <tr style="background-color: #E7E7E7; height: 30px; font-size: 15px;">
+    <q-markup-table :separator="separator" flat >
+        <thead>
+          <tr>
+            <td colspan='2'  style=" text-align: center; font-size: 15px; background-color: #FAEBD7"> 배송정보 </td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th class="text-right"> 수령인</th>
+            <th class="text-middle"><q-input filled v-model="text" :dense="dense"  style="max-width: 450px;" /></th>
 
-  <th colspan="5"> 배송지정보</th>
-   </tr>
+          </tr>
 
-    <tr>
+          <tr>
+            <th class="text-right"> 연락처</th>
+            <th class="text-middle"><q-input filled v-model="text" :dense="dense"  style="max-width: 450px;" /></th>
 
-      <th></th>
-      <td style="font-weight: bold; text-align: center;">수 령 인<input type="text" id="receiver_name" class="textForm" style="width: 500px; margin-left: 13px"></td>
-    </tr>
+          </tr>
 
-    <tr>
-      <th></th>
-      <td style="font-weight: bold; text-align: center;">연 락 처<input type="tel" id="receiver_tel" class="textForm" style="width: 158px; margin-left: 12px;"> -
-      <input type="tel" id="receiver_tel" class="textForm" style="width: 158px;"> -
-      <input type="tel" id="receiver_tel" class="textForm" style="width: 158px;"></td>
-    </tr>
+          <tr>
+            <th class="text-right">배송주소</th>
+            <th class="text-middle"><q-input filled v-model="text" :dense="dense"  style="max-width: 450px;"/></th>
+          </tr>
 
-    <tr>
-      <th></th>
-      <td style="font-weight: bold; text-align: center;">배송주소<input type="address" id="user_add" class="textForm" style="width: 500px; margin-left: 10px"></td>
-    </tr>
+          <tr>
+            <th class="text-right">배송메모</th>
+            <th class="text-middle"><q-input filled v-model="text" :dense="dense"  style="max-width: 450px;" /></th>
+          </tr>
+        </tbody>
+      </q-markup-table>
 
-    <tr>
-      <th></th>
-      <td style="font-weight: bold; text-align: center;">배송메모<input class="textForm"  style="width: 500px; margin-left: 10px"></td>
-    </tr>
+
+
     </table>
 
 </div>
 
-<div class="button" >
+<div class="cart2Button" >
         <div class="q-pa-md q-gutter-md">
           <q-btn style="color: white; background-color: #F79a38; width: 150px;
           height: 30px; margin: 0 auto; display: block; " >

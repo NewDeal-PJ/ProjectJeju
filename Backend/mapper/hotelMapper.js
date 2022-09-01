@@ -11,7 +11,8 @@ var cors = require('cors')
 const session = require("express-session")
 // const FileStore = require('session-file-store')(session); 
 const database = require('./database.js')
-
+const bcrypt = require('bcrypt')
+const members=[];
 
 
 // mybatis-mapper 추가
@@ -63,38 +64,9 @@ app.use(express.urlencoded({ extended: true }))
 // 기본 라우트
 
 // 임의 설정한 멤버
-const members = [
-  {
-    id: 1,
-    name: "이수빈",
-    loginId: "a",
-    loginPw: "a1"
-  },
-  {
-    id: 2,
-    name: "김지현",
-    loginId: "b",
-    loginPw: "b1"
-  }
-]
-
-// DB 연결
-
-// const client = OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
-//   function (err, connection) {
-//     if (err) {
-//       console.error(err.message);
-//       return;
-//     }
-//   });
 
 
-
-app.get('/', function (req, res) { // '/' 위치에 'get'요청을 받는 경우,
-  res.send('Hello World!!!!!'); // "Hello World!"를 보냅니다.
-});
-
-app.get('/api/account', (req, res) => {
+app.get('/api/login', (req, res) => {
   console.log(req.cookies)
   //쿠키 정보 있으면 파싱해줘서 새로고침해도 로그인이 유지
   if (req.cookies && req.cookies.token) {
@@ -108,12 +80,6 @@ app.get('/api/account', (req, res) => {
         res.send(decoded);
       }
     })
-    //토큰화 시키고는 cookies parser 안해줘도 된다.
-    // const member = JSON.parse(req.cookies.token);
-    // console.log(member)
-
-    // if (member.id)
-    //   return res.send(member);
   }
   else {
     res.sendStatus(401);
@@ -121,17 +87,41 @@ app.get('/api/account', (req, res) => {
   };
 })
 
-
-app.post('/api/account', (req, res) => {
-  //post방식으로 요청이 들어오면
+app.post('/api/login',(req,res)=>{
+    //post방식으로 요청이 들어오면
   //들어온 id,pw값 대치하고
   //맞으면 로그인 처리한다.
+  // 들어온 값과 서버의 값을 비교해서 유효성 검사
   const loginId = req.body.loginId;
   const loginPw = req.body.loginPw;
-  // 들어온 값과 서버의 값을 비교해서 유효성 검사
-  const member = members.find(m => m.loginId === loginId && m.loginPw === loginPw)
-
-  //member값이 있으면 member 정보를 send, 없으면 없다고 보냄
+  console.log('req:',loginId,loginPw)
+  OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
+    function (err, connection) {
+      if (err) {
+        console.error(err.message);
+        return;
+      }
+      var query = `SELECT * FROM TBL_MEMBER`;
+      connection.execute(query, {}, function (err, result) {
+        if (err) {
+          console.error(err.message);
+          return;
+        }
+        for (const i in result.rows) {
+          if (Object.hasOwnProperty.call(result.rows, i)) {
+            let rows = result.rows[i]
+            const jsonData = {
+              name : rows[11],
+              loginId: rows[0],
+              loginPw : rows[1]
+            }
+              members.push(jsonData)
+          }
+        }
+        console.log(members.length)
+        console.log(members)
+        const member = members.find(m => m.loginId === loginId && m.loginPw === loginPw)
+         //member값이 있으면 member 정보를 send, 없으면 없다고 보냄
   if (member) {
     const options = {
       domain: "localhost",
@@ -142,8 +132,7 @@ app.post('/api/account', (req, res) => {
 
     const token = jwt.sign({
       // 우리가 필요한 객체 정보
-      id: member.id,
-      name: member.name,
+      name: member.name
     },
       // 2번째 인자로는 암호키, 만료시간, 토큰배급자
       jwt_key, {
@@ -161,12 +150,53 @@ app.post('/api/account', (req, res) => {
     res.sendStatus(404);
   }
   console.log('loginId:', loginId, 'loginPw:', loginPw)
-})
+      })
+    })
+  })
+// app.post('/api/account', (req, res) => {
+//     //post방식으로 요청이 들어오면
+//   //들어온 id,pw값 대치하고
+//   //맞으면 로그인 처리한다.
+//   // 들어온 값과 서버의 값을 비교해서 유효성 검사
+//   const loginId = req.body.loginId;
+//   const loginPw = req.body.loginPw;
+//   const member = members.find(m => m.loginId === loginId && m.loginPw === loginPw)
+
+//   //member값이 있으면 member 정보를 send, 없으면 없다고 보냄
+//   if (member) {
+//     const options = {
+//       domain: "localhost",
+//       path: "/",
+//       httpOnly: true,
+//       sameSite: "strict"
+//     };
+
+//     const token = jwt.sign({
+//       // 우리가 필요한 객체 정보
+//       id: member.id,
+//       name: member.name,
+//     },
+//       // 2번째 인자로는 암호키, 만료시간, 토큰배급자
+//       jwt_key, {
+//       expiresIn: "15m",
+//       issuer: "jejuOlle"
+//     });
+
+//     // 클라이언트에 토큰값을 쏘자 !
+
+//     res.cookie("token", token, options)
+//     res.send(member);
+
+//   }
+//   else {
+//     res.sendStatus(404);
+//   }
+//   console.log('loginId:', loginId, 'loginPw:', loginPw)
+// })
 
 
 // 로그아웃 api
-
-app.delete('/api/account', (req, res) => {
+app.delete('/api/logout', (req, res) => {
   if (req.cookies && req.cookies.token) {
     res.clearCookie("token")
   }

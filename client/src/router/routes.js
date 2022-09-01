@@ -8,14 +8,21 @@ const routes = [
     ]
   },
   {
-    path: '/login',
+    path: '/api/login',
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/Login/LogIn.vue') }
     ]
   },
   {
-    path: '/signup',
+    path: '/api/logout',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/IndexPage.vue') }
+    ]
+  },
+  {
+    path: '/api/signup',
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/Login/SignUp.vue') }
@@ -124,21 +131,6 @@ const routes = [
       { path: '', component: () => import('pages/CustomerService.vue') }
     ]
     },
-{
-    path: '/api/account',
-    component: () => import('layouts/MainLayout.vue'),
-    children: [
-      { path: '', component: () => import('pages/user.vue') }
-    ]
-  },
-  {
-    path: '/api/signup',
-    component: () => import('layouts/MainLayout.vue'),
-    children: [
-      { path: '', component: () => import('pages/signuptest.vue') }
-    ]
-  },
-
   // Always leave this as last one,
   // but you can also remove it
   {

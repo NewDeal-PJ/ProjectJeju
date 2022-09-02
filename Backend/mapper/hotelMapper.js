@@ -205,7 +205,7 @@ app.post('/api/check_id', async(req,res)=>{
         }
         console.log(check_member.length)
         console.log(check_member)
-    
+        if(check_member.length > 0){
         for(let j=0; j <= check_member.length; j++){
           try {
             if(check_member[j].id === chk_id){
@@ -220,6 +220,10 @@ app.post('/api/check_id', async(req,res)=>{
             return res.send({status: -1, result : result});
         }   
         }
+      }
+      else{
+        return res.send({status: -1, result : result});
+      }
       })
     })
     check_member = []

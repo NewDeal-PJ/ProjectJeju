@@ -29,28 +29,28 @@ const routes = [
     ]
   },
   {
-    path: '/findpassword',
+    path: '/api/findpassword',
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/Login/FindPassword.vue') }
     ]
   },
   {
-    path: '/settingpassword',
+    path: '/api/settingpassword',
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/Login/SettingPassword.vue') }
     ]
   },
   {
-    path: '/mypage',
+    path: '/api/mypage',
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/MyPage/MyPage.vue') }
     ]
   },
   {
-    path: '/userInfo',
+    path: '/api/userInfo',
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/MyPage/UserInfo.vue') }
@@ -59,21 +59,21 @@ const routes = [
 
 
   {
-    path: '/orderInfo',
+    path: '/api/orderInfo',
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/MyPage/OrderInfo.vue') }
     ]
   },
   {
-    path: '/writinginfo',
+    path: '/api/writinginfo',
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/MyPage/WritingInfo.vue') }
     ]
   },
   {
-    path: '/likeinfo',
+    path: '/api/likeinfo',
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/MyPage/LikeInfo.vue') }
@@ -81,14 +81,14 @@ const routes = [
   },
 
   {
-    path: '/shop',
+    path: '/api/shop',
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/Shop/Shop.vue') }
     ]
   },
   {
-    path: '/register',
+    path: '/api/register',
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/Shop/Register.vue') }
@@ -96,21 +96,21 @@ const routes = [
   },
 
   {
-    path: '/cart1',
+    path: '/api/cart1',
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/Cart/Cart1.vue') }
     ]
   },
   {
-    path: '/cart2',
+    path: '/api/cart2',
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/Cart/Cart2.vue') }
     ]
   },
   {
-    path: '/cart3',
+    path: '/api/cart3',
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/Cart/Cart3.vue') }
@@ -125,7 +125,7 @@ const routes = [
   },
   {
 
-    path: '/customerservice',
+    path: '/api/customerservice',
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/CustomerService.vue') }

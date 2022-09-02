@@ -20,6 +20,7 @@ var mybatisMapper = require('mybatis-mapper');
 // Mapper Load
 mybatisMapper.createMapper(['./mapper/oracle-mapper.xml']);
 
+OracleDB.autoCommit=true;
 
 // 백엔드 서버 : express 사용
 var express = require('express')
@@ -419,15 +420,43 @@ app.post('/reply', function (request, response) {
             const jsonData = {
               RNO: rows[0],
               NICKNAME: rows[1],
-              DATE: rows[2],
+              REGDATE: rows[2],
               STOREID: rows[3],
               CONTENT: rows[4],
+              STARRATE: rows[5],
             }
               replyData.push(jsonData)
           }
         }
         console.log(replyData.length)
         response.send(replyData)
+      })
+    })
+});
+app.post('/reply/insert', function (request, response) {
+  OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
+    function (err, connection) {
+      if (err) {
+        console.error(err.message);
+        return;
+      }
+      var param={
+        nickname: request.body.NICKNAME,
+        storeid: Number(request.body.STOREID),
+        content: request.body.CONTENT,
+        starrate: Number(request.body.STARRATE),
+      }
+
+      var format = { language: 'sql', indent: ' ' }
+      var query = mybatisMapper.getStatement('oracleMapper', 'insertReply', param,format);
+      console.log(query)
+      connection.execute(query, [], function (err, result) {
+        if (err) {
+          console.error(err.message);
+          return;
+        }
+        console.log('Insert 성공 : ' +result.rowsAffected)
+        connectionRelease(response,connection,result.rowsAffected)
       })
     })
 });
@@ -475,6 +504,15 @@ app.post('/store', function (request, response) {
     })
 });
 
+function connectionRelease(res,connection,result) {
+  connection.release(function (err) {
+    if (err) {
+      console.log(err.message)
+    }
+    res.send(''+result)
+  })
+  
+}
 
 http.createServer(app).listen(app.get('port'), () => {
   console.log('Express server port : ' + app.get('port'))

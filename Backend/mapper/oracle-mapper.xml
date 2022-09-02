@@ -78,10 +78,15 @@
 
   <select id="getListReply">
     SELECT
-    * FROM TBL_REPLY ORDER BY RNO
+    * FROM TBL_REPLY ORDER BY REGDATE DESC
   </select>
 
   <select id="getListStore">
     SELECT
     * FROM TBL_STORE ORDER BY STOREID
   </select>
+  <insert id="insertReply">
+	INSERT INTO V_REPLY(RNO,NICKNAME,REGDATE,STOREID,CONTENT,STARRATE,UUID,PATH) 
+	VALUES(SEQ_REPLY.NEXTVAL,#{nickname},SYSDATE,#{storeid},#{content},#{starrate})
+  </insert>
+</mapper>

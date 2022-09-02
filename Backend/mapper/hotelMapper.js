@@ -131,7 +131,7 @@ app.post('/api/login', (req, res) => {
         }
         console.log(members.length)
         console.log(members)
-        const member = members.find(m => m.loginId === loginId && m.loginPw === loginPw)
+        const member = members.find(m => m.loginId === loginId && bcrypt.compare(loginPw, m.loginPw))
         //member값이 있으면 member 정보를 send, 없으면 없다고 보냄
         if (member) {
           const options = {
@@ -143,6 +143,7 @@ app.post('/api/login', (req, res) => {
 
           const token = jwt.sign({
             // 우리가 필요한 객체 정보
+            id : member.id,
             name: member.name
           },
             // 2번째 인자로는 암호키, 만료시간, 토큰배급자
@@ -204,13 +205,14 @@ app.post('/api/check_id', async (req, res) => {
         }
         console.log(check_member.length)
         console.log(check_member)
-
+        if(check_member.length > 0){
         for (let j = 0; j <= check_member.length; j++) {
           try {
             if (check_member[j].id === chk_id) {
               let result = 1;
               return res.send({ status: 200, result: result });
             }
+        
             else {
               result = 0;
             }
@@ -218,6 +220,11 @@ app.post('/api/check_id', async (req, res) => {
             console.error(err);
             return res.send({ status: -1, result: result });
           }
+        }
+        }
+        else{
+          result = 0;
+          return res.send({ status: -1, result: result });
         }
       })
     })

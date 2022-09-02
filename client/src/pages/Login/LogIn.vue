@@ -56,7 +56,7 @@ export default{
         setup(){
           const state = reactive({
             account: {
-              id : null,
+              id : '',
               name : ''
             },
             // 로그인 정보 담아서 보내주려면 객체를 만들어줘야죠~

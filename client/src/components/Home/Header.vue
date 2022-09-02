@@ -7,8 +7,10 @@
             <a href="http://localhost:9000" style="color: white; padding-left: 3%;"> Home</a>
             <a href="http://localhost:9000/#/api/shop"  style="color: white; padding-left: 3%;"> Shop</a>
             <a href="http://localhost:9000/#/api/cart1"  style="color: white; padding-left: 3%;"> Cart</a>
+            <a v-if="state.account.id">
             <a href="http://localhost:9000/#/api/mypage" style="color: white; padding-left: 3%;"> MyPage</a>
-            <div v-if="state.account.name">
+            </a>
+            <div v-if="state.account.id">
             <a href="http://localhost:9000/#/api/logout" @click='logout()' style="color: white; padding-left: 3%;"> 
             LogOut</a>
             </div>
@@ -33,7 +35,7 @@
         setup(){
           const state = reactive({
             account: {
-              id: null,
+              id: '',
               name : ''
             },
             // 로그인 정보 담아서 보내주려면 객체를 만들어줘야죠~
@@ -48,6 +50,8 @@
             axios.delete("/api/logout").then((res) => {
               alert("로그아웃이 완료되었습니다.")
               state.account.name = "";
+              state.account.id = ""
+              window.location.href = 'http://localhost:9000/#/api/login';
             });
       
           }

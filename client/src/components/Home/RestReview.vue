@@ -25,14 +25,14 @@
                 <!-- <p> {{ dataItem.RNO }} </p> -->
                 <hr>
                 <div class="foodDetailNickname" style=" font-weight: bold; font-size: 18px; display: flex; ">
-                    <span> 💛　</span>
+                    <span> 🧡　</span>
                     <p> {{ dataItem.NICKNAME }} </p>
                 </div>
                 <div style="display: flex;">
                     <span> 📅　</span>
                     <p> {{ dataItem.DATE }} </p>
                 </div>
-                <!-- <div class="cat">
+                <!-- <div class="cat"> : 사진 나중에 넣을거임 삭제 하지말것
                 <img
                     src="https://velog.velcdn.com/images/kimjyunny_dev/post/370f3dab-9470-4918-a11f-3f05348dcf4b/image.jpeg">
                 </div> -->

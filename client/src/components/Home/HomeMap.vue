@@ -1,42 +1,33 @@
 <template lang="pug">
 div(class="q-pa-md")
-  div(class="q-gutter-sm bg-grey-10 text-white")
-    q-radio(dark v-model="category" val="1" label="호텔, 리조트" color="yellow")
-    q-radio(dark v-model="category" val="2" label="펜션" color="yellow")
+  div(class="q-gutter-sm")
+    q-radio(v-model="category" val="1" label="호텔, 리조트" color="amber-9")
+    q-radio(v-model="category" val="2" label="펜션" color="amber-9")
     hr
   div(class="q-gutter-sm")
-    q-checkbox(v-model="filter" val="wifi") Wifi
-    q-checkbox(v-model="filter" val="tv") TV
-    q-checkbox(v-model="filter" val="airConditioner") 에어컨
-    q-checkbox(v-model="filter" val="miniBar") 미니바
-    q-checkbox(v-model="filter" val="refrigerator") 냉장고
-    q-checkbox(v-model="filter" val="bathTub") 욕조
+    q-checkbox(v-model="filter" val="wifi" color="amber-9") Wifi
+    q-checkbox(v-model="filter" val="tv" color="amber-9") TV
+    q-checkbox(v-model="filter" val="airConditioner" color="amber-9") 에어컨
+    q-checkbox(v-model="filter" val="miniBar" color="amber-9") 미니바
+    q-checkbox(v-model="filter" val="refrigerator" color="amber-9") 냉장고
+    q-checkbox(v-model="filter" val="bathTub" color="amber-9") 욕조
   div(class="q-gutter-sm")
-    q-checkbox(v-model="filter" val="karaoke") 노래방
-    q-checkbox(v-model="filter" val="convenienceStore") 편의점
-    q-checkbox(v-model="filter" val="parkingLot") 주차장
-    q-checkbox(v-model="filter" val="seminarRoom") 세미나실
-    q-checkbox(v-model="filter" val="bbq") BBQ
-    q-checkbox(v-model="filter" val="restaurant") 식당
+    q-checkbox(v-model="filter" val="karaoke" color="amber-9") 노래방
+    q-checkbox(v-model="filter" val="convenienceStore" color="amber-9") 편의점
+    q-checkbox(v-model="filter" val="parkingLot" color="amber-9") 주차장
+    q-checkbox(v-model="filter" val="seminarRoom" color="amber-9") 세미나실
+    q-checkbox(v-model="filter" val="bbq" color="amber-9") BBQ
+    q-checkbox(v-model="filter" val="restaurant" color="amber-9") 식당
   div(class="q-gutter-sm")
-    q-checkbox(v-model="filter" val="pickup") 픽업가능
-    q-checkbox(v-model="filter" val="breakfast") 조식포함
-    q-checkbox(v-model="filter" val="freeParking") 무료주차가능
-    q-checkbox(v-model="filter" val="cooking") 취사가능
+    q-checkbox(v-model="filter" val="pickup" color="amber-9") 픽업가능
+    q-checkbox(v-model="filter" val="breakfast" color="amber-9") 조식포함
+    q-checkbox(v-model="filter" val="freeParking" color="amber-9") 무료주차가능
+    q-checkbox(v-model="filter" val="cooking" color="amber-9") 취사가능
   div(class="q-px-sm")
   q-btn(@click="displayHotel(category, filter)") 숙소
   q-btn(@click="displayCharger(chargerMarkerPositions)") 전기차충전소
-div(class="map_wrap")
-  div(id="map" style="width:100%;height:700px;margin:0 auto; overflow:hidden; border:1px solid;")
-  div(id="menu_wrap" class="bg_white")
-    div(class="option")
-      div
-        form(onsubmit="searchPlaces(); return false;") 검색 :
-          input(type="text" value="이태원 맛집" id="keyword" size="15")
-          button(type="submit") 검색하기
-  hr
-  ul(id="placesList")
-  div(id="pagination")
+
+div(id="map" style="width:100%;height:700px;margin:0 auto; overflow:hidden; border:1px solid;")
 
 //- q-dialog( v-model="dialog" persistent  style="display:block")
 //-   q-card( class="bg-teal text-white" style="width: 300px")
@@ -94,7 +85,6 @@ import { ref } from "vue";
 import axios from "axios";
 axios.defaults.withCredentials = true;
 export default {
-
   setup() {
     return {
       category: ref('1'),
@@ -102,7 +92,6 @@ export default {
     }
   },
   name: "KakaoMap",
-
   data() {
     return {
       hotelMarkers: [],
@@ -111,7 +100,6 @@ export default {
       chargerMarkerPositions: [],
     }
   },
-
   mounted() {
     if (window.kakako && window.kakako.maps) {
       this.initMap();
@@ -122,7 +110,6 @@ export default {
       document.head.appendChild(script)
     }
   },
-  
   methods: {
     initMap() {
       var mapContainer = document.getElementById('map'), // 지도를 표시할 div
@@ -231,13 +218,13 @@ export default {
         for (let i = 0; i < Response.data.length; i++) {
           if (this.hotelMarkerPositions.length < 529) {
             this.hotelMarkerPositions.push({
-              content: '<div style="font-weight:bold;"><img src="https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/' + Response.data[i].PATH + '/' + Response.data[i].UUID + '" width="250px" height="100px" style="overflow:hidden; margin-bottom:8px;"><br>' + Response.data[i].NAME + '<br> 별점 : ' + Math.round(Response.data[i].STARRATE * 100) / 100 + '</div>',
+              content: '<div style="font-weight:bold;"><img src="https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/' + Response.data[i].PATH + '/' + Response.data[i].UUID + '" width="240px" height="110px" style="overflow:hidden; margin-bottom:8px;"><br>' + Response.data[i].NAME + '<br> 별점 : ' + Math.round(Response.data[i].STARRATE * 100) / 100 + '</div>',
               latlng: new kakao.maps.LatLng(Response.data[i].LATITUDE, Response.data[i].LONGITUDE)
             })
           }
         }
       }).then(() => {
-        var imageSrc = 'https://velog.velcdn.com/images/kimjyunny_dev/post/e5a92ac3-1f83-4fbb-a3a6-fa49a562cb76/image.svg', // 마커이미지의 주소입니다
+        var imageSrc = 'https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/hotel.svg', // 마커이미지의 주소입니다
           imageSize = new kakao.maps.Size(21, 26)
         var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize)
         for (var i = 0; i < this.hotelMarkerPositions.length; i++) {
@@ -275,13 +262,13 @@ export default {
           for (let i = 0; i < Response.data.length; i++) {
             if (this.chargerMarkerPositions.length < 500) {
               this.chargerMarkerPositions.push({
-                content: '<div style="font-weight:bold;">'+Response.data[i].NAME+'<br><br>'+Response.data[i].ADDRESS+'<br><br></div>',
+                content: '<div style="font-weight:bold;">' + Response.data[i].NAME + '<br><br>' + Response.data[i].ADDRESS + '<br><br></div>',
                 latlng: new kakao.maps.LatLng(Response.data[i].LATITUDE, Response.data[i].LONGITUDE)
               })
             }
           }
         }).then(() => {
-          var imageSrc = 'https://velog.velcdn.com/images/kimjyunny_dev/post/86b20ccf-b1a1-4a47-85ee-c0272e90af09/image.svg', // 마커이미지의 주소입니다
+          var imageSrc = 'https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/chargerloc.svg', // 마커이미지의 주소입니다
             imageSize = new kakao.maps.Size(21, 26)
           var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize)
           for (var i = 0; i < this.chargerMarkerPositions.length; i++) {
@@ -501,6 +488,9 @@ export default {
   font-weight: bold;
   cursor: default;
   color: #777;
+}
+.body--dark {
+  background: #000
 }
 </style>
 

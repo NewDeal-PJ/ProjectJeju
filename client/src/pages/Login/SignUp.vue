@@ -282,13 +282,12 @@ export default {
           $q.notify({
             icon: 'done',
             color: 'orange-10',
-            message: `환영합니다 회원님`
+            message: `환영합니다 `+Nickname.value+`  회원님`
           })
       axios
       .post("/api/signup", args)
       .then((res) => {
       state.data = res.data;
-      alert(`회원가입을 축하드립니다`)
       window.location.href = 'http://localhost:9000/#/api/login';
       })
       //redirect logic

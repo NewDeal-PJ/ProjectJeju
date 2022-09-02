@@ -5,29 +5,29 @@
       <p class="myPageTitle" > My Page</p>
         <div class="myPageSelect" >
           <div class="myPageMember">
-            <a href ="http://localhost:9000/#/userinfo" type="button" style="color: black;">
+            <a href ="http://localhost:9000/#/api/userinfo" type="button" style="color: black;">
             <img src="https://velog.velcdn.com/images/kimjyunny_dev/post/4a9937e2-23f5-4595-bc39-6402a5e42187/image.png" width="80" >
-            <p>회원정보</p>
+            <p>회원정보 수정</p>
           </a>
           </div>
           <div class="myPageOrder">
-            <a href ="http://localhost:9000/#/orderinfo" type="button"  style="color: black;">
+            <a href ="http://localhost:9000/#/api/orderinfo" type="button"  style="color: black;">
             <img src="https://velog.velcdn.com/images/kimjyunny_dev/post/2422b5e0-250f-4a47-b0ec-631ca1c4ee94/image.png" width="80" >
             <p>주문내역</p>
           </a>
           </div>
           <div class="myPageWrite">
-            <a href ="http://localhost:9000/#/writinginfo" type="button"  style="color: black;">
+            <a href ="http://localhost:9000/#/api/writinginfo" type="button"  style="color: black;">
             <img src="https://velog.velcdn.com/images/kimjyunny_dev/post/53ea14e5-f61a-44fb-ba7d-d1c542bc36a7/image.png" width="80" >
             <p>작성한 글</p>
             </a>
           </div>
-          <div class="myPageLike">
+          <!-- <div class="myPageLike">
             <a href ="http://localhost:9000/#/likeinfo" type="button"  style="color: black;">
             <img src="https://velog.velcdn.com/images/kimjyunny_dev/post/bdc5cd07-2946-4985-847c-03689d903d46/image.png" width="80" >
             <p>좋아요</p>
           </a>
-          </div>
+          </div> -->
         </div>
   </div>
   <Footer></Footer>
@@ -62,6 +62,7 @@ export default{
    font-size: 25px;
    font-family: 'Noto Sans KR', sans-serif;
   padding: 30px;
+  padding-left: 170px;
 }
 .myPageMember{
   margin: 10px;

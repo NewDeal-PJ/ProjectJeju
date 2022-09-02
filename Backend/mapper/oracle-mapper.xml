@@ -57,28 +57,28 @@
 		AND FREEPARKING = 1
 	</if>
 	<if test="jeju == 1">
-		AND address like '%제주시%'
+		AND ADDRESS like '%제주시%'
 	</if>
 	<if test="aewol == 1">
-		AND address like '%애월%'
+		AND ADDRESS like '%애월%'
 	</if>
 	<if test="hamdeok == 1">
-		AND address like '%애월%'
+		AND ADDRESS like '%애월%'
 	</if>
 	<if test="moonset == 1">
-		AND address like '%월정%'
+		AND ADDRESS like '%월정%'
 	</if>
 	<if test="gujwa == 1">
-		AND address like '%구좌%'
+		AND ADDRESS like '%구좌%'
 	</if>
 	<if test="seogwipo == 1">
-		AND address like '%서귀포%'
+		AND ADDRESS like '%서귀포%'
 	</if>
 	<if test="seongsan == 1">
-		AND address like '%성산%'
+		AND ADDRESS like '%성산%'
 	</if>
 	<if test="pyoseon == 1">
-		AND address like '%표선%'
+		AND ADDRESS like '%표선%'
 	</if>
  </sql>
 
@@ -93,30 +93,7 @@
     SELECT
     * FROM TBL_CHARGERLOC
 	WHERE CHAGERID IS NOT NULL
-	<if test="jeju == 1">
-		AND address like '%제주시%'
-	</if>
-	<if test="aewol == 1">
-		AND address like '%애월%'
-	</if>
-	<if test="hamdeok == 1">
-		AND address like '%애월%'
-	</if>
-	<if test="moonset == 1">
-		AND address like '%월정%'
-	</if>
-	<if test="gujwa == 1">
-		AND address like '%구좌%'
-	</if>
-	<if test="seogwipo == 1">
-		AND address like '%서귀포%'
-	</if>
-	<if test="seongsan == 1">
-		AND address like '%성산%'
-	</if>
-	<if test="pyoseon == 1">
-		AND address like '%표선%'
-	</if>
+	<include refid="filter"></include>
   </select>
 
   <select id="getListTopTen">

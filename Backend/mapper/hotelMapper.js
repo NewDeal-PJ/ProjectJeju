@@ -11,7 +11,7 @@ const session = require("express-session")
 // const FileStore = require('session-file-store')(session);
 const database = require('./database.js')
 const bcrypt = require('bcrypt')
-let members=[];
+let members = [];
 let check_member = [];
 
 
@@ -20,11 +20,11 @@ var mybatisMapper = require('mybatis-mapper');
 // Mapper Load
 mybatisMapper.createMapper(['./mapper/oracle-mapper.xml']);
 
-OracleDB.autoCommit=true;
+OracleDB.autoCommit = true;
 
 // 백엔드 서버 : express 사용
 var express = require('express')
-, http = require('http')
+  , http = require('http')
 var app = express();
 
 //post로 받은 body를 pars하기 위한 미들웨어
@@ -36,9 +36,9 @@ const jwt = require('jsonwebtoken')
 app.use(bodyParser.json())
 app.use(cookieParser())
 app.use(session({
-  secret : 'blackzat',
-  resave : false,
-  saveUninitialized : true,
+  secret: 'blackzat',
+  resave: false,
+  saveUninitialized: true,
   // store : new FileStore()
 }))
 
@@ -49,25 +49,25 @@ app.use(
     origin: ['http://localhost:9000'],
     credentials: true,
   }),
-  );
-  // 백엔드 서버 포트
-  app.set('port', process.env.PORT || 3000);
+);
+// 백엔드 서버 포트
+app.set('port', process.env.PORT || 3000);
 
-  // app.get('/',(req,res)=>{
-    //   res.send('Root')x
-    // })
-    // bodyparsor
-    app.use(express.json())
-    app.use(express.urlencoded({ extended: true }))
+// app.get('/',(req,res)=>{
+//   res.send('Root')x
+// })
+// bodyparsor
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 
 
 
-    // 기본 라우트
+// 기본 라우트
 
-    // DB 연결
+// DB 연결
 
-    // const client = OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
-    //   function (err, connection) {
+// const client = OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
+//   function (err, connection) {
 //     if (err) {
 //       console.error(err.message);
 //       return;
@@ -97,14 +97,14 @@ app.get('/api/login', (req, res) => {
   };
 })
 
-app.post('/api/login',(req,res)=>{
-    //post방식으로 요청이 들어오면
+app.post('/api/login', (req, res) => {
+  //post방식으로 요청이 들어오면
   //들어온 id,pw값 대치하고
   //맞으면 로그인 처리한다.
   // 들어온 값과 서버의 값을 비교해서 유효성 검사
   const loginId = req.body.loginId;
-  const loginPw = req.body.loginPw
-  console.log('req:',loginId,loginPw)
+  const loginPw = req.body.loginPw;
+  console.log('req:', loginId, loginPw)
   OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
     function (err, connection) {
       if (err) {
@@ -121,53 +121,51 @@ app.post('/api/login',(req,res)=>{
           if (Object.hasOwnProperty.call(result.rows, i)) {
             let rows = result.rows[i]
             const jsonData = {
-              id : rows[0],
-              name : rows[11],
+              id: rows[0],
+              name: rows[11],
               loginId: rows[0],
-              loginPw : rows[1]
+              loginPw: rows[1]
             }
-            // if(bcrypt.checkpw(loginPw.encode('utf-8'), rows[1]))
-              members.push(jsonData)
+            members.push(jsonData)
           }
         }
-
         console.log(members.length)
         console.log(members)
-        const member = members.find(m => m.loginId === loginId && bcrypt.compare(loginPw, m.loginPw))
-         //member값이 있으면 member 정보를 send, 없으면 없다고 보냄
-  if (member) {
-    const options = {
-      domain: "localhost",
-      path: "/",
-      httpOnly: true,
-      sameSite: "strict"
-    };
+        const member = members.find(m => m.loginId === loginId && m.loginPw === loginPw)
+        //member값이 있으면 member 정보를 send, 없으면 없다고 보냄
+        if (member) {
+          const options = {
+            domain: "localhost",
+            path: "/",
+            httpOnly: true,
+            sameSite: "strict"
+          };
 
-    const token = jwt.sign({
-      // 우리가 필요한 객체 정보
-      name: member.name
-    },
-    // 2번째 인자로는 암호키, 만료시간, 토큰배급자
-    jwt_key, {
-      expiresIn: "15m",
-      issuer: "jejuOlle"
-    });
+          const token = jwt.sign({
+            // 우리가 필요한 객체 정보
+            name: member.name
+          },
+            // 2번째 인자로는 암호키, 만료시간, 토큰배급자
+            jwt_key, {
+            expiresIn: "15m",
+            issuer: "jejuOlle"
+          });
 
-    // 클라이언트에 토큰값을 쏘자 !
+          // 클라이언트에 토큰값을 쏘자 !
 
-    res.cookie("token", token, options)
-    res.send(member);
-    members = []
+          res.cookie("token", token, options)
+          res.send(member);
+          members = []
 
-  }
-  else {
-    res.sendStatus(404);
-  }
-  console.log('loginId:', loginId, 'loginPw:', loginPw)
+        }
+        else {
+          res.sendStatus(404);
+        }
+        console.log('loginId:', loginId, 'loginPw:', loginPw)
       })
     })
-    
-  })
+
+})
 
 
 // 로그아웃 api
@@ -179,10 +177,10 @@ app.delete('/api/logout', (req, res) => {
 });
 
 // 아이디 중복 체크 api
-app.post('/api/check_id', async(req,res)=>{
+app.post('/api/check_id', async (req, res) => {
   // check_member = [];
   const chk_id = req.body.user_id._value;
-  console.log('check_id_req:',chk_id)
+  console.log('check_id_req:', chk_id)
   OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
     function (err, connection) {
       if (err) {
@@ -199,45 +197,40 @@ app.post('/api/check_id', async(req,res)=>{
           if (Object.hasOwnProperty.call(result.rows, i)) {
             let rows = result.rows[i]
             const jsonData = {
-              id : rows[0]
+              id: rows[0]
             }
-              check_member.push(jsonData)
+            check_member.push(jsonData)
           }
         }
         console.log(check_member.length)
         console.log(check_member)
-        if(check_member.length > 0){
-        for(let j=0; j <= check_member.length; j++){
+
+        for (let j = 0; j <= check_member.length; j++) {
           try {
-            if(check_member[j].id === chk_id){
+            if (check_member[j].id === chk_id) {
               let result = 1;
-              return res.send({status : 200, result : result});
+              return res.send({ status: 200, result: result });
             }
             else {
               result = 0;
             }
           } catch (err) {
             console.error(err);
-            return res.send({status: -1, result : result});
-        }   
+            return res.send({ status: -1, result: result });
+          }
         }
-      }
-      else{
-        result = 0;
-        return res.send({status: -1, result : result});
-      }
       })
     })
-    check_member = []
-  })
+  check_member = []
+})
 
 // 회원가입 api
 
-app.get('/api/signup', (req,res)=>{
+app.get('/api/signup', (req, res) => {
   res.sendStatus(200);
 });
 
-app.post('/api/signup',async(req,res)=>{
+app.post('/api/signup', async (req, res) => {
   try {
     console.log("회원가입 하는 중 !")
     const body = req.body
@@ -280,6 +273,14 @@ app.post('/hotel', function (req, res) {
         seminarRoom: req.body.seminarRoom,
         bbq: req.body.bbq,
         restaurant: req.body.restaurant,
+        jeju: req.body.jeju,
+        aewol: req.body.aewol,
+        hamdeok: req.body.hamdeok,
+        moonset: req.body.moonset,
+        gujwa: req.body.gujwa,
+        seogwipo: req.body.seogwipo,
+        seongsan: req.body.seongsan,
+        pyoseon: req.body.pyoseon,
       }
       var format = { language: 'sql', indent: ' ' }
       var query = mybatisMapper.getStatement('oracleMapper', 'getListHotelwithFilter', param, format);
@@ -336,7 +337,7 @@ app.post('/carousel', function (request, response) {
       var format = { language: 'sql', indent: ' ' }
       var query = mybatisMapper.getStatement('oracleMapper', 'getListTopTen', format);
       console.log(query)
-      connection.execute(query, {}, function (err, result) {
+      connection.execute(query, [], function (err, result) {
         if (err) {
           console.error(err.message);
           return;
@@ -364,7 +365,7 @@ app.post('/carousel', function (request, response) {
       })
     })
 });
-app.post('/charger', function (request, response) {
+app.post('/charger', function (req, res) {
   const ChargerList = [];
   OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
 
@@ -373,11 +374,21 @@ app.post('/charger', function (request, response) {
         console.error(err.message);
         return;
       }
+      var param={
+        jeju :req.body.jeju,
+        aewol:req.body.aewol,
+        hamdeok:req.body.hamdeok,
+        moonset:req.body.moonset,
+        gujwa:req.body.gujwa,
+        seogwipo:req.body.seogwipo,
+        seongsan:req.body.seongsan,
+        pyoseon:req.body.pyoseon,
+      }
 
       var format = { language: 'sql', indent: ' ' }
-      var query = mybatisMapper.getStatement('oracleMapper', 'getListCharger', format);
+      var query = mybatisMapper.getStatement('oracleMapper', 'getListCharger', param, format);
       console.log(query)
-      connection.execute(query, {}, function (err, result) {
+      connection.execute(query, [], function (err, result) {
         if (err) {
           console.error(err.message);
           return;
@@ -398,14 +409,14 @@ app.post('/charger', function (request, response) {
           }
         }
         console.log(ChargerList.length)
-        response.send(ChargerList)
+        res.send(ChargerList)
       })
     })
 });
 
 
 app.post('/reply', function (request, response) {
-  const replyData=[];
+  const replyData = [];
   OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
     function (err, connection) {
       if (err) {
@@ -432,7 +443,7 @@ app.post('/reply', function (request, response) {
               CONTENT: rows[4],
               STARRATE: rows[5],
             }
-              replyData.push(jsonData)
+            replyData.push(jsonData)
           }
         }
         console.log(replyData.length)
@@ -447,7 +458,7 @@ app.post('/reply/insert', function (request, response) {
         console.error(err.message);
         return;
       }
-      var param={
+      var param = {
         nickname: request.body.NICKNAME,
         storeid: Number(request.body.STOREID),
         content: request.body.CONTENT,
@@ -455,22 +466,22 @@ app.post('/reply/insert', function (request, response) {
       }
 
       var format = { language: 'sql', indent: ' ' }
-      var query = mybatisMapper.getStatement('oracleMapper', 'insertReply', param,format);
+      var query = mybatisMapper.getStatement('oracleMapper', 'insertReply', param, format);
       console.log(query)
       connection.execute(query, [], function (err, result) {
         if (err) {
           console.error(err.message);
           return;
         }
-        console.log('Insert 성공 : ' +result.rowsAffected)
-        connectionRelease(response,connection,result.rowsAffected)
+        console.log('Insert 성공 : ' + result.rowsAffected)
+        connectionRelease(response, connection, result.rowsAffected)
       })
     })
 });
 
 
 app.post('/store', function (request, response) {
-  const storeData=[];
+  const storeData = [];
   OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
     function (err, connection) {
       if (err) {
@@ -511,14 +522,14 @@ app.post('/store', function (request, response) {
     })
 });
 
-function connectionRelease(res,connection,result) {
+function connectionRelease(res, connection, result) {
   connection.release(function (err) {
     if (err) {
       console.log(err.message)
     }
-    res.send(''+result)
+    res.send('' + result)
   })
-  
+
 }
 
 http.createServer(app).listen(app.get('port'), () => {

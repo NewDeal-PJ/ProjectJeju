@@ -43,8 +43,7 @@ import Footer from '../../components/Home/Footer.vue';
 import LoginApi from './LoginApi.vue';
 import axios from "axios";
 import {reactive, resolveDirective} from 'vue';
-import router from 'src/router';
-
+// import router from 'src/router';
 export default{
     components: { Header, Footer, LoginApi },
     //셋업 설정

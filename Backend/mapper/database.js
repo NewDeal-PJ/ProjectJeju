@@ -31,9 +31,10 @@ module.exports = {
         const user_email = body.user_email._value
         const user_nickname = body.user_nickname._value
         console.log(body)
-        try {
-             const hashedPwd = user_pwd
-            // const hashedPwd = await bcrypt.hash(user_pwd,10)
+        try { 
+            const salt = await bcrypt.genSalt(10)
+            const hashedPwd = await bcrypt.hash(user_pwd,salt)
+            
     // Insert some data
     // 실행할 sql문과 row를 정해주고 그것을 insert 시킴
     const sql = `INSERT INTO tbl_member (USERID,PW,EMAIL,PHONE,REGDATE,UPDATEDATE,ENABLED,ROADADDR,ADDRDETAIL,ZIPNO,JIBUNADDR,NAME,BIRTHDATE,NICKNAME,PHONE2,PHONE3,AUTHEMAIL,DELSTATUS,AUTHTOKEN,GENDER) VALUES (:1,:2,:3,:4,:5,:6,:7,:8,:9,:10,:11,:12,:13,:14,:15,:16,:17,:18,:19,:20)`;

@@ -279,16 +279,16 @@ export default {
           })
         }
         else {
-          $q.notify({
-            icon: 'done',
-            color: 'orange-10',
-            message: `환영합니다 `+Nickname.value+`  회원님`
-          })
       axios
       .post("/api/signup", args)
       .then((res) => {
       state.data = res.data;
       window.location.href = 'http://localhost:9000/#/api/login';
+      $q.notify({
+            icon: 'done',
+            color: 'orange-10',
+            message: `환영합니다 `+Nickname.value+`  회원님`
+          })
       })
       //redirect logic
       .catch(()=> {

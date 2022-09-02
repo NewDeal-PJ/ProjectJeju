@@ -102,7 +102,7 @@ app.post('/api/login',(req,res)=>{
   //맞으면 로그인 처리한다.
   // 들어온 값과 서버의 값을 비교해서 유효성 검사
   const loginId = req.body.loginId;
-  const loginPw = req.body.loginPw;
+  const loginPw = req.body.loginPw
   console.log('req:',loginId,loginPw)
   OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
     function (err, connection) {
@@ -125,12 +125,14 @@ app.post('/api/login',(req,res)=>{
               loginId: rows[0],
               loginPw : rows[1]
             }
+            // if(bcrypt.checkpw(loginPw.encode('utf-8'), rows[1]))
               members.push(jsonData)
           }
         }
+
         console.log(members.length)
         console.log(members)
-        const member = members.find(m => m.loginId === loginId && m.loginPw === loginPw)
+        const member = members.find(m => m.loginId === loginId && bcrypt.compare(loginPw, m.loginPw))
          //member값이 있으면 member 정보를 send, 없으면 없다고 보냄
   if (member) {
     const options = {

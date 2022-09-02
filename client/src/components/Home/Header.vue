@@ -5,9 +5,9 @@
           <a href="http://localhost:9000" style="color: white;"> <div class="headTitle">  Jeju Olle?  </div></a>
           <ul class="headMenu">
             <a href="http://localhost:9000" style="color: white; padding-left: 3%;"> Home</a>
-            <a href="http://localhost:9000/#/shop"  style="color: white; padding-left: 3%;"> Shop</a>
-            <a href="http://localhost:9000/#/cart1"  style="color: white; padding-left: 3%;"> Cart</a>
-            <a href="http://localhost:9000/#/mypage" style="color: white; padding-left: 3%;"> MyPage</a>
+            <a href="http://localhost:9000/#/api/shop"  style="color: white; padding-left: 3%;"> Shop</a>
+            <a href="http://localhost:9000/#/api/cart1"  style="color: white; padding-left: 3%;"> Cart</a>
+            <a href="http://localhost:9000/#/api/mypage" style="color: white; padding-left: 3%;"> MyPage</a>
             <div v-if="state.account.name">
             <a href="http://localhost:9000/#/api/logout" @click='logout()' style="color: white; padding-left: 3%;"> 
             LogOut</a>
@@ -15,7 +15,7 @@
             <div v-else>
             <a href="http://localhost:9000/#/api/login" style="color: white; padding-left: 3%;"> LogIn</a>
           </div>
-            <a href="http://localhost:9000/#/CustomerService" style="color: white; padding-left: 3%;">Q&A</a>
+            <a href="http://localhost:9000/#/api/CustomerService" style="color: white; padding-left: 3%;">Q&A</a>
           </ul>
         </div>
         </div>

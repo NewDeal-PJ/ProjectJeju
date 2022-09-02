@@ -1,22 +1,24 @@
 <template>
-    <Header></Header>
-        <div class="writingBox1">
-            <p> My Comment </p>
-            <div class="writingBox2">
-              <div class="writingBox">
-                <table class="writingBoxTable">
-                  <tr style="background-color: #E7E7E7;">
-                    <th> 작성한 글 </th>
-                    <th> 수정 </th>
-                    <th> 삭제 </th>
-                  </tr>
-                    <td>
-                      <div class="foodDetailReview" style=" width: 50%; margin: 0 auto;padding: 20px;">
+  <Header></Header>
+      <div class="writingInfoBox1">
+          <p> My Comment </p>
+          <div>
+    <div  style=" margin:0 auto; max-width: 80%;">
+
+      <q-markup-table :separator="separator" flat >
+        <thead>
+          <tr>
+            <th class="text-middle" style="font-weight: bold; font-size: 15px; background-color: #FAEBD7"> 작성한 글 </th>
+            <th class="text-middle " style="font-weight: bold; font-size: 15px; background-color:#FAEBD7"> 수정</th>
+            <th class="text-middle " style="font-weight: bold; font-size: 15px; background-color:#FAEBD7"> 삭제</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <div class="foodDetailReview" style=" width: 50%; margin: 0 auto;padding: 20px;">
                         <div>
-                            <div class="foodDetailNickname" style=" font-weight: bold; font-size: 18px;">
-                              닉네임
-                            </div>
-                            <div style="display: flex;">
+                            <div style="display: flex; font-size: 15px;">
+                              <span> 닉네임 </span>
                               <span> ⭐️⭐️⭐️⭐️⭐️</span>
                               <span> YYYY.MM.DD</span>
                             </div>
@@ -28,60 +30,63 @@
                             </div>
                         </div>
                       </div>
-                    </td>
 
-                    <td> <span class="modifyContainer" style="color: black;" v-on:click="ModifyComment">
-                         <i class="fas fa-pencil" aria-hidden="true"></i> </span></td>
-                    <td> <span class="removeContainer" style="color: red;" v-on:click="RemoveComment">
-                         <i class="fa-solid fa-trash-can" aria-hidden="true"></i> </span></td>
-                </table>
-              </div>
-            </div>
+            <td class="text-middle"> <span class="ModifyContainer"
+              v-on:click="ModifyComment">
+              <i class="fas fa-pencil"></i> </span> </td>
 
-        </div>
+            <td class="text-middle"> <span class="removeContainer" style="color: red;" v-on:click="RemoveComment">
+              <i class="fa-solid fa-trash-can" aria-hidden="true"></i> </span> </td>
+          </tr>
+        </tbody>
+      </q-markup-table>
+    </div>
+    </div>
 
-    <Footer></Footer>
-    </template>
+      </div>
 
-    <script>
-    import Header from 'src/components/Home/Header.vue';
-    import Footer from '../../components/Home/Footer.vue';
+  <Footer></Footer>
+  </template>
 
-    export default{
-        components: { Header, Footer }
-    }
-    </script>
+  <script>
+  import Header from 'src/components/Home/Header.vue';
+  import Footer from '../../components/Home/Footer.vue';
+
+  export default{
+      components: { Header, Footer }
+  }
+  </script>
 
 
-    <style>
-    .writingBox1{
-      text-align: center;
-      font-size: 35px;
-      font-weight: bold;
-      margin-top: 70px;
-      font-family: 'Rubik', sans-serif;
-      margin-bottom: 70px;
-    }
+  <style>
+  .writingInfoBox1{
+    text-align: center;
+    font-size: 35px;
+    font-weight: bold;
+    margin-top: 70px;
+    font-family: 'Rubik', sans-serif;
+    margin-bottom: 70px;
+  }
 
-    .writingBox2{
-    margin: 0 auto;
-    padding-bottom: 20px;
-    width: 70%;
-    }
+  .likeBox2{
+  margin: 0 auto;
+  padding-bottom: 20px;
+  width: 70%;
+  }
 
-    .writingBox{
-        padding: 1% 1%;
-        }
+  .likeBox{
+      padding: 1% 1%;
+      }
 
-    .writingBoxTable{
-     width: 100%; font-size: 16px;
-    }
+  .likeBoxTable{
+   width: 100%; font-size: 16px;
+  }
 
-    .writingDetailBoxTable{
-      font-size: 16px; width: 70%; margin: 0 auto; text-align: center; padding: 20px 0px;
-    }
+  .likeDetailBoxTable{
+    font-size: 16px; width: 70%; margin: 0 auto; text-align: center; padding: 20px 0px;
+  }
 
-    img{
+  img{
   max-width:100%;
   max-height:100%;
 
@@ -92,5 +97,4 @@
  width: 300px;
  margin: 0 auto;
 }
-
-    </style>
+  </style>

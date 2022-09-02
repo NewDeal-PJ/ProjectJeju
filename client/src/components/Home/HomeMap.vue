@@ -5,6 +5,16 @@ div(class="q-pa-md")
     q-radio(v-model="category" val="2" label="펜션" color="amber-9")
     hr
   div(class="q-gutter-sm")
+    q-radio(v-model="locationFilter" val="jeju" color="amber-9") 제주시
+    q-radio(v-model="locationFilter" val="aewol" color="amber-9") 애월
+    q-radio(v-model="locationFilter" val="hamdeok" color="amber-9") 함덕
+    q-radio(v-model="locationFilter" val="moonset" color="amber-9") 월정
+    q-radio(v-model="locationFilter" val="gujwa" color="amber-9") 구좌
+    q-radio(v-model="locationFilter" val="seogwipo" color="amber-9") 서귀포
+    q-radio(v-model="locationFilter" val="seongsan" color="amber-9") 성산
+    q-radio(v-model="locationFilter" val="pyoseon" color="amber-9") 표선
+    hr
+  div(class="q-gutter-sm")
     q-checkbox(v-model="filter" val="wifi" color="amber-9") Wifi
     q-checkbox(v-model="filter" val="tv" color="amber-9") TV
     q-checkbox(v-model="filter" val="airConditioner" color="amber-9") 에어컨
@@ -24,8 +34,8 @@ div(class="q-pa-md")
     q-checkbox(v-model="filter" val="freeParking" color="amber-9") 무료주차가능
     q-checkbox(v-model="filter" val="cooking" color="amber-9") 취사가능
   div(class="q-px-sm")
-  q-btn(@click="displayHotel(category, filter)") 숙소
-  q-btn(@click="displayCharger(chargerMarkerPositions)") 전기차충전소
+  q-btn(@click="displayHotel(category, filter, locationFilter)") 숙소
+  q-btn(@click="displayCharger(locationFilter)") 전기차충전소
 
 div(id="map" style="width:100%;height:700px;margin:0 auto; overflow:hidden; border:1px solid;")
 
@@ -88,7 +98,8 @@ export default {
   setup() {
     return {
       category: ref('1'),
-      filter: ref([])
+      filter: ref([]),
+      locationFilter: ref([])
     }
   },
   name: "KakaoMap",
@@ -119,28 +130,60 @@ export default {
         };
       this.map = new kakao.maps.Map(mapContainer, mapOption);
     },
-    displayHotel(selectedCategory, selectedFilter) {
+    displayHotel(selectedCategory, selectedFilter, locationFilter) {
       if (this.hotelMarkers.length > 0) {
         this.hotelMarkers.forEach((marker) => marker.setMap(null));
       }
       this.hotelMarkers = [];
       this.hotelMarkerPositions = [];
-      let wifi;
-      let tv;
-      let airConditioner;
-      let miniBar;
-      let refrigerator;
-      let bathTub;
-      let karaoke;
-      let convenienceStore;
-      let parkingLot;
-      let seminarRoom;
-      let bbq;
-      let restaurant;
-      let pickup;
-      let breakfast;
-      let freeParking;
-      let cooking;
+      let wifi,
+        tv,
+        airConditioner,
+        miniBar,
+        refrigerator,
+        bathTub,
+        karaoke,
+        convenienceStore,
+        parkingLot,
+        seminarRoom,
+        bbq,
+        restaurant,
+        pickup,
+        breakfast,
+        freeParking,
+        cooking
+      let jeju,
+        aewol,
+        hamdeok,
+        moonset,
+        gujwa,
+        seogwipo,
+        seongsan,
+        pyoseon
+      if (locationFilter.includes('jeju')) {
+        jeju = 1
+      }
+      if (locationFilter.includes('aewol')) {
+        aewol = 1
+      }
+      if (locationFilter.includes('hamdeok')) {
+        hamdeok = 1
+      }
+      if (locationFilter.includes('moonset')) {
+        moonset = 1
+      }
+      if (locationFilter.includes('gujwa')) {
+        gujwa = 1
+      }
+      if (locationFilter.includes('seogwipo')) {
+        seogwipo = 1
+      }
+      if (locationFilter.includes('seongsan')) {
+        seongsan = 1
+      }
+      if (locationFilter.includes('pyoseon')) {
+        pyoseon = 1
+      }
       if (selectedFilter.includes('wifi')) {
         wifi = 1
       }
@@ -195,22 +238,30 @@ export default {
         url: 'http://localhost:3000/hotel',
         data: {
           category: selectedCategory[0],
-          wifi: wifi,
-          tv: tv,
-          airConditioner: airConditioner,
-          miniBar: miniBar,
-          refrigerator: refrigerator,
-          bathTub: bathTub,
-          karaoke: karaoke,
-          convenienceStore: convenienceStore,
-          parkingLot: parkingLot,
-          seminarRoom: seminarRoom,
-          bbq: bbq,
-          restaurant: restaurant,
-          pickup: pickup,
-          breakfast: breakfast,
-          freeParking: freeParking,
-          cooking: cooking,
+          wifi,
+          tv,
+          airConditioner,
+          miniBar,
+          refrigerator,
+          bathTub,
+          karaoke,
+          convenienceStore,
+          parkingLot,
+          seminarRoom,
+          bbq,
+          restaurant,
+          pickup,
+          breakfast,
+          freeParking,
+          cooking,
+          jeju,
+          aewol,
+          hamdeok,
+          moonset,
+          gujwa,
+          seogwipo,
+          seongsan,
+          pyoseon,
         },
         headers: { 'X-Requested-With': 'XMLHttpRequest' },
         responseType: 'json'
@@ -246,15 +297,58 @@ export default {
           console.log(error.toJSON());
         })
     },
-    displayCharger() {
+    displayCharger(locationFilter) {
       if (this.chargerMarkers.length > 0) {
         this.chargerMarkers.forEach((marker) => marker.setMap(null));
       }
       this.chargerMarkers = [];
       this.chargerMarkerPositions = [];
+      let jeju,
+        aewol,
+        hamdeok,
+        moonset,
+        gujwa,
+        seogwipo,
+        seongsan,
+        pyoseon
+      if (locationFilter.includes('jeju')) {
+        jeju = 1
+      }
+      if (locationFilter.includes('aewol')) {
+        aewol = 1
+      }
+      if (locationFilter.includes('hamdeok')) {
+        hamdeok = 1
+      }
+      if (locationFilter.includes('moonset')) {
+        moonset = 1
+      }
+      if (locationFilter.includes('gujwa')) {
+        gujwa = 1
+      }
+      if (locationFilter.includes('seogwipo')) {
+        seogwipo = 1
+      }
+      if (locationFilter.includes('seongsan')) {
+        seongsan = 1
+      }
+      if (locationFilter.includes('pyoseon')) {
+        pyoseon = 1
+      }
+      console.log(jeju)
       axios({
         method: 'post',
         url: 'http://localhost:3000/charger',
+        data: {
+          jeju : jeju,
+          aewol :aewol,
+          hamdeok :hamdeok,
+          moonset :moonset,
+          gujwa : gujwa,
+          seogwipo :seogwipo,
+          seongsan:seongsan,
+          pyoseon :pyoseon,
+        },
         headers: { 'X-Requested-With': 'XMLHttpRequest' },
         responseType: 'json'
       })
@@ -489,6 +583,7 @@ export default {
   cursor: default;
   color: #777;
 }
+
 .body--dark {
   background: #000
 }

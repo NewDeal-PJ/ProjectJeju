@@ -64,19 +64,23 @@
     WHERE HOTELID IS NOT NULL
   <include refid="filter"></include>
   </select>
+  
   <select id="getListCharger">
     SELECT
     * FROM TBL_CHARGERLOC
   </select>
+
   <select id="getListTopTen">
     SELECT * FROM (
       select * from TBL_HOTEL NATURAL JOIN TBL_HOTEL_ATTACH where starrate is not null ORDER BY STARRATE DESC
       ) WHERE ROWNUM<![CDATA[ <= ]]>10
   </select>
+
   <select id="getListReply">
     SELECT
     * FROM TBL_REPLY ORDER BY RNO
   </select>
+
   <select id="getListStore">
     SELECT
     * FROM TBL_STORE ORDER BY STOREID

@@ -63,7 +63,7 @@
 		AND ADDRESS like '%애월%'
 	</if>
 	<if test="hamdeok == 1">
-		AND ADDRESS like '%애월%'
+		AND ADDRESS like '%함덕%'
 	</if>
 	<if test="moonset == 1">
 		AND ADDRESS like '%월정%'

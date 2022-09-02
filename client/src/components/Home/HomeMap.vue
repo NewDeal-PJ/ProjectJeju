@@ -232,7 +232,7 @@ export default {
       if (selectedFilter.includes('cooking')) {
         cooking = 1
       }
-      console.log(wifi)
+      console.log(jeju)
       axios({
         method: 'post',
         url: 'http://localhost:3000/hotel',

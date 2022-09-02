@@ -222,6 +222,7 @@ app.post('/api/check_id', async(req,res)=>{
         }
       }
       else{
+        result = 0;
         return res.send({status: -1, result : result});
       }
       })

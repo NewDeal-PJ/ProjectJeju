@@ -10,7 +10,7 @@ const bcrypt = require('bcrypt')
 const saltRounds = 10
 let sysdate = new Date();
 console.log(sysdate)
-
+OracleDB.autoCommit = true;
 
 
 

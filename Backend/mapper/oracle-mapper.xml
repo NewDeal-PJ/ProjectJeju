@@ -56,6 +56,30 @@
 	<if test="freeParking == 1">
 		AND FREEPARKING = 1
 	</if>
+	<if test="jeju == 1">
+		AND address like '%제주시%'
+	</if>
+	<if test="aewol == 1">
+		AND address like '%애월%'
+	</if>
+	<if test="hamdeok == 1">
+		AND address like '%애월%'
+	</if>
+	<if test="moonset == 1">
+		AND address like '%월정%'
+	</if>
+	<if test="gujwa == 1">
+		AND address like '%구좌%'
+	</if>
+	<if test="seogwipo == 1">
+		AND address like '%서귀포%'
+	</if>
+	<if test="seongsan == 1">
+		AND address like '%성산%'
+	</if>
+	<if test="pyoseon == 1">
+		AND address like '%표선%'
+	</if>
  </sql>
 
   <select id="getListHotelwithFilter">
@@ -68,6 +92,8 @@
   <select id="getListCharger">
     SELECT
     * FROM TBL_CHARGERLOC
+	WHERE CHAGERID IS NOT NULL
+	<include refid="filter"></include>
   </select>
 
   <select id="getListTopTen">

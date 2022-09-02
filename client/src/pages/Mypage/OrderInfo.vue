@@ -1,5 +1,57 @@
 <template>
   <Header></Header>
+
+  <!-- 스테퍼 작업중 -->
+  <!-- <div>
+    <div class="q-pa-md">
+      <q-stepper
+        v-model="step"
+        ref="stepper"
+        contracted
+        color="primary"
+        animated
+      >
+        <q-step
+          :name="1"
+          title="Select campaign settings"
+          icon="car"
+          :done="step > 1"
+        >
+          For each ad campaign that you create, you can control how much you're willing to
+          spend on clicks and conversions, which networks and geographical locations you want
+          your ads to show on, and more.
+        </q-step>
+
+        <q-step
+          :name="2"
+          title="Create an ad group"
+          caption="Optional"
+          icon="car"
+          :done="step > 2"
+        >
+          An ad group contains one or more ads which target a shared set of keywords.
+        </q-step>
+
+        <q-step
+          :name="3"
+          title="Create an ad"
+          icon="car"
+        >
+          Try out different ad text to see what brings in the most customers, and learn how to
+          enhance your ads using features like ad extensions. If you run into any problems with
+          your ads, find out how to tell if they're running and how to resolve approval issues.
+        </q-step>
+
+        <template v-slot:navigation>
+          <q-stepper-navigation>
+            <q-btn @click="$refs.stepper.next()" color="primary" :label="step === 3 ? 'Finish' : 'Continue'" />
+            <q-btn v-if="step > 1" flat color="primary" @click="$refs.stepper.previous()" label="Back" class="q-ml-sm" />
+          </q-stepper-navigation>
+        </template>
+      </q-stepper>
+    </div>
+  </div> -->
+
   <div id="join-wrap">
 
         <div class="cartInfo2" style="text-align: center;">
@@ -71,15 +123,16 @@
 
   </div>
 
-  <div class="orderInfoButton" >
-          <div class="q-pa-md q-gutter-md">
-            <q-btn style="color: white; background-color: #F79a38; width: 150px;
-            height: 30px; margin: 0 auto; display: block; " >
-            <div style="font-size: 15px; font-weight: 900;
-             font-family: 'Noto Sans KR', sans-serif;"> 취소하기</div>
-            </q-btn>
+    <div class="orderInfoButton">
+            <div class="q-pa-md q-gutter-md form-group">
+              <q-btn @click="confirm" style="color: white; background-color: #FF9800; width: 300px;
+            height: 40px; margin: 0 auto; display: block; ">
+              <div style="font-size: 18px; font-weight: 200;
+            font-family: 'Noto Sans KR', sans-serif;">취소하기</div>
+              </q-btn>
+            </div>
           </div>
-        </div>
+
 
   <Footer></Footer>
   </template>
@@ -87,9 +140,39 @@
   <script>
   import Header from 'src/components/Home/Header.vue';
   import Footer from '../../components/Home/Footer.vue';
+  import { ref } from 'vue';
+  import { useQuasar } from 'quasar'
   export default{
+    setup () {
+      const $q = useQuasar()
+
+      function confirm () {
+      $q.dialog({
+        title: 'Confirm',
+        message: '취소하시겠습니까?',
+        cancel: true,
+        persistent: true
+      }).onOk(() => {
+        // console.log('>>>> OK')
+      }).onOk(() => {
+        // console.log('>>>> second OK catcher')
+      }).onCancel(() => {
+        // console.log('>>>> Cancel')
+      }).onDismiss(() => {
+        // console.log('I am triggered on both OK and Cancel')
+      })
+      }
+    return { confirm,
+      step: ref(1)
+    }
+  },
+
       components: { Header, Footer }
   }
+
+
+
+
   </script>
 
   <style>

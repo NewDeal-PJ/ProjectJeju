@@ -487,19 +487,30 @@ app.post('/reply/insert', function (request, response) {
 });
 
 
-app.post('/store', function (request, response) {
-  const storeData = [];
+app.post('/store', function (req, res) {
+  const StoreList = [];
   OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
+
     function (err, connection) {
       if (err) {
         console.error(err.message);
         return;
       }
+      var param={
+        jeju :req.body.jeju,
+        aewol:req.body.aewol,
+        hamdeok:req.body.hamdeok,
+        moonset:req.body.moonset,
+        gujwa:req.body.gujwa,
+        seogwipo:req.body.seogwipo,
+        seongsan:req.body.seongsan,
+        pyoseon:req.body.pyoseon,
+      }
 
       var format = { language: 'sql', indent: ' ' }
-      var query = mybatisMapper.getStatement('oracleMapper', 'getListStore', format);
+      var query = mybatisMapper.getStatement('oracleMapper', 'getListStore', param, format);
       console.log(query)
-      connection.execute(query, {}, function (err, result) {
+      connection.execute(query, [], function (err, result) {
         if (err) {
           console.error(err.message);
           return;
@@ -510,21 +521,25 @@ app.post('/store', function (request, response) {
             const jsonData = {
               STOREID: rows[0],
               STORENAME: rows[1],
-              CATEGORY: rows[2],
-              ADDRESS: rows[3],
-              LATITUDE: rows[4],
-              LONGITUDE: rows[5],
-              OPEN: rows[6],
-              TEL: rows[7],
-              INFO: rows[8],
-              KEYWORD: rows[9],
-              STARRATE: rows[10]
+              CATEGORY:rows[2],
+              INFO: rows[3],
+              KEYWORD : rows[4],
+              LONGITUDE : rows[5],
+              STARRATE : rows[6],
+              LONGITUDE: rows[7],
+              LATITUDE: rows[8],
+              OPEN: rows[9],
+              TEL: rows[10],
+              UUID: rows[11],
+              PATH: rows[12],
             }
-            storeData.push(jsonData)
+            if (StoreList.length < result.rows.length) {
+              StoreList.push(jsonData)
+            }
           }
         }
-        console.log(storeData.length)
-        response.send(storeData)
+        console.log(StoreList.length)
+        res.send(StoreList)
       })
     })
 });

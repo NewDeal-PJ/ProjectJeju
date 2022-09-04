@@ -102,15 +102,18 @@
       ) WHERE ROWNUM<![CDATA[ <= ]]>10
   </select>
 
+  <select id="getListStore">
+    SELECT
+    * FROM V_STORE
+	WHERE STOREID IS NOT NULL
+	<include refid="filter"></include>
+  </select>
+
   <select id="getListReply">
     SELECT
     * FROM TBL_REPLY ORDER BY REGDATE DESC
   </select>
 
-  <select id="getListStore">
-    SELECT
-    * FROM TBL_STORE ORDER BY STOREID
-  </select>
   <insert id="insertReply">
 	INSERT INTO TBL_REPLY(RNO,NICKNAME,REGDATE,STOREID,CONTENT,STARRATE) 
 	VALUES(SEQ_REPLY.NEXTVAL,#{nickname},SYSDATE,#{storeid},#{content},#{starrate})

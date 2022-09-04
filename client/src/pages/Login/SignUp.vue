@@ -5,21 +5,21 @@
     <!-- 실제사용할때 보낼 페이지url 넣기  -->
     <div style="margin: 70px; border-radius: 10px;">
       <p class="SignUpTitle"> Sign up </p>
-      <form action="http://localhost:9000/#/" @submit.prevent.stop="onSubmit" @reset.prevent.stop="onReset" class="q-gutter-md">
-      <table class="SignUpJointable">
+      <form action="http://localhost:9000/#/" @submit.prevent.stop="onSubmit" @reset.prevent.stop="onReset"
+        class="q-gutter-md">
+        <table class="SignUpJointable">
 
           <tr>
             <th class="SignUpFirst"><label for="user_id"> 아이디</label></th>
             <td style="padding-top: 20px; display: flex;">
-              <div class="q-gutter-md form-group"
-                style="width: 310px;">
+              <div class="q-gutter-md form-group" style="width: 310px;">
                 <q-input ref="IDRef" outlined v-model="ID" :dense="dense" id="user_id" lazy-rules :rules="IDRules"
                   required autofocus />
                 <!-- <input type="text" id="user_id" class="textForm" required autofocus> -->
               </div>
               <div class="CheckButton">
                 <div class="q-pa-md q-gutter-md form-group">
-                  <q-btn @click="check_id()" style="color: white; background-color: #FF9800; width: 85px;
+                  <q-btn @click="check_id(i)" v-model="IDChk" style="color: white; background-color: #FF9800; width: 85px;
                 height: 30px; margin: 0 auto; display: block; margin-left: 5px;">
                     <div style="font-size: 14px; font-weight: 500;
                 font-family: 'Noto Sans KR', sans-serif;">중복확인</div>
@@ -31,28 +31,35 @@
           <tr>
             <th><label for="user_pwd"> 비밀번호</label></th>
             <td style="padding-top: 20px; display: flex;">
-              <div class="q-gutter-md form-group"
-                style="width: 400px;">
-                <q-input ref="PWDRef" type="password" outlined v-model="PWD" :dense="dense" id="user_pwd" lazy-rules
-                  :rules="PWDRules" required />
+              <div class="q-gutter-md form-group" style="width: 400px;">
+                <q-input ref="PWDRef" :type="isPwd ? 'password' : 'text'" outlined v-model="PWD" :dense="dense"
+                  id="user_pwd" lazy-rules :rules="PWDRules" required>
+                  <template v-slot:append>
+                    <q-icon :name="isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer"
+                      @click="isPwd = !isPwd" />
+                  </template>
+                </q-input>
               </div>
             </td>
           </tr>
           <tr>
             <th><label for="user_pwdChk">비밀번호 확인 </label></th>
             <td style="padding-top: 20px; display: flex;">
-              <div class="q-gutter-md form-group"
-                style="width: 400px;">
-                <q-input ref="PWDChkRef" type="password" outlined v-model="PWDChk" :dense="dense" id="user_pwdChk" lazy-rules
-                  :rules="PWDChkRules" required />
+              <div class="q-gutter-md form-group" style="width: 400px;">
+                <q-input ref="PWDChkRef" :type="isPwd ? 'password' : 'text'" outlined v-model="PWDChk" :dense="dense"
+                  id="user_pwdChk" lazy-rules :rules="PWDChkRules" required>
+                  <template v-slot:append>
+                    <q-icon :name="isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer"
+                      @click="isPwd = !isPwd" />
+                  </template>
+                </q-input>
               </div>
             </td>
           </tr>
           <tr>
             <th><label for="user_name">이름 </label></th>
             <td style="padding-top: 20px; display: flex;">
-              <div  class="q-gutter-md form-group"
-                style="width: 400px;">
+              <div class="q-gutter-md form-group" style="width: 400px;">
                 <q-input ref="NameRef" outlined v-model="Name" :dense="dense" id="user_name" lazy-rules
                   :rules="NameRules" required />
               </div>
@@ -62,12 +69,12 @@
             <th><label for="date">생년월일 (6자리) </label></th>
             <td style="padding-top: 20px; display: flex;">
               <div class="q-gutter-md form-group" style="width: 400px;">
-                <q-btn-toggle v-model= gender no-caps toggle-color="orange" color="white" text-color="black"
-                  :options="[
-                    { label: '남', value: '1' },
-                    { label: '여', value: '2' }
-                  ]" style="width: 90px; height: 30px; float: right;" />
-                <q-input ref="dateRef" outlined v-model="date" :dense="dense" id="date" lazy-rules :rules="dateRules" required/>
+                <q-btn-toggle v-model=gender no-caps toggle-color="orange" color="white" text-color="black" :options="[
+                  { label: '남', value: '1' },
+                  { label: '여', value: '2' }
+                ]" style="width: 90px; height: 30px; float: right;" />
+                <q-input ref="dateRef" outlined v-model="date" :dense="dense" id="date" lazy-rules :rules="dateRules"
+                  required />
               </div>
             </td>
           </tr>
@@ -75,20 +82,17 @@
           <tr>
             <th><label for="user_tel">연락처 </label></th>
             <td style="padding-top: 20px; display: flex;">
-              <div  class="q-gutter-md form-group"
-                style="width: 150px;">
+              <div class="q-gutter-md form-group" style="width: 150px;">
                 <q-input ref="TelRef" outlined v-model="Tel" :dense="dense" id="user_tel" lazy-rules :rules="TelRules"
-                  style="width: 80%; float: left;"  required/>
+                  style="width: 80%; float: left;" required />
               </div>
-              <div  class="q-gutter-md form-group"
-                style="width: 150px;">
+              <div class="q-gutter-md form-group" style="width: 150px;">
                 <q-input ref="TelRef2" outlined v-model="Tel2" :dense="dense" id="user_tel2" lazy-rules
-                  :rules="TelRules2" style="width: 80%; float: left;" required/>
+                  :rules="TelRules2" style="width: 80%; float: left;" required />
               </div>
-              <div class="q-gutter-md form-group"
-                style="width: 150px;">
+              <div class="q-gutter-md form-group" style="width: 150px;">
                 <q-input ref="TelRef3" outlined v-model="Tel3" :dense="dense" id="user_tel3" lazy-rules
-                  :rules="TelRules3" style="width: 80%; float: left;" required/>
+                  :rules="TelRules3" style="width: 80%; float: left;" required />
               </div>
             </td>
           </tr>
@@ -96,8 +100,7 @@
           <tr>
             <th><label for="user_email">이메일 </label></th>
             <td style="padding-top: 20px; display: flex;">
-              <div class="q-gutter-md form-group"
-                style="width: 400px;">
+              <div class="q-gutter-md form-group" style="width: 400px;">
                 <q-input ref="emailRef" outlined v-model="email" :dense="dense" id="user_email" lazy-rules
                   :rules="emailRules" required />
               </div>
@@ -107,10 +110,9 @@
           <tr>
             <th><label for="user_nickname">닉네임 </label></th>
             <td style="padding-top: 20px; display: flex;">
-              <div class="q-gutter-md form-group"
-                style="width: 400px;">
+              <div class="q-gutter-md form-group" style="width: 400px;">
                 <q-input ref="NicknameRef" outlined v-model="Nickname" :dense="dense" id="user_nickname" lazy-rules
-                  :rules="NicknameRules" required/>
+                  :rules="NicknameRules" required />
               </div>
             </td>
           </tr>
@@ -121,13 +123,13 @@
           <div class="q-pa-md q-gutter-md form-group">
             <q-btn @click="onsubmit()" style="color: white; background-color: #FF9800; width: 300px;
           height: 40px; margin: 0 auto; display: block; ">
-            <div style="font-size: 18px; font-weight: 500;
+              <div style="font-size: 18px; font-weight: 500;
            font-family: 'Noto Sans KR', sans-serif;">가입하기</div>
             </q-btn>
           </div>
         </div>
       </form>
-      </div>
+    </div>
 
   </div>
   <Footer></Footer>
@@ -138,11 +140,12 @@ import Header from 'src/components/Home/Header.vue';
 import Footer from '../../components/Home/Footer.vue';
 import { useQuasar } from 'quasar';
 import { ref } from 'vue';
-import {reactive} from 'vue';
+import { reactive } from 'vue';
 import axios from 'axios';
 export default {
   components: { Header, Footer },
   setup() {
+    const IDChk = ref(null)
     const $q = useQuasar();
     const ID = ref(null)
     const IDRef = ref(null)
@@ -165,10 +168,16 @@ export default {
     const NicknameRef = ref(null)
     const email = ref(null)
     const emailRef = ref(null)
+    const alerts = [
+      { color: 'negative', message: '중복된 아이디가 존재합니다.' },
+      { color: 'orange-7', message: '사용가능한 아이디입니다.' },
+    ]
     const state = reactive({
-      data : [],
+      data: [],
     });
     return {
+      IDChk,
+      isPwd: ref(true),
       gender,
       state,
       dense: ref(true),
@@ -203,7 +212,7 @@ export default {
         val => (val && val.length > 0) || '이름을 입력해주세요.',
         val => (!(/\s/.test(val))) || '이름은 공백이 들어갈 수 없습니다.',
         val => (!(/[`"'\\/~!@#$%^&*()_+|<>?;:[{}=,.-/]/.test(val))) || '이름은 한글, 영문만 가능합니다.',
-        val => (!(/^[0-9]*$/.test(val))) || '이름은 한글, 영문만 가능합니다.',
+        val => (!(/[0-9]/.test(val))) || '이름은 한글, 영문만 가능합니다.',
       ],
       date,
       dateRef,
@@ -259,41 +268,63 @@ export default {
         TelRef3.value.validate()
         NicknameRef.value.validate()
         emailRef.value.validate()
-
-        const args = {
-        user_id : ID,
-        user_pwd : PWD,
-        user_name : Name,
-        user_birth : date,
-        user_gender : gender,
-        user_tel1 : Tel,
-        user_tel2 : Tel2,
-        user_tel3 : Tel3,
-        user_email : email,
-        user_nickname : Nickname
-      };
-        if (IDRef.value.hasError || PWDRef.value.hasError || PWDChkRef.value.hasError ||NameRef.value.hasError||dateRef.value.hasError||TelRef.value.hasError||TelRef2.value.hasError||TelRef3.value.hasError||NicknameRef.value.hasError||emailRef.value.hasError) {
+        if (IDChk.value == null) {
           $q.notify({
             color: 'negative',
-            message: 'You need to accept the license and terms first'
+            message: 'ID 중복확인을 해주세요.',
+            position: 'center'
           })
         }
         else {
-      axios
-      .post("/api/signup", args)
-      .then((res) => {
-      state.data = res.data;
-      window.location.href = 'http://localhost:9000/#/api/login';
-      $q.notify({
-            icon: 'done',
-            color: 'orange-10',
-            message: `환영합니다 `+Nickname.value+`  회원님`
-          })
-      })
-      //redirect logic
-      .catch(()=> {
-        alert("회원가입에 실패하셧습니다.")
-      })
+          
+          if (gender.value == null) {
+            console.log(IDChk.value)
+            $q.notify({
+              color: 'negative',
+              position: 'center',
+              message: '성별을 선택해주세요.'
+            })
+          }
+          else {
+            const args = {
+              user_id: ID,
+              user_pwd: PWD,
+              user_name: Name,
+              user_birth: date,
+              user_gender: gender,
+              user_tel1: Tel,
+              user_tel2: Tel2,
+              user_tel3: Tel3,
+              user_email: email,
+              user_nickname: Nickname
+            };
+            if (IDRef.value.hasError || PWDRef.value.hasError || PWDChkRef.value.hasError || NameRef.value.hasError || dateRef.value.hasError || TelRef.value.hasError || TelRef2.value.hasError || TelRef3.value.hasError || NicknameRef.value.hasError || emailRef.value.hasError) {
+              $q.notify({
+                color: 'negative',
+                message: '필수 정보를 입력해주세요.'
+              })
+            }
+            else {
+              axios
+                .post("/api/signup", args)
+                .then((res) => {
+                  state.data = res.data;
+                  window.location.href = 'http://localhost:9000/#/api/login';
+                  $q.notify({
+                    color: 'orange-7',
+                    icon: 'thumb_up',
+                    message: `환영합니다 ` + Nickname.value + ` 님`,
+                    position: 'center',
+                    timeout: 1200
+                  })
+                })
+                //redirect logic
+                .catch(function (error) {
+                  // 에러 핸들링
+                  console.log(error.toJSON());
+                })
+            }
+          }
         }
       },
 
@@ -306,27 +337,41 @@ export default {
         PWDRef.value.resetValidation()
         PWDChkRef.value.resetValidation()
       },
-      check_id() {
-        const args = {
-        user_id : ID
-      };
-      axios
-      .post("/api/check_id", args)
-      .then((res) => {
-      state.data = res.data;
-      if(res.data.result === 1){
-        alert('중복된 아이디가 존재합니다.')
-        this.$refs.id.focus();
-        return false;
-      }
-      if(res.data.result === 0){
-        alert('사용가능한 아이디입니다')
-        this.$refs.pw.focus();
-      }    
+      check_id(i) {
+        if (!(IDRef.value.hasError)) {
+          const args = {
+            user_id: ID
+          };
+          axios
+            .post("/api/check_id", args)
+            .then((res) => {
+              state.data = res.data;
+              if (res.data.result === 1) {
+                i = 0
+                this.showNotif('center', i)
+                this.$refs.id.focus();
+                return false;
+              }
+              if (res.data.result === 0) {
+                i = 1
+                this.showNotif('center', i)
+                IDChk.value=true
+                this.$refs.pw.focus();
+              }
+            })
+        }
+        //redirect logic
+      },
+      showNotif(position, i) {
+        const { color, icon, message } = alerts[i]
 
-      
-      })
-      //redirect logic
+        $q.notify({
+          color,
+          icon,
+          message,
+          position,
+          timeout: 1000
+        })
       }
     }
   }

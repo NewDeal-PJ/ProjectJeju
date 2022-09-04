@@ -85,12 +85,21 @@ export default {
 
       axios.post("/api/login", args).then((res) => {
         //로그인에 성공
-        $q.notify({
+        state.account = res.data;
+        if(res.data.id=='admin'){
+          $q.notify({
+              color: 'orange-7',
+              position: 'center',
+              message: '관리자님, 오셨군요. 관리자 페이지로 이동하시겠습니까?'
+            })
+        }
+        else{
+          $q.notify({
             color: 'orange-7',
             position: 'center',
             message: '로그인 성공! 즐거운 여행 되세요!'
           })
-        state.account = res.data;
+        }
         window.location.href = 'http://localhost:9000/#/';
         //로그인 성공시 '/' 페이지로 이동
       })

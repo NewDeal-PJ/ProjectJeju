@@ -1,77 +1,76 @@
 <template lang="pug">
 div(class="q-pa-md")
-q-btn-dropdown(split color="red-5" push no-caps @click="displayHotel(category, filter, locationFilter)" style="width: 10.5rem; height: 3.5rem;")
-  template(v-slot:label)
-    div(class="row items-center no-wrap")
-      q-icon(left name="img:https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/hotel.svg")
-      div(class="text-center" style="font-size: 1.25rem;") 숙소
-  div(class="q-gutter-sm" style="margin-right: 0.75rem;")
-    q-radio(v-model="locationFilter" val="all" color="amber-9") 전체
-    q-radio(v-model="locationFilter" val="jeju" color="amber-9") 제주시
-    q-radio(v-model="locationFilter" val="aewol" color="amber-9") 애월
-    q-radio(v-model="locationFilter" val="hamdeok" color="amber-9") 함덕
-    q-radio(v-model="locationFilter" val="moonset" color="amber-9") 월정
-    q-radio(v-model="locationFilter" val="gujwa" color="amber-9") 구좌
-    q-radio(v-model="locationFilter" val="seogwipo" color="amber-9") 서귀포
-    q-radio(v-model="locationFilter" val="seongsan" color="amber-9") 성산
-    q-radio(v-model="locationFilter" val="pyoseon" color="amber-9") 표선
-    hr
-  div(class="q-gutter-sm" style="margin-right: 0.75rem;")
-    q-radio(v-model="category" val="0" label="전체" color="amber-9")
-    q-radio(v-model="category" val="1" label="호텔, 리조트" color="amber-9")
-    q-radio(v-model="category" val="2" label="펜션" color="amber-9")
-    hr
-  div(class="q-gutter-sm" ) 
-    q-checkbox(v-model="filter" val="wifi" color="amber-9") Wifi
-    q-checkbox(v-model="filter" val="tv" color="amber-9") TV
-    q-checkbox(v-model="filter" val="airConditioner" color="amber-9") 에어컨
-    q-checkbox(v-model="filter" val="miniBar" color="amber-9") 미니바
-    q-checkbox(v-model="filter" val="refrigerator" color="amber-9") 냉장고
-    q-checkbox(v-model="filter" val="bathTub" color="amber-9") 욕조
-  div(class="q-gutter-sm")
-    q-checkbox(v-model="filter" val="karaoke" color="amber-9") 노래방
-    q-checkbox(v-model="filter" val="convenienceStore" color="amber-9") 편의점
-    q-checkbox(v-model="filter" val="parkingLot" color="amber-9") 주차장
-    q-checkbox(v-model="filter" val="seminarRoom" color="amber-9") 세미나실
-    q-checkbox(v-model="filter" val="bbq" color="amber-9") BBQ
-    q-checkbox(v-model="filter" val="restaurant" color="amber-9") 식당
-  div(class="q-gutter-sm")
-    q-checkbox(v-model="filter" val="pickup" color="amber-9") 픽업가능
-    q-checkbox(v-model="filter" val="breakfast" color="amber-9") 조식포함
-    q-checkbox(v-model="filter" val="freeParking" color="amber-9") 무료주차가능
-    q-checkbox(v-model="filter" val="cooking" color="amber-9") 취사가능
-q-btn-dropdown(split color="amber-4" push no-caps @click="displayStore(locationFilter)" style="margin-left: 1.5rem; width: 10.5rem; height: 3.5rem;")
-  template(v-slot:label)
-    div(class="row items-center no-wrap")
-      q-icon(left name="img:https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/store.svg")
-      div(class="text-center" style="font-size: 1.25rem;") 맛집
-  div(class="q-gutter-sm" style="margin-right: 0.75rem;")
-    q-radio(v-model="locationFilter" val="all" color="amber-9") 전체
-    q-radio(v-model="locationFilter" val="jeju" color="amber-9") 제주시
-    q-radio(v-model="locationFilter" val="aewol" color="amber-9") 애월
-    q-radio(v-model="locationFilter" val="hamdeok" color="amber-9") 함덕
-    q-radio(v-model="locationFilter" val="moonset" color="amber-9") 월정
-    q-radio(v-model="locationFilter" val="gujwa" color="amber-9") 구좌
-    q-radio(v-model="locationFilter" val="seogwipo" color="amber-9") 서귀포
-    q-radio(v-model="locationFilter" val="seongsan" color="amber-9") 성산
-    q-radio(v-model="locationFilter" val="pyoseon" color="amber-9") 표선
-q-btn-dropdown(split color="light-blue-5" push no-caps @click="displayCharger(locationFilter)" style="margin-left: 1.5rem; width: 10.5rem; height: 3.5rem;")
-  template(v-slot:label)
-    div(class="row items-center no-wrap")
-      q-icon(left name="img:https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/chargerloc.svg")
-      div(class="text-center" style="font-size: 1.15rem;") 전기차충전소
-  div(class="q-gutter-sm" style="margin-right: 0.75rem;")
-    q-radio(v-model="locationFilter" val="all" color="amber-9") 전체
-    q-radio(v-model="locationFilter" val="jeju" color="amber-9") 제주시
-    q-radio(v-model="locationFilter" val="aewol" color="amber-9") 애월
-    q-radio(v-model="locationFilter" val="hamdeok" color="amber-9") 함덕
-    q-radio(v-model="locationFilter" val="moonset" color="amber-9") 월정
-    q-radio(v-model="locationFilter" val="gujwa" color="amber-9") 구좌
-    q-radio(v-model="locationFilter" val="seogwipo" color="amber-9") 서귀포
-    q-radio(v-model="locationFilter" val="seongsan" color="amber-9") 성산
-    q-radio(v-model="locationFilter" val="pyoseon" color="amber-9") 표선
-
-div(id="map" style="width:100%;height:700px;margin:0 auto; overflow:hidden; border:1px solid;")
+  div(id="map" style="width:95%;height:57.5rem;margin:0 auto; overflow:hidden; border:1px solid;")
+    q-btn-dropdown(split color="red-5" push no-caps @click="displayHotel(category, filter, locationFilter)" style="margin-left: 0.5rem; width: 10.5rem; height: 3.5rem; position: relative; z-index: 10;")
+      template(v-slot:label)
+        div(class="row items-center no-wrap")
+          q-icon(left name="img:https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/hotel.svg")
+          div(class="text-center" style="font-size: 1.35rem;") 숙소
+      div(class="q-gutter-sm" style="margin-right: 0.75rem;")
+        q-radio(v-model="locationFilter" val="all" color="amber-9") 전체
+        q-radio(v-model="locationFilter" val="jeju" color="amber-9") 제주시
+        q-radio(v-model="locationFilter" val="aewol" color="amber-9") 애월
+        q-radio(v-model="locationFilter" val="hamdeok" color="amber-9") 함덕
+        q-radio(v-model="locationFilter" val="moonset" color="amber-9") 월정
+        q-radio(v-model="locationFilter" val="gujwa" color="amber-9") 구좌
+        q-radio(v-model="locationFilter" val="seogwipo" color="amber-9") 서귀포
+        q-radio(v-model="locationFilter" val="seongsan" color="amber-9") 성산
+        q-radio(v-model="locationFilter" val="pyoseon" color="amber-9") 표선
+        hr
+      div(class="q-gutter-sm" style="margin-right: 0.75rem;")
+        q-radio(v-model="category" val="0" label="전체" color="amber-9")
+        q-radio(v-model="category" val="1" label="호텔, 리조트" color="amber-9")
+        q-radio(v-model="category" val="2" label="펜션" color="amber-9")
+        hr
+      div(class="q-gutter-sm" ) 
+        q-checkbox(v-model="filter" val="wifi" color="amber-9") Wifi
+        q-checkbox(v-model="filter" val="tv" color="amber-9") TV
+        q-checkbox(v-model="filter" val="airConditioner" color="amber-9") 에어컨
+        q-checkbox(v-model="filter" val="miniBar" color="amber-9") 미니바
+        q-checkbox(v-model="filter" val="refrigerator" color="amber-9") 냉장고
+        q-checkbox(v-model="filter" val="bathTub" color="amber-9") 욕조
+      div(class="q-gutter-sm")
+        q-checkbox(v-model="filter" val="karaoke" color="amber-9") 노래방
+        q-checkbox(v-model="filter" val="convenienceStore" color="amber-9") 편의점
+        q-checkbox(v-model="filter" val="parkingLot" color="amber-9") 주차장
+        q-checkbox(v-model="filter" val="seminarRoom" color="amber-9") 세미나실
+        q-checkbox(v-model="filter" val="bbq" color="amber-9") BBQ
+        q-checkbox(v-model="filter" val="restaurant" color="amber-9") 식당
+      div(class="q-gutter-sm")
+        q-checkbox(v-model="filter" val="pickup" color="amber-9") 픽업가능
+        q-checkbox(v-model="filter" val="breakfast" color="amber-9") 조식포함
+        q-checkbox(v-model="filter" val="freeParking" color="amber-9") 무료주차가능
+        q-checkbox(v-model="filter" val="cooking" color="amber-9") 취사가능
+    q-btn-dropdown(split color="amber-4" push no-caps @click="displayStore(locationFilter)" style="margin-left: 0.65rem; width: 10.5rem; height: 3.5rem;position: relative; z-index: 10;")
+      template(v-slot:label)
+        div(class="row items-center no-wrap")
+          q-icon(left name="img:https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/store.svg")
+          div(class="text-center" style="font-size: 1.35rem;") 맛집
+      div(class="q-gutter-sm" style="margin-right: 0.75rem;")
+        q-radio(v-model="locationFilter" val="all" color="amber-9") 전체
+        q-radio(v-model="locationFilter" val="jeju" color="amber-9") 제주시
+        q-radio(v-model="locationFilter" val="aewol" color="amber-9") 애월
+        q-radio(v-model="locationFilter" val="hamdeok" color="amber-9") 함덕
+        q-radio(v-model="locationFilter" val="moonset" color="amber-9") 월정
+        q-radio(v-model="locationFilter" val="gujwa" color="amber-9") 구좌
+        q-radio(v-model="locationFilter" val="seogwipo" color="amber-9") 서귀포
+        q-radio(v-model="locationFilter" val="seongsan" color="amber-9") 성산
+        q-radio(v-model="locationFilter" val="pyoseon" color="amber-9") 표선
+    q-btn-dropdown(split color="light-blue-5" push no-caps @click="displayCharger(locationFilter)" style="margin-left: 0.65rem; width: 10.5rem; height: 3.5rem;position: relative; z-index: 10;")
+      template(v-slot:label)
+        div(class="row items-center no-wrap")
+          q-icon(left name="img:https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/chargerloc.svg")
+          div(class="text-center" style="font-size: 1.25rem;") 전기차충전소
+      div(class="q-gutter-sm" style="margin-right: 0.75rem;")
+        q-radio(v-model="locationFilter" val="all" color="amber-9") 전체
+        q-radio(v-model="locationFilter" val="jeju" color="amber-9") 제주시
+        q-radio(v-model="locationFilter" val="aewol" color="amber-9") 애월
+        q-radio(v-model="locationFilter" val="hamdeok" color="amber-9") 함덕
+        q-radio(v-model="locationFilter" val="moonset" color="amber-9") 월정
+        q-radio(v-model="locationFilter" val="gujwa" color="amber-9") 구좌
+        q-radio(v-model="locationFilter" val="seogwipo" color="amber-9") 서귀포
+        q-radio(v-model="locationFilter" val="seongsan" color="amber-9") 성산
+        q-radio(v-model="locationFilter" val="pyoseon" color="amber-9") 표선
 
 //- q-dialog( v-model="dialog" persistent  style="display:block")
 //-   q-card( class="bg-teal text-white" style="width: 300px")
@@ -141,8 +140,11 @@ export default {
     return {
       hotelMarkers: [],
       chargerMarkers: [],
+      storeMarkers: [],
       hotelMarkerPositions: [],
       chargerMarkerPositions: [],
+      storeMarkerPositions: [],
+      sidePanel: [],
     }
   },
   mounted() {
@@ -266,7 +268,6 @@ export default {
       if (selectedFilter.includes('cooking')) {
         cooking = 1
       }
-      console.log(jeju)
       axios({
         method: 'post',
         url: 'http://localhost:3000/hotel',
@@ -301,10 +302,21 @@ export default {
         responseType: 'json'
       }).then((Response) => {
         for (let i = 0; i < Response.data.length; i++) {
-          if (this.hotelMarkerPositions.length < 529) {
+          if (this.hotelMarkerPositions.length < Response.data.length) {
             this.hotelMarkerPositions.push({
               content: '<div style="font-weight:bold;"><img src="https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/' + Response.data[i].PATH + '/' + Response.data[i].UUID + '" width="240px" height="110px" style="overflow:hidden; margin-bottom:8px;"><br>' + Response.data[i].NAME + '<br> 별점 : ' + Math.round(Response.data[i].STARRATE * 100) / 100 + '</div>',
-              latlng: new kakao.maps.LatLng(Response.data[i].LATITUDE, Response.data[i].LONGITUDE)
+              latlng: new kakao.maps.LatLng(Response.data[i].LATITUDE, Response.data[i].LONGITUDE),
+              info : {
+                  HOTELID : Response.data[i].HOTELID,
+                  NAME : Response.data[i].NAME,
+                  CATEGORY : Response.data[i].CATEGORY,
+                  ADDRESS : Response.data[i].ADDRESS,
+                  COMMENTS : Response.data[i].COMMENTS,
+                  PRICE : Response.data[i].PRICE,
+                  STARRATE : Response.data[i].STARRATE,
+                  UUID : Response.data[i].UUID,
+                  PATH : Response.data[i].PATH,
+                }
             })
           }
         }
@@ -323,6 +335,7 @@ export default {
           });
           kakao.maps.event.addListener(marker, 'mouseover', this.displayInfowindow(marker, infowindow));
           kakao.maps.event.addListener(marker, 'mouseout', this.closeInfowindow(infowindow));
+          kakao.maps.event.addListener(marker, 'click', this.displaySidePanel(this.hotelMarkerPositions[i].info));
           this.hotelMarkers.push(marker)
         }
       })
@@ -369,7 +382,6 @@ export default {
       if (locationFilter.includes('pyoseon')) {
         pyoseon = 1
       }
-      console.log(jeju)
       axios({
         method: 'post',
         url: 'http://localhost:3000/charger',
@@ -388,10 +400,15 @@ export default {
       })
         .then((Response) => {
           for (let i = 0; i < Response.data.length; i++) {
-            if (this.chargerMarkerPositions.length < 500) {
+            if (this.chargerMarkerPositions.length < Response.data.length) {
               this.chargerMarkerPositions.push({
                 content: '<div style="font-weight:bold;">' + Response.data[i].NAME + '<br><br>' + Response.data[i].ADDRESS + '<br><br></div>',
-                latlng: new kakao.maps.LatLng(Response.data[i].LATITUDE, Response.data[i].LONGITUDE)
+                latlng: new kakao.maps.LatLng(Response.data[i].LATITUDE, Response.data[i].LONGITUDE),
+                info:{
+                  CHAGERID :Response.data[i].CHAGERID,
+                  NAME :Response.data[i].NAME,
+                  ADDRESS :Response.data[i].ADDRESS,
+                }
               })
             }
           }
@@ -410,6 +427,7 @@ export default {
             });
             kakao.maps.event.addListener(marker, 'mouseover', this.displayInfowindow(marker, infowindow));
             kakao.maps.event.addListener(marker, 'mouseout', this.closeInfowindow(infowindow));
+            kakao.maps.event.addListener(marker, 'click', this.displaySidePanel(this.chargerMarkerPositions[i].info));
             this.chargerMarkers.push(marker)
           }
         })
@@ -419,11 +437,11 @@ export default {
         })
     },
     displayStore(locationFilter) {
-      if (this.chargerMarkers.length > 0) {
-        this.chargerMarkers.forEach((marker) => marker.setMap(null));
+      if (this.storeMarkers.length > 0) {
+        this.storeMarkers.forEach((marker) => marker.setMap(null));
       }
-      this.chargerMarkers = [];
-      this.chargerMarkerPositions = [];
+      this.storeMarkers = [];
+      this.storeMarkerPositions = [];
       let jeju,
         aewol,
         hamdeok,
@@ -456,7 +474,6 @@ export default {
       if (locationFilter.includes('pyoseon')) {
         pyoseon = 1
       }
-      console.log(jeju)
       axios({
         method: 'post',
         url: 'http://localhost:3000/store',
@@ -475,10 +492,23 @@ export default {
       })
         .then((Response) => {
           for (let i = 0; i < Response.data.length; i++) {
-            if (this.chargerMarkerPositions.length < 500) {
-              this.chargerMarkerPositions.push({
-                content: '<div style="font-weight:bold;">' + Response.data[i].NAME + '<br><br>' + Response.data[i].ADDRESS + '<br><br></div>',
-                latlng: new kakao.maps.LatLng(Response.data[i].LATITUDE, Response.data[i].LONGITUDE)
+            if (this.storeMarkerPositions.length < Response.data.length) {
+              this.storeMarkerPositions.push({
+                content: '<div style="font-weight:bold;">' + Response.data[i].STORENAME + '<br><br>' + Response.data[i].ADDRESS + '<br><br></div>',
+                latlng: new kakao.maps.LatLng(Response.data[i].LATITUDE, Response.data[i].LONGITUDE),
+                info : {
+                  STOREID : Response.data[i].STOREID,
+                  STORENAME : Response.data[i].STORENAME,
+                  CATEGORY : Response.data[i].CATEGORY,
+                  ADDRESS : Response.data[i].ADDRESS,
+                  INFO : Response.data[i].INFO,
+                  KEYWORD : Response.data[i].KEYWORD,
+                  STARRATE : Response.data[i].STARRATE,
+                  OPEN : Response.data[i].OPEN,
+                  TEL : Response.data[i].TEL,
+                  UUID : Response.data[i].UUID,
+                  PATH : Response.data[i].PATH,
+                }
               })
             }
           }
@@ -486,18 +516,19 @@ export default {
           var imageSrc = 'https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/store.svg', // 마커이미지의 주소입니다
             imageSize = new kakao.maps.Size(21, 26)
           var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize)
-          for (var i = 0; i < this.chargerMarkerPositions.length; i++) {
+          for (var i = 0; i < this.storeMarkerPositions.length; i++) {
             var marker = new kakao.maps.Marker({
               map: this.map,
-              position: this.chargerMarkerPositions[i].latlng,
+              position: this.storeMarkerPositions[i].latlng,
               image: markerImage,
             })
             var infowindow = new kakao.maps.InfoWindow({
-              content: this.chargerMarkerPositions[i].content, // 인포윈도우에 표시할 내용
+              content: this.storeMarkerPositions[i].content, // 인포윈도우에 표시할 내용
             });
             kakao.maps.event.addListener(marker, 'mouseover', this.displayInfowindow(marker, infowindow));
             kakao.maps.event.addListener(marker, 'mouseout', this.closeInfowindow(infowindow));
-            this.chargerMarkers.push(marker)
+            kakao.maps.event.addListener(marker, 'click', this.displaySidePanel(this.storeMarkerPositions[i].info));
+            this.storeMarkers.push(marker)
           }
         })
         .catch(function (error) {
@@ -513,6 +544,12 @@ export default {
     closeInfowindow(infowindow) {
       return () => {
         infowindow.close();
+      }
+    },
+    displaySidePanel(info) {
+      return () => {
+        this.sidePanel=[],
+        this.sidePanel.push(info)
       }
     },
   },

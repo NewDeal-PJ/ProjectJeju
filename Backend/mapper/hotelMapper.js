@@ -486,6 +486,28 @@ app.post('/reply/insert', function (request, response) {
     })
 });
 
+app.get('/store/:storeid',function (req,res) {
+  OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
+    function (err, connection) {
+      if (err) {
+        console.error(err.message);
+        return;
+      }
+      var param={
+        storeid : req.params.storeid
+      }
+      var format = { language: 'sql', indent: ' ' }
+      var query = mybatisMapper.getStatement('oracleMapper', 'getStore',param, format);
+      console.log(query)
+      connection.execute(query, [], function (err, result) {
+        if (err) {
+          console.error(err.message);
+          return;
+        }
+        console.log(result)
+      })
+    })
+})
 
 app.post('/store', function (req, res) {
   const StoreList = [];
@@ -522,7 +544,8 @@ app.post('/store', function (req, res) {
               STOREID: rows[0],
               STORENAME: rows[1],
               CATEGORY:rows[2],
-              INFO: rows[3],
+              ADDRESS: rows[3],
+              INFO: rows[4],
               KEYWORD : rows[4],
               LONGITUDE : rows[5],
               STARRATE : rows[6],

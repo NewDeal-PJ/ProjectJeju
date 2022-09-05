@@ -108,6 +108,11 @@
 	WHERE STOREID IS NOT NULL
 	<include refid="filter"></include>
   </select>
+  <select id="getStore">
+    SELECT
+    * FROM V_STORE
+	WHERE STOREID = #{storeid}
+  </select>
 
   <select id="getListReply">
     SELECT

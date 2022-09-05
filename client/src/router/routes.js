@@ -117,7 +117,7 @@ const routes = [
     ]
   },
   {
-    path: '/detail',
+    path: '/detail/:id',
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/FoodDetail.vue') }

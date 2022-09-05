@@ -291,7 +291,6 @@ app.post('/hotel', function (req, res) {
       }
       var format = { language: 'sql', indent: ' ' }
       var query = mybatisMapper.getStatement('oracleMapper', 'getListHotelwithFilter', param, format);
-      console.log(query)
       connection.execute(query, [], function (err, result) {
         if (err) {
           console.error(err.message);
@@ -342,7 +341,6 @@ app.post('/carousel', function (request, response) {
 
       var format = { language: 'sql', indent: ' ' }
       var query = mybatisMapper.getStatement('oracleMapper', 'getListTopTen', format);
-      console.log(query)
       connection.execute(query, [], function (err, result) {
         if (err) {
           console.error(err.message);
@@ -392,7 +390,6 @@ app.post('/charger', function (req, res) {
 
       var format = { language: 'sql', indent: ' ' }
       var query = mybatisMapper.getStatement('oracleMapper', 'getListCharger', param, format);
-      console.log(query)
       connection.execute(query, [], function (err, result) {
         if (err) {
           console.error(err.message);
@@ -479,6 +476,56 @@ app.post('/reply/insert', function (request, response) {
           return;
         }
         console.log('Insert 성공 : ' + result.rowsAffected)
+        connectionRelease(response, connection, result.rowsAffected)
+      })
+    })
+});
+app.put('/update', function (request, response) {
+  OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
+    function (err, connection) {
+      if (err) {
+        console.error(err.message);
+        return;
+      }
+      var param = {
+        rno: request.body.rno,
+        starRate: request.body.starRate,
+        content: request.body.content,
+      }
+
+      var format = { language: 'sql', indent: ' ' }
+      var query = mybatisMapper.getStatement('oracleMapper', 'updateReply', param, format);
+      console.log(query)
+      connection.execute(query, [], function (err, result) {
+        if (err) {
+          console.error(err.message);
+          return;
+        }
+        console.log('Update 성공 : ' + result.rowsAffected)
+        connectionRelease(response, connection, result.rowsAffected)
+      })
+    })
+});
+app.delete('/delete', function (request, response) {
+  OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
+    function (err, connection) {
+      if (err) {
+        console.error(err.message);
+        return;
+      }
+      var param = {
+        rno: request.body.rno
+      }
+
+      var format = { language: 'sql', indent: ' ' }
+      var query = mybatisMapper.getStatement('oracleMapper', 'deleteReply', param, format);
+      console.log(query)
+      connection.execute(query, [], function (err, result) {
+        if (err) {
+          console.error(err.message);
+          return;
+        }
+        console.log('Delete 성공 : ' + result.rowsAffected)
         connectionRelease(response, connection, result.rowsAffected)
       })
     })

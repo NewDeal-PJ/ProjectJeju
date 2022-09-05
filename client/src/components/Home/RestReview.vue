@@ -10,7 +10,7 @@
         <div style="padding: 1% 20%;">
             <div>
                 <div style="width: 500px;">
-                    <q-input v-model="content" filled autogrow val="content"/>
+                    <q-input v-model="content" filled autogrow val="content" />
                 </div>
             </div>
         </div>
@@ -26,7 +26,7 @@
         </div>
 
     </div>
-        <!-- <div>
+    <!-- <div>
             <div class="foodDetailNickname" style=" font-weight: bold; font-size: 18px;">
                 <p> 닉네임 </p>
             </div>
@@ -46,34 +46,54 @@
         </div>-->
 
 
-
-        <div class="foodDetailReview" style=" width: 50%; margin: 0 auto;padding: 20px;" v-for="dataItem in jsdata"
-            :key="dataItem.RNO" :name="dataItem.RNO">
-            <!-- <p> {{ dataItem.RNO }} </p> -->
-            <hr>
-            <div class="foodDetailNickname" style=" font-weight: bold; font-size: 18px; display: flex; ">
-                <span> 🧡　</span>
-                <p> {{ dataItem.NICKNAME }} </p>
-            </div>
-            <div style="display: flex;">
-                <span> {{ dataItem.STARRATE}}</span>
-                <span> 📅　</span>
-                <p> {{ dataItem.REGDATE }} </p>
-            </div>
-            <!-- <div class="cat"> : 사진 나중에 넣을거임 삭제 하지말것
+    <!-- <q-infinite-scroll @load="getReply()" :offset="250"> -->
+    <div class="foodDetailReview" style=" width: 50%; margin: 0 auto;padding: 20px;" v-for="dataItem in jsdata"
+        :key="dataItem.RNO" :name="dataItem.RNO">
+        <!-- <p> {{ dataItem.RNO }} </p> -->
+        <hr>
+        <div class="foodDetailNickname" style=" font-weight: bold; font-size: 18px; display: flex; ">
+            <span> 🧡　</span>
+            <p> {{ dataItem.NICKNAME }} </p>
+        </div>
+        <div style="display: flex;">
+            <q-form @submit="onSubmit" class>
+                <q-rating name="quality" v-model="quality" max="5" size="1rem" color="yellow" icon="star_border"
+                    icon-selected="star" no-dimming />
+            </q-form>
+            <span> {{ dataItem.STARRATE }}</span>
+            <span> 📅　</span>
+            <p> {{ dataItem.REGDATE }} </p>
+        </div>
+        <!-- <div class="cat"> : 사진 나중에 넣을거임 삭제 하지말것
                 <img
                     src="https://velog.velcdn.com/images/kimjyunny_dev/post/370f3dab-9470-4918-a11f-3f05348dcf4b/image.jpeg">
                 </div> -->
-            <div class="reviewDescription" style="font-size: 15px; display: flex;">
-                <span> 🗣️　 </span>
-                <p> {{ dataItem.CONTENT }} </p>
-            </div>
-
+        <div class="reviewDescription" style="font-size: 15px; display: flex;">
+            <span> 🗣️　 </span>
+            <p> {{ dataItem.CONTENT }} </p>
+            <q-btn @click="updateReply(dataItem.RNO)">
+                <td class="text-middle"> <span class="ModifyContainer" v-on:click="ModifyComment">
+                        <i class="fas fa-pencil"></i> </span> </td>
+            </q-btn>
+            <q-btn>
+                <td class="text-middle"> <span class="removeContainer" style="color: red;" v-on:click="RemoveComment">
+                        <i class="fa-solid fa-trash-can" aria-hidden="true"></i> </span> </td>
+            </q-btn>
         </div>
 
 
+    </div>
 
-    
+    <!-- <template v-slot:loading>
+            <div class="row justify-center q-my-md">
+                <q-spinner-dots color="primary" size="40px" />
+            </div>
+        </template>
+    </q-infinite-scroll> -->
+
+
+
+
 
 </template>
 
@@ -84,13 +104,13 @@ import { ref } from 'vue'
 axios.defaults.withCredentials = true;
 export default {
     setup() {
-        
+        const jsdata = ref([])
         const submitResult = ref([])
         return {
+            jsdata,
             slide: ref(1),
             fullscreen: ref(false),
-
-            content :ref([]),
+            content: ref([]),
 
             quality: ref(3),
             submitResult,
@@ -107,11 +127,6 @@ export default {
             }
         }
     },
-    data() {
-        return {
-            jsdata: [],
-        }
-    },
     mounted() {
         this.getReply()
     },
@@ -120,8 +135,8 @@ export default {
             axios({
                 method: 'post',
                 url: 'http://localhost:3000/reply',
-                data:{
-                    STOREID : this.$route.params.id
+                data: {
+                    STOREID: this.$route.params.id
                 },
                 headers: { 'X-Requested-With': 'XMLHttpRequest' },
                 responseType: 'json'
@@ -136,32 +151,61 @@ export default {
                         STARRATE: Response.data[i].STARRATE
                     })
                 }
-
             })
-                .then(() => {
-                    console.log(this.jsdata)
-                }).catch(function (error) {
+                .catch(function (error) {
                     console.log(error.toJSON())
                 })
         },
-        creatReply (content) {
+        creatReply(content) {
             axios({
                 method: 'post',
                 url: 'http://localhost:3000/reply/insert',
-                data :{
-                    NICKNAME:"QWER1234",
-                    STOREID:0,
-                    CONTENT:content,
-                    STARRATE:4.1
+                data: {
+                    NICKNAME: "QWER1234",
+                    STOREID: 0,
+                    CONTENT: content,
+                    STARRATE: 4.1
                 },
                 headers: { 'X-Requested-With': 'XMLHttpRequest' },
                 responseType: 'json'
             }).catch(function (error) {
-          // 에러 핸들링
-          console.log(error.toJSON());
-        })
+                // 에러 핸들링
+                console.log(error.toJSON());
+            })
 
-        }
+        },
+        updateReply(rno, starRate, content) {
+            axios({
+                method: 'put',
+                url: 'http://localhost:3000/update',
+                data: {
+                    rno,
+                    content,
+                    starRate
+                },
+                headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                responseType: 'json'
+            }).catch(function (error) {
+                // 에러 핸들링
+                console.log(error.toJSON());
+            })
+
+        },
+        deleteReply(rno, starRate, content) {
+            axios({
+                method: 'put',
+                url: 'http://localhost:3000/delete',
+                data: {
+                    rno,
+                },
+                headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                responseType: 'json'
+            }).catch(function (error) {
+                // 에러 핸들링
+                console.log(error.toJSON());
+            })
+
+        },
     }
 
 };

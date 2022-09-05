@@ -123,4 +123,16 @@
 	INSERT INTO TBL_REPLY(RNO,NICKNAME,REGDATE,STOREID,CONTENT,STARRATE) 
 	VALUES(SEQ_REPLY.NEXTVAL,#{nickname},SYSDATE,#{storeid},#{content},#{starrate})
   </insert>
+  
+  <update id="updateReply">
+ 		UPDATE TBL_REPLY SET 
+ 			CONTENT = #{content},
+ 			REGDATE = SYSDATE,
+ 			STARRATE = #{starRate}
+ 		WHERE RNO = #{rno}
+  </update>
+  <delete id="deleteReply" >
+	DELETE FROM TBL_REPLY WHERE RNO = #{rno}
+</delete>
+
 </mapper>

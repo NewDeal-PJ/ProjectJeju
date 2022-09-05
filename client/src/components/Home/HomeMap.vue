@@ -494,7 +494,7 @@ export default {
           for (let i = 0; i < Response.data.length; i++) {
             if (this.storeMarkerPositions.length < Response.data.length) {
               this.storeMarkerPositions.push({
-                content: '<div style="font-weight:bold;">' + Response.data[i].STORENAME + '<br><br>' + Response.data[i].ADDRESS + '<br><br></div>',
+                content: '<div style="font-weight:bold;"><img src="https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/' + Response.data[i].PATH + '/' + Response.data[i].UUID + '"width="240px" height="110px" style="display: block; margin: 0 auto;overflow:hidden; margin-bottom:8px;"><br>' + Response.data[i].STORENAME + '<br><br>' + Response.data[i].ADDRESS + '<br><br></div>',
                 latlng: new kakao.maps.LatLng(Response.data[i].LATITUDE, Response.data[i].LONGITUDE),
                 info : {
                   STOREID : Response.data[i].STOREID,

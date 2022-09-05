@@ -108,7 +108,7 @@ export default {
           $q.notify({
             color: 'orange-7',
             position: 'center',
-            message: '로그인에 실패하셨습니다.'
+            message: '로그인에 실패하셨습니다. 계정정보를 확인해 주세요!'
           })
           console.log(error.toJSON());
           // window.location.href = 'http://localhost:9000/#/api/login';

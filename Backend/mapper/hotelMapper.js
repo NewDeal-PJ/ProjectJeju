@@ -63,6 +63,10 @@ app.use(express.urlencoded({ extended: true }))
 
 
 // 기본 라우트
+// app.get('http://localhost:3000', (req, res) => {
+//   console.log("helloWorld")
+
+// })
 
 // DB 연결
 
@@ -131,42 +135,48 @@ app.post('/api/login', (req, res) => {
         }
         console.log(members.length)
         console.log(members)
-        const member = members.find(m => m.loginId === loginId && bcrypt.compare(loginPw, m.loginPw))
+
+        const member = members.find(m => m.loginId === loginId)
+        console.log(member)
         //member값이 있으면 member 정보를 send, 없으면 없다고 보냄
         if (member) {
-          const options = {
-            domain: "localhost",
-            path: "/",
-            httpOnly: true,
-            sameSite: "strict"
-          };
-
-          const token = jwt.sign({
-            // 우리가 필요한 객체 정보
-            id : member.id,
-            name: member.name
-          },
-            // 2번째 인자로는 암호키, 만료시간, 토큰배급자
-            jwt_key, {
-            expiresIn: "15m",
-            issuer: "jejuOlle"
-          });
-
-          // 클라이언트에 토큰값을 쏘자 !
+          if(bcrypt.compareSync(loginPw , member.loginPw)){
+            const options = {
+              domain: "localhost",
+              path: "/",
+              httpOnly: true,
+              sameSite: "strict"
+            };
+            const token = jwt.sign({
+              // 우리가 필요한 객체 정보
+              id : member.id,
+              name: member.name
+            },
+              // 2번째 인자로는 암호키, 만료시간, 토큰배급자
+              jwt_key, {
+              expiresIn: "180m",
+              issuer: "jejuOlle"
+            });
+            // 클라이언트에 토큰값을 쏘자 !
 
           res.cookie("token", token, options)
           res.send(member);
           members = []
-
+          }
+          else{
+            res.sendStatus(404);
+          }
         }
-        else {
-          res.sendStatus(404);
+        else{
+          res.sendStatus(401)
         }
         console.log('loginId:', loginId, 'loginPw:', loginPw)
       })
     })
 
 })
+
+
 
 
 // 로그아웃 api
@@ -249,6 +259,82 @@ app.post('/api/signup', async (req, res) => {
     res.sendStatus(401)
   }
 })
+
+
+
+// 회원정보 수정 API
+app.put('/api/userinfo/update',  async (req, res) => {
+  const hashedPwd = await bcrypt.hash(req.body.update_pwd._value,10)
+  console.log('req.body:',req.body)
+  try {
+    OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
+      function (err, connection) {
+        if (err) {
+          console.error(err.message);
+          return;
+        }
+        var param = {
+          user_id: req.body.user_id,
+          user_pwd: hashedPwd,
+          user_tel1: req.body.update_tel1._value,
+          user_tel2 : req.body.update_tel2._value,
+          user_tel3 : req.body.update_tel3._value,
+          user_email : req.body.update_email._value,
+          user_nickname : req.body.update_nickname._value,
+        }
+        console.log(param)
+        var format = { language: 'sql', indent: ' ' }
+        var query = mybatisMapper.getStatement('oracleMapper', 'updateUser', param, format);
+        console.log(query)
+        connection.execute(query, [], function (err, result) {
+          if (err) {
+            console.error(err.message);
+            return;
+          }
+          console.log('User Update 성공 : ' + result.rowsAffected)
+          connectionRelease(res, connection, result.rowsAffected)
+        })
+      })
+    
+  } catch (error) {
+  }
+  
+});
+
+//회원 탈퇴 API
+app.post('/api/userinfo/delete',  async (req, res) => {
+  console.log('req.body:',req.body)
+  try {
+    OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
+      function (err, connection) {
+        if (err) {
+          console.error(err.message);
+          return;
+        }
+        var param = {
+          user_id: req.body.user_id
+        }
+        console.log(param)
+        var format = { language: 'sql', indent: ' ' }
+        var query = mybatisMapper.getStatement('oracleMapper', 'deleteUser', param, format);
+        console.log(query)
+        connection.execute(query, [], function (err, result) {
+          if (err) {
+            console.error(err.message);
+            return;
+          }
+          console.log('User Update 성공 : ' + result.rowsAffected)
+          connectionRelease(res, connection, result.rowsAffected)
+          if (req.cookies && req.cookies.token) {
+            res.clearCookie("token")
+          }
+        })
+      })
+    
+  } catch (error) {
+  }
+  
+});
 
 
 

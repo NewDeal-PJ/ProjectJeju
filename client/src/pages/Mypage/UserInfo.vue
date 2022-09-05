@@ -8,27 +8,35 @@
       <form action="http://localhost:9000/#/" @submit.prevent.stop="onSubmit" @reset.prevent.stop="onReset" class="q-gutter-md">
       <table class="UserInformationJointable">
 
-
-          <tr>
+        <tr>
             <th><label for="user_pwd"> 새비밀번호</label></th>
             <td style="padding-top: 20px; display: flex;">
-              <div class="q-gutter-md form-group"
-                style="width: 400px;">
-                <q-input ref="PWDRef" outlined v-model="PWD" :dense="dense" id="user_pwd" lazy-rules
-                  :rules="PWDRules" required />
+              <div class="q-gutter-md form-group" style="width: 400px;">
+                <q-input ref="PWDRef" :type="isPwd ? 'password' : 'text'" outlined v-model="PWD" :dense="dense"
+                  id="user_pwd" lazy-rules :rules="PWDRules" required>
+                  <template v-slot:append>
+                    <q-icon :name="isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer"
+                      @click="isPwd = !isPwd" />
+                  </template>
+                </q-input>
               </div>
             </td>
           </tr>
           <tr>
-            <th><label for="user_pwdChk">비밀번호 확인 </label></th>
+            <th><label for="user_pwdChk">새비밀번호 확인 </label></th>
             <td style="padding-top: 20px; display: flex;">
-              <div class="q-gutter-md form-group"
-                style="width: 400px;">
-                <q-input ref="PWDChkRef" outlined v-model="PWDChk" :dense="dense" id="user_pwdChk" lazy-rules
-                  :rules="PWDChkRules" required />
+              <div class="q-gutter-md form-group" style="width: 400px;">
+                <q-input ref="PWDChkRef" :type="isPwd ? 'password' : 'text'" outlined v-model="PWDChk" :dense="dense"
+                  id="user_pwdChk" lazy-rules :rules="PWDChkRules" required>
+                  <template v-slot:append>
+                    <q-icon :name="isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer"
+                      @click="isPwd = !isPwd" />
+                  </template>
+                </q-input>
               </div>
             </td>
           </tr>
+
           <tr>
             <th><label for="user_tel">연락처 </label></th>
             <td style="padding-top: 20px; display: flex;">
@@ -73,7 +81,7 @@
         <div style="padding: 10px;">
           <div class="ModifyUserButton">
             <div class="q-pa-md q-gutter-md form-group">
-              <q-btn type="submit" style="color: white; background-color: #FF9800; width: 300px;
+              <q-btn @click="onsubmit()" style="color: white; background-color: #FF9800; width: 300px;
             height: 40px; margin: 0 auto; display: block; ">
               <div style="font-size: 18px; font-weight: 200;
             font-family: 'Noto Sans KR', sans-serif;">수정하기</div>
@@ -96,12 +104,12 @@
                 </q-card-section>
 
         <q-card-section class="q-pt-none">
-          <q-input dense v-model="address" autofocus @keyup.enter="prompt = false" />
+          <q-input dense v-model="state.form.content" autofocus @keyup.enter="prompt = false" />
         </q-card-section>
 
         <q-card-actions align="right" class="text-primary">
           <q-btn flat label="취소" v-close-popup style="color:red;"/>
-          <q-btn flat label="확인" v-close-popup />
+          <q-btn @click='submitDelete()' flat label="확인" v-close-popup />
         </q-card-actions>
                </q-card>
               </q-dialog>
@@ -121,6 +129,8 @@ import Header from 'src/components/Home/Header.vue';
 import Footer from '../../components/Home/Footer.vue';
 import { useQuasar } from 'quasar';
 import { ref } from 'vue';
+import { reactive } from 'vue';
+import axios from 'axios';
 
 
 export default {
@@ -141,7 +151,23 @@ export default {
     const NicknameRef = ref(null)
     const email = ref(null)
     const emailRef = ref(null)
+    const state = reactive({
+      account: {
+        id: '',
+        name: '',
+      },
+      form : {
+        content : ''
+      }
+    })
+    // 백엔드의 계정정보를 호출
+    axios.get("/api/login").then((res) => {
+      state.account = res.data;
+    });
+
     return {
+      state,
+      isPwd: ref(true),
       prompt: ref(false),
       dense: ref(true),
       PWD,
@@ -196,29 +222,108 @@ export default {
         val => (val && val.length > 0) || '이메일을 입력해주세요.',
         val => (/^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/.test(val)) || '이메일 형식이 올바르지 않습니다.',
       ],
+      
       onsubmit() {
         PWDRef.value.validate()
         PWDChkRef.value.validate()
-        dateRef.value.validate()
         TelRef.value.validate()
         TelRef2.value.validate()
         TelRef3.value.validate()
         NicknameRef.value.validate()
         emailRef.value.validate()
+        
+        //  // 백엔드의 계정정보를 호출
+        //  axios.get("/api/login").then((res) => {
+        //       state.data = res.data
+        //       });
+        
+
+        const args = {
+              user_id : state.account.id,
+              update_pwd: PWD,
+              update_tel1: Tel,
+              update_tel2: Tel2,
+              update_tel3: Tel3,
+              update_email: email,
+              update_nickname: Nickname
+            };
 
         if (PWDRef.value.hasError || PWDChkRef.value.hasError ||TelRef.value.hasError||TelRef2.value.hasError||TelRef3.value.hasError||NicknameRef.value.hasError||emailRef.value.hasError) {
+
           $q.notify({
             color: 'negative',
             message: 'You need to accept the license and terms first'
           })
         }
         else {
-          $q.notify({
-            icon: 'done',
-            color: 'orange-10',
-            message: Nickname.value +"님"+'수정이 완료되었습니다.'
+              axios
+                .put("/api/userinfo/update", args)
+                .then((res) => {
+                  state.data = res.data;
+                  window.location.href = `http://localhost:9000/#/api/mypage`;
+                  $q.notify({
+                    color: 'orange-7',
+                    icon: 'thumb_up',
+                    message: Nickname.value + ` 님` + ` 정보가 수정되었습니다. ` ,
+                    position: 'center',
+                    timeout: 1200
+                  })
+                })
+                //redirect logic
+                .catch(function (error) {
+                  // 에러 핸들링
+                  console.log(error);
+                })
+            }
+      },
+
+      submitDelete(){
+ // 백엔드의 계정정보를 호출
+        //  axios.post("/api/login").then((res) => {
+        //       state.data = res.data
+        //       });
+        const args = {
+          user_id : state.account.id,
+          update_pwd: PWD,
+          update_tel1: Tel,
+          update_tel2: Tel2,
+          update_tel3: Tel3,
+          update_email: email,
+          update_nickname: Nickname
+          };
+
+
+        if (state.form.content === '동의합니다.') 
+        {
+          axios
+          .post("/api/userinfo/delete", args)
+          .then((res) => {
+            state.data = res.data;
+            state.account.name = "";
+            state.account.id = ""
+            window.location.href = `http://localhost:9000/#/`;
+            $q.notify({
+              color: 'orange-7',
+              icon: 'thumb_up',
+              message: `계정이 정상적으로 탈퇴되었습니다. ` ,
+              position: 'center',
+              timeout: 1200
+            })
+            
+          })
+          //redirect logic
+          .catch(function (error) {
+            // 에러 핸들링
+            console.log(error);
           })
         }
+        else {
+            $q.notify({
+            color: 'negative',
+            message: '문구를 정확하게 입력해 주세요!'
+          })
+            }
+
       },
 
       onReset() {
@@ -227,6 +332,17 @@ export default {
 
         PWDRef.value.resetValidation()
         PWDChkRef.value.resetValidation()
+      },
+      showNotif(position, i) {
+        const { color, icon, message } = alerts[i]
+
+        $q.notify({
+          color,
+          icon,
+          message,
+          position,
+          timeout: 1000
+        })
       }
     }
   }

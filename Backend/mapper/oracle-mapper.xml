@@ -134,5 +134,19 @@
   <delete id="deleteReply" >
 	DELETE FROM TBL_REPLY WHERE RNO = #{rno}
 </delete>
+  <update id="updateUser">
+ 		UPDATE TBL_MEMBER SET 
+ 			PW = #{user_pwd},
+ 			EMAIL = #{user_email},
+ 			PHONE = #{user_tel1},
+			PHONE2 = #{user_tel2},
+			PHONE3 = #{user_tel3},
+			UPDATEDATE = SYSDATE,
+			NICKNAME = #{user_nickname}
+ 		WHERE USERID = #{user_id}
+  </update>
+  <delete id="deleteUser" >
+	DELETE FROM TBL_MEMBER WHERE USERID = #{user_id}
+</delete>
 
 </mapper>

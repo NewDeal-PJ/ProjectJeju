@@ -88,7 +88,7 @@ const routes = [
     ]
   },
   {
-    path: '/api/shop/register',
+    path: '/api/register',
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/Shop/Register.vue') }

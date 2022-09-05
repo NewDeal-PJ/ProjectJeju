@@ -112,35 +112,22 @@
       methods: {
         getStore() {
           axios({
-            method: 'post',
-            url: 'http://localhost:3000/store',
+            method: 'get',
+            url: 'http://localhost:3000/store/'+this.$route.params.id,
             headers: { 'X-Requested-With': 'XMLHttpRequest' },
             responseType: 'json'
           }).then((Response) => {
-            // 나중에 수정 (삭제X)
-            // for (let i=0; i < Response.data.length; i++)
-            //   this.jsdata.push({
-            //     STOREID: Response.data[i].STOREID,
-            //     STORENAME: Response.data[i].STORENAME,
-            //     CATEGORY: Response.data[i].CATEGORY,
-            //     ADDRESS: Response.data[i].ADDRESS,
-            //     OPEN: Response.data[i].OPEN,
-            //     TEL: Response.data[i].TEL,
-            //     INFO: Response.data[i].INFO,
-            //     KEYWORD: Response.data[i].KEYWORD,
-            //     STARRATE: Response.data[i].STARRATE,
-
             for (let i=0; i < 1; i++) {
               this.jsdata.push({
-                STOREID: Response.data[0].STOREID,
-                STORENAME: Response.data[0].STORENAME,
-                CATEGORY: Response.data[0].CATEGORY,
-                ADDRESS: Response.data[0].ADDRESS,
-                OPEN: Response.data[0].OPEN,
-                TEL: Response.data[0].TEL,
-                INFO: Response.data[0].INFO,
-                KEYWORD: Response.data[0].KEYWORD,
-                STARRATE: Response.data[0].STARRATE,
+                STOREID: Response.data[i].STOREID,
+                STORENAME: Response.data[i].STORENAME,
+                CATEGORY: Response.data[i].CATEGORY,
+                ADDRESS: Response.data[i].ADDRESS,
+                OPEN: Response.data[i].OPEN,
+                TEL: Response.data[i].TEL,
+                INFO: Response.data[i].INFO,
+                KEYWORD: Response.data[i].KEYWORD,
+                STARRATE: Response.data[i].STARRATE,
               })
             }
           })

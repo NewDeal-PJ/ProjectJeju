@@ -116,7 +116,7 @@
 
   <select id="getListReply">
     SELECT
-    * FROM TBL_REPLY ORDER BY REGDATE DESC
+    * FROM TBL_REPLY WHERE STOREID= #{storeid} ORDER BY REGDATE DESC
   </select>
 
   <insert id="insertReply">

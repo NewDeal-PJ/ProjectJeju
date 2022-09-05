@@ -550,6 +550,7 @@ export default {
       return () => {
         this.sidePanel=[],
         this.sidePanel.push(info)
+        window.location.href = 'http://localhost:9000/#/detail/'+info.STOREID;
       }
     },
   },

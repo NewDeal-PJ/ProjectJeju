@@ -318,7 +318,6 @@ app.post('/hotel', function (req, res) {
             }
           }
         }
-        console.log(DataList.length)
         res.send(DataList)
         //   const AllDataList =DataList.splice(529,DataList.length);
         //   response.send(AllDataList);
@@ -367,7 +366,6 @@ app.post('/carousel', function (request, response) {
             }
           }
         }
-        console.log(TopTenList.length)
         response.send(TopTenList)
       })
     })
@@ -415,7 +413,6 @@ app.post('/charger', function (req, res) {
             }
           }
         }
-        console.log(ChargerList.length)
         res.send(ChargerList)
       })
     })
@@ -430,9 +427,11 @@ app.post('/reply', function (request, response) {
         console.error(err.message);
         return;
       }
-
+      var param={
+        storeid: request.body.STOREID
+      }
       var format = { language: 'sql', indent: ' ' }
-      var query = mybatisMapper.getStatement('oracleMapper', 'getListReply', format);
+      var query = mybatisMapper.getStatement('oracleMapper', 'getListReply',param, format);
       console.log(query)
       connection.execute(query, {}, function (err, result) {
         if (err) {
@@ -453,7 +452,6 @@ app.post('/reply', function (request, response) {
             replyData.push(jsonData)
           }
         }
-        console.log(replyData.length)
         response.send(replyData)
       })
     })
@@ -487,6 +485,7 @@ app.post('/reply/insert', function (request, response) {
 });
 
 app.get('/store/:storeid',function (req,res) {
+  const StoreData=[];
   OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
     function (err, connection) {
       if (err) {
@@ -504,8 +503,29 @@ app.get('/store/:storeid',function (req,res) {
           console.error(err.message);
           return;
         }
-        console.log(result)
+        for (const i in result.rows) {
+          if (Object.hasOwnProperty.call(result.rows, i)) {
+            let rows = result.rows[i]
+            const jsonData = {
+              STOREID: rows[0],
+              STORENAME: rows[1],
+              CATEGORY:rows[2],
+              ADDRESS: rows[3],
+              INFO: rows[4],
+              KEYWORD : rows[4],
+              LONGITUDE : rows[5],
+              STARRATE : rows[6],
+              OPEN: rows[9],
+              TEL: rows[10],
+              UUID: rows[11],
+              PATH: rows[12],
+            }
+            StoreData.push(jsonData)
+          }
+        }
+        res.send(StoreData)
       })
+      
     })
 })
 
@@ -561,7 +581,6 @@ app.post('/store', function (req, res) {
             }
           }
         }
-        console.log(StoreList.length)
         res.send(StoreList)
       })
     })

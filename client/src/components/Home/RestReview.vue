@@ -1,5 +1,31 @@
 <template>
-    <div class="foodDetailReview" style=" width: 50%; margin: 0 auto;padding: 20px;">
+    <div class="foodDetailReviewStar">
+        <div class="star" style="padding:0 30% ;text-align: center; margin-top: 1%;">
+            <q-form @submit="onSubmit" class>
+                <q-rating name="quality" v-model="quality" max="5" size="3em" color="yellow" icon="star_border"
+                    icon-selected="star" no-dimming />
+            </q-form>
+        </div>
+
+        <div style="padding: 1% 20%;">
+            <div>
+                <div style="width: 500px;">
+                    <q-input v-model="content" filled autogrow val="content"/>
+                </div>
+            </div>
+        </div>
+
+        <div style="display: flex; padding: 1% 20%;">
+            <div style="width: 400px;">
+                <q-input @update:model-value="val => { files = val }" multiple filled type="file"
+                    hint="Native file (multiple)" />
+            </div>
+            <div style="padding:10px;">
+                <q-btn @click="creatReply(content)" label="등록" type="submit" color="orange" />
+            </div>
+        </div>
+
+    </div>
         <!-- <div>
             <div class="foodDetailNickname" style=" font-weight: bold; font-size: 18px;">
                 <p> 닉네임 </p>
@@ -46,35 +72,8 @@
         </div>
 
 
-    </div>
 
-    <div class="foodDetailReviewStar">
-        <div class="star" style="padding:0 30% ;text-align: center; margin-top: 1%;">
-            <q-form @submit="onSubmit" class>
-                <q-rating name="quality" v-model="quality" max="5" size="3em" color="yellow" icon="star_border"
-                    icon-selected="star" no-dimming />
-            </q-form>
-        </div>
-
-        <div style="padding: 1% 20%;">
-            <div>
-                <div style="width: 500px;">
-                    <q-input v-model="content" filled autogrow val="content"/>
-                </div>
-            </div>
-        </div>
-
-        <div style="display: flex; padding: 1% 20%;">
-            <div style="width: 400px;">
-                <q-input @update:model-value="val => { files = val }" multiple filled type="file"
-                    hint="Native file (multiple)" />
-            </div>
-            <div style="padding:10px;">
-                <q-btn @click="creatReply(content)" label="등록" type="submit" color="orange" />
-            </div>
-        </div>
-
-    </div>
+    
 
 </template>
 
@@ -121,6 +120,9 @@ export default {
             axios({
                 method: 'post',
                 url: 'http://localhost:3000/reply',
+                data:{
+                    STOREID : this.$route.params.id
+                },
                 headers: { 'X-Requested-With': 'XMLHttpRequest' },
                 responseType: 'json'
             }).then((Response) => {

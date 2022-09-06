@@ -628,6 +628,7 @@ app.post('/reply/insert', function (request, response) {
         storeid: Number(request.body.STOREID),
         content: request.body.CONTENT,
         starrate: Number(request.body.STARRATE),
+        rrno:request.body.RRNO
       }
 
       var format = { language: 'sql', indent: ' ' }
@@ -643,7 +644,7 @@ app.post('/reply/insert', function (request, response) {
       })
     })
 });
-app.put('/update', function (request, response) {
+app.put('/updateReply', function (request, response) {
   OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
     function (err, connection) {
       if (err) {
@@ -669,7 +670,7 @@ app.put('/update', function (request, response) {
       })
     })
 });
-app.delete('/delete', function (request, response) {
+app.delete('/deleteReply', function (request, response) {
   OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
     function (err, connection) {
       if (err) {

@@ -122,10 +122,14 @@
     * FROM TBL_REPLY WHERE STOREID= #{storeid} ORDER BY REGDATE DESC
   </select>
 
+  <select id="readReply">
+    SELECT * FROM TBL_REPLY WHERE RNO = #{rno}
+  </select>
+
   <!-- 맛집 새리뷰 DB 넣고 띄우기 -->
   <insert id="insertReply">
-	INSERT INTO TBL_REPLY(RNO,NICKNAME,REGDATE,STOREID,CONTENT,STARRATE) 
-	VALUES(SEQ_REPLY.NEXTVAL,#{nickname},SYSDATE,#{storeid},#{content},#{starrate})
+	INSERT INTO TBL_REPLY(RNO,NICKNAME,REGDATE,STOREID,CONTENT,STARRATE,RRNO) 
+	VALUES(SEQ_REPLY.NEXTVAL,#{nickname},SYSDATE,#{storeid},#{content},#{starrate},#{rrno})
   </insert>
   
 
@@ -164,12 +168,12 @@
     * FROM TBL_REPLY
 	WHERE NICKNAME=#{nickname}
   </select>
-	<insert id="insertProduct">
-	<selectKey resultType="Long" keyProperty="productid" order="BEFORE">
-        SELECT seq_product.nextval FROM dual      
-    </selectKey> 
-	INSERT INTO TBL_PRODUCT(PRODUCTID,PRODUCTNAME,PRICE,DESCRIPTION) 
-	VALUES(#{productid},#{productname},#{price},#{description})
-  </insert>
+  <insert id="insertProduct">
+	  <selectKey keyProperty="productid" order="BEFORE" resultType="Long">
+		   SELECT SEQ_PRODUCT.NEXTVAL FROM dual
+	  </selectKey> 
+		INSERT INTO TBL_PRODUCT(PRODUCTID,PRODUCTNAME,PRICE,DESCRIPTION) 
+		VALUES(#{productid},#{productname},#{price},#{description})
+	</insert>
 
 </mapper>

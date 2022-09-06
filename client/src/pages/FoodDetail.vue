@@ -117,7 +117,7 @@
             headers: { 'X-Requested-With': 'XMLHttpRequest' },
             responseType: 'json'
           }).then((Response) => {
-            for (let i=0; i < Response.data.length; i++) {
+            for (let i=0; i < 1; i++) {
               this.jsdata.push({
                 STOREID: Response.data[i].STOREID,
                 STORENAME: Response.data[i].STORENAME,
@@ -130,9 +130,6 @@
                 STARRATE: Math.round(Response.data[i].STARRATE*100)/100,
               })
             }
-          })
-          .then(()=>{
-            console.log(this.jsdata)
           }).catch(function (error) {
             console.log(error.toJSON())
           })

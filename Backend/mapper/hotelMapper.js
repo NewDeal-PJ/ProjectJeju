@@ -653,9 +653,10 @@ app.get('/store/:storeid',function (req,res) {
               CATEGORY:rows[2],
               ADDRESS: rows[3],
               INFO: rows[4],
-              KEYWORD : rows[4],
-              LONGITUDE : rows[5],
+              KEYWORD : rows[5],
               STARRATE : rows[6],
+              LONGITUDE : rows[7],
+              LATITUDE : rows[8],
               OPEN: rows[9],
               TEL: rows[10],
               UUID: rows[11],
@@ -707,15 +708,14 @@ app.post('/store', function (req, res) {
               CATEGORY:rows[2],
               ADDRESS: rows[3],
               INFO: rows[4],
-              KEYWORD : rows[4],
-              LONGITUDE : rows[5],
+              KEYWORD : rows[5],
               STARRATE : rows[6],
-              LONGITUDE: rows[7],
-              LATITUDE: rows[8],
+              LONGITUDE : rows[7],
+              LATITUDE : rows[8],
               OPEN: rows[9],
               TEL: rows[10],
               UUID: rows[11],
-              PATH: rows[12],
+              PATH: rows[12]
             }
             if (StoreList.length < result.rows.length) {
               StoreList.push(jsonData)
@@ -726,6 +726,46 @@ app.post('/store', function (req, res) {
       })
     })
 });
+
+app.post('/api/writinginfo',function (req,res) {
+  const replymypageData=[];
+  OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
+    function (err, connection) {
+      if (err) {
+        console.error(err.message);
+        return;
+      }
+      var param={
+        nickname : req.body.nickname
+      }
+      console.log(req.body.nickname)
+      var format = { language: 'sql', indent: ' ' }
+      var query = mybatisMapper.getStatement('oracleMapper', 'getReplyMypage',param, format);
+      console.log(query)
+      connection.execute(query, [], function (err, result) {
+        if (err) {
+          console.error(err.message);
+          return;
+        }
+        for (const i in result.rows) {
+          if (Object.hasOwnProperty.call(result.rows, i)) {
+            let rows = result.rows[i]
+            const jsonData = {
+              RNO: rows[0],
+              NICKNAME: rows[1],
+              REGDATE: rows[2],
+              STOREID: rows[3],
+              CONTENT: rows[4],
+              STARRATE: rows[5],
+            }
+            replymypageData.push(jsonData)
+          }
+        }
+        res.send(replymypageData)
+      })
+      
+    })
+})
 
 function connectionRelease(res, connection, result) {
   connection.release(function (err) {

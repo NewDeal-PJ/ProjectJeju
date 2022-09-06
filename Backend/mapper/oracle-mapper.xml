@@ -108,22 +108,27 @@
 	WHERE STOREID IS NOT NULL
 	<include refid="filter"></include>
   </select>
+
+  <!-- 맛집 정보 storeid 별로 구분 -->
   <select id="getStore">
     SELECT
     * FROM V_STORE
 	WHERE STOREID = #{storeid}
   </select>
 
+  <!-- 맛집 리뷰 크로링 정보 띄우기 -->
   <select id="getListReply">
     SELECT
     * FROM TBL_REPLY WHERE STOREID= #{storeid} ORDER BY REGDATE DESC
   </select>
 
+  <!-- 맛집 새리뷰 DB 넣고 띄우기 -->
   <insert id="insertReply">
 	INSERT INTO TBL_REPLY(RNO,NICKNAME,REGDATE,STOREID,CONTENT,STARRATE) 
 	VALUES(SEQ_REPLY.NEXTVAL,#{nickname},SYSDATE,#{storeid},#{content},#{starrate})
   </insert>
   
+
   <update id="updateReply">
  		UPDATE TBL_REPLY SET 
  			CONTENT = #{content},
@@ -131,9 +136,11 @@
  			STARRATE = #{starRate}
  		WHERE RNO = #{rno}
   </update>
+
   <delete id="deleteReply" >
 	DELETE FROM TBL_REPLY WHERE RNO = #{rno}
-</delete>
+  </delete>
+
   <update id="updateUser">
  		UPDATE TBL_MEMBER SET 
  			PW = #{user_pwd},
@@ -145,8 +152,17 @@
 			NICKNAME = #{user_nickname}
  		WHERE USERID = #{user_id}
   </update>
+
   <delete id="deleteUser" >
 	DELETE FROM TBL_MEMBER WHERE USERID = #{user_id}
-</delete>
+  </delete>
+
+  <!-- 아이디별(nickname) 리뷰 마이페이지에 구분(저장) -->
+  <!-- 리뷰 사진 크롤링 완료 후 -> 테이블 V_REPLY 로 변경해야됨 -->
+  <select id="getReplyMypage">
+    SELECT
+    * FROM TBL_REPLY
+	WHERE NICKNAME=#{nickname}
+  </select>
 
 </mapper>

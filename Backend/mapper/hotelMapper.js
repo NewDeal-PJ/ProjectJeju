@@ -1,8 +1,16 @@
 require("dotenv").config();
+const aws= require('aws-sdk')
 const db_user = process.env.DB_USER
 const db_password = process.env.DB_PASSWORD
 const db_string = process.env.DB_CONNECTSTRING
 const jwt_key = process.env.JWT_KEY
+const s3= new aws.S3({
+  accessKeyId:process.env.AWSAccessKeyId,
+  secretAccessKey:process.env.AWSSecretKey,
+  region: 'ap-northeast-2'
+})
+const multer= require('multer')
+const multerS3= require('multer-s3')
 
 
 var OracleDB = require('oracledb');

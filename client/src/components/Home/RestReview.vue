@@ -18,7 +18,7 @@
         <div style="display: flex; padding: 1% 20%;">
             <div style="width: 400px;">
                 <q-input @update:model-value="val => { files = val }" multiple filled type="file"
-                    hint="Native file (multiple)" />
+                    hint="최대 5장의 사진 파일만 가능합니다." accept=".jpg, .png, .svg" />
             </div>
             <div style="padding:10px;">
                 <q-btn @click="creatReply(content)" label="등록" type="submit" color="orange" />
@@ -46,12 +46,12 @@
         </div>-->
 
 
-    <!-- <q-infinite-scroll @load="getReply()" :offset="250"> -->
-    <div class="foodDetailReview" style=" width: 50%; margin: 0 auto;padding: 20px;" v-for="dataItem in jsdata"
-        :key="dataItem.RNO" :name="dataItem.RNO">
+    <q-infinite-scroll @load="fetchPosts" :offset="250">
+    <div class="foodDetailReview" style="width: 50%; margin: 0 auto;padding: 20px;" v-for="dataItem in jsdata"
+        :key="dataItem.RNO">
         <!-- <p> {{ dataItem.RNO }} </p> -->
         <hr>
-        
+
         <div class="foodDetailNickname" style=" font-weight: bold; font-size: 18px; display: flex; ">
             <span> 🧡　</span>
             <p> {{ dataItem.NICKNAME }} </p>
@@ -85,12 +85,12 @@
 
     </div>
 
-    <!-- <template v-slot:loading>
+    <template v-slot:loading>
             <div class="row justify-center q-my-md">
                 <q-spinner-dots color="primary" size="40px" />
             </div>
         </template>
-    </q-infinite-scroll> -->
+    </q-infinite-scroll>
 
 
 
@@ -107,12 +107,20 @@ export default {
     setup() {
         const jsdata = ref([])
         const submitResult = ref([])
+        const limit=10
         return {
             jsdata,
+            fetchposts(index,done) {
+                console.log(index)
+                const start=index*limit
+                const query =`?_start=${start}&_limit=${limit}`
+                jsdata
+                done()
+            },
             slide: ref(1),
             fullscreen: ref(false),
             content: ref([]),
-
+            files: ref(null),
             quality: ref(3),
             submitResult,
             onSubmit(evt) {
@@ -129,16 +137,13 @@ export default {
         }
     },
     mounted() {
-        this.getReply()
+        // this.getReply()
     },
     methods: {
         getReply() {
             axios({
-                method: 'post',
-                url: 'http://localhost:3000/reply',
-                data: {
-                    STOREID: this.$route.params.id
-                },
+                method: 'get',
+                url: 'http://localhost:3000/reply'+this.$route.params.id,
                 headers: { 'X-Requested-With': 'XMLHttpRequest' },
                 responseType: 'json'
             }).then((Response) => {
@@ -158,17 +163,44 @@ export default {
                 })
         },
         creatReply(content) {
+            if (this.files) {
+                for (let i = 0; i < this.files.length; i++) {
+                    console.log(this.files[i])
+                    const uploadFile = this.files[i]
+                    const formData = new FormData()
+                    formData.append("File", uploadFile)
+                    axios({
+                        method: 'post',
+                        url: 'http://localhost:3000/upload',
+                        data: formData,
+                        headers: {
+                            'Content-Type': 'multipart/form-data',
+                        },
+                    }).catch(function (error) {
+                        console.log(error.toJSON())
+                    });
+                }
+            }
             axios({
                 method: 'post',
                 url: 'http://localhost:3000/reply/insert',
                 data: {
-                    NICKNAME: "QWER1234",
-                    STOREID: 0,
+                    NICKNAME: "soobintest",
+                    STOREID: this.$route.params.id,
                     CONTENT: content,
                     STARRATE: 4.1
                 },
                 headers: { 'X-Requested-With': 'XMLHttpRequest' },
                 responseType: 'json'
+            }).then(() => {
+                $q.notify({
+                    color: 'orange-7',
+                    icon: 'thumb_up',
+                    message: `소중한 의견 감사합니다.`,
+                    position: 'center',
+                    timeout: 1200
+                })
+                window.location.reload()
             }).catch(function (error) {
                 // 에러 핸들링
                 console.log(error.toJSON());

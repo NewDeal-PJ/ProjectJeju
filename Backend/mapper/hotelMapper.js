@@ -1,16 +1,17 @@
 require("dotenv").config();
-const aws= require('aws-sdk')
+const aws = require('aws-sdk')
 const db_user = process.env.DB_USER
 const db_password = process.env.DB_PASSWORD
 const db_string = process.env.DB_CONNECTSTRING
 const jwt_key = process.env.JWT_KEY
-const s3= new aws.S3({
-  accessKeyId:process.env.AWSAccessKeyId,
-  secretAccessKey:process.env.AWSSecretKey,
+const s3 = new aws.S3({
+  accessKeyId: process.env.AWSAccessKeyId,
+  secretAccessKey: process.env.AWSSecretKey,
   region: 'ap-northeast-2'
 })
-const multer= require('multer')
-const multerS3= require('multer-s3')
+const multer = require('multer')
+const multerS3 = require('multer-s3')
+const path = require("path");
 
 
 var OracleDB = require('oracledb');
@@ -148,7 +149,7 @@ app.post('/api/login', (req, res) => {
         console.log(member)
         //member값이 있으면 member 정보를 send, 없으면 없다고 보냄
         if (member) {
-          if(bcrypt.compareSync(loginPw , member.loginPw)){
+          if (bcrypt.compareSync(loginPw, member.loginPw)) {
             const options = {
               domain: "localhost",
               path: "/",
@@ -157,7 +158,7 @@ app.post('/api/login', (req, res) => {
             };
             const token = jwt.sign({
               // 우리가 필요한 객체 정보
-              id : member.id,
+              id: member.id,
               name: member.name
             },
               // 2번째 인자로는 암호키, 만료시간, 토큰배급자
@@ -167,15 +168,15 @@ app.post('/api/login', (req, res) => {
             });
             // 클라이언트에 토큰값을 쏘자 !
 
-          res.cookie("token", token, options)
-          res.send(member);
-          members = []
+            res.cookie("token", token, options)
+            res.send(member);
+            members = []
           }
-          else{
+          else {
             res.sendStatus(404);
           }
         }
-        else{
+        else {
           res.sendStatus(401)
         }
         console.log('loginId:', loginId, 'loginPw:', loginPw)
@@ -223,24 +224,24 @@ app.post('/api/check_id', async (req, res) => {
         }
         console.log(check_member.length)
         console.log(check_member)
-        if(check_member.length > 0){
-        for (let j = 0; j <= check_member.length; j++) {
-          try {
-            if (check_member[j].id === chk_id) {
-              let result = 1;
-              return res.send({ status: 200, result: result });
+        if (check_member.length > 0) {
+          for (let j = 0; j <= check_member.length; j++) {
+            try {
+              if (check_member[j].id === chk_id) {
+                let result = 1;
+                return res.send({ status: 200, result: result });
+              }
+
+              else {
+                result = 0;
+              }
+            } catch (err) {
+              console.error(err);
+              return res.send({ status: -1, result: result });
             }
-        
-            else {
-              result = 0;
-            }
-          } catch (err) {
-            console.error(err);
-            return res.send({ status: -1, result: result });
           }
         }
-        }
-        else{
+        else {
           result = 0;
           return res.send({ status: -1, result: result });
         }
@@ -271,9 +272,9 @@ app.post('/api/signup', async (req, res) => {
 
 
 // 회원정보 수정 API
-app.put('/api/userinfo/update',  async (req, res) => {
-  const hashedPwd = await bcrypt.hash(req.body.update_pwd._value,10)
-  console.log('req.body:',req.body)
+app.put('/api/userinfo/update', async (req, res) => {
+  const hashedPwd = await bcrypt.hash(req.body.update_pwd._value, 10)
+  console.log('req.body:', req.body)
   try {
     OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
       function (err, connection) {
@@ -285,10 +286,10 @@ app.put('/api/userinfo/update',  async (req, res) => {
           user_id: req.body.user_id,
           user_pwd: hashedPwd,
           user_tel1: req.body.update_tel1._value,
-          user_tel2 : req.body.update_tel2._value,
-          user_tel3 : req.body.update_tel3._value,
-          user_email : req.body.update_email._value,
-          user_nickname : req.body.update_nickname._value,
+          user_tel2: req.body.update_tel2._value,
+          user_tel3: req.body.update_tel3._value,
+          user_email: req.body.update_email._value,
+          user_nickname: req.body.update_nickname._value,
         }
         console.log(param)
         var format = { language: 'sql', indent: ' ' }
@@ -303,15 +304,15 @@ app.put('/api/userinfo/update',  async (req, res) => {
           connectionRelease(res, connection, result.rowsAffected)
         })
       })
-    
+
   } catch (error) {
   }
-  
+
 });
 
 //회원 탈퇴 API
-app.post('/api/userinfo/delete',  async (req, res) => {
-  console.log('req.body:',req.body)
+app.post('/api/userinfo/delete', async (req, res) => {
+  console.log('req.body:', req.body)
   try {
     OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
       function (err, connection) {
@@ -338,10 +339,10 @@ app.post('/api/userinfo/delete',  async (req, res) => {
           }
         })
       })
-    
+
   } catch (error) {
   }
-  
+
 });
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -539,15 +540,15 @@ app.post('/charger', function (req, res) {
         console.error(err.message);
         return;
       }
-      var param={
-        jeju :req.body.jeju,
-        aewol:req.body.aewol,
-        hamdeok:req.body.hamdeok,
-        moonset:req.body.moonset,
-        gujwa:req.body.gujwa,
-        seogwipo:req.body.seogwipo,
-        seongsan:req.body.seongsan,
-        pyoseon:req.body.pyoseon,
+      var param = {
+        jeju: req.body.jeju,
+        aewol: req.body.aewol,
+        hamdeok: req.body.hamdeok,
+        moonset: req.body.moonset,
+        gujwa: req.body.gujwa,
+        seogwipo: req.body.seogwipo,
+        seongsan: req.body.seongsan,
+        pyoseon: req.body.pyoseon,
       }
 
       var format = { language: 'sql', indent: ' ' }
@@ -578,7 +579,7 @@ app.post('/charger', function (req, res) {
 });
 
 
-app.post('/reply', function (request, response) {
+app.get('/reply/:storeid', function (request, response) {
   const replyData = [];
   OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
     function (err, connection) {
@@ -586,11 +587,11 @@ app.post('/reply', function (request, response) {
         console.error(err.message);
         return;
       }
-      var param={
-        storeid: request.body.STOREID
+      var param = {
+        storeid: request.params.storeid
       }
       var format = { language: 'sql', indent: ' ' }
-      var query = mybatisMapper.getStatement('oracleMapper', 'getListReply',param, format);
+      var query = mybatisMapper.getStatement('oracleMapper', 'getListReply', param, format);
       console.log(query)
       connection.execute(query, {}, function (err, result) {
         if (err) {
@@ -693,19 +694,19 @@ app.delete('/delete', function (request, response) {
     })
 });
 
-app.get('/store/:storeid',function (req,res) {
-  const StoreData=[];
+app.get('/store/:storeid', function (req, res) {
+  const StoreData = [];
   OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
     function (err, connection) {
       if (err) {
         console.error(err.message);
         return;
       }
-      var param={
-        storeid : req.params.storeid
+      var param = {
+        storeid: req.params.storeid
       }
       var format = { language: 'sql', indent: ' ' }
-      var query = mybatisMapper.getStatement('oracleMapper', 'getStore',param, format);
+      var query = mybatisMapper.getStatement('oracleMapper', 'getStore', param, format);
       console.log(query)
       connection.execute(query, [], function (err, result) {
         if (err) {
@@ -718,13 +719,13 @@ app.get('/store/:storeid',function (req,res) {
             const jsonData = {
               STOREID: rows[0],
               STORENAME: rows[1],
-              CATEGORY:rows[2],
+              CATEGORY: rows[2],
               ADDRESS: rows[3],
               INFO: rows[4],
-              KEYWORD : rows[5],
-              STARRATE : rows[6],
-              LONGITUDE : rows[7],
-              LATITUDE : rows[8],
+              KEYWORD: rows[5],
+              STARRATE: rows[6],
+              LONGITUDE: rows[7],
+              LATITUDE: rows[8],
               OPEN: rows[9],
               TEL: rows[10],
               UUID: rows[11],
@@ -735,7 +736,7 @@ app.get('/store/:storeid',function (req,res) {
         }
         res.send(StoreData)
       })
-      
+
     })
 })
 
@@ -748,15 +749,15 @@ app.post('/store', function (req, res) {
         console.error(err.message);
         return;
       }
-      var param={
-        jeju :req.body.jeju,
-        aewol:req.body.aewol,
-        hamdeok:req.body.hamdeok,
-        moonset:req.body.moonset,
-        gujwa:req.body.gujwa,
-        seogwipo:req.body.seogwipo,
-        seongsan:req.body.seongsan,
-        pyoseon:req.body.pyoseon,
+      var param = {
+        jeju: req.body.jeju,
+        aewol: req.body.aewol,
+        hamdeok: req.body.hamdeok,
+        moonset: req.body.moonset,
+        gujwa: req.body.gujwa,
+        seogwipo: req.body.seogwipo,
+        seongsan: req.body.seongsan,
+        pyoseon: req.body.pyoseon,
       }
 
       var format = { language: 'sql', indent: ' ' }
@@ -773,13 +774,13 @@ app.post('/store', function (req, res) {
             const jsonData = {
               STOREID: rows[0],
               STORENAME: rows[1],
-              CATEGORY:rows[2],
+              CATEGORY: rows[2],
               ADDRESS: rows[3],
               INFO: rows[4],
-              KEYWORD : rows[5],
-              STARRATE : rows[6],
-              LONGITUDE : rows[7],
-              LATITUDE : rows[8],
+              KEYWORD: rows[5],
+              STARRATE: rows[6],
+              LONGITUDE: rows[7],
+              LATITUDE: rows[8],
               OPEN: rows[9],
               TEL: rows[10],
               UUID: rows[11],
@@ -795,20 +796,20 @@ app.post('/store', function (req, res) {
     })
 });
 
-app.post('/api/writinginfo',function (req,res) {
-  const replymypageData=[];
+app.post('/api/writinginfo', function (req, res) {
+  const replymypageData = [];
   OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
     function (err, connection) {
       if (err) {
         console.error(err.message);
         return;
       }
-      var param={
-        nickname : req.body.nickname
+      var param = {
+        nickname: req.body.nickname
       }
       console.log(req.body.nickname)
       var format = { language: 'sql', indent: ' ' }
-      var query = mybatisMapper.getStatement('oracleMapper', 'getReplyMypage',param, format);
+      var query = mybatisMapper.getStatement('oracleMapper', 'getReplyMypage', param, format);
       console.log(query)
       connection.execute(query, [], function (err, result) {
         if (err) {
@@ -831,7 +832,7 @@ app.post('/api/writinginfo',function (req,res) {
         }
         res.send(replymypageData)
       })
-      
+
     })
 })
 
@@ -844,6 +845,22 @@ function connectionRelease(res, connection, result) {
   })
 
 }
+
+const upload = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: 'jejuprojectimage',
+    key: function (req, file, cb) {
+      const extension = path.extname(file.originalname);
+      cb(null, Date.now().toString() + extension);
+    },
+    acl: 'public-read-write',
+    contentType: multerS3.AUTO_CONTENT_TYPE
+  }),
+});
+app.post('/upload', upload.single("File"), function (req,res,next) {
+  console.log(req.file)
+})
 
 http.createServer(app).listen(app.get('port'), () => {
   console.log('Express server port : ' + app.get('port'))

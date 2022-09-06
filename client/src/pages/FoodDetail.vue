@@ -117,7 +117,7 @@
             headers: { 'X-Requested-With': 'XMLHttpRequest' },
             responseType: 'json'
           }).then((Response) => {
-            for (let i=0; i < 1; i++) {
+            for (let i=0; i < Response.data.length; i++) {
               this.jsdata.push({
                 STOREID: Response.data[i].STOREID,
                 STORENAME: Response.data[i].STORENAME,
@@ -127,7 +127,7 @@
                 TEL: Response.data[i].TEL,
                 INFO: Response.data[i].INFO,
                 KEYWORD: Response.data[i].KEYWORD,
-                STARRATE: Response.data[i].STARRATE,
+                STARRATE: Math.round(Response.data[i].STARRATE*100)/100,
               })
             }
           })

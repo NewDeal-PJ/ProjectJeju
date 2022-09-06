@@ -51,6 +51,7 @@
         :key="dataItem.RNO" :name="dataItem.RNO">
         <!-- <p> {{ dataItem.RNO }} </p> -->
         <hr>
+        
         <div class="foodDetailNickname" style=" font-weight: bold; font-size: 18px; display: flex; ">
             <span> 🧡　</span>
             <p> {{ dataItem.NICKNAME }} </p>

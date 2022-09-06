@@ -146,7 +146,6 @@ app.post('/api/login', (req, res) => {
         console.log(members)
 
         const member = members.find(m => m.loginId === loginId)
-        console.log(member)
         //member값이 있으면 member 정보를 send, 없으면 없다고 보냄
         if (member) {
           if (bcrypt.compareSync(loginPw, member.loginPw)) {
@@ -168,9 +167,9 @@ app.post('/api/login', (req, res) => {
             });
             // 클라이언트에 토큰값을 쏘자 !
 
-            res.cookie("token", token, options)
-            res.send(member);
-            members = []
+          res.cookie("token", token, options)
+          res.send(member);
+          members = []
           }
           else {
             res.sendStatus(404);

@@ -15,10 +15,24 @@
           @mouseenter="autoplay = false"
           @mouseleave="autoplay = true"
           >
-          <q-carousel-slide :name="1" img-src="https://cdn.quasar.dev/img/mountains.jpg" />
+          
+          <!-- <q-carousel-slide :name="1" img-src={{ homeimg }} />
           <q-carousel-slide :name="2" img-src="https://cdn.quasar.dev/img/parallax1.jpg" />
           <q-carousel-slide :name="3" img-src="https://cdn.quasar.dev/img/parallax2.jpg" />
-          <q-carousel-slide :name="4" img-src="https://cdn.quasar.dev/img/quasar.jpg" />
+          <q-carousel-slide :name="4" img-src="https://cdn.quasar.dev/img/quasar.jpg" /> -->
+
+            <!-- <q-carousel-slide
+              v-for = "slide in imgjsdata"
+              :name = "slide.path"
+              :img-src = "slide.imgurl">
+            </q-carousel-slide> -->
+
+            <q-carousel-slide
+              v-for = "slide in imgjsdata"
+              :name = "slide.id"
+              :img-src = "slide.imgurl">
+            </q-carousel-slide>
+          
           </q-carousel>
       </div>
       <!-- <div class="foodDetailInfo"> -->
@@ -104,6 +118,7 @@
       data() {
         return {
           jsdata: [],
+          imgjsdata: [],
         }
       },
       mounted(){
@@ -117,19 +132,29 @@
             headers: { 'X-Requested-With': 'XMLHttpRequest' },
             responseType: 'json'
           }).then((Response) => {
-            for (let i=0; i < 1; i++) {
-              this.jsdata.push({
-                STOREID: Response.data[i].STOREID,
-                STORENAME: Response.data[i].STORENAME,
-                CATEGORY: Response.data[i].CATEGORY,
-                ADDRESS: Response.data[i].ADDRESS,
-                OPEN: Response.data[i].OPEN,
-                TEL: Response.data[i].TEL,
-                INFO: Response.data[i].INFO,
-                KEYWORD: Response.data[i].KEYWORD,
-                STARRATE: Math.round(Response.data[i].STARRATE*100)/100,
-              })
+            for (let i=0; i < Response.data.length; i++) {
+              const uuid =Response.data[i].UUID
+              const path =Response.data[i].PATH
+              const url='https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/'
+                this.imgjsdata.push({
+                  id :i,
+                  imgurl: url+ path+ '/' + uuid
+                })
             }
+              this.jsdata.push({
+                STOREID: Response.data[0].STOREID,
+                STORENAME: Response.data[0].STORENAME,
+                CATEGORY: Response.data[0].CATEGORY,
+                ADDRESS: Response.data[0].ADDRESS,
+                OPEN: Response.data[0].OPEN,
+                TEL: Response.data[0].TEL,
+                INFO: Response.data[0].INFO,
+                KEYWORD: Response.data[0].KEYWORD,
+                STARRATE: Math.round(Response.data[0].STARRATE*100)/100,
+              })
+          })
+          .then(()=>{
+            console.log(this.jsdata)
           }).catch(function (error) {
             console.log(error.toJSON())
           })

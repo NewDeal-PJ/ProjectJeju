@@ -1,6 +1,7 @@
 <template lang="pug">
 div(class="q-pa-md")
-  div(id="map" style="width:95%;height:57.5rem;margin:0 auto; overflow:hidden; border:1px solid;")
+div(style="padding-top: 10%;")
+  div(id="map" style="width:60%;height:30rem;; overflow:hidden; border:1px solid;")
     q-btn-dropdown(split color="red-5" push no-caps @click="displayHotel(category, filter, locationFilter)" style="margin-left: 0.5rem; width: 10.5rem; height: 3.5rem; position: relative; z-index: 10;")
       template(v-slot:label)
         div(class="row items-center no-wrap")

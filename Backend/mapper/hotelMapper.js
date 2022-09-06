@@ -343,6 +343,74 @@ app.post('/api/userinfo/delete',  async (req, res) => {
   }
   
 });
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//상품부분 /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+app.post('/api/shop/register', function (req, res) {
+  console.log(req.body)
+  OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
+    function (err, connection) {
+      if (err) {
+        console.error(err.message);
+        return;
+      }
+      var param = {
+        productname: req.body.product_name._value,
+        description: req.body.product_content._value,
+        price : req.body.product_price._value
+      }
+
+      var format = { language: 'sql', indent: ' ' }
+      var query = mybatisMapper.getStatement('oracleMapper', 'insertProduct', param, format);
+      console.log(query)
+      connection.execute(query, [], function (err, result) {
+        if (err) {
+          console.error(err.message);
+          return;
+        }
+        console.log('Insert 성공 : ' + result.rowsAffected)
+        connectionRelease(res, connection, result.rowsAffected)
+      })
+    })
+  res.sendStatus(200)
+})
+
+  // OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
+  //   function (err, connection) {
+  //     if (err) {
+  //       console.error(err.message);
+  //       return;
+  //     }
+  //     var param = {
+  //       nickname: request.body.NICKNAME,
+  //       storeid: Number(request.body.STOREID),
+  //       content: request.body.CONTENT,
+  //       starrate: Number(request.body.STARRATE),
+  //     }
+
+  //     var format = { language: 'sql', indent: ' ' }
+  //     var query = mybatisMapper.getStatement('oracleMapper', 'insertReply', param, format);
+  //     console.log(query)
+  //     connection.execute(query, [], function (err, result) {
+  //       if (err) {
+  //         console.error(err.message);
+  //         return;
+  //       }
+  //       console.log('Insert 성공 : ' + result.rowsAffected)
+  //       connectionRelease(response, connection, result.rowsAffected)
+  //     })
+  //   })
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//장바구니부분 /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//결제부분 /////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 
 

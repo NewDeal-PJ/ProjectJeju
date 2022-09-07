@@ -148,7 +148,7 @@ export default{
                   // console.log(image._value[0].name)
                   // console.log(img._value)
                   state.data = res.data;
-                  // window.location.href = 'http://localhost:9000/#/api/shop';
+                  window.location.href = 'http://localhost:9000/#/api/shop';
                   $q.notify({
                     color: 'orange-7',
                     icon: 'thumb_up',

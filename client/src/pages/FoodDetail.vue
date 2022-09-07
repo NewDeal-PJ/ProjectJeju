@@ -94,6 +94,7 @@
   import { ref } from 'vue'
   import Footer from '../components/Home/Footer.vue'
   export default{
+    components: { Header, Footer,RestReview },
           setup () {
           const submitResult = ref([])
           return {
@@ -159,8 +160,7 @@
             console.log(error.toJSON())
           })
         }
-      },
-      components: { Header, Footer,RestReview }
+      }
   };
 
 

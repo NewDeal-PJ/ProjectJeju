@@ -1,39 +1,102 @@
 <template>
-  <header>
-    <div class="headBackground">
-      <div class="menuWrap">
-        <a href="http://localhost:9000" style="color: white;">
-          <div class="headTitle"> Jeju Olle? </div>
-        </a>
-        <ul class="headMenu">
-          <a href="http://localhost:9000" style="color: white; padding-left: 3%;"> Home</a>
-          <a href="http://localhost:9000/#/api/shop" style="color: white; padding-left: 3%;"> Shop</a>
-          <a href="http://localhost:9000/#/api/cart1" style="color: white; padding-left: 3%;"> Cart</a>
-          <a v-if="state.account.id">
-            <a href="http://localhost:9000/#/api/mypage" style="color: white; padding-left: 3%;"> MyPage</a>
-          </a>
-          <div v-if="state.account.id">
-            <a href="http://localhost:9000/#/api/logout" @click='logout()' style="color: white; padding-left: 3%;">
-              LogOut</a>
-          </div>
-          <div v-else>
-            <a href="http://localhost:9000/#/api/login" style="color: white; padding-left: 3%;"> LogIn</a>
-          </div>
-          <a href="http://localhost:9000/#/api/CustomerService" style="color: white; padding-left: 3%;">Q&A</a>
-        </ul>
-      </div>
+  <header :class="{ 'scrolled-nav': scrolledNav}">
+  <nav>
+    <div class="branding">
+      <i class="fas fa-seedling"></i>
+      <a href="">Jeju Olle?</a>
     </div>
+    <ul v-show="!mobile" class="navigation">
+      <li><a href="http://localhost:9000">Home</a></li>
+      <li><a href="http://localhost:9000/#/api/shop">Shop</a></li>
+      <li><a href="http://localhost:9000/#/api/cart1">Cart</a></li>
 
+      <a v-if="state.account.id">
+      <li><a href="http://localhost:9000/#/api/mypage">MyPage</a></li>
+      </a>
+      <div v-if="state.account.id">
+      <li><a href="http://localhost:9000/#/api/logout" @click='logout()'>LogOut</a></li>
+      </div>
+
+      <div v-else>
+      <li><a href="http://localhost:9000/#/api/login">LogIn</a></li>
+      </div>
+      <li><a href="http://localhost:9000/#/api/CustomerService">Q&A</a></li>
+    </ul>
+    <div class="icon">
+      <i @click="toggleMobileNav" v-show="mobile" class="fas fa-bars" :class="{ 'icon-active': mobileNav }"></i>
+    </div>
+    <transition name="mobile-nav">
+      <ul v-show="mobileNav" class="dropdown-nav">
+        <li><a href="http://localhost:9000">Home</a></li>
+        <li><a href="http://localhost:9000/#/api/shop">Shop</a></li>
+        <li><a href="http://localhost:9000/#/api/cart1">Cart</a></li>
+
+        <a v-if="state.account.id">
+        <li><a href="http://localhost:9000/#/api/mypage">MyPage</a></li>
+        </a>
+        <div v-if="state.account.id">
+        <li><a href="http://localhost:9000/#/api/logout" @click='logout()'>LogOut</a></li>
+        </div>
+
+        <div v-else>
+        <li><a href="http://localhost:9000/#/api/login">LogIn</a></li>
+        </div>
+        <li><a href="http://localhost:9000/#/api/CustomerService">Q&A</a></li>
+    </ul>
+    </transition>
+  </nav>
   </header>
 </template>
-    
-    <script>
+
+<script>
 import axios from "axios";
 import { reactive } from 'vue';
 import { useQuasar } from 'quasar';
 
-export default {
-  //셋업 설정
+  export default{
+    name: "navigation",
+    data() {
+      return{
+        scrolledNav: null,
+        mobile: null,
+        mobileNav: null,
+        windowWidth: null,
+      };
+    },
+    created() {
+      window.addEventListener('resize', this.checkScreen);
+      this.checkScreen();
+    },
+    mounted() {
+      window.addEventListener("scroll", this.updateScroll);
+    },
+    methods: {
+      toggleMobileNav() {
+        this.mobileNav = !this.mobileNav;
+      },
+
+      updateScroll() {
+        const scrollPosition = window.screenY;
+        if (scrollPosition > 50) {
+          this.scrolledNav = true;
+          return;
+        }
+        this.scrolledNav = false;
+      },
+
+      checkScreen() {
+        this.windowWidth = window.innerWidth;
+        if (this.windowWidth <= 750){
+          this.mobile = true;
+          return;
+        }
+        this.mobile = false;
+        this.mobileNav = false;
+        return;
+      },
+    },
+
+      //셋업 설정
   //CORS 이슈는 quasar.config.js 파일에서 proxy 설정을 통해서 우회했다.
   setup() {
     const $q = useQuasar();
@@ -70,47 +133,160 @@ export default {
     });
     return { state, logout };
   }
-}
+  };
 </script>
-    
-    <style scoped>
-    .headBackground {
-      height: 130px;
-      overflow: hidden;
-      margin: 0;
-      background-image: url("https://images.unsplash.com/photo-1596941248238-0d49dcaa4263?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80");
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-position: center;
-      opacity: 93%;
-    }
-    
-    .headTitle {
-      position: absolute;
-      /* width: 329px;
-                height: 94px; */
-      padding-top: 40px;
-      padding-left: 3%;
-      font-family: 'Rubik', sans-serif;
-      font-style: normal;
-      font-weight: 600;
-      font-size: 40px;
-      line-height: 62px;
-    }
-    
-    .headMenu {
-      float: right;
-      padding-top: 10px;
-      padding-right: 9%;
-      color: #FFFFFF;
-      font-weight: bold;
-      font-size: 20px;
-      font-family: 'Rubik', sans-serif;
-      font-style: normal;
+
+<style lang="scss" scoped>
+  header {
+    background-color: antiquewhite;
+    z-index: 99;
+    width: 100%;
+    position: fixed;
+    transition: 0.5s ease all;
+    color: white;
+    top: 0;
+
+
+    nav {
+      position: relative;
       display: flex;
+      flex-direction: row;
+      transition: 0.5s ease all;
+      width: 90%;
+      margin: 0 auto;
+      @media (min-width: 1140px) {
+        max-width: 1140px;
+      }
+
+      ul,
+      .link {
+        font-weight: 500;
+        color: white;
+        list-style: none;
+        text-decoration: none;
+      }
+
+      li {
+        text-transform: uppercase;
+        padding: 16px;
+        margin-left: 16px;
+      }
+
+      li:hover {
+        background-color: bisque;
+        border-radius: 5px;
+      }
+
+      .link {
+        font-size: 14px;
+        transition: 0.5s ease all;
+        padding-bottom: 4px;
+        border-bottom: 1px solid transparent;
+
+        &:hover {
+          color: aqua;
+          border-color: aqua;
+        }
+      }
+
+      .branding {
+        display: flex;
+        align-items: center;
+        font-size: 29px;
+        img{
+          width: 50px;
+          transition: 0.5s ease all;
+        }
+        i {
+          color: green;
+        }
+      }
+
+      .navigation {
+        display: flex;
+        align-items: center;
+        flex: 1;
+        justify-content: flex-end;
+      }
+
+      .icon{
+        display: flex;
+        align-items: center;
+        position: absolute;
+        top: 0;
+        right: 24px;
+        height: 100%;
+        color: green;
+
+        i {
+          cursor: pointer;
+          font-size: 24px;
+          transition: 0.8s ease all;
+        }
+      }
+
+      .icon-active {
+        transform: rotate(180deg);
+      }
+
+      .dropdown-nav {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        width: 100%;
+        max-width: 190px;
+        height: 100%;
+        background-color: white;
+        top: 0;
+        left: 0;
+        margin: 0;
+        overflow: hidden;
+        overflow-y: auto;
+        padding-left: 0;
+
+        li {
+          margin-left: 0;
+            // .link{
+            //   color: black;
+            // }
+        }
+      }
+
+      .mobile-nav-enter-active,
+      .mobile-nav-leave-active {
+        transition: 1s ease all;
+      }
+
+      .mobile-nav-enter-from,
+      .mobile-nav-leave-to {
+        transform: translateX(-250px);
+      }
+
+      .mobile-nav-enter-to {
+        transform: translateX(0);
+      }
     }
-    
-    a {
-      text-decoration: none
+  }
+
+.scrolled-nav {
+  background-color: black;
+  box-shadow: 0 4px 6px -1px rgb(0, 0, 0.06);
+
+  nav{
+    padding: 8px 0;
+
+    .branding {
+      img {
+        width: 40px;
+        box-shadow: 0 4px 6px -1px rgb(0, 0, 0.06);
+      }
     }
-    </style>
+  }
+}
+
+a{
+  text-decoration: none;
+  color: orange;
+  display: contents;
+}
+</style>

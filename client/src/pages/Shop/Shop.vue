@@ -8,7 +8,7 @@
   <div class="shopContainer">
     <div class="row g-3">
       <div >
-        <div style="display:flex">
+        <div style="display:flex; ">
         <q-card class="my-card" v-for="dataItem in jsdata" :key="dataItem.PRODUCTID" :name="dataItem.PRODUCTID">
           <q-img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrpo2xqATkvmnvnMEaj3IVVcyjVV3rW6S3iQ&usqp=CAU" />
             <q-card-section class="goods">
@@ -19,14 +19,14 @@
                   {{dataItem.PRODUCTDESCRIPTION}}
                 </div>
                 <div class="text-subtitle1 text-red">
-                  {{dataItem.PRODUCTPRICE}}
+                  {{dataItem.PRODUCTPRICE}} 원
                 </div>
               <div class="row">
                 <div class="col-auto">
-                    <q-input
+                    <!-- <q-input
                       v-model.number="model"
                       type="number"
-                      filled/>
+                      filled/> -->
 
                 </div>
               </div>
@@ -52,36 +52,71 @@ import axios from 'axios'
 export default{
   setup () {
     return {
-      jsdata: [],
+      beforeMount,
+      jsdata: []
     }
+  },
+  beforeCreate(){
+    
+    console.log('0')
+  },
+  created(){
+    this.getProduct()
+    console.log('1')
+
+  },
+  beforeMount(){
+    this.getProduct()
+    console.log('2')
   },
   mounted(){
     this.getProduct()
+    this.$nextTick(function () {
+    // 전체 화면내용이 렌더링된 후에 아래의 코드가 실행됩니다.
+    console.log('3')
+  })
+    
   },
   methods: {
-        getProduct() {
-          axios({
-            method: 'get',
-            url: 'http://localhost:3000/api/shop',
-            headers: { 'X-Requested-With': 'XMLHttpRequest' },
-            responseType: 'json'
-          }).then((res) => {
-            for (let i=0; i < res.data.length; i++) {
-              this.jsdata.push({
-                PRODUCTID: res.data[i].id,
-                PRODUCTNAME: res.data[i].product_name,
-                PRODUCTPRICE: res.data[i].price,
-                PRODUCTDESCRIPTION: res.data[i].description
-              })
-            }
-            console.log(this.jsdata)
-          }).catch(function (error) {
-            console.log(error.toJSON())
+
+     getProduct(){
+      axios
+      .get("/api/shop")
+      .then((res) => {
+        for (let i=0; i < res.data.length; i++) {
+          this.jsdata.push({
+            PRODUCTID: res.data[i].id,
+            PRODUCTNAME: res.data[i].product_name,
+            PRODUCTPRICE: res.data[i].price,
+            PRODUCTDESCRIPTION: res.data[i].description
           })
         }
-      },
+        console.log(this.jsdata)
+      }).catch(function (error) {
+        console.log(error.toJSON())
+      })
+     },
+    //   axios({
+    //     method: 'get',
+    //     url: 'http://localhost:3000/api/shop',
+    //     headers: { 'X-Requested-With': 'XMLHttpRequest' },
+    //     responseType: 'json'
+    //   }).then((res) => {
+    //     for (let i=0; i < res.data.length; i++) {
+    //       this.jsdata.push({
+    //         PRODUCTID: res.data[i].id,
+    //         PRODUCTNAME: res.data[i].product_name,
+    //         PRODUCTPRICE: res.data[i].price,
+    //         PRODUCTDESCRIPTION: res.data[i].description
+    //       })
+    //     }
+    //     console.log(this.jsdata)
+    //   }).catch(function (error) {
+    //     console.log(error.toJSON())
+    //   })
+    // }
 
-  
+    },
   components: { Header, Footer }
 }
 </script>

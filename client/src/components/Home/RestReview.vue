@@ -26,7 +26,9 @@
         </div>
 
     </div>
-    <div class="foodDetailReview" style="width: 50%; margin: 0 auto;padding: 20px;" v-if="jsdata" v-for="(dataItem,idx) in jsdata" @click="selectReply(dataItem.RNO,dataItem)" v-bind:class="{ selected: dataItem.RNO === targetIdx }">
+    <div class="foodDetailReview" style="width: 50%; margin: 0 auto;padding: 20px;" v-if="jsdata"
+        v-for="(dataItem, idx) in jsdata" @click="selectReply(dataItem.RNO, dataItem)"
+        v-bind:class="{ selected: dataItem.RNO === targetIdx }">
         <hr>
 
         <div class="foodDetailNickname" style=" font-weight: bold; font-size: 18px; display: flex; ">
@@ -42,10 +44,9 @@
             <span> 📅　</span>
             <p> {{ dataItem.REGDATE }} </p>
         </div>
-        <!-- <div class="cat"> : 사진 나중에 넣을거임 삭제 하지말것
-            <img
-            src="https://velog.velcdn.com/images/kimjyunny_dev/post/370f3dab-9470-4918-a11f-3f05348dcf4b/image.jpeg">
-        </div> -->
+        <div class="cover">
+            <img :src="dataItem.imgurl"/>
+        </div>
         <div class="reviewDescription" style="font-size: 15px; display: flex;">
             <span> 🗣️　 </span>
             <p> {{ dataItem.CONTENT }} </p>
@@ -132,8 +133,8 @@ export default {
     },
     methods: {
         selectReply(idx, data) {
-            this.targetData=data
-            this.targetIdx=idx
+            this.targetData = data
+            this.targetIdx = idx
             console.log(idx)
             console.log(data)
 
@@ -146,13 +147,18 @@ export default {
                 responseType: 'json'
             }).then((Response) => {
                 for (let i = 0; i < Response.data.length; i++) {
+                    const uuid = Response.data[i].UUID
+                    const path = Response.data[i].PATH
+                    const url = 'https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/'
                     this.jsdata.push({
                         RNO: Response.data[i].RNO,
                         NICKNAME: Response.data[i].NICKNAME,
                         REGDATE: Response.data[i].REGDATE.slice(0, -14),
                         STOREID: Response.data[i].STOREID,
                         CONTENT: Response.data[i].CONTENT,
-                        STARRATE: Response.data[i].STARRATE
+                        STARRATE: Response.data[i].STARRATE,
+                        RRNO: Response.data[i].RRNO,
+                        imgurl: url+ path+ '/' + uuid
                     })
                 }
             })
@@ -187,7 +193,7 @@ export default {
                     STOREID: this.$route.params.id,
                     CONTENT: content,
                     STARRATE: 4.1,
-                    RRNO : null
+                    RRNO: null
                 },
                 headers: { 'X-Requested-With': 'XMLHttpRequest' },
                 responseType: 'json'
@@ -206,9 +212,9 @@ export default {
             })
 
         },
-        updateReply(rno,data) {
-            this.targetData=data
-            this.targetIdx=rno
+        updateReply(rno, data) {
+            this.targetData = data
+            this.targetIdx = rno
             // axios({
             //     method: 'put',
             //     url: 'http://localhost:3000/updateReply',
@@ -226,7 +232,7 @@ export default {
 
         },
         deleteReply(rno) {
-            this.targetIdx=rno
+            this.targetIdx = rno
             axios({
                 method: 'delete',
                 url: 'http://localhost:3000/deleteReply',

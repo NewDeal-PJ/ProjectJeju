@@ -607,6 +607,9 @@ app.get('/reply/:storeid', function (request, response) {
               STOREID: rows[3],
               CONTENT: rows[4],
               STARRATE: rows[5],
+              RRNO:rows[6],
+              UUID:rows[7],
+              PATH:rows[8],
             }
             replyData.push(jsonData)
           }

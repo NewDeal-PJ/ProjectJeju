@@ -119,7 +119,7 @@
   <!-- 맛집 리뷰 크로링 정보 띄우기 -->
   <select id="getListReply">
     SELECT
-    * FROM TBL_REPLY WHERE STOREID= #{storeid} ORDER BY REGDATE DESC
+    * FROM TBL_REPLY inner join tbl_reply_attach Using(rno) WHERE STOREID= #{storeid} ORDER BY REGDATE DESC
   </select>
 
 
@@ -133,25 +133,28 @@
 	INSERT INTO TBL_REPLY_ATTACH(UUID,PATH,IMAGE,RNO) 
 	VALUES(#{uuid},#{path},#{image},#{rno})
   </insert>
+  <select id="insertReplyRno">
+	SELECT SEQ_REPLY.NEXTVAL FROM DUAL
+  </select>
   
 
   <update id="updateReply">
  		UPDATE TBL_REPLY SET 
- 			CONTENT = #{content},
  			REGDATE = SYSDATE,
  			STARRATE = #{starRate},
+ 			CONTENT = #{content}
  		WHERE RNO = #{rno}
   </update>
   <update id="updateReplyAttach">
  		UPDATE TBL_REPLY_ATTACH SET 
  			UUID = #{uuid},
  			REGDATE = SYSDATE,
- 			PATH = #{path},
+ 			PATH = #{path}
  		WHERE RNO = #{rno}
   </update>
 
   <delete id="deleteReply" >
-	DELETE FROM V_REPLY WHERE RNO = #{rno}
+	DELETE FROM TBL_REPLY WHERE RNO = #{rno}
   </delete>
 
   <update id="updateUser">

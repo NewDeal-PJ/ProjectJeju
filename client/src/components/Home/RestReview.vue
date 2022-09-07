@@ -16,10 +16,10 @@
         </div>
 
         <div style="display: flex; padding: 1% 20%;">
-            <div style="width: 400px;">
+            <!-- <div style="width: 400px;">
                 <q-input @update:model-value="val => { files = val }" multiple filled type="file"
                     hint="최대 5장의 사진 파일만 가능합니다." accept=".jpg, .png, .svg" />
-            </div>
+            </div> -->
             <div style="padding:10px;">
                 <q-btn @click="creatReply(content)" label="등록" type="submit" color="orange" />
             </div>
@@ -45,26 +45,38 @@
             <p> {{ dataItem.REGDATE }} </p>
         </div>
         <div class="cover">
-            <!-- <img :src="dataItem.imgurl" /> -->
+            <img :src="dataItem.imgurl" />
         </div>
         <div class="reviewDescription" style="font-size: 15px; display: flex;">
             <span> 🗣️　 </span>
-            <p> {{ dataItem.CONTENT }} </p>
-            <q-btn @click="updateReply(dataItem.RNO)" v-bind:class="{ selected: dataItem.RNO === targetIdx }">
-                <td class="text-middle"> <span class="ModifyContainer" v-on:click="ModifyComment">
-                        <i class="fas fa-pencil"></i> </span> </td>
-            </q-btn>
-            <q-btn @click="deleteReply(dataItem.RNO)" v-bind:class="{ selected: dataItem.RNO === targetIdx }">
-                <td class="text-middle"> <span class="removeContainer" style="color: red;" v-on:click="RemoveComment">
-                        <i class="fa-solid fa-trash-can" aria-hidden="true"></i> </span> </td>
-            </q-btn>
+            <p style="float: left; margin-right: 1.25rem;"> {{ dataItem.CONTENT }} </p>
+            <div class="cursor-pointer">
+                <td class="text-middle" >
+                    <i class="fas fa-pencil"></i></td>
+                    <q-popup-edit v-model="editContent" :validate="val=>val.length>=1" v-slot="scope">
+                        <q-input autofocus dense v-model="scope.value" :model-value="scope.value" hint="댓글 수정" :rules="[
+                      val => scope.validate(val) || '한 글자 이상 적어주세요.'
+                    ]">
+                        <template v-slot:after>
+                            <q-btn flat dense color="negative" icon="cancel" @click.stop.prevent="scope.cancel" />
+                            
+                            <q-btn flat dense color="positive" icon="check_circle" @click.stop.prevent="scope.set"
+                            :disable="scope.validate(scope.value) === false || scope.initialValue === scope.value" @click="updateReply(dataItem.RNO,editContent)" v-bind:class="{ selected: dataItem.RNO === targetIdx }"/>
+                        </template>
+                    </q-input>
+                </q-popup-edit>
+            </div>
+                <div class="cursor-pointer">
+                                <td style="float: left; margin-left: 1.5rem;" @click="deleteReply(dataItem.RNO)" v-bind:class="{ selected: dataItem.RNO === targetIdx }"> <span class="removeContainer" style="color: red;">
+                                    <i class="fa-solid fa-trash-can" aria-hidden="true"></i> </span> </td>
+                                </div>
         </div>
 
         <div class="reviewDescription" style="font-size: 15px;  display: flex;">
 
             <td class="text-middle"> </td>
 
-            <q-expansion-item dense dense-toggle expand-separator icon="fa fa-comments" style="color: gray;"
+            <!-- <q-expansion-item dense dense-toggle expand-separator icon="fa fa-comments" style="color: gray;"
                 v-on:click="readReply(value)">
                 <q-card>
                     <q-input outlined v-model="recontent" :dense="dense" val="recontent" />
@@ -74,7 +86,7 @@
                     <q-btn @click="creatReply(recontent, rno)" label="등록" color="orange" />
                 </div>
 
-            </q-expansion-item>
+            </q-expansion-item> -->
 
         </div>
     </div>
@@ -98,11 +110,11 @@ import { uuidv4 } from "@firebase/util";
 axios.defaults.withCredentials = true;
 export default {
     setup() {
-
         const $q = useQuasar();
         const jsdata = ref([])
         const submitResult = ref([])
         return {
+            editContent:ref([]),
             $q,
             current: ref(1),
             jsdata,
@@ -140,7 +152,6 @@ export default {
             this.targetIdx = idx
             console.log(idx)
             console.log(data)
-
         },
         getListReply() {
             axios({
@@ -182,39 +193,6 @@ export default {
                 },
                 headers: { 'X-Requested-With': 'XMLHttpRequest' },
                 responseType: 'json'
-            }).then((Response)=>{
-                const RNO=Response.data[0]
-                if (this.files) {
-                function uuidv4() {
-                     return (
-                     [1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
-                         (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
-                     );
-                 }
-                for (let i = 0; i < this.files.length; i++) {
-                    console.log(this.files[i])
-                    const uploadFile = this.files[i]
-                    formData.append("File", uploadFile)
-                    axios({
-                        method: 'post',
-                        url: 'http://localhost:3000/reply/insertAttach',
-                        // data: formData,
-                        data :{
-                            formData: new FormData(),
-                            UUID:uuidv4(),
-                            PATH :'ReplyPic/'+this.$route.params,
-                            RNO
-                        },
-                        headers: {
-                            'X-Requested-With': 'XMLHttpRequest',
-                            'Content-Type': 'multipart/form-data',
-                        },
-                    }).catch(function (error) {
-                        console.log(error.toJSON())
-                    });
-                }
-            }
-
             }).then(() => {
                 this.$q.notify({
                     color: 'orange-7',
@@ -223,32 +201,41 @@ export default {
                     position: 'center',
                     timeout: 1200
                 })
-                // window.location.reload()
+                setTimeout(() => {
+                    window.location.reload()
+                }, 1000);
             }).catch(function (error) {
                 // 에러 핸들링
                 console.log(error.toJSON());
             })
-           
-            
-
         },
-        updateReply(rno, data) {
-            this.targetData = data
+        updateReply(rno, editContent) {
             this.targetIdx = rno
-            // axios({
-            //     method: 'put',
-            //     url: 'http://localhost:3000/updateReply',
-            //     data: {
-            //         rno,
-            //         content,
-            //         starRate
-            //     },
-            //     headers: { 'X-Requested-With': 'XMLHttpRequest' },
-            //     responseType: 'json'
-            // }).catch(function (error) {
-            //     // 에러 핸들링
-            //     console.log(error.toJSON());
-            // })
+            axios({
+                method: 'put',
+                url: 'http://localhost:3000/updateReply',
+                data: {
+                    rno,
+                    starRate:4.1,
+                    content:editContent,
+                },
+                headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                responseType: 'json'
+            }).then(() => {
+                this.$q.notify({
+                    color: 'teal',
+                    icon: 'thumb_up',
+                    message: `수정되었습니다.`,
+                    position: 'center',
+                    timeout: 1200
+                })
+                setTimeout(() => {
+                    window.location.reload()
+                }, 1000)
+            }).catch(function (error) {
+                // 에러 핸들링
+                console.log(error.toJSON());
+            })
 
         },
         deleteReply(rno) {
@@ -269,7 +256,9 @@ export default {
                     position: 'center',
                     timeout: 1200
                 })
-                window.location.reload()
+                setTimeout(() => {
+                    window.location.reload()
+                }, 1000);
             }).catch(function (error) {
                 // 에러 핸들링
                 console.log(error.toJSON());

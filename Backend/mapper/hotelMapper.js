@@ -347,7 +347,7 @@ app.post('/api/userinfo/delete', async (req, res) => {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //상품부분 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-app.get('/api/shop', (req, res) => {
+app.post('/api/shop', (req, res) => {
   const ShopData = [];
   OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
     function (err, connection) {
@@ -373,9 +373,7 @@ app.get('/api/shop', (req, res) => {
             ShopData.push(jsonData)
           }
         }
-        console.log(ShopData.length)
-        console.log(ShopData)
-        return res.send(ShopData)
+        res.send(ShopData)
       })
     })
 
@@ -556,6 +554,8 @@ app.post('/carousel', function (request, response) {
               STARRATE: rows[5],
               LATITUDE: rows[6],
               LONGITUDE: rows[7],
+              UUID: rows[9],
+              PATH: rows[11],
             }
             if (TopTenList.length < 10) {
               TopTenList.push(jsonData)
@@ -655,7 +655,6 @@ app.get('/reply/:storeid', function (request, response) {
     })
 });
 app.post('/reply/insert', function (request, response) {
-  const replyRNO=[];
   OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
     function (err, connection) {
       if (err) {
@@ -678,16 +677,27 @@ app.post('/reply/insert', function (request, response) {
           console.error(err.message);
           return;
         }
-        var query1="SELECT SEQ_REPLY.NEXTVAL FROM DUAL"
-        connection.execute(query1, [], function (err, result) {
-          if (err) {
-            console.error(err.message);
-            return;
-          }
-          // console.log(result)
-          replyRNO.push(result.rows[0]-1)
-          response.send(replyRNO)
-        })
+        connectionRelease(response, connection, result.rowsAffected)
+      })
+    })
+})
+app.post('/reply/insert/rno', function (request, response) {
+  OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
+    function (err, connection) {
+      if (err) {
+        console.error(err.message);
+        return;
+      }
+
+      var format = { language: 'sql', indent: ' ' }
+      var query = mybatisMapper.getStatement('oracleMapper', 'insertReplyRno', format);
+      console.log(query)
+      connection.execute(query, [], function (err, result) {
+        if (err) {
+          console.error(err.message);
+          return;
+        }
+        response.send(result.rows[0])
         connectionRelease(response, connection, result.rowsAffected)
       })
     })
@@ -703,21 +713,6 @@ app.post('/reply/insertAttach', function (request, response) {
         uuid: request.body.NICKNAME,
         path: request.body.PATH,
         rno: request.body.RNO,
-      }
-      const upload = multer({
-        storage: multerS3({
-          s3: s3,
-          bucket: 'jejuprojectimage/' + request.body.PATH,
-          key: function (req, file, cb) {
-            const extension = path.extname(file.originalname);
-            cb(null, Date.now().toString() + extension);
-          },
-          acl: 'public-read-write',
-          contentType: multerS3.AUTO_CONTENT_TYPE
-        }),
-      });
-      upload.single("File"), function (req, res, next) {
-        console.log(req.file)
       }
 
       var format = { language: 'sql', indent: ' ' }
@@ -983,4 +978,26 @@ function connectionRelease(res, connection, result) {
 
 http.createServer(app).listen(app.get('port'), () => {
   console.log('Express server port : ' + app.get('port'))
+})
+
+function uuidv4() {
+  return (
+      [1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
+          (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+      );
+}
+const upload = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: 'jejuprojectimage/ReplyPic/',
+    key: function (req, file, cb) {
+      const extension = path.extname(uuidv4());
+      cb(null, Date.now().toString() + extension);
+    },
+    acl: 'public-read-write',
+    contentType: multerS3.AUTO_CONTENT_TYPE
+  }),
+});
+app.post('/upload', upload.single("File"), function (req, res, next) {
+  console.log(req.file)
 })

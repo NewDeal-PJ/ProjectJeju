@@ -119,30 +119,29 @@
   <!-- 맛집 리뷰 크로링 정보 띄우기 -->
   <select id="getListReply">
     SELECT
-    * FROM TBL_REPLY WHERE STOREID= #{storeid} ORDER BY REGDATE DESC
+    * FROM V_REPLY WHERE STOREID= #{storeid} ORDER BY REGDATE DESC
   </select>
 
-  <select id="readReply">
-    SELECT * FROM TBL_REPLY WHERE RNO = #{rno}
-  </select>
 
   <!-- 맛집 새리뷰 DB 넣고 띄우기 -->
   <insert id="insertReply">
-	INSERT INTO TBL_REPLY(RNO,NICKNAME,REGDATE,STOREID,CONTENT,STARRATE,RRNO) 
-	VALUES(SEQ_REPLY.NEXTVAL,#{nickname},SYSDATE,#{storeid},#{content},#{starrate},#{rrno})
+	INSERT INTO V_REPLY(RNO,NICKNAME,REGDATE,STOREID,CONTENT,STARRATE,RRNO,UUID,PATH) 
+	VALUES(SEQ_REPLY.NEXTVAL,#{nickname},SYSDATE,#{storeid},#{content},#{starrate},#{rrno},#{uuid},#{path})
   </insert>
   
 
   <update id="updateReply">
- 		UPDATE TBL_REPLY SET 
+ 		UPDATE V_REPLY SET 
  			CONTENT = #{content},
  			REGDATE = SYSDATE,
- 			STARRATE = #{starRate}
+ 			STARRATE = #{starRate},
+			UUID=#{uuid},
+			PATH=#{path}
  		WHERE RNO = #{rno}
   </update>
 
   <delete id="deleteReply" >
-	DELETE FROM TBL_REPLY WHERE RNO = #{rno}
+	DELETE FROM V_REPLY WHERE RNO = #{rno}
   </delete>
 
   <update id="updateUser">
@@ -165,15 +164,8 @@
   <!-- 리뷰 사진 크롤링 완료 후 -> 테이블 V_REPLY 로 변경해야됨 -->
   <select id="getReplyMypage">
     SELECT
-    * FROM TBL_REPLY
+    * FROM V_REPLY
 	WHERE NICKNAME=#{nickname}
   </select>
-  <insert id="insertProduct">
-	  <selectKey keyProperty="productid" order="BEFORE" resultType="Long">
-		   SELECT SEQ_PRODUCT.NEXTVAL FROM dual
-	  </selectKey> 
-		INSERT INTO TBL_PRODUCT(PRODUCTID,PRODUCTNAME,PRICE,DESCRIPTION) 
-		VALUES(#{productid},#{productname},#{price},#{description})
-	</insert>
 
 </mapper>

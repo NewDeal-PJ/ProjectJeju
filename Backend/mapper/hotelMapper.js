@@ -167,9 +167,9 @@ app.post('/api/login', (req, res) => {
             });
             // 클라이언트에 토큰값을 쏘자 !
 
-          res.cookie("token", token, options)
-          res.send(member);
-          members = []
+            res.cookie("token", token, options)
+            res.send(member);
+            members = []
           }
           else {
             res.sendStatus(404);
@@ -358,7 +358,7 @@ app.post('/api/shop/register', function (req, res) {
       var param = {
         productname: req.body.product_name._value,
         description: req.body.product_content._value,
-        price : req.body.product_price._value
+        price: req.body.product_price._value
       }
 
       var format = { language: 'sql', indent: ' ' }
@@ -376,31 +376,31 @@ app.post('/api/shop/register', function (req, res) {
   res.sendStatus(200)
 })
 
-  // OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
-  //   function (err, connection) {
-  //     if (err) {
-  //       console.error(err.message);
-  //       return;
-  //     }
-  //     var param = {
-  //       nickname: request.body.NICKNAME,
-  //       storeid: Number(request.body.STOREID),
-  //       content: request.body.CONTENT,
-  //       starrate: Number(request.body.STARRATE),
-  //     }
+// OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
+//   function (err, connection) {
+//     if (err) {
+//       console.error(err.message);
+//       return;
+//     }
+//     var param = {
+//       nickname: request.body.NICKNAME,
+//       storeid: Number(request.body.STOREID),
+//       content: request.body.CONTENT,
+//       starrate: Number(request.body.STARRATE),
+//     }
 
-  //     var format = { language: 'sql', indent: ' ' }
-  //     var query = mybatisMapper.getStatement('oracleMapper', 'insertReply', param, format);
-  //     console.log(query)
-  //     connection.execute(query, [], function (err, result) {
-  //       if (err) {
-  //         console.error(err.message);
-  //         return;
-  //       }
-  //       console.log('Insert 성공 : ' + result.rowsAffected)
-  //       connectionRelease(response, connection, result.rowsAffected)
-  //     })
-  //   })
+//     var format = { language: 'sql', indent: ' ' }
+//     var query = mybatisMapper.getStatement('oracleMapper', 'insertReply', param, format);
+//     console.log(query)
+//     connection.execute(query, [], function (err, result) {
+//       if (err) {
+//         console.error(err.message);
+//         return;
+//       }
+//       console.log('Insert 성공 : ' + result.rowsAffected)
+//       connectionRelease(response, connection, result.rowsAffected)
+//     })
+//   })
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -627,7 +627,9 @@ app.post('/reply/insert', function (request, response) {
         storeid: Number(request.body.STOREID),
         content: request.body.CONTENT,
         starrate: Number(request.body.STARRATE),
-        rrno:request.body.RRNO
+        rrno: request.body.RRNO,
+        uuid: request.body.UUID,
+        path: request.body.PATH,
       }
 
       var format = { language: 'sql', indent: ' ' }
@@ -654,6 +656,8 @@ app.put('/updateReply', function (request, response) {
         rno: request.body.rno,
         starRate: request.body.starRate,
         content: request.body.content,
+        uuid: request.body.uuid,
+        path: request.body.path
       }
 
       var format = { language: 'sql', indent: ' ' }
@@ -858,7 +862,7 @@ const upload = multer({
     contentType: multerS3.AUTO_CONTENT_TYPE
   }),
 });
-app.post('/upload', upload.single("File"), function (req,res,next) {
+app.post('/upload', upload.single("File"), function (req, res, next) {
   console.log(req.file)
 })
 

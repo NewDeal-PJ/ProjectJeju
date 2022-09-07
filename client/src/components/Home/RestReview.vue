@@ -26,7 +26,9 @@
         </div>
 
     </div>
-    <div class="foodDetailReview" style="width: 50%; margin: 0 auto;padding: 20px;" v-if="jsdata" v-for="(dataItem,idx) in jsdata" @click="selectReply(dataItem.RNO,dataItem)" v-bind:class="{ selected: dataItem.RNO === targetIdx }">
+    <div class="foodDetailReview" style="width: 50%; margin: 0 auto;padding: 20px;" v-if="jsdata"
+        v-for="(dataItem, idx) in jsdata" @click="selectReply(dataItem.RNO, dataItem)"
+        v-bind:class="{ selected: dataItem.RNO === targetIdx }">
         <hr>
 
         <div class="foodDetailNickname" style=" font-weight: bold; font-size: 18px; display: flex; ">
@@ -42,10 +44,9 @@
             <span> 📅　</span>
             <p> {{ dataItem.REGDATE }} </p>
         </div>
-        <!-- <div class="cat"> : 사진 나중에 넣을거임 삭제 하지말것
-            <img
-            src="https://velog.velcdn.com/images/kimjyunny_dev/post/370f3dab-9470-4918-a11f-3f05348dcf4b/image.jpeg">
-        </div> -->
+        <div class="cover">
+            <!-- <img :src="dataItem.imgurl" /> -->
+        </div>
         <div class="reviewDescription" style="font-size: 15px; display: flex;">
             <span> 🗣️　 </span>
             <p> {{ dataItem.CONTENT }} </p>
@@ -92,9 +93,12 @@
 import axios from "axios";
 import { ref } from 'vue'
 import { useQuasar } from 'quasar';
+import { v4 } from "uuid";
+import { uuidv4 } from "@firebase/util";
 axios.defaults.withCredentials = true;
 export default {
     setup() {
+
         const $q = useQuasar();
         const jsdata = ref([])
         const submitResult = ref([])
@@ -132,8 +136,8 @@ export default {
     },
     methods: {
         selectReply(idx, data) {
-            this.targetData=data
-            this.targetIdx=idx
+            this.targetData = data
+            this.targetIdx = idx
             console.log(idx)
             console.log(data)
 
@@ -146,13 +150,18 @@ export default {
                 responseType: 'json'
             }).then((Response) => {
                 for (let i = 0; i < Response.data.length; i++) {
+                    const uuid = Response.data[i].UUID
+                    const path = Response.data[i].PATH
+                    const url = 'https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/'
                     this.jsdata.push({
                         RNO: Response.data[i].RNO,
                         NICKNAME: Response.data[i].NICKNAME,
                         REGDATE: Response.data[i].REGDATE.slice(0, -14),
                         STOREID: Response.data[i].STOREID,
                         CONTENT: Response.data[i].CONTENT,
-                        STARRATE: Response.data[i].STARRATE
+                        STARRATE: Response.data[i].STARRATE,
+                        RRNO: Response.data[i].RRNO,
+                        imgurl: url + path + '/' + uuid
                     })
                 }
             })
@@ -161,24 +170,6 @@ export default {
                 })
         },
         creatReply(content) {
-            if (this.files) {
-                for (let i = 0; i < this.files.length; i++) {
-                    console.log(this.files[i])
-                    const uploadFile = this.files[i]
-                    const formData = new FormData()
-                    formData.append("File", uploadFile)
-                    axios({
-                        method: 'post',
-                        url: 'http://localhost:3000/upload',
-                        data: formData,
-                        headers: {
-                            'Content-Type': 'multipart/form-data',
-                        },
-                    }).catch(function (error) {
-                        console.log(error.toJSON())
-                    });
-                }
-            }
             axios({
                 method: 'post',
                 url: 'http://localhost:3000/reply/insert',
@@ -187,10 +178,43 @@ export default {
                     STOREID: this.$route.params.id,
                     CONTENT: content,
                     STARRATE: 4.1,
-                    RRNO : null
+                    RRNO: null,
                 },
                 headers: { 'X-Requested-With': 'XMLHttpRequest' },
                 responseType: 'json'
+            }).then((Response)=>{
+                const RNO=Response.data[0]
+                if (this.files) {
+                function uuidv4() {
+                     return (
+                     [1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
+                         (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+                     );
+                 }
+                for (let i = 0; i < this.files.length; i++) {
+                    console.log(this.files[i])
+                    const uploadFile = this.files[i]
+                    formData.append("File", uploadFile)
+                    axios({
+                        method: 'post',
+                        url: 'http://localhost:3000/reply/insertAttach',
+                        // data: formData,
+                        data :{
+                            formData: new FormData(),
+                            UUID:uuidv4(),
+                            PATH :'ReplyPic/'+this.$route.params,
+                            RNO
+                        },
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'Content-Type': 'multipart/form-data',
+                        },
+                    }).catch(function (error) {
+                        console.log(error.toJSON())
+                    });
+                }
+            }
+
             }).then(() => {
                 this.$q.notify({
                     color: 'orange-7',
@@ -199,16 +223,18 @@ export default {
                     position: 'center',
                     timeout: 1200
                 })
-                window.location.reload()
+                // window.location.reload()
             }).catch(function (error) {
                 // 에러 핸들링
                 console.log(error.toJSON());
             })
+           
+            
 
         },
-        updateReply(rno,data) {
-            this.targetData=data
-            this.targetIdx=rno
+        updateReply(rno, data) {
+            this.targetData = data
+            this.targetIdx = rno
             // axios({
             //     method: 'put',
             //     url: 'http://localhost:3000/updateReply',
@@ -226,7 +252,7 @@ export default {
 
         },
         deleteReply(rno) {
-            this.targetIdx=rno
+            this.targetIdx = rno
             axios({
                 method: 'delete',
                 url: 'http://localhost:3000/deleteReply',

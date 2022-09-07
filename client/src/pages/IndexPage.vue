@@ -1,7 +1,7 @@
 <template lang="pug">
 q-page
   Header
-  Home
+  SearchBar
   HomeMap
   BestHotel
   BestRestaurant
@@ -11,7 +11,7 @@ q-page
 
 <script>
 import Header from '../components/Home/Header.vue';
-import Home from '../components/Home/Home.vue';
+import SearchBar from '../components/Home/SearchBar.vue';
 import HomeMap from 'src/components/Home/HomeMap.vue';
 import Footer from '../components/Home/Footer.vue';
 import BestHotel from 'src/components/Home/BestHotel.vue';
@@ -22,14 +22,16 @@ import BestRestaurant from '../components/Home/BestRestaurant.vue';
 
 
 
+
 export default {
   components: {
-    Home,
     Header,
+    SearchBar,
     HomeMap,
     Footer,
     BestHotel,
-    BestRestaurant
+    BestRestaurant,
+
 }
 }
 </script>

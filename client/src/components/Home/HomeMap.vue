@@ -1,7 +1,6 @@
 <template lang="pug">
 div(class="q-pa-md")
 div(style="padding-top: 10%;")
-  div(id="map" style="width:60%;height:30rem;; overflow:hidden; border:1px solid;")
     q-btn-dropdown(split color="red-5" push no-caps @click="displayHotel(category, filter, locationFilter)" style="margin-left: 0.5rem; width: 10.5rem; height: 3.5rem; position: relative; z-index: 10;")
       template(v-slot:label)
         div(class="row items-center no-wrap")
@@ -72,6 +71,7 @@ div(style="padding-top: 10%;")
         q-radio(v-model="locationFilter" val="seogwipo" color="amber-9") 서귀포
         q-radio(v-model="locationFilter" val="seongsan" color="amber-9") 성산
         q-radio(v-model="locationFilter" val="pyoseon" color="amber-9") 표선
+div(id="map" style="width:60%;height:30rem;; overflow:hidden; border:1px solid;")
 
 //- q-dialog( v-model="dialog" persistent  style="display:block")
 //-   q-card( class="bg-teal text-white" style="width: 300px")

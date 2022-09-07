@@ -119,24 +119,34 @@
   <!-- 맛집 리뷰 크로링 정보 띄우기 -->
   <select id="getListReply">
     SELECT
-    * FROM V_REPLY WHERE STOREID= #{storeid} ORDER BY REGDATE DESC
+    * FROM TBL_REPLY WHERE STOREID= #{storeid} ORDER BY REGDATE DESC
   </select>
 
 
   <!-- 맛집 새리뷰 DB 넣고 띄우기 -->
   <insert id="insertReply">
-	INSERT INTO V_REPLY(RNO,NICKNAME,REGDATE,STOREID,CONTENT,STARRATE,RRNO,UUID,PATH) 
-	VALUES(SEQ_REPLY.NEXTVAL,#{nickname},SYSDATE,#{storeid},#{content},#{starrate},#{rrno},#{uuid},#{path})
+	INSERT INTO TBL_REPLY(RNO,NICKNAME,REGDATE,STOREID,CONTENT,STARRATE,RRNO) 
+	VALUES(SEQ_REPLY.NEXTVAL,#{nickname},SYSDATE,#{storeid},#{content},#{starrate},#{rrno})
+  </insert>
+
+  <insert id="insertReplyAttach">
+	INSERT INTO TBL_REPLY_ATTACH(UUID,PATH,IMAGE,RNO) 
+	VALUES(#{uuid},#{path},#{image},#{rno})
   </insert>
   
 
   <update id="updateReply">
- 		UPDATE V_REPLY SET 
+ 		UPDATE TBL_REPLY SET 
  			CONTENT = #{content},
  			REGDATE = SYSDATE,
  			STARRATE = #{starRate},
-			UUID=#{uuid},
-			PATH=#{path}
+ 		WHERE RNO = #{rno}
+  </update>
+  <update id="updateReplyAttach">
+ 		UPDATE TBL_REPLY_ATTACH SET 
+ 			UUID = #{uuid},
+ 			REGDATE = SYSDATE,
+ 			PATH = #{path},
  		WHERE RNO = #{rno}
   </update>
 

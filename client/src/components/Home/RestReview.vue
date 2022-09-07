@@ -45,7 +45,7 @@
             <p> {{ dataItem.REGDATE }} </p>
         </div>
         <div class="cover">
-            <img :src="dataItem.imgurl"/>
+            <!-- <img :src="dataItem.imgurl" /> -->
         </div>
         <div class="reviewDescription" style="font-size: 15px; display: flex;">
             <span> 🗣️　 </span>
@@ -93,9 +93,12 @@
 import axios from "axios";
 import { ref } from 'vue'
 import { useQuasar } from 'quasar';
+import { v4 } from "uuid";
+import { uuidv4 } from "@firebase/util";
 axios.defaults.withCredentials = true;
 export default {
     setup() {
+
         const $q = useQuasar();
         const jsdata = ref([])
         const submitResult = ref([])
@@ -158,7 +161,7 @@ export default {
                         CONTENT: Response.data[i].CONTENT,
                         STARRATE: Response.data[i].STARRATE,
                         RRNO: Response.data[i].RRNO,
-                        imgurl: url+ path+ '/' + uuid
+                        imgurl: url + path + '/' + uuid
                     })
                 }
             })
@@ -167,24 +170,6 @@ export default {
                 })
         },
         creatReply(content) {
-            if (this.files) {
-                for (let i = 0; i < this.files.length; i++) {
-                    console.log(this.files[i])
-                    const uploadFile = this.files[i]
-                    const formData = new FormData()
-                    formData.append("File", uploadFile)
-                    axios({
-                        method: 'post',
-                        url: 'http://localhost:3000/upload',
-                        data: formData,
-                        headers: {
-                            'Content-Type': 'multipart/form-data',
-                        },
-                    }).catch(function (error) {
-                        console.log(error.toJSON())
-                    });
-                }
-            }
             axios({
                 method: 'post',
                 url: 'http://localhost:3000/reply/insert',
@@ -193,10 +178,43 @@ export default {
                     STOREID: this.$route.params.id,
                     CONTENT: content,
                     STARRATE: 4.1,
-                    RRNO: null
+                    RRNO: null,
                 },
                 headers: { 'X-Requested-With': 'XMLHttpRequest' },
                 responseType: 'json'
+            }).then((Response)=>{
+                const RNO=Response.data[0]
+                if (this.files) {
+                function uuidv4() {
+                     return (
+                     [1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
+                         (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+                     );
+                 }
+                for (let i = 0; i < this.files.length; i++) {
+                    console.log(this.files[i])
+                    const uploadFile = this.files[i]
+                    formData.append("File", uploadFile)
+                    axios({
+                        method: 'post',
+                        url: 'http://localhost:3000/reply/insertAttach',
+                        // data: formData,
+                        data :{
+                            formData: new FormData(),
+                            UUID:uuidv4(),
+                            PATH :'ReplyPic/'+this.$route.params,
+                            RNO
+                        },
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'Content-Type': 'multipart/form-data',
+                        },
+                    }).catch(function (error) {
+                        console.log(error.toJSON())
+                    });
+                }
+            }
+
             }).then(() => {
                 this.$q.notify({
                     color: 'orange-7',
@@ -205,11 +223,13 @@ export default {
                     position: 'center',
                     timeout: 1200
                 })
-                window.location.reload()
+                // window.location.reload()
             }).catch(function (error) {
                 // 에러 핸들링
                 console.log(error.toJSON());
             })
+           
+            
 
         },
         updateReply(rno, data) {

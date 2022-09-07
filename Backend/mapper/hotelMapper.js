@@ -347,7 +347,7 @@ app.post('/api/userinfo/delete', async (req, res) => {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //상품부분 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-app.get('/api/shop', (req,res)=>{
+app.get('/api/shop', (req, res) => {
   const ShopData = [];
   OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
     function (err, connection) {
@@ -378,8 +378,8 @@ app.get('/api/shop', (req,res)=>{
         return res.send(ShopData)
       })
     })
-  
-    })
+
+})
 
 
 
@@ -643,9 +643,9 @@ app.get('/reply/:storeid', function (request, response) {
               STOREID: rows[3],
               CONTENT: rows[4],
               STARRATE: rows[5],
-              RRNO:rows[6],
-              UUID:rows[7],
-              PATH:rows[8],
+              RRNO: rows[6],
+              UUID: rows[7],
+              PATH: rows[8],
             }
             replyData.push(jsonData)
           }
@@ -655,6 +655,7 @@ app.get('/reply/:storeid', function (request, response) {
     })
 });
 app.post('/reply/insert', function (request, response) {
+  const replyRNO=[];
   OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
     function (err, connection) {
       if (err) {
@@ -667,8 +668,6 @@ app.post('/reply/insert', function (request, response) {
         content: request.body.CONTENT,
         starrate: Number(request.body.STARRATE),
         rrno: request.body.RRNO,
-        uuid: request.body.UUID,
-        path: request.body.PATH,
       }
 
       var format = { language: 'sql', indent: ' ' }
@@ -679,7 +678,57 @@ app.post('/reply/insert', function (request, response) {
           console.error(err.message);
           return;
         }
-        console.log('Insert 성공 : ' + result.rowsAffected)
+        var query1="SELECT SEQ_REPLY.NEXTVAL FROM DUAL"
+        connection.execute(query1, [], function (err, result) {
+          if (err) {
+            console.error(err.message);
+            return;
+          }
+          // console.log(result)
+          replyRNO.push(result.rows[0]-1)
+          response.send(replyRNO)
+        })
+        connectionRelease(response, connection, result.rowsAffected)
+      })
+    })
+})
+app.post('/reply/insertAttach', function (request, response) {
+  OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
+    function (err, connection) {
+      if (err) {
+        console.error(err.message);
+        return;
+      }
+      var param = {
+        uuid: request.body.NICKNAME,
+        path: request.body.PATH,
+        rno: request.body.RNO,
+      }
+      const upload = multer({
+        storage: multerS3({
+          s3: s3,
+          bucket: 'jejuprojectimage/' + request.body.PATH,
+          key: function (req, file, cb) {
+            const extension = path.extname(file.originalname);
+            cb(null, Date.now().toString() + extension);
+          },
+          acl: 'public-read-write',
+          contentType: multerS3.AUTO_CONTENT_TYPE
+        }),
+      });
+      upload.single("File"), function (req, res, next) {
+        console.log(req.file)
+      }
+
+      var format = { language: 'sql', indent: ' ' }
+      var query = mybatisMapper.getStatement('oracleMapper', 'insertReplyAttach', param, format);
+      console.log(query)
+      connection.execute(query, [], function (err, result) {
+        if (err) {
+          console.error(err.message);
+          return;
+        }
+        console.log('InsertAttach 성공 : ' + result.rowsAffected)
         connectionRelease(response, connection, result.rowsAffected)
       })
     })
@@ -695,12 +744,51 @@ app.put('/updateReply', function (request, response) {
         rno: request.body.rno,
         starRate: request.body.starRate,
         content: request.body.content,
-        uuid: request.body.uuid,
-        path: request.body.path
       }
 
       var format = { language: 'sql', indent: ' ' }
       var query = mybatisMapper.getStatement('oracleMapper', 'updateReply', param, format);
+      console.log(query)
+      connection.execute(query, [], function (err, result) {
+        if (err) {
+          console.error(err.message);
+          return;
+        }
+        console.log('Update 성공 : ' + result.rowsAffected)
+        connectionRelease(response, connection, result.rowsAffected)
+      })
+    })
+});
+app.put('/updateReplyAttach', function (request, response) {
+  OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
+    function (err, connection) {
+      if (err) {
+        console.error(err.message);
+        return;
+      }
+      var param = {
+        rno: request.body.rno,
+        uuid: request.body.uuid,
+        path: request.body.path,
+      }
+      const upload = multer({
+        storage: multerS3({
+          s3: s3,
+          bucket: 'jejuprojectimage' + request.body.path,
+          key: function (req, file, cb) {
+            const extension = path.extname(file.originalname);
+            cb(null, Date.now().toString() + extension);
+          },
+          acl: 'public-read-write',
+          contentType: multerS3.AUTO_CONTENT_TYPE
+        }),
+      });
+      upload.single("File"), function (req, res, next) {
+        console.log(req.file)
+      }
+
+      var format = { language: 'sql', indent: ' ' }
+      var query = mybatisMapper.getStatement('oracleMapper', 'updateReplyAttach', param, format);
       console.log(query)
       connection.execute(query, [], function (err, result) {
         if (err) {
@@ -869,6 +957,8 @@ app.post('/api/writinginfo', function (req, res) {
               STOREID: rows[3],
               CONTENT: rows[4],
               STARRATE: rows[5],
+              UUID: rows[7],
+              PATH: rows[8],
             }
             replymypageData.push(jsonData)
           }
@@ -889,23 +979,8 @@ function connectionRelease(res, connection, result) {
 
 }
 
-const upload = multer({
-  storage: multerS3({
-    s3: s3,
-    bucket: 'jejuprojectimage',
-    key: function (req, file, cb) {
-      const extension = path.extname(file.originalname);
-      cb(null, Date.now().toString() + extension);
-    },
-    acl: 'public-read-write',
-    contentType: multerS3.AUTO_CONTENT_TYPE
-  }),
-});
-app.post('/upload', upload.single("File"), function (req, res, next) {
-  console.log(req.file)
-})
+
 
 http.createServer(app).listen(app.get('port'), () => {
   console.log('Express server port : ' + app.get('port'))
 })
-

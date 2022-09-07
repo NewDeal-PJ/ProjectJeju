@@ -554,6 +554,8 @@ app.post('/carousel', function (request, response) {
               STARRATE: rows[5],
               LATITUDE: rows[6],
               LONGITUDE: rows[7],
+              UUID: rows[9],
+              PATH: rows[11],
             }
             if (TopTenList.length < 10) {
               TopTenList.push(jsonData)

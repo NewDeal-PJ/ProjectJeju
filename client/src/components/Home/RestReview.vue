@@ -45,7 +45,7 @@
             <p> {{ dataItem.REGDATE }} </p>
         </div>
         <div class="cover">
-            <!-- <img :src="dataItem.imgurl" /> -->
+            <img :src="dataItem.imgurl" />
         </div>
         <div class="reviewDescription" style="font-size: 15px; display: flex;">
             <span> 🗣️　 </span>
@@ -110,7 +110,6 @@ import { uuidv4 } from "@firebase/util";
 axios.defaults.withCredentials = true;
 export default {
     setup() {
-
         const $q = useQuasar();
         const jsdata = ref([])
         const submitResult = ref([])
@@ -153,7 +152,6 @@ export default {
             this.targetIdx = idx
             console.log(idx)
             console.log(data)
-
         },
         getListReply() {
             axios({
@@ -210,9 +208,6 @@ export default {
                 // 에러 핸들링
                 console.log(error.toJSON());
             })
-
-
-
         },
         updateReply(rno, editContent) {
             this.targetIdx = rno

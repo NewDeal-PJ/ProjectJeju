@@ -119,7 +119,7 @@
   <!-- 맛집 리뷰 크로링 정보 띄우기 -->
   <select id="getListReply">
     SELECT
-    * FROM TBL_REPLY WHERE STOREID= #{storeid} ORDER BY REGDATE DESC
+    * FROM TBL_REPLY inner join tbl_reply_attach Using(rno) WHERE STOREID= #{storeid} ORDER BY REGDATE DESC
   </select>
 
 

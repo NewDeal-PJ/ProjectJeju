@@ -347,7 +347,7 @@ app.post('/api/userinfo/delete', async (req, res) => {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //상품부분 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-app.get('/api/shop', (req, res) => {
+app.post('/api/shop', (req, res) => {
   const ShopData = [];
   OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
     function (err, connection) {
@@ -373,9 +373,7 @@ app.get('/api/shop', (req, res) => {
             ShopData.push(jsonData)
           }
         }
-        console.log(ShopData.length)
-        console.log(ShopData)
-        return res.send(ShopData)
+        res.send(ShopData)
       })
     })
 

@@ -8,17 +8,18 @@
   <div class="shopContainer">
     <div class="row g-3">
       <div >
-        <q-card class="my-card">
-          <q-img src="https://s3.marpple.co/files/u_1686012/2022/4/original/20e610c531fa9ae667cefe084a0f23e6701c96481.jpeg" />
+        <div style="display:flex">
+        <q-card class="my-card" v-for="dataItem in jsdata" :key="dataItem.PRODUCTID" :name="dataItem.PRODUCTID">
+          <q-img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrpo2xqATkvmnvnMEaj3IVVcyjVV3rW6S3iQ&usqp=CAU" />
             <q-card-section class="goods">
               <div class="row no-wrap items-center">
                 <div style="font-weight:bold">
-                  아이폰13 PRO 젤리케이스
+                  {{dataItem.PRODUCTNAME}}
                 <div class="text-caption text-grey">
-                  투명한과 그립감을 동시에 원한다면
+                  {{dataItem.PRODUCTDESCRIPTION}}
                 </div>
                 <div class="text-subtitle1 text-red">
-                  15,300원
+                  {{dataItem.PRODUCTPRICE}}
                 </div>
               <div class="row">
                 <div class="col-auto">
@@ -34,6 +35,7 @@
               </div>
             </q-card-section>
           </q-card>
+        </div>
       </div>
     </div>
   </div>
@@ -45,19 +47,44 @@
 
 <script>
 import Header from 'src/components/Home/Header.vue';
-import { ref } from 'vue';
-import { Vue } from 'vue-demi';
 import Footer from '../../components/Home/Footer.vue';
-
-
+import axios from 'axios'
 export default{
   setup () {
     return {
-      model: ref(10)
+      jsdata: [],
     }
   },
-    components: { Header, Footer }
-}</script>
+  mounted(){
+    this.getProduct()
+  },
+  methods: {
+        getProduct() {
+          axios({
+            method: 'get',
+            url: 'http://localhost:3000/api/shop',
+            headers: { 'X-Requested-With': 'XMLHttpRequest' },
+            responseType: 'json'
+          }).then((res) => {
+            for (let i=0; i < res.data.length; i++) {
+              this.jsdata.push({
+                PRODUCTID: res.data[i].id,
+                PRODUCTNAME: res.data[i].product_name,
+                PRODUCTPRICE: res.data[i].price,
+                PRODUCTDESCRIPTION: res.data[i].description
+              })
+            }
+            console.log(this.jsdata)
+          }).catch(function (error) {
+            console.log(error.toJSON())
+          })
+        }
+      },
+
+  
+  components: { Header, Footer }
+}
+</script>
 
 
 <style>

@@ -146,7 +146,6 @@ app.post('/api/login', (req, res) => {
         console.log(members)
 
         const member = members.find(m => m.loginId === loginId)
-        console.log(member)
         //member값이 있으면 member 정보를 send, 없으면 없다고 보냄
         if (member) {
           if (bcrypt.compareSync(loginPw, member.loginPw)) {
@@ -348,6 +347,43 @@ app.post('/api/userinfo/delete', async (req, res) => {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //상품부분 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
+app.get('/api/shop', (req,res)=>{
+  const ShopData = [];
+  OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
+    function (err, connection) {
+      if (err) {
+        console.error(err.message);
+        return;
+      }
+      var query = `SELECT * FROM TBL_PRODUCT`;
+      connection.execute(query, {}, function (err, result) {
+        if (err) {
+          console.error(err.message);
+          return;
+        }
+        for (const i in result.rows) {
+          if (Object.hasOwnProperty.call(result.rows, i)) {
+            let rows = result.rows[i]
+            const jsonData = {
+              id: rows[0],
+              product_name: rows[1],
+              price: rows[3],
+              description: rows[2]
+            }
+            ShopData.push(jsonData)
+          }
+        }
+        console.log(ShopData.length)
+        console.log(ShopData)
+        return res.send(ShopData)
+      })
+    })
+  
+    })
+
+
+
+
 app.post('/api/shop/register', function (req, res) {
   console.log(req.body)
   OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
@@ -359,7 +395,7 @@ app.post('/api/shop/register', function (req, res) {
       var param = {
         productname: req.body.product_name._value,
         description: req.body.product_content._value,
-        price : req.body.product_price._value
+        price: req.body.product_price._value
       }
 
       var format = { language: 'sql', indent: ' ' }
@@ -374,34 +410,33 @@ app.post('/api/shop/register', function (req, res) {
         connectionRelease(res, connection, result.rowsAffected)
       })
     })
-  res.sendStatus(200)
 })
 
-  // OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
-  //   function (err, connection) {
-  //     if (err) {
-  //       console.error(err.message);
-  //       return;
-  //     }
-  //     var param = {
-  //       nickname: request.body.NICKNAME,
-  //       storeid: Number(request.body.STOREID),
-  //       content: request.body.CONTENT,
-  //       starrate: Number(request.body.STARRATE),
-  //     }
+// OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
+//   function (err, connection) {
+//     if (err) {
+//       console.error(err.message);
+//       return;
+//     }
+//     var param = {
+//       nickname: request.body.NICKNAME,
+//       storeid: Number(request.body.STOREID),
+//       content: request.body.CONTENT,
+//       starrate: Number(request.body.STARRATE),
+//     }
 
-  //     var format = { language: 'sql', indent: ' ' }
-  //     var query = mybatisMapper.getStatement('oracleMapper', 'insertReply', param, format);
-  //     console.log(query)
-  //     connection.execute(query, [], function (err, result) {
-  //       if (err) {
-  //         console.error(err.message);
-  //         return;
-  //       }
-  //       console.log('Insert 성공 : ' + result.rowsAffected)
-  //       connectionRelease(response, connection, result.rowsAffected)
-  //     })
-  //   })
+//     var format = { language: 'sql', indent: ' ' }
+//     var query = mybatisMapper.getStatement('oracleMapper', 'insertReply', param, format);
+//     console.log(query)
+//     connection.execute(query, [], function (err, result) {
+//       if (err) {
+//         console.error(err.message);
+//         return;
+//       }
+//       console.log('Insert 성공 : ' + result.rowsAffected)
+//       connectionRelease(response, connection, result.rowsAffected)
+//     })
+//   })
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -628,6 +663,9 @@ app.post('/reply/insert', function (request, response) {
         storeid: Number(request.body.STOREID),
         content: request.body.CONTENT,
         starrate: Number(request.body.STARRATE),
+        rrno: request.body.RRNO,
+        uuid: request.body.UUID,
+        path: request.body.PATH,
       }
 
       var format = { language: 'sql', indent: ' ' }
@@ -643,7 +681,7 @@ app.post('/reply/insert', function (request, response) {
       })
     })
 });
-app.put('/update', function (request, response) {
+app.put('/updateReply', function (request, response) {
   OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
     function (err, connection) {
       if (err) {
@@ -654,6 +692,8 @@ app.put('/update', function (request, response) {
         rno: request.body.rno,
         starRate: request.body.starRate,
         content: request.body.content,
+        uuid: request.body.uuid,
+        path: request.body.path
       }
 
       var format = { language: 'sql', indent: ' ' }
@@ -669,7 +709,7 @@ app.put('/update', function (request, response) {
       })
     })
 });
-app.delete('/delete', function (request, response) {
+app.delete('/deleteReply', function (request, response) {
   OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
     function (err, connection) {
       if (err) {
@@ -858,7 +898,7 @@ const upload = multer({
     contentType: multerS3.AUTO_CONTENT_TYPE
   }),
 });
-app.post('/upload', upload.single("File"), function (req,res,next) {
+app.post('/upload', upload.single("File"), function (req, res, next) {
   console.log(req.file)
 })
 

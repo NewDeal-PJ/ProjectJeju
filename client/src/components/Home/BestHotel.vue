@@ -1,11 +1,13 @@
 <template lang="pug">
 
+//- 한페이지에 4개의 카드씩 들어가는데 4개의 카드에 각각 다른 정보넣기
+
 <!-- v-for -->
 div(style="font-size: 30px; font-weight: bold; margin-left: 80px;")
 main
   div(class="q-pa-md"
   style="padding: 10px 0; margin: 0 auto; width: 90%;")
-    q-carousel(class="bg-grey-3 rounded-borders" animated v-model="slide" navigation swipeable control-color="primary" :autoplay="autoplay" arrows transition-prev="slide-right" transition-next="slide-left" @mouseenter="autoplay = false" @mouseleave="autoplay = true" )
+    q-carousel(class="bg-grey-2 rounded-borders" animated v-model="slide" navigation swipeable control-color="grey-2" :autoplay="autoplay" arrows transition-prev="slide-right" transition-next="slide-left" @mouseenter="autoplay = false" @mouseleave="autoplay = true" )
       q-carousel-slide(v-for="dataItem in dataList" :key="dataItem.name" :name="dataItem.name" class="column no-wrap")
         div(class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap")
           q-card.card(class="my-card")
@@ -13,12 +15,47 @@ main
             q-card-section
               div(class="row no-wrap items-center")
                 div(class="col text-h6 ellipsis") {{ dataItem.name }}
-                div(class="col-auto text-red text-caption q-pt-md row no-wrap items-center" style="text-overflow: ellipsis;")
-                  q-icon(name="place") {{ dataItem.address }}
+                q-card-section(class="q-pt-none")
+              div(class="text-caption") {{ dataItem.address }}
             q-card-section(class="q-pt-none")
               div(class="text-caption text-grey") {{ dataItem.comments }}
-              div(class="text-subtitle1 text-red") {{ dataItem.price }} 원~
+              div(class="text-subtitle2 text-red") {{ dataItem.price }} 원~
 
+              div(class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap")
+          q-card.card(class="my-card")
+            q-img(src="https://search.pstatic.net/common/?src=https://media.datahc.com/HI595096817.jpg&type=f1128_672_hotel" style="height: 150px;")
+            q-card-section
+              div(class="row no-wrap items-center")
+                div(class="col text-h6 ellipsis") {{ dataItem.name }}
+                q-card-section(class="q-pt-none")
+              div(class="text-caption") {{ dataItem.address }}
+            q-card-section(class="q-pt-none")
+              div(class="text-caption text-grey") {{ dataItem.comments }}
+              div(class="text-subtitle2 text-red") {{ dataItem.price }} 원~
+
+              div(class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap")
+          q-card.card(class="my-card")
+            q-img(src="https://search.pstatic.net/common/?src=https://media.datahc.com/HI595096817.jpg&type=f1128_672_hotel" style="height: 150px;")
+            q-card-section
+              div(class="row no-wrap items-center")
+                div(class="col text-h6 ellipsis") {{ dataItem.name }}
+                q-card-section(class="q-pt-none")
+              div(class="text-caption") {{ dataItem.address }}
+            q-card-section(class="q-pt-none")
+              div(class="text-caption text-grey") {{ dataItem.comments }}
+              div(class="text-subtitle2 text-red") {{ dataItem.price }} 원~
+
+                    div(class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap")
+          q-card.card(class="my-card")
+            q-img(src="https://search.pstatic.net/common/?src=https://media.datahc.com/HI595096817.jpg&type=f1128_672_hotel" style="height: 150px;")
+            q-card-section
+              div(class="row no-wrap items-center")
+                div(class="col text-h6 ellipsis") {{ dataItem.name }}
+                q-card-section(class="q-pt-none")
+              div(class="text-caption") {{ dataItem.address }}
+            q-card-section(class="q-pt-none")
+              div(class="text-caption text-grey") {{ dataItem.comments }}
+              div(class="text-subtitle2 text-red") {{ dataItem.price }} 원~
 </template>
 
 <script>
@@ -83,6 +120,5 @@ export default {
   max-width: 300px
   margin: 10px
 
-.a
-  display: contents
+
 </style>

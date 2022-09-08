@@ -3,8 +3,10 @@ q-page
   Header
   SearchBar
   HomeMap
+  MapTracking
   BestHotel
   BestRestaurant
+
 
   Footer
 </template>
@@ -16,6 +18,8 @@ import HomeMap from 'src/components/Home/HomeMap.vue';
 import Footer from '../components/Home/Footer.vue';
 import BestHotel from 'src/components/Home/BestHotel.vue';
 import BestRestaurant from '../components/Home/BestRestaurant.vue';
+import MapTracking from '../components/Home/mapTracking.vue';
+
 
 
 
@@ -31,7 +35,7 @@ export default {
     Footer,
     BestHotel,
     BestRestaurant,
-
+    MapTracking
 }
 }
 </script>

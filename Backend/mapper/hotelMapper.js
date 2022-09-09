@@ -12,7 +12,7 @@ const s3 = new aws.S3({
 const multer = require('multer')
 const multerS3 = require('multer-s3')
 const path = require("path");
-
+const { v4 } = require('uuid');
 
 var OracleDB = require('oracledb');
 var cors = require('cors')
@@ -142,8 +142,6 @@ app.post('/api/login', (req, res) => {
             members.push(jsonData)
           }
         }
-        console.log(members.length)
-        console.log(members)
 
         const member = members.find(m => m.loginId === loginId)
         //member값이 있으면 member 정보를 send, 없으면 없다고 보냄
@@ -199,7 +197,6 @@ app.delete('/api/logout', (req, res) => {
 app.post('/api/check_id', async (req, res) => {
   // check_member = [];
   const chk_id = req.body.user_id._value;
-  console.log('check_id_req:', chk_id)
   OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
     function (err, connection) {
       if (err) {
@@ -221,8 +218,6 @@ app.post('/api/check_id', async (req, res) => {
             check_member.push(jsonData)
           }
         }
-        console.log(check_member.length)
-        console.log(check_member)
         if (check_member.length > 0) {
           for (let j = 0; j <= check_member.length; j++) {
             try {
@@ -273,7 +268,6 @@ app.post('/api/signup', async (req, res) => {
 // 회원정보 수정 API
 app.put('/api/userinfo/update', async (req, res) => {
   const hashedPwd = await bcrypt.hash(req.body.update_pwd._value, 10)
-  console.log('req.body:', req.body)
   try {
     OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
       function (err, connection) {
@@ -290,7 +284,6 @@ app.put('/api/userinfo/update', async (req, res) => {
           user_email: req.body.update_email._value,
           user_nickname: req.body.update_nickname._value,
         }
-        console.log(param)
         var format = { language: 'sql', indent: ' ' }
         var query = mybatisMapper.getStatement('oracleMapper', 'updateUser', param, format);
         console.log(query)
@@ -311,7 +304,6 @@ app.put('/api/userinfo/update', async (req, res) => {
 
 //회원 탈퇴 API
 app.post('/api/userinfo/delete', async (req, res) => {
-  console.log('req.body:', req.body)
   try {
     OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
       function (err, connection) {
@@ -322,7 +314,6 @@ app.post('/api/userinfo/delete', async (req, res) => {
         var param = {
           user_id: req.body.user_id
         }
-        console.log(param)
         var format = { language: 'sql', indent: ' ' }
         var query = mybatisMapper.getStatement('oracleMapper', 'deleteUser', param, format);
         console.log(query)
@@ -627,7 +618,6 @@ app.get('/reply/:storeid', function (request, response) {
       }
       var format = { language: 'sql', indent: ' ' }
       var query = mybatisMapper.getStatement('oracleMapper', 'getListReply', param, format);
-      console.log(query)
       connection.execute(query, {}, function (err, result) {
         if (err) {
           console.error(err.message);
@@ -681,28 +671,22 @@ app.post('/reply/insert', function (request, response) {
       })
     })
 })
-app.post('/reply/insert/rno', function (request, response) {
-  OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
-    function (err, connection) {
-      if (err) {
-        console.error(err.message);
-        return;
-      }
-
-      var format = { language: 'sql', indent: ' ' }
-      var query = mybatisMapper.getStatement('oracleMapper', 'insertReplyRno', format);
-      console.log(query)
-      connection.execute(query, [], function (err, result) {
-        if (err) {
-          console.error(err.message);
-          return;
-        }
-        response.send(result.rows[0])
-        connectionRelease(response, connection, result.rowsAffected)
-      })
-    })
-})
 app.post('/reply/insertAttach', function (request, response) {
+
+  const upload = multer({
+    storage: multerS3({
+      s3: s3,
+      bucket: 'jejuprojectimage/' + request.body.PATH,
+      key: function (req, file, cb) {
+        cb(null, request.body.UUID);
+      },
+      acl: 'public-read-write',
+      contentType: multerS3.AUTO_CONTENT_TYPE
+    }),
+  });
+  app.post('/upload', upload.single("File"), function (req, res, next) {
+    console.log(req.file)
+  })
   OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
     function (err, connection) {
       if (err) {
@@ -710,11 +694,9 @@ app.post('/reply/insertAttach', function (request, response) {
         return;
       }
       var param = {
-        uuid: request.body.NICKNAME,
+        uuid: request.body.UUID,
         path: request.body.PATH,
-        rno: request.body.RNO,
       }
-
       var format = { language: 'sql', indent: ' ' }
       var query = mybatisMapper.getStatement('oracleMapper', 'insertReplyAttach', param, format);
       console.log(query)
@@ -795,7 +777,7 @@ app.put('/updateReplyAttach', function (request, response) {
       })
     })
 });
-app.delete('/deleteReply', function (request, response) {
+app.post('/deleteReply', function (request, response) {
   OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
     function (err, connection) {
       if (err) {
@@ -805,7 +787,6 @@ app.delete('/deleteReply', function (request, response) {
       var param = {
         rno: request.body.rno
       }
-
       var format = { language: 'sql', indent: ' ' }
       var query = mybatisMapper.getStatement('oracleMapper', 'deleteReply', param, format);
       console.log(query)
@@ -818,6 +799,37 @@ app.delete('/deleteReply', function (request, response) {
         connectionRelease(response, connection, result.rowsAffected)
       })
     })
+});
+app.post('/deleteReplyAttach', function (request, response) {
+  OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
+    function (err, connection) {
+      if (err) {
+        console.error(err.message);
+        return;
+      }
+      var param = {
+        rno: request.body.rno
+      }
+      var format = { language: 'sql', indent: ' ' }
+      var query = mybatisMapper.getStatement('oracleMapper', 'deleteReplyAttach', param, format);
+      console.log(query)
+      connection.execute(query, [], function (err, result) {
+        if (err) {
+          console.error(err.message);
+          return;
+        }
+        console.log('Delete 성공 : ' + result.rowsAffected)
+      })
+    })
+    setTimeout(() => {
+      s3.deleteObject({
+        Bucket: 'jejuprojectimage', // 삭제하고 싶은 이미지가 있는 버킷 이름
+        Key: request.body.path+'/'+request.body.UUID, // 삭제하고 싶은 이미지의 key 
+      }, (err, data) => {
+        if (err) console.log(err); // 실패 시 에러 메시지
+        else console.log(data); // 성공 시 데이터 출력
+      })
+    }, 600);
 });
 
 app.get('/store/:storeid', function (req, res) {
@@ -833,7 +845,6 @@ app.get('/store/:storeid', function (req, res) {
       }
       var format = { language: 'sql', indent: ' ' }
       var query = mybatisMapper.getStatement('oracleMapper', 'getStore', param, format);
-      console.log(query)
       connection.execute(query, [], function (err, result) {
         if (err) {
           console.error(err.message);
@@ -933,7 +944,6 @@ app.post('/api/writinginfo', function (req, res) {
       var param = {
         nickname: req.body.nickname
       }
-      console.log(req.body.nickname)
       var format = { language: 'sql', indent: ' ' }
       var query = mybatisMapper.getStatement('oracleMapper', 'getReplyMypage', param, format);
       console.log(query)
@@ -980,24 +990,24 @@ http.createServer(app).listen(app.get('port'), () => {
   console.log('Express server port : ' + app.get('port'))
 })
 
-function uuidv4() {
-  return (
-      [1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
-          (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
-      );
-}
-const upload = multer({
-  storage: multerS3({
-    s3: s3,
-    bucket: 'jejuprojectimage/ReplyPic/',
-    key: function (req, file, cb) {
-      const extension = path.extname(uuidv4());
-      cb(null, Date.now().toString() + extension);
-    },
-    acl: 'public-read-write',
-    contentType: multerS3.AUTO_CONTENT_TYPE
-  }),
-});
-app.post('/upload', upload.single("File"), function (req, res, next) {
-  console.log(req.file)
-})
+// function uuidv4() {
+//   return (
+//       [1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
+//           (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+//       );
+// }
+// const upload = multer({
+//   storage: multerS3({
+//     s3: s3,
+//     bucket: 'jejuprojectimage/ReplyPic/',
+//     key: function (req, file, cb) {
+//       const extension = path.extname(uuidv4());
+//       cb(null, Date.now().toString() + extension);
+//     },
+//     acl: 'public-read-write',
+//     contentType: multerS3.AUTO_CONTENT_TYPE
+//   }),
+// });
+// app.post('/upload', upload.single("File"), function (req, res, next) {
+//   console.log(req.file)
+// })

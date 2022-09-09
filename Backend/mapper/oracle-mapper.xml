@@ -119,7 +119,7 @@
   <!-- 맛집 리뷰 크로링 정보 띄우기 -->
   <select id="getListReply">
     SELECT
-    * FROM TBL_REPLY inner join tbl_reply_attach Using(rno) WHERE STOREID= #{storeid} ORDER BY REGDATE DESC
+    * FROM TBL_REPLY full join tbl_reply_attach Using(rno) WHERE STOREID= #{storeid} ORDER BY REGDATE DESC
   </select>
 
 
@@ -131,12 +131,8 @@
 
   <insert id="insertReplyAttach">
 	INSERT INTO TBL_REPLY_ATTACH(UUID,PATH,IMAGE,RNO) 
-	VALUES(#{uuid},#{path},#{image},#{rno})
+	VALUES(#{uuid},#{path},1,(SELECT (LAST_NUMBER)-1 FROM USER_SEQUENCES WHERE SEQUENCE_NAME='SEQ_REPLY'))
   </insert>
-  <select id="insertReplyRno">
-	SELECT SEQ_REPLY.NEXTVAL FROM DUAL
-  </select>
-  
 
   <update id="updateReply">
  		UPDATE TBL_REPLY SET 
@@ -155,6 +151,9 @@
 
   <delete id="deleteReply" >
 	DELETE FROM TBL_REPLY WHERE RNO = #{rno}
+  </delete>
+  <delete id="deleteReplyAttach" >
+	DELETE FROM TBL_REPLY_ATTACH WHERE RNO = #{rno}
   </delete>
 
   <update id="updateUser">
@@ -177,8 +176,7 @@
   <!-- 리뷰 사진 크롤링 완료 후 -> 테이블 V_REPLY 로 변경해야됨 -->
   <select id="getReplyMypage">
     SELECT
-    * FROM V_REPLY
-	WHERE NICKNAME=#{nickname}
+    * FROM TBL_REPLY full join tbl_reply_attach Using(rno) WHERE NICKNAME=#{nickname} ORDER BY REGDATE DESC
   </select>
 	<insert id="insertProduct">
 	<!-- <selectKey resultType="Long" keyProperty="productid" order="BEFORE">

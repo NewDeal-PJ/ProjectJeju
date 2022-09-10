@@ -43,7 +43,7 @@ const routes = [
     ]
   },
   {
-    path: '/api/mypage',
+    path: '/api/mypage/:id',
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/MyPage/MyPage.vue') }

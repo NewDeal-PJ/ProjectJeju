@@ -16,10 +16,9 @@
         </div>
 
         <div style="display: flex; padding: 1% 20%;">
-            <!-- <div style="width: 400px;">
-                <q-input @update:model-value="val => { files = val }" multiple filled type="file"
-                    hint="최대 5장의 사진 파일만 가능합니다." accept=".jpg, .png, .svg" />
-            </div> -->
+            <div style="width: 400px;">
+                <q-input @update:model-value="val => { files = val[0] }" filled type="file" accept=".jpg, .png, .svg" />
+            </div>
             <div style="padding:10px;">
                 <q-btn @click="creatReply(content)" label="등록" type="submit" color="orange" />
             </div>
@@ -50,26 +49,31 @@
         <div class="reviewDescription" style="font-size: 15px; display: flex;">
             <span> 🗣️　 </span>
             <p style="float: left; margin-right: 1.25rem;"> {{ dataItem.CONTENT }} </p>
-            <div class="cursor-pointer">
-                <td class="text-middle" >
-                    <i class="fas fa-pencil"></i></td>
-                    <q-popup-edit v-model="editContent" :validate="val=>val.length>=1" v-slot="scope">
-                        <q-input autofocus dense v-model="scope.value" :model-value="scope.value" hint="댓글 수정" :rules="[
+            <div class="cursor-pointer" v-if="state.account.id==dataItem.NICKNAME">
+                <td class="text-middle">
+                    <i class="fas fa-pencil"></i>
+                </td>
+                <q-popup-edit v-model="editContent" :validate="val=>val.length>=1" v-slot="scope">
+                    <q-input autofocus dense v-model="scope.value" :model-value="scope.value" hint="댓글 수정" :rules="[
                       val => scope.validate(val) || '한 글자 이상 적어주세요.'
                     ]">
                         <template v-slot:after>
                             <q-btn flat dense color="negative" icon="cancel" @click.stop.prevent="scope.cancel" />
-                            
+
                             <q-btn flat dense color="positive" icon="check_circle" @click.stop.prevent="scope.set"
-                            :disable="scope.validate(scope.value) === false || scope.initialValue === scope.value" @click="updateReply(dataItem.RNO,editContent)" v-bind:class="{ selected: dataItem.RNO === targetIdx }"/>
+                                :disable="scope.validate(scope.value) === false || scope.initialValue === scope.value"
+                                @click="updateReply(dataItem.RNO,editContent)"
+                                v-bind:class="{ selected: dataItem.RNO === targetIdx }" />
                         </template>
                     </q-input>
                 </q-popup-edit>
             </div>
-                <div class="cursor-pointer">
-                                <td style="float: left; margin-left: 1.5rem;" @click="deleteReply(dataItem.RNO)" v-bind:class="{ selected: dataItem.RNO === targetIdx }"> <span class="removeContainer" style="color: red;">
-                                    <i class="fa-solid fa-trash-can" aria-hidden="true"></i> </span> </td>
-                                </div>
+            <div class="cursor-pointer" v-if="state.account.id==dataItem.NICKNAME">
+                <td style="float: left; margin-left: 1.5rem;" @click="deleteReply(dataItem.RNO,dataItem.uuid)"
+                    v-bind:class="{ selected: dataItem.RNO === targetIdx }"> <span class="removeContainer"
+                        style="color: red;">
+                        <i class="fa-solid fa-trash-can" aria-hidden="true"></i> </span> </td>
+            </div>
         </div>
 
         <div class="reviewDescription" style="font-size: 15px;  display: flex;">
@@ -103,8 +107,10 @@
 
 <script>
 import axios from "axios";
-import { ref } from 'vue'
+import { reactive } from 'vue';
+import { ref, onMounted } from 'vue'
 import { useQuasar } from 'quasar';
+import { useRoute } from "vue-router";
 import { v4 } from "uuid";
 import { uuidv4 } from "@firebase/util";
 axios.defaults.withCredentials = true;
@@ -113,9 +119,42 @@ export default {
         const $q = useQuasar();
         const jsdata = ref([])
         const submitResult = ref([])
+        const route = useRoute()
+        onMounted(() => {
+            if (route.query.auth) {
+                axios.get("/api/login").then((res) => {
+                    const id = res.data.id
+                    if (id !== route.query.auth) {
+                        $q.notify({
+                            color: 'negative',
+                            position: 'center',
+                            message: '잘못된 접근입니다.'
+                        })
+                        window.location.href = 'http://localhost:9000/#/';
+                    }
+                })
+            }
+        })
+        const state = reactive({
+            account: {
+                id: '',
+                name: ''
+            },
+            form: {
+                loginId: "",
+                loginPw: ""
+            },
+
+        }); 
+        axios.get("/api/login").then((res) => {
+            state.account = res.data;
+        });
+        
         return {
-            editContent:ref([]),
+            state,
+            editContent: ref([]),
             $q,
+            id: ref([]),
             current: ref(1),
             jsdata,
             slide: ref(1),
@@ -150,7 +189,6 @@ export default {
         selectReply(idx, data) {
             this.targetData = data
             this.targetIdx = idx
-            console.log(idx)
             console.log(data)
         },
         getListReply() {
@@ -161,19 +199,34 @@ export default {
                 responseType: 'json'
             }).then((Response) => {
                 for (let i = 0; i < Response.data.length; i++) {
-                    const uuid = Response.data[i].UUID
-                    const path = Response.data[i].PATH
-                    const url = 'https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/'
-                    this.jsdata.push({
-                        RNO: Response.data[i].RNO,
-                        NICKNAME: Response.data[i].NICKNAME,
-                        REGDATE: Response.data[i].REGDATE.slice(0, -14),
-                        STOREID: Response.data[i].STOREID,
-                        CONTENT: Response.data[i].CONTENT,
-                        STARRATE: Response.data[i].STARRATE,
-                        RRNO: Response.data[i].RRNO,
-                        imgurl: url + path + '/' + uuid
-                    })
+                    if (Response.data[i].UUID) {
+                        const uuid = Response.data[i].UUID
+                        const path = Response.data[i].PATH
+                        const url = 'https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/'
+                        this.jsdata.push({
+                            RNO: Response.data[i].RNO,
+                            NICKNAME: Response.data[i].NICKNAME,
+                            REGDATE: Response.data[i].REGDATE.slice(0, -14),
+                            STOREID: Response.data[i].STOREID,
+                            CONTENT: Response.data[i].CONTENT,
+                            STARRATE: Response.data[i].STARRATE,
+                            RRNO: Response.data[i].RRNO,
+                            imgurl: url + path + '/' + uuid,
+                            uuid
+                        })
+                    }
+                    else {
+                        this.jsdata.push({
+                            RNO: Response.data[i].RNO,
+                            NICKNAME: Response.data[i].NICKNAME,
+                            REGDATE: Response.data[i].REGDATE.slice(0, -14),
+                            STOREID: Response.data[i].STOREID,
+                            CONTENT: Response.data[i].CONTENT,
+                            STARRATE: Response.data[i].STARRATE,
+                            RRNO: Response.data[i].RRNO,
+                            imgurl: null
+                        })
+                    }
                 }
             })
                 .catch(function (error) {
@@ -181,33 +234,96 @@ export default {
                 })
         },
         creatReply(content) {
-            axios({
-                method: 'post',
-                url: 'http://localhost:3000/reply/insert',
-                data: {
-                    NICKNAME: "soobintest",
-                    STOREID: this.$route.params.id,
-                    CONTENT: content,
-                    STARRATE: 4.1,
-                    RRNO: null,
-                },
-                headers: { 'X-Requested-With': 'XMLHttpRequest' },
-                responseType: 'json'
-            }).then(() => {
+            if (this.$route.query.auth) {
+                this.id = []
+                axios.get("/api/login").then((res) => {
+                    this.id[0] = res.data.id
+                }).then(() => {
+                    if (this.id[0] !== this.$route.query.auth) {
+                        console.log(this.$route.query.auth)
+                        this.$q.notify({
+                            color: 'negative',
+                            position: 'center',
+                            message: '잘못된 접근입니다.'
+                        })
+                        window.location.href = 'http://localhost:9000/#/';
+                    }
+                    else {
+                        axios({
+                            method: 'post',
+                            url: 'http://localhost:3000/reply/insert',
+                            data: {
+                                NICKNAME: this.$route.query.auth,
+                                STOREID: this.$route.params.id,
+                                CONTENT: content,
+                                STARRATE: 4.1,
+                                RRNO: null,
+                            },
+                            headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                            responseType: 'json'
+                        }).then(() => {
+                            if (this.files) {
+                                function uuidv4() {
+                                    const tokens = v4().split('-')
+                                    return tokens[2] + tokens[1] + tokens[0] + tokens[3] + tokens[4];
+                                }
+                                axios({
+                                    method: 'post',
+                                    url: 'http://localhost:3000/reply/insertAttach',
+                                    data: {
+                                        UUID: uuidv4(),
+                                        PATH: 'ReplyPic/' + this.$route.params.id,
+                                    },
+                                    headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                                    responseType: 'json'
+                                })
+                                const uploadFile = this.files
+                                const formData = new FormData()
+                                formData.append("File", uploadFile)
+                                setTimeout(() => {
+                                    axios({
+                                        method: 'post',
+                                        url: 'http://localhost:3000/upload',
+                                        data: formData,
+                                        headers: {
+                                            'Content-Type': 'multipart/form-data',
+                                        },
+                                    }).catch(function (error) {
+                                        console.log(error.toJSON())
+                                    });
+                                }, 300);
+                            }
+                            this.$q.notify({
+                                color: 'orange-7',
+                                icon: 'thumb_up',
+                                message: `소중한 의견 감사합니다.`,
+                                position: 'center',
+                                timeout: 1200
+                            })
+                            setTimeout(() => {
+                                window.location.reload()
+                            }, 1000);
+                        }).catch(function (error) {
+                            // 에러 핸들링
+                            console.log(error.toJSON());
+                        })
+                    }
+                }).catch(function (err) {
+                    console.log(err.toJSON())
+                })
+            }
+            else {
                 this.$q.notify({
-                    color: 'orange-7',
+                    color: 'negative',
                     icon: 'thumb_up',
-                    message: `소중한 의견 감사합니다.`,
+                    message: `댓글등록은 로그인 후 가능합니다.`,
                     position: 'center',
-                    timeout: 1200
+                    timeout: 1100
                 })
                 setTimeout(() => {
-                    window.location.reload()
-                }, 1000);
-            }).catch(function (error) {
-                // 에러 핸들링
-                console.log(error.toJSON());
-            })
+                    window.location.href = 'http://localhost:9000/#/api/login';
+                }, 900);
+            }
         },
         updateReply(rno, editContent) {
             this.targetIdx = rno
@@ -216,8 +332,8 @@ export default {
                 url: 'http://localhost:3000/updateReply',
                 data: {
                     rno,
-                    starRate:4.1,
-                    content:editContent,
+                    starRate: 4.1,
+                    content: editContent,
                 },
                 headers: { 'X-Requested-With': 'XMLHttpRequest' },
                 responseType: 'json'
@@ -238,31 +354,72 @@ export default {
             })
 
         },
-        deleteReply(rno) {
+        deleteReply(rno, UUID) {
             this.targetIdx = rno
-            axios({
-                method: 'delete',
-                url: 'http://localhost:3000/deleteReply',
-                data: {
-                    rno,
-                },
-                headers: { 'X-Requested-With': 'XMLHttpRequest' },
-                responseType: 'json'
-            }).then(() => {
-                this.$q.notify({
-                    color: 'red-7',
-                    icon: 'thumb_up',
-                    message: `삭제되었습니다.`,
-                    position: 'center',
-                    timeout: 1200
+            console.log(UUID)
+            if (UUID) {
+                axios({
+                    method: 'post',
+                    url: 'http://localhost:3000/deleteReplyAttach',
+                    data: {
+                        rno,
+                        path: 'ReplyPic/' + this.$route.params.id,
+                        UUID
+                    },
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                    responseType: 'json'
                 })
                 setTimeout(() => {
-                    window.location.reload()
+                    axios({
+                        method: 'post',
+                        url: 'http://localhost:3000/deleteReply',
+                        data: {
+                            rno,
+                        },
+                        headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                        responseType: 'json'
+                    }).then(() => {
+                        this.$q.notify({
+                            color: 'red-7',
+                            icon: 'thumb_up',
+                            message: `삭제되었습니다.`,
+                            position: 'center',
+                            timeout: 1200
+                        })
+                        setTimeout(() => {
+                            window.location.reload()
+                        }, 1000);
+                    }).catch(function (error) {
+                        // 에러 핸들링
+                        console.log(error.toJSON());
+                    })
                 }, 1000);
-            }).catch(function (error) {
-                // 에러 핸들링
-                console.log(error.toJSON());
-            })
+            }
+            else {
+                axios({
+                    method: 'post',
+                    url: 'http://localhost:3000/deleteReply',
+                    data: {
+                        rno,
+                    },
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                    responseType: 'json'
+                }).then(() => {
+                    this.$q.notify({
+                        color: 'red-7',
+                        icon: 'thumb_up',
+                        message: `삭제되었습니다.`,
+                        position: 'center',
+                        timeout: 1200
+                    })
+                    setTimeout(() => {
+                        window.location.reload()
+                    }, 1000);
+                }).catch(function (error) {
+                    // 에러 핸들링
+                    console.log(error.toJSON());
+                })
+            }
 
         },
     }

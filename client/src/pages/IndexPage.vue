@@ -1,24 +1,23 @@
 <template lang="pug">
 q-page
   Header
-  SearchBar
+  IntroPage
   HomeMap
   MapTracking
   BestHotel
   BestRestaurant
-
-
   Footer
 </template>
 
 <script>
 import Header from '../components/Home/Header.vue';
-import SearchBar from '../components/Home/SearchBar.vue';
+
 import HomeMap from 'src/components/Home/HomeMap.vue';
 import Footer from '../components/Home/Footer.vue';
 import BestHotel from 'src/components/Home/BestHotel.vue';
 import BestRestaurant from '../components/Home/BestRestaurant.vue';
 import MapTracking from '../components/Home/mapTracking.vue';
+import IntroPage from 'src/components/Home/introPage.vue';
 
 
 
@@ -30,12 +29,12 @@ import MapTracking from '../components/Home/mapTracking.vue';
 export default {
   components: {
     Header,
-    SearchBar,
     HomeMap,
     Footer,
     BestHotel,
     BestRestaurant,
-    MapTracking
+    MapTracking,
+    IntroPage
 }
 }
 </script>

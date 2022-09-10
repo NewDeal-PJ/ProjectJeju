@@ -7,13 +7,13 @@
       </div>
       <ul v-show="!mobile" class="navigation">
         <li><a href="http://localhost:9000">Home</a></li>
-        <li><a href="http://localhost:9000/#/api/shop">Shop</a></li>
-        <li><a href="http://localhost:9000/#/api/cart1">Cart</a></li>
+        <li><a :href="shopUrl+account.id">Shop</a></li>
+        <li><a href="http://localhost:9000/#/api/cart1">Cart({{cart.length}})</a></li>
 
-        <a v-if="state.account.id">
-          <li><a :href="myPageUrl+state.account.id">MyPage</a></li>
+        <a v-if="account.id">
+          <li><a :href="myPageUrl+account.id">MyPage</a></li>
         </a>
-        <div v-if="state.account.id">
+        <div v-if="account.id">
           <li><a href="http://localhost:9000/#/api/logout" @click='logout()'>LogOut</a></li>
         </div>
 
@@ -28,13 +28,13 @@
       <transition name="mobile-nav">
         <ul v-show="mobileNav" class="dropdown-nav">
           <li><a href="http://localhost:9000">Home</a></li>
-          <li><a href="http://localhost:9000/#/api/shop">Shop</a></li>
+          <li><a :href="shopUrl+account.id">Shop</a></li>
           <li><a href="http://localhost:9000/#/api/cart1">Cart</a></li>
 
-          <a v-if="state.account.id">
-            <li><a :href="myPageUrl+state.account.id">MyPage</a></li>
+          <a v-if="account.id">
+            <li><a :href="myPageUrl+account.id">MyPage</a></li>
           </a>
-          <div v-if="state.account.id">
+          <div v-if="account.id">
             <li><a href="http://localhost:9000/#/api/logout" @click='logout()'>LogOut</a></li>
           </div>
 
@@ -57,16 +57,40 @@ import { useQuasar } from 'quasar';
 export default {
   name: "navigation",
   data() {
+    const account =  {
+        id: '',
+        name: ''
+      }
+      // 로그인 정보 담아서 보내주려면 객체를 만들어줘야죠~
+      const form =  {
+        loginId: "",
+        loginPw: ""
+      }
+      const $q = useQuasar()
+      const cart = ref([])
+      const myPageUrl = "http://localhost:9000/#/api/mypage/";
+      const shopUrl = "http://localhost:9000/#/api/shop/";
     return {
       scrolledNav: null,
       mobile: null,
       mobileNav: null,
       windowWidth: null,
+      $q,
+      shopUrl,
+        cart,
+        myPageUrl,
+        account,
+        form,
+        cart: JSON.parse(localStorage.getItem("cart")) || ""
     };
   },
   created() {
     window.addEventListener('resize', this.checkScreen);
     this.checkScreen();
+    // 백엔드의 계정정보를 호출
+    axios.get("/api/login").then((res) => {
+      this.account = res.data;
+    });
   },
   mounted() {
     window.addEventListener("scroll", this.updateScroll);
@@ -95,45 +119,19 @@ export default {
       this.mobileNav = false;
       return;
     },
-  },
-
-  //셋업 설정
-  //CORS 이슈는 quasar.config.js 파일에서 proxy 설정을 통해서 우회했다.
-  setup() {
-    const $q = useQuasar();
-    const state = reactive({
-      account: {
-        id: '',
-        name: ''
-      },
-      // 로그인 정보 담아서 보내주려면 객체를 만들어줘야죠~
-      form: {
-        loginId: "",
-        loginPw: ""
-      },
-
-    });
-    // 로그아웃  method
-    const logout = () => {
+    logout(){
       axios.delete("/api/logout").then((res) => {
-        $q.notify({
+        this.$q.notify({
           color: 'teal',
           position: 'center',
           message: '로그아웃 되었습니다.'
         })
-        state.account.name = "";
-        state.account.id = ""
+        this.account.name = "";
+        this.account.id = ""
         window.location.href = 'http://localhost:9000/#/api/login';
       });
-
-    }
-    // 백엔드의 계정정보를 호출
-    axios.get("/api/login").then((res) => {
-      state.account = res.data;
-    });
-    const myPageUrl = "http://localhost:9000/#/api/mypage/";
-    return { myPageUrl, state, logout };
-  }
+    },
+  },
 };
 </script>
 

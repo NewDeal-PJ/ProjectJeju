@@ -1,10 +1,10 @@
 <template>
   <Header></Header>
+  <div id='wrapper'>
   <div style="width: 100%; display: flex;">
 
       <div class="cartGoods">
       <div  style=" margin:0 auto;">
-
         <q-markup-table :separator="separator" flat >
           <thead>
             <tr>
@@ -15,27 +15,11 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <th class="text-middle">사진</th>
-              <th class="text-middle">아이폰</th>
-              <th class="text-middle">15,300</th>
-              <th class="text-middle"> <span class="removeContainer" style="color: red;" v-on:click="RemoveComment">
-          <i class="fa-solid fa-trash-can" aria-hidden="true"></i> </span> </th>
-            </tr>
-
-            <tr>
-              <th class="text-middle">사진2</th>
-              <th class="text-middle">아이폰2</th>
-              <th class="text-middle">15,300</th>
-              <th class="text-middle"> <span class="removeContainer" style="color: red;" v-on:click="RemoveComment">
-          <i class="fa-solid fa-trash-can" aria-hidden="true"></i> </span> </th>
-            </tr>
-
-            <tr>
-              <th class="text-middle">사진3</th>
-              <th class="text-middle">아이폰3</th>
-              <th class="text-middle">15,300</th>
-              <th class="text-middle"> <span class="removeContainer" style="color: red;" v-on:click="RemoveComment">
+            <tr v-for="item in cart" :key="cart.index" :name="cart.PRODUCTID">
+              <th class="text-middle"><img :src="item.PRODUCTIMG"/></th>
+              <th class="text-middle">{{item.PRODUCTNAME}}</th>
+              <th class="text-middle">{{item.PRODUCTPRICE}}</th>
+              <th class="text-middle"> <span class="removeContainer" style="color: red;" v-on:click="removeItemFromCart(prodcut)">
           <i class="fa-solid fa-trash-can" aria-hidden="true"></i> </span> </th>
             </tr>
           </tbody>
@@ -54,22 +38,10 @@
           <div  style=" margin:0 auto;">
           <q-markup-table :separator="separator" flat >
          <tbody>
-            <tr>
-              <th class="text-middle">아이폰</th>
+            <tr v-for="item in cart" :key="cart.PRODUCTID" :name="cart.PRODUCTID">
+              <th class="text-middle">{{item.PRODUCTNAME}}</th>
               <th class="text-middle">1개</th>
-              <th class="text-middle">15,300</th>
-            </tr>
-
-            <tr>
-              <th class="text-middle">아이폰2</th>
-              <th class="text-middle">1개</th>
-              <th class="text-middle">15,300</th>
-            </tr>
-
-            <tr>
-              <th class="text-middle">아이폰3</th>
-              <th class="text-middle">1개</th>
-              <th class="text-middle">15,300</th>
+              <th class="text-middle">{{item.PRODUCTPRICE}}</th>
             </tr>
          </tbody>
   </q-markup-table>
@@ -78,14 +50,13 @@
         <hr width="90%">
         <div style="padding: 10px 40px;">
           <table style="margin-left:auto;">
-            <td style="font-weight: bold;"> 합계 </td>
-            <td> 18,300</td>
+            <td style="font-weight: bold;"> 합계 :  </td>
+            <td> {{total_price}} 원</td>
           </table>
         </div>
 
       </div>
   </div>
-
     <div class="cart1Button" >
         <a href="http://localhost:9000/#/api/cart2">
         <q-btn style="color: white;
@@ -99,14 +70,46 @@
           font-family: 'Noto Sans KR', sans-serif;"> 주문하기</div>
         </q-btn></a>
     </div>
+  </div>
   <Footer></Footer>
   </template>
+
+
 
 
   <script>
   import Header from 'src/components/Home/Header.vue';
   import Footer from '../../components/Home/Footer.vue';
   export default{
+    data : ()=> {
+      const qty = ''
+      const total_price = ''
+      const cart = JSON.parse(localStorage.getItem("cart")) || ""
+      return {
+        cart,
+        qty,
+        total_price
+      };
+    },
+    mounted(){
+      this.getTotalPrice()
+    },
+    methods : {
+      removeItemFromCart(product){
+        alert("카트에서 삭제되었습니다.")
+      },
+      getTotalPrice(){
+        console.log('cart.length:',this.cart.length)
+        for(let i=0; i<this.cart.length; i++){
+          this.total_price = Number(`${this.total_price}`) + Number(`${this.cart[i].PRODUCTPRICE}`)
+        }
+        console.log(this.total_price)
+        return this.total_price
+      },
+      getQty(){
+        
+      }
+    },
       components: { Header, Footer }
   }
   </script>
@@ -145,5 +148,18 @@
   }
 
   a{text-decoration: none;}
+
+  #wrapper{
+  min-height: 100%;
+  padding-bottom: 2000px;
+}
+footer{
+  height: 2000px;
+  position : fixed;
+  transform : translateY(-100%);
+  bottom: 0;
+  width: 100%;
+}
+
   </style>
 

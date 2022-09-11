@@ -1,46 +1,48 @@
 <template>
   <Header></Header>
-  <div>
-    <div class="Login">
-      Login
-    </div>
-    <div class="LoginIdBox">
-      <div class="q-pa-md" style="padding: 0px 16px;">
-        <div class="q-gutter-y-md column" style="width: 31rem; margin: 0 auto;">
-          <q-input outlined v-model="state.form.loginId" type="text" id="loginId" placeholder="User  ID"
-            :dense="dense" />
+
+      <div>
+        <div class="Login">
+          Login
         </div>
-      </div>
-    </div>
-    <div class="LoginPasswordBox">
-      <div class="q-pa-md">
-        <div class="q-gutter-y-md column" style="width: 31rem; margin: 0 auto;">
-          <q-input outlined v-model="state.form.loginPw" :type="isPwd ? 'password' : 'text'" id="loginPw"
-            placeholder="Password" :dense="dense">
-            <template v-slot:append>
-              <q-icon :name="isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer" @click="isPwd = !isPwd" />
-            </template>
-          </q-input>
+        <div class="LoginIdBox">
+
+            <div class="q-gutter-y-md column" style="width: 31rem; margin: 0 auto;">
+              <q-input outlined v-model="state.form.loginId" type="text" id="loginId" placeholder="User  ID"
+                :dense="dense" />
+            </div>
+
         </div>
-      </div>
-    </div>
-    <div class="LoginButton">
-      <div class="q-pa-md">
-        <q-btn @click="submit()"
-          style="color: white; background-color: #F79a38; width: 31rem; margin: 0 auto; display: block; padding: 10px; margin-top: 10px;">
-          <div style="font-size: 18px; font-weight: 900;">로그인</div>
-        </q-btn>
-      </div>
-    </div>
+        <div class="LoginPasswordBox">
+
+            <div class="q-gutter-y-md column" style="width: 31rem; margin: 0 auto;">
+              <q-input outlined v-model="state.form.loginPw" :type="isPwd ? 'password' : 'text'" id="loginPw"
+                placeholder="Password" :dense="dense">
+                <template v-slot:append>
+                  <q-icon :name="isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer" @click="isPwd = !isPwd" />
+                </template>
+              </q-input>
+            </div>
+
+        </div>
+        <div class="LoginButton">
+
+            <q-btn @click="submit()"
+              style="color: white; background-color: #F79a38; width: 31rem; margin: 0 auto; display: block; padding: 10px; margin-top: 10px;">
+              <div style="font-size: 18px; font-weight: 900;">로그인</div>
+            </q-btn>
+
+        </div>
 
 
-    <div class="LoginText" style="margin: 20px;">
-      <a href="http://localhost:9000/#/api/signup" style="color: black;">회원가입 </a>
-      <a href="http://localhost:9000/#/findpassword" style="color:black;">비밀번호찾기</a>
-    </div>
-    <hr class="two" style="width: 600px; color:gray; border: thin solid;" />
-  </div>
-  <LoginApi></LoginApi>
+        <div class="LoginText" style="margin: 20px;">
+          <a href="http://localhost:9000/#/api/signup" style="color: black;">회원가입 </a>
+          <a href="http://localhost:9000/#/api/findpassword" style="color:black;">비밀번호찾기</a>
+        </div>
+        <hr class="two" style="width: 600px; color:gray; border: thin solid;" />
+      </div>
+      <LoginApi></LoginApi>
+
   <Footer></Footer>
 </template>
 
@@ -63,7 +65,7 @@ export default {
     }
   },
   setup() {
-    const $q = useQuasar();   
+    const $q = useQuasar();
     const state = reactive({
       account: {
         id: '',

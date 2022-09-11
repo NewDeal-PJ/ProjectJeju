@@ -1,4 +1,4 @@
-<!-- 
+<!--
 v-model:fullscreen="fullscreen"
 vertical
 swipeable
@@ -10,33 +10,77 @@ class="bg-purple text-white shadow-1 rounded-borders" -->
 
 
 <template>
+<body>
   <div class="q-pa-md">
+
+      <q-carousel
+        swipeable
+        animated
+        arrows
+        v-model="slide"
+        infinite
+
+        height="713px"
+        :autoplay="autoplay"
+      transition-prev="slide-right"
+      transition-next="slide-left"
+
+      @mouseenter="autoplay = false"
+      @mouseleave="autoplay = true"
+      >
+        <q-carousel-slide :name="1" img-src="https://velog.velcdn.com/images/kimjyunny_dev/post/072d9c43-7183-4152-8048-27a6e21df906/image.jpeg" />
+        <q-carousel-slide :name="2" img-src="https://velog.velcdn.com/images/kimjyunny_dev/post/072d9c43-7183-4152-8048-27a6e21df906/image.jpeg" />
+        <q-carousel-slide :name="3" img-src="https://velog.velcdn.com/images/kimjyunny_dev/post/072d9c43-7183-4152-8048-27a6e21df906/image.jpeg" />
+        <q-carousel-slide :name="4" img-src="https://velog.velcdn.com/images/kimjyunny_dev/post/072d9c43-7183-4152-8048-27a6e21df906/image.jpeg" />
+
+        <template v-slot:control>
+          <q-carousel-control
+            position="bottom"
+            :offset="[16, 8]"
+            class="text-white text-center rounded-borders"
+            style="background: rgba(255, 255, 255, .2); padding: 4px 8px;">
+
+          <div>
+            <span> 어서오세요 제주 올레 입니다. </span>
+            <div>
+              <a href="http://localhost:9000/#/api/map">
+                <div class="q-pa-md q-gutter-sm">
+                  <q-btn class="glossy" rounded color="orange" label="START"></q-btn>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          </q-carousel-control>
+        </template>
+      </q-carousel>
+
+  </div>
+
+  <!-- <div class="q-pa-md">
     <q-carousel
       animated
       v-model="slide"
       navigation
       infinite
-      :autoplay="autoplay"
+
       arrows
+      :autoplay="autoplay"
       transition-prev="slide-right"
       transition-next="slide-left"
       height="713px"
       @mouseenter="autoplay = false"
       @mouseleave="autoplay = true"
     >
-    <q-carousel-slide :name="1" img-src="https://velog.velcdn.com/images/kimjyunny_dev/post/072d9c43-7183-4152-8048-27a6e21df906/image.jpeg"  />
-    
+    <q-carousel-slide :name="1" img-src="https://velog.velcdn.com/images/kimjyunny_dev/post/072d9c43-7183-4152-8048-27a6e21df906/image.jpeg" />
     <q-carousel-slide :name="2" img-src="https://velog.velcdn.com/images/kimjyunny_dev/post/072d9c43-7183-4152-8048-27a6e21df906/image.jpeg" />
     <q-carousel-slide :name="3" img-src="https://velog.velcdn.com/images/kimjyunny_dev/post/072d9c43-7183-4152-8048-27a6e21df906/image.jpeg" />
     </q-carousel>
-  </div>
-  <div class="q-pa-md q-gutter-sm">
-    <q-btn class="glossy" rounded color="orange" label="START"></q-btn>
-  </div>
+  </div> -->
 
 
 
-  
+</body>
 </template>
 
 <script>
@@ -55,9 +99,6 @@ export default {
 </script>
 
 <style>
-.q-pa-md{
-  padding: 0px 0px;
-}
 
 
 .glossy{
@@ -65,6 +106,13 @@ export default {
   display: block;
 
 
+}
+
+a{text-decoration: none;}
+
+
+body{
+  margin-top: 70px;
 }
 
 </style>

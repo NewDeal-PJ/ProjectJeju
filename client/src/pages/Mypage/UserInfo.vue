@@ -78,20 +78,16 @@
 
         </table>
         <br>
-        <div style="padding: 10px;">
           <div class="ModifyUserButton">
-            <div class="q-pa-md q-gutter-md form-group">
               <q-btn @click="onsubmit()" style="color: white; background-color: #FF9800; width: 300px;
             height: 40px; margin: 0 auto; display: block; ">
               <div style="font-size: 18px; font-weight: 200;
             font-family: 'Noto Sans KR', sans-serif;">수정하기</div>
               </q-btn>
-            </div>
           </div>
 
-
-          <div class="q-pa-md q-gutter-sm">
-             <q-btn label="탈퇴하기" @click="prompt = true" style="color: black; background-color: #E7E7E7; width: 300px; height: 40px; margin: 0 auto; display: block; font-size: 18px; font-weight: 200;
+          <div class="deleteUser">
+             <q-btn label="탈퇴하기" @click="prompt = true" style="color: black; background-color: #E7E7E7; width: 300px; height: 40px; margin: 0 auto;  display: block; font-size: 18px; font-weight: 200;
             font-family: 'Noto Sans KR', sans-serif;" />
 
               <q-dialog v-model="prompt" persistent>
@@ -115,11 +111,10 @@
               </q-dialog>
           </div>
 
-        </div>
+
+
       </form>
-      </div>
-
-
+    </div>
   </div>
   <Footer></Footer>
 </template>
@@ -222,7 +217,7 @@ export default {
         val => (val && val.length > 0) || '이메일을 입력해주세요.',
         val => (/^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/.test(val)) || '이메일 형식이 올바르지 않습니다.',
       ],
-      
+
       onsubmit() {
         PWDRef.value.validate()
         PWDChkRef.value.validate()
@@ -231,12 +226,12 @@ export default {
         TelRef3.value.validate()
         NicknameRef.value.validate()
         emailRef.value.validate()
-        
+
         //  // 백엔드의 계정정보를 호출
         //  axios.get("/api/login").then((res) => {
         //       state.data = res.data
         //       });
-        
+
 
         const args = {
               user_id : state.account.id,
@@ -293,7 +288,7 @@ export default {
           };
 
 
-        if (state.form.content === '동의합니다.') 
+        if (state.form.content === '동의합니다.')
         {
           axios
           .post("/api/userinfo/delete", args)
@@ -309,7 +304,7 @@ export default {
               position: 'center',
               timeout: 1200
             })
-            
+
           })
           //redirect logic
           .catch(function (error) {

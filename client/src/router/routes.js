@@ -8,6 +8,14 @@ const routes = [
     ]
   },
   {
+    path: '/api/map',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/MapPage.vue') }
+    ]
+  },
+
+  {
     path: '/api/login',
     component: () => import('layouts/MainLayout.vue'),
     children: [
@@ -124,13 +132,21 @@ const routes = [
     ]
   },
   {
-
     path: '/api/customerservice',
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/CustomerService.vue') }
     ]
     },
+
+    {
+      path: '/api/detail',
+      component: () => import('layouts/MainLayout.vue'),
+      children: [
+        { path: '', component: () => import('pages/FoodDetail.vue') }
+      ]
+      },
+
   // Always leave this as last one,
   // but you can also remove it
   {

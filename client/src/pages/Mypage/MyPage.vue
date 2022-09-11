@@ -76,8 +76,7 @@ export default {
   font-weight: bold;
   font-family: 'Rubik', sans-serif;
   text-align: center;
-  padding-top: 10px;
-  margin-top: 70px;
+
 }
 
 .myPageSelect {
@@ -129,4 +128,17 @@ export default {
 a {
   text-decoration: none
 }
+
+.myPageMember:hover{
+  background-color: bisque;
+}
+
+.myPageOrder:hover{
+  background-color: bisque;
+}
+
+.myPageWrite:hover{
+  background-color: bisque;
+}
+
 </style>

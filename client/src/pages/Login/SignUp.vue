@@ -276,7 +276,7 @@ export default {
           })
         }
         else {
-          
+
           if (gender.value == null) {
             console.log(IDChk.value)
             $q.notify({

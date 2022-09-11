@@ -14,7 +14,7 @@
         </q-tabs>
 
       <q-separator />
-      <q-tab-panels v-model="tab" animated>
+        <q-tab-panels v-model="tab" animated>
           <q-tab-panel name="Day1">
             <q-markup-table :separator="separator" flat >
           <thead>
@@ -29,20 +29,44 @@
               <th class="text-middle"> <q-checkbox left-label v-model="left" />제주맛집</th>
 
             </tr>
-
-
           </tbody>
-        </q-markup-table>
+          </q-markup-table>
           </q-tab-panel>
 
-          <q-tab-panel name="Day2">
-            <div class="text-h6">Alarms</div>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          </q-tab-panel>
+        <q-tab-panel name="Day2">
+          <q-markup-table :separator="separator" flat >
+          <thead>
+            <tr>
+              <th class="text-middle" style="font-weight: bold; font-size: 15px; background-color: #FAEBD7"> Hotel </th>
+              <th class="text-middle " style="font-weight: bold; font-size: 15px; background-color:#FAEBD7"> Restaurant </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th class="text-middle"> <q-checkbox v-model="right" /> 제주호텔</th>
+              <th class="text-middle"> <q-checkbox left-label v-model="left" />제주맛집</th>
 
-          <q-tab-panel name="Day3">
-            <div class="day3">Movies</div>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            </tr>
+          </tbody>
+          </q-markup-table>
+        </q-tab-panel>
+
+        <q-tab-panel name="Day3">
+          <q-markup-table :separator="separator" flat >
+          <thead>
+            <tr>
+              <th class="text-middle" style="font-weight: bold; font-size: 15px; background-color: #FAEBD7"> Hotel </th>
+              <th class="text-middle " style="font-weight: bold; font-size: 15px; background-color:#FAEBD7"> Restaurant </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th class="text-middle"> <q-checkbox v-model="right" /> 제주호텔</th>
+              <th class="text-middle"> <q-checkbox left-label v-model="left" />제주맛집</th>
+
+            </tr>
+          </tbody>
+          </q-markup-table>
           </q-tab-panel>
         </q-tab-panels>
 

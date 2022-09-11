@@ -1,6 +1,6 @@
 <template>
 <Header></Header>
-<div style="margin: 70px; border-radius: 10px;">
+<div style=" border-radius: 10px;">
       <p class="goodsRegister">  상품등록페이지 </p>
       <form  class="q-gutter-md">
       <table class="goodsRegisterJointable">
@@ -105,7 +105,7 @@ export default{
     const product_content = ref(null)
     const image = ref(null)
     const $q = useQuasar();
-    
+
     return {
       dense: ref(false),
       image,
@@ -155,7 +155,7 @@ export default{
                     message: product_name.value + `등록이 완료되었습니다.`,
                     position: 'center',
                     timeout: 1200
-                    
+
                   })
                 })
                 //redirect logic
@@ -172,7 +172,7 @@ export default{
           //   console.log(image)
           //   this.image = image[0]
           //   console.log(this.image)
-          
+
 
 // },
      }

@@ -1,20 +1,20 @@
 <template lang="pug">
 div(class="q-pa-md")
-  q-btn-dropdown(split color="red-5" push no-caps @click="displayHotel(category, filter, locationFilter)" style="margin-left: 0.5rem; width: 10.5rem; height: 3.5rem; position: relative; z-index: 10;")
+  q-btn-dropdown(split color="red-5" push no-caps @click="displayHotel(category, filter, locationFilterHotel)" style="margin-left: 3.75rem; width: 10.5rem; height: 3.5rem; position: relative; z-index: 10;")
     template(v-slot:label)
       div(class="row items-center no-wrap")
         q-icon(left name="img:https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/hotel.svg")
         div(class="text-center" style="font-size: 1.35rem;") 숙소
     div(class="q-gutter-sm" style="margin-right: 0.75rem;")
-      q-radio(v-model="locationFilter" val="all" color="amber-9") 전체
-      q-radio(v-model="locationFilter" val="jeju" color="amber-9") 제주시
-      q-radio(v-model="locationFilter" val="aewol" color="amber-9") 애월
-      q-radio(v-model="locationFilter" val="hamdeok" color="amber-9") 함덕
-      q-radio(v-model="locationFilter" val="moonset" color="amber-9") 월정
-      q-radio(v-model="locationFilter" val="gujwa" color="amber-9") 구좌
-      q-radio(v-model="locationFilter" val="seogwipo" color="amber-9") 서귀포
-      q-radio(v-model="locationFilter" val="seongsan" color="amber-9") 성산
-      q-radio(v-model="locationFilter" val="pyoseon" color="amber-9") 표선
+      q-radio(v-model="locationFilterHotel" val="all" color="amber-9") 전체
+      q-radio(v-model="locationFilterHotel" val="jeju" color="amber-9") 제주시
+      q-radio(v-model="locationFilterHotel" val="aewol" color="amber-9") 애월
+      q-radio(v-model="locationFilterHotel" val="hamdeok" color="amber-9") 함덕
+      q-radio(v-model="locationFilterHotel" val="moonset" color="amber-9") 월정
+      q-radio(v-model="locationFilterHotel" val="gujwa" color="amber-9") 구좌
+      q-radio(v-model="locationFilterHotel" val="seogwipo" color="amber-9") 서귀포
+      q-radio(v-model="locationFilterHotel" val="seongsan" color="amber-9") 성산
+      q-radio(v-model="locationFilterHotel" val="pyoseon" color="amber-9") 표선
       hr
     div(class="q-gutter-sm" style="margin-right: 0.75rem;")
       q-radio(v-model="category" val="0" label="전체" color="amber-9")
@@ -40,36 +40,50 @@ div(class="q-pa-md")
       q-checkbox(v-model="filter" val="breakfast" color="amber-9") 조식포함
       q-checkbox(v-model="filter" val="freeParking" color="amber-9") 무료주차가능
       q-checkbox(v-model="filter" val="cooking" color="amber-9") 취사가능
-  q-btn-dropdown(split color="amber-4" push no-caps @click="displayStore(locationFilter)" style="margin-left: 0.65rem; width: 10.5rem; height: 3.5rem;position: relative; z-index: 10;")
+  q-btn-dropdown(split color="amber-4" push no-caps @click="displayStore(locationFilterStore)" style="margin-left: 0.65rem; width: 10.5rem; height: 3.5rem;position: relative; z-index: 10;")
     template(v-slot:label)
       div(class="row items-center no-wrap")
         q-icon(left name="img:https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/store.svg")
         div(class="text-center" style="font-size: 1.35rem;") 맛집
     div(class="q-gutter-sm" style="margin-right: 0.75rem;")
-      q-radio(v-model="locationFilter" val="all" color="amber-9") 전체
-      q-radio(v-model="locationFilter" val="jeju" color="amber-9") 제주시
-      q-radio(v-model="locationFilter" val="aewol" color="amber-9") 애월
-      q-radio(v-model="locationFilter" val="hamdeok" color="amber-9") 함덕
-      q-radio(v-model="locationFilter" val="moonset" color="amber-9") 월정
-      q-radio(v-model="locationFilter" val="gujwa" color="amber-9") 구좌
-      q-radio(v-model="locationFilter" val="seogwipo" color="amber-9") 서귀포
-      q-radio(v-model="locationFilter" val="seongsan" color="amber-9") 성산
-      q-radio(v-model="locationFilter" val="pyoseon" color="amber-9") 표선
-  q-btn-dropdown(split color="light-blue-5" push no-caps @click="displayCharger(locationFilter)" style="margin-left: 0.65rem; width: 10.5rem; height: 3.5rem;position: relative; z-index: 10;")
+      q-radio(v-model="locationFilterStore" val="all" color="amber-9") 전체
+      q-radio(v-model="locationFilterStore" val="jeju" color="amber-9") 제주시
+      q-radio(v-model="locationFilterStore" val="aewol" color="amber-9") 애월
+      q-radio(v-model="locationFilterStore" val="hamdeok" color="amber-9") 함덕
+      q-radio(v-model="locationFilterStore" val="moonset" color="amber-9") 월정
+      q-radio(v-model="locationFilterStore" val="gujwa" color="amber-9") 구좌
+      q-radio(v-model="locationFilterStore" val="seogwipo" color="amber-9") 서귀포
+      q-radio(v-model="locationFilterStore" val="seongsan" color="amber-9") 성산
+      q-radio(v-model="locationFilterStore" val="pyoseon" color="amber-9") 표선
+  q-btn-dropdown(split color="light-blue-5" push no-caps @click="displayCharger(locationFilterCharger)" style="margin-left: 0.65rem; width: 10.5rem; height: 3.5rem;position: relative; z-index: 10;")
     template(v-slot:label)
       div(class="row items-center no-wrap")
         q-icon(left name="img:https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/chargerloc.svg")
         div(class="text-center" style="font-size: 1.25rem;") 전기차충전소
     div(class="q-gutter-sm" style="margin-right: 0.75rem;")
-      q-radio(v-model="locationFilter" val="all" color="amber-9") 전체
-      q-radio(v-model="locationFilter" val="jeju" color="amber-9") 제주시
-      q-radio(v-model="locationFilter" val="aewol" color="amber-9") 애월
-      q-radio(v-model="locationFilter" val="hamdeok" color="amber-9") 함덕
-      q-radio(v-model="locationFilter" val="moonset" color="amber-9") 월정
-      q-radio(v-model="locationFilter" val="gujwa" color="amber-9") 구좌
-      q-radio(v-model="locationFilter" val="seogwipo" color="amber-9") 서귀포
-      q-radio(v-model="locationFilter" val="seongsan" color="amber-9") 성산
-      q-radio(v-model="locationFilter" val="pyoseon" color="amber-9") 표선
+      q-radio(v-model="locationFilterCharger" val="all" color="amber-9") 전체
+      q-radio(v-model="locationFilterCharger" val="jeju" color="amber-9") 제주시
+      q-radio(v-model="locationFilterCharger" val="aewol" color="amber-9") 애월
+      q-radio(v-model="locationFilterCharger" val="hamdeok" color="amber-9") 함덕
+      q-radio(v-model="locationFilterCharger" val="moonset" color="amber-9") 월정
+      q-radio(v-model="locationFilterCharger" val="gujwa" color="amber-9") 구좌
+      q-radio(v-model="locationFilterCharger" val="seogwipo" color="amber-9") 서귀포
+      q-radio(v-model="locationFilterCharger" val="seongsan" color="amber-9") 성산
+      q-radio(v-model="locationFilterCharger" val="pyoseon" color="amber-9") 표선
+
+  q-btn-dropdown(color="orange" push style="margin-left: 40.5rem;")
+    template(v-slot:label)
+      div(class="row items-center no-wrap")
+        q-icon(left size="2.25rem" name="map")
+        div(class="text-center" style="font-size: 1rem;") 나만의 경로
+          br
+          | 만들기
+    div(class="q-gutter-sm")
+      q-radio(:disable="CustomDirection==2||CustomDirection==3 ? true : false" v-model="CustomDirection" val="1" color="orange" @click="customDirection(CustomDirection)") DAY1
+      q-radio(:disable="CustomDirection==1 ? false : true" v-model="CustomDirection" val="2" color="cyan" @click="customDirection(CustomDirection)") DAY2
+      q-radio(:disable="CustomDirection==2 ? false : true" v-model="CustomDirection" val="3" color="red" @click="customDirection(CustomDirection)") DAY3
+      br
+      q-btn(color="orange" no-caps style="width: 15.75rem;") 초기화
 
 div(id="map" style="width:90%; height:30rem; overflow:hidden; border-radius: 5px; margin: 0 auto;")
   //- q-dialog( v-model="dialog" persistent  style="display:block")
@@ -134,7 +148,11 @@ export default {
       id,
       category: ref('0'),
       filter: ref([]),
-      locationFilter: ref('all')
+      locationFilterHotel: ref('all'),
+      locationFilterStore: ref('all'),
+      locationFilterCharger: ref('all'),
+      CustomDirection: ref(),
+      event:ref([])
     }
   },
   name: "KakaoMap",
@@ -553,15 +571,49 @@ export default {
       return () => {
         this.sidePanel = [],
           this.sidePanel.push(info)
-        if (this.id== '') {
+        if (this.id == '') {
           window.location.href = 'http://localhost:9000/#/detail/' + info.STOREID
         }
-        else{
+        else {
           window.location.href = 'http://localhost:9000/#/detail/' + info.STOREID + '?auth=' + this.id;
         }
       }
     },
-    checkLogin(){
+    customDirection(day) {
+      if (this.event[0]!==undefined) {
+        kakao.maps.event.removeListener(this.map,'click',this.event[0])
+        this.event.pop()
+      }
+      var imageSrc = 'https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/flagDay' + day + '.png' // 마커이미지의 주소입니다
+      if (day==1) {
+        var imageSize = new kakao.maps.Size(49, 41)
+      }
+      if (day==2){
+        var imageSize = new kakao.maps.Size(58, 41)
+      }
+      if (day==3){
+        var imageSize = new kakao.maps.Size(50, 41)
+      }
+      var image = new kakao.maps.MarkerImage(imageSrc, imageSize)
+      var marker = new kakao.maps.Marker({
+        position: this.map.getCenter(),
+        image,
+      });
+      marker.setMap(this.map);
+      var direcitonEvent=function (mouseEvent) {
+        var latlng = mouseEvent.latLng;
+
+        marker.setPosition(latlng);
+      }
+      kakao.maps.event.addListener(this.map, 'click', direcitonEvent);
+      this.event.push(direcitonEvent)
+    },
+    removeEvent(marker) {
+      return () => {
+        infowindow.close();
+      }
+    },
+    checkLogin() {
       axios.get("/api/login").then((res) => {
         this.id.push(res.data.id)
       })

@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "projectjeju-479a0"
-  }
+    "default": "quasarinjeju",
+    "quasarinjeju": "quasarinjeju"
+  },
+  "targets": {},
+  "etags": {}
 }

@@ -1,6 +1,6 @@
 <template lang="pug">
 div(class="q-pa-md")
-  q-btn-dropdown(split color="red-5" push no-caps @click="displayHotel(category, filter, locationFilterHotel)" style="margin-left: 3.75rem; width: 10.5rem; height: 3.5rem; position: relative; z-index: 10;")
+  q-btn-dropdown(split color="red-5" push no-caps @click="displayHotel(category, filter, locationFilterHotel)" style="margin-left: 3.75rem; width: 10.5rem; height: 3.5rem;")
     template(v-slot:label)
       div(class="row items-center no-wrap")
         q-icon(left name="img:https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/hotel.svg")
@@ -70,7 +70,6 @@ div(class="q-pa-md")
       q-radio(v-model="locationFilterCharger" val="seogwipo" color="amber-9") 서귀포
       q-radio(v-model="locationFilterCharger" val="seongsan" color="amber-9") 성산
       q-radio(v-model="locationFilterCharger" val="pyoseon" color="amber-9") 표선
-
   q-btn-dropdown(color="orange" push style="margin-left: 40.5rem;")
     template(v-slot:label)
       div(class="row items-center no-wrap")
@@ -79,62 +78,13 @@ div(class="q-pa-md")
           br
           | 만들기
     div(class="q-gutter-sm")
-      q-radio(:disable="CustomDirection==2||CustomDirection==3 ? true : false" v-model="CustomDirection" val="1" color="orange" @click="customDirection(CustomDirection)") DAY1
-      q-radio(:disable="CustomDirection==1 ? false : true" v-model="CustomDirection" val="2" color="cyan" @click="customDirection(CustomDirection)") DAY2
-      q-radio(:disable="CustomDirection==2 ? false : true" v-model="CustomDirection" val="3" color="red" @click="customDirection(CustomDirection)") DAY3
+      q-radio(:disable="CustomDirection==2||CustomDirection==3 ? true : false" v-model="CustomDirection" val="1" color="orange" @click.once="customDirection(CustomDirection)") DAY1
+      q-radio(:disable="CustomDirection==1 ? false : true" v-model="CustomDirection" val="2" color="cyan" @click.once="customDirection(CustomDirection)") DAY2
+      q-radio(:disable="CustomDirection==2 ? false : true" v-model="CustomDirection" val="3" color="red" @click.once="customDirection(CustomDirection)") DAY3
       br
       q-btn(color="orange" no-caps style="width: 15.75rem;") 초기화
 
 div(id="map" style="width:90%; height:30rem; overflow:hidden; border-radius: 5px; margin: 0 auto;")
-  //- q-dialog( v-model="dialog" persistent  style="display:block")
-  //-   q-card( class="bg-teal text-white" style="width: 300px")
-  //-     q-card-section
-  //-       div( class="text-h6") 새로만들기
-  //-     q-card-section( class="q-pt-none")
-  //-       q-input(v-model="newData.name" label="약국이름")
-  //-       q-input(v-model="newData.address" label="주소")
-  //-       q-input(v-model="newData.open" label="영업시간")
-  //-       q-input(v-model="newData.tel" label="전화번호")
-
-  //-     q-card-actions( align="right" class="bg-white text-teal")
-  //-       q-btn(style="background:white; color:black" @click="createData(newData)" v-close-popup) 만들기
-
-  //- q-dialog( v-model="dialog" persistent  style="display:block")
-  //-   q-card( class="bg-teal text-white" style="width: 300px")
-  //-     q-card-section
-  //-       div( class="text-h6") 수정하기
-  //-     q-card-section( class="q-pt-none")
-  //-       q-input(v-model="newData.name" label="약국이름")
-  //-       q-input(v-model="newData.address" label="주소")
-  //-       q-input(v-model="newData.open" label="영업시간")
-  //-       q-input(v-model="newData.tel" label="전화번호")
-
-  //-     q-card-actions( align="right" class="bg-white text-teal")
-  //-       q-btn(style="background:white; color:black" @click="createData()" v-close-popup) 수정
-
-  //- div {{ targetIdx }} {{ targetData }}
-  //- //- address, name, open, sido, sigungu, tel
-  //- q-input(v-model="targetData.name" label="약국이름")
-  //- q-input(v-model="targetData.address" label="주소")
-  //- q-input(v-model="targetData.open" label="영업시간")
-  //- q-input(v-model="targetData.tel" label="전화번호")
-
-  //- q-card(v-if="dataList" v-for="(dataItem, idx) in dataList"
-  //-   dark bordered
-  //-   class="bg-grey-9 my-card"
-  //-   @click="selectData(dataItem.key, dataItem)"
-  //-   v-bind:class="{ selected: dataItem.key === targetIdx }"
-  //-   )
-
-  //-   q-card-section
-  //-     div( class="text-h6") {{ dataItem.key }}: {{ dataItem.name }} {{ dataItem.key === targetIdx }}
-  //-     div( class="text-subtitle2") {{ dataItem.address }}
-
-  //-     q-separator( dark inset)
-
-  //-     q-card-section
-  //-       div {{ dataItem.open }}
-  //-       div {{ dataItem.tel }}
   </template>
 
 <script>
@@ -143,32 +93,27 @@ import axios from "axios";
 axios.defaults.withCredentials = true;
 export default {
   setup() {
-    const id = ref([])
+    // const id = ref([])
     return {
-      id,
+      // id,
       category: ref('0'),
       filter: ref([]),
       locationFilterHotel: ref('all'),
       locationFilterStore: ref('all'),
       locationFilterCharger: ref('all'),
       CustomDirection: ref(),
-      event:ref([])
-    }
-  },
-  name: "KakaoMap",
-  data() {
-    return {
-      hotelMarkers: [],
-      chargerMarkers: [],
-      storeMarkers: [],
-      hotelMarkerPositions: [],
-      chargerMarkerPositions: [],
-      storeMarkerPositions: [],
-      sidePanel: [],
+      event:ref([]),
+      hotelMarkers: ref([]),
+      chargerMarkers: ref([]),
+      storeMarkers: ref([]),
+      hotelMarkerPositions: ref([]),
+      chargerMarkerPositions: ref([]),
+      storeMarkerPositions: ref([]),
+      sidePanel: ref([]),
     }
   },
   mounted() {
-    this.checkLogin()
+    // this.checkLogin()
     if (window.kakako && window.kakako.maps) {
       this.initMap();
     } else {

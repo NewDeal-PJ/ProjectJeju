@@ -57,19 +57,19 @@ import { useQuasar } from 'quasar';
 export default {
   name: "navigation",
   data() {
-    const account =  {
-        id: '',
-        name: ''
-      }
-      // 로그인 정보 담아서 보내주려면 객체를 만들어줘야죠~
-      const form =  {
-        loginId: "",
-        loginPw: ""
-      }
-      const $q = useQuasar()
-      const cart = ref([])
-      const myPageUrl = "http://localhost:9000/#/api/mypage/";
-      const shopUrl = "http://localhost:9000/#/api/shop/";
+    const account = {
+      id: '',
+      name: ''
+    }
+    // 로그인 정보 담아서 보내주려면 객체를 만들어줘야죠~
+    const form = {
+      loginId: "",
+      loginPw: ""
+    }
+    const $q = useQuasar()
+    const cart = ref([])
+    const myPageUrl = "http://localhost:9000/#/api/mypage/";
+    const shopUrl = "http://localhost:9000/#/api/shop/";
     return {
       scrolledNav: null,
       mobile: null,
@@ -77,11 +77,11 @@ export default {
       windowWidth: null,
       $q,
       shopUrl,
-        cart,
-        myPageUrl,
-        account,
-        form,
-        cart: JSON.parse(localStorage.getItem("cart")) || ""
+      cart,
+      myPageUrl,
+      account,
+      form,
+      cart: JSON.parse(localStorage.getItem("cart")) || ""
     };
   },
   created() {
@@ -119,7 +119,7 @@ export default {
       this.mobileNav = false;
       return;
     },
-    logout(){
+    logout() {
       axios.delete("/api/logout").then((res) => {
         this.$q.notify({
           color: 'teal',
@@ -140,7 +140,7 @@ header {
   background-color: antiquewhite;
   z-index: 99;
   width: 100%;
-  position: fixed;
+  position: relative;
   transition: 0.5s ease all;
   color: white;
   top: 0;

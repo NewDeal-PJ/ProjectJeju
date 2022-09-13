@@ -1,58 +1,46 @@
 <template>
   <Header></Header>
 
-    <!-- 제품 -->
-    <!-- 물량 추가버튼 수정하기 -->
-    <div class="goodsRegisterButton" >
-          <a href="http://localhost:9000/#/api/shop/register">
-          <q-btn style="color: white;
-          background-color: #F79a38;
-          width: 180px;
-          height: 30px;
-          display: block;
-          margin-top: 150px;
-          margin-left: 77%;" >
-            <div style="font-size: 18px; font-weight: 900;
-            font-family: 'Noto Sans KR', sans-serif;"> 상품등록하기</div>
-          </q-btn></a>
-      </div>
 
-    <main style="margin: 60px">
-      <div class="shopContainer">
-        <div class="row g-3">
-          <div>
-            <div style="display:flex; ">
-              <q-card class="my-card" v-for="product in products" :key="product.PRODUCTID" :name="product.PRODUCTID">
-                <img :src="product.PRODUCTIMG"/>
-                <q-card-section class="goods">
-                  <div class="row no-wrap items-center">
-                    <div style="font-weight:bold">
-                      {{product.PRODUCTNAME}}
-                      <div class="text-caption text-grey">
-                        {{product.PRODUCTDESCRIPTION}}
-                      </div>
-                      <div class="text-subtitle1 text-red">
-                        {{product.PRODUCTPRICE}} 원
-                      </div>
-                      <div class="row">
-                        <div class="col-auto">
-                          <!-- <q-input
-                        v-model.number="model"
-                        type="number"
-                        filled/> -->
-
-                        </div>
-                      </div>
-                      <q-btn @click="addToCart(product)" flat style="color: blue" label="ADD TO CART" />
+  <!-- 제품 -->
+  <!-- 물량 추가버튼 수정하기 -->
+  <main style="margin: 60px">
+    <div class="shopContainer" >
+      <div class="row g-3">
+        <div>
+          <div style="display:flex;">
+            <q-card class="my-card" v-for="(product,index) in products" :key="product.PRODUCTID" :name="product.PRODUCTID" >
+              <img :src="product.PRODUCTIMG"/>
+              <q-card-section class="goods" >
+                <div class="row no-wrap items-center">
+                  <div style="font-weight:bold">
+                    {{product.PRODUCTNAME}}
+                    <div class="text-caption text-grey">
+                      {{product.PRODUCTDESCRIPTION}}
                     </div>
+                    <div class="text-subtitle1 text-red">
+                      {{product.PRODUCTPRICE}} 원
+                    </div>
+                    <div class="row">
+                      <div class="col-auto">
+                        <q-input
+                        v-model.number="product.PRODUCTQTY"
+                        type="number"
+                        placeholder="1"
+                        filled style="width: 50px; " min="1" />
+                      </div>
+                    </div>
+                    
+                    <q-btn @click="addToCart(product)" flat style="color: blue" label="ADD TO CART" />
                   </div>
-                </q-card-section>
-              </q-card>
-            </div>
+                </div>
+              </q-card-section>
+            </q-card>
           </div>
         </div>
       </div>
-    </main>
+    </div>
+  </main>
 
 
   <Footer></Footer>
@@ -67,9 +55,11 @@ export default {
   setup() {
     const products=ref([])
     const cart = ref([])
+    const PRODUCTQTY = ref(1)
     return {
       products,
-      cart
+      cart,
+      PRODUCTQTY
     }
   },
   beforeCreate(){
@@ -93,7 +83,7 @@ export default {
     //   }
     },
   updated() {
-    // 전체 화면내용이 다시 렌더링된 후에 아래의 코드가 실행됩니다.
+    // 전체 화면내용이 다시 렌더링된 후에 아래의 코드가 실행됩니다. 
   //   if(VueCookies.isKey('cart')){
   //     alert('카트정보가 있습니다.')
   //     alert(VueCookies.get('cart'))
@@ -119,7 +109,8 @@ export default {
               PRODUCTNAME: Response.data[i].product_name,
               PRODUCTIMG : `https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrpo2xqATkvmnvnMEaj3IVVcyjVV3rW6S3iQ&usqp=CAU`,
               PRODUCTPRICE: Response.data[i].price,
-              PRODUCTDESCRIPTION: Response.data[i].description
+              PRODUCTDESCRIPTION: Response.data[i].description,
+              PRODUCTQTY : this.PRODUCTQTY
             })
           }
           console.log('Products:',this.products)
@@ -130,6 +121,7 @@ export default {
 
     addToCart(product){
       this.cart.push(product);
+      alert(`${product.PRODUCTNAME}`+`가 장바구니에 담겼습니다.`)
       console.log(this.cart)
       console.log("add to cart")
       if(!window.localStorage.key('cart')){
@@ -139,6 +131,7 @@ export default {
       window.localStorage.removeItem('cart')
       window.localStorage.setItem('cart', JSON.stringify(this.cart));
     }
+  }
       // console.log('localStorage',JSON.parse(localStorage.getItem("cart")) || "")
       // if(window.localStorage.getItem('cart'))
       // {}
@@ -153,8 +146,7 @@ export default {
     //   VueCookies.set('cart' ,JSON.stringify(this.cart) , "1h")
     // }
     // console.log(VueCookies.get('cart'))
-  }
-},
+  },
 
   components: { Header, Footer }
 }
@@ -165,6 +157,4 @@ export default {
 .my-card {
   text-align: center;
 }
-
-a{ text-decoration: none;}
 </style>

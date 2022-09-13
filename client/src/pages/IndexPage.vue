@@ -1,16 +1,18 @@
 <template lang="pug">
 q-page
-  Header
-  IntroPage
-  //- HomeMap
-  //- MapTracking
-  //- BestHotel
-  //- BestRestaurant
-  //- Footer
+    introHeader
+    IntroPage
+    //- Header
+    //- HomeMap
+    //- MapTracking
+    //- BestHotel
+    //- BestRestaurant
+    //- Footer
 </template>
-
+  
 <script>
-import Header from '../components/Home/Header.vue';
+import introHeader from '../components/Home/introHeader.vue';
+// import Header from '../components/Home/Header.vue';
 
 // import HomeMap from 'src/components/Home/HomeMap.vue';
 // import Footer from '../components/Home/Footer.vue';
@@ -18,17 +20,18 @@ import Header from '../components/Home/Header.vue';
 // import BestRestaurant from '../components/Home/BestRestaurant.vue';
 // import MapTracking from '../components/Home/mapTracking.vue';
 import IntroPage from 'src/components/Home/introPage.vue';
-
-
-
-
-
-
-
-
+  
+  
+  
+  
+  
+  
+  
+  
 export default {
   components: {
-    Header,
+    introHeader,
+    // Header,
     // HomeMap,
     // Footer,
     // BestHotel,

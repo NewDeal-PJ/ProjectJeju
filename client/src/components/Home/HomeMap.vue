@@ -1,88 +1,86 @@
 <template lang="pug">
-div(class="q-pa-md")
-  q-btn-dropdown(split color="red-5" push no-caps @click="displayHotel(category, filter, locationFilterHotel)" style="margin-left: 3.75rem; width: 10.5rem; height: 3.5rem;")
+div(class="q-pa-md" style="max-width: 90%; overflow:hidden; margin: 0 auto; text-align: center;")
+  q-btn-dropdown(split push no-caps @click="displayHotel(category, filter, locationFilterHotel)" style="margin-top: 10px;margin-left: 0.8rem; margin-right: 0.9rem; width: 17rem; height: 3rem; position: relative; z-index: 10; border: 3px solid #f04040; color: #f04040; background-color: #fafafa;")
     template(v-slot:label)
       div(class="row items-center no-wrap")
         q-icon(left name="img:https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/hotel.svg")
         div(class="text-center" style="font-size: 1.35rem;") 숙소
     div(class="q-gutter-sm" style="margin-right: 0.75rem;")
-      q-radio(v-model="locationFilterHotel" val="all" color="amber-9") 전체
-      q-radio(v-model="locationFilterHotel" val="jeju" color="amber-9") 제주시
-      q-radio(v-model="locationFilterHotel" val="aewol" color="amber-9") 애월
-      q-radio(v-model="locationFilterHotel" val="hamdeok" color="amber-9") 함덕
-      q-radio(v-model="locationFilterHotel" val="moonset" color="amber-9") 월정
-      q-radio(v-model="locationFilterHotel" val="gujwa" color="amber-9") 구좌
-      q-radio(v-model="locationFilterHotel" val="seogwipo" color="amber-9") 서귀포
-      q-radio(v-model="locationFilterHotel" val="seongsan" color="amber-9") 성산
-      q-radio(v-model="locationFilterHotel" val="pyoseon" color="amber-9") 표선
+      q-radio(v-model="locationFilterHotel" val="all" color="red-9") 전체
+      q-radio(v-model="locationFilterHotel" val="jeju" color="red-9") 제주시
+      q-radio(v-model="locationFilterHotel" val="aewol" color="red-9") 애월
+      q-radio(v-model="locationFilterHotel" val="hamdeok" color="red-9") 함덕
+      q-radio(v-model="locationFilterHotel" val="moonset" color="red-9") 월정
+      q-radio(v-model="locationFilterHotel" val="gujwa" color="red-9") 구좌
+      q-radio(v-model="locationFilterHotel" val="seogwipo" color="red-9") 서귀포
+      q-radio(v-model="locationFilterHotel" val="seongsan" color="red-9") 성산
+      q-radio(v-model="locationFilterHotel" val="pyoseon" color="red-9") 표선
       hr
     div(class="q-gutter-sm" style="margin-right: 0.75rem;")
-      q-radio(v-model="category" val="0" label="전체" color="amber-9")
-      q-radio(v-model="category" val="1" label="호텔, 리조트" color="amber-9")
-      q-radio(v-model="category" val="2" label="펜션" color="amber-9")
+      q-radio(v-model="category" val="0" label="전체" color="red-9")
+      q-radio(v-model="category" val="1" label="호텔, 리조트" color="red-9")
+      q-radio(v-model="category" val="2" label="펜션" color="red-9")
       hr
     div(class="q-gutter-sm" )
-      q-checkbox(v-model="filter" val="wifi" color="amber-9") Wifi
-      q-checkbox(v-model="filter" val="tv" color="amber-9") TV
-      q-checkbox(v-model="filter" val="airConditioner" color="amber-9") 에어컨
-      q-checkbox(v-model="filter" val="miniBar" color="amber-9") 미니바
-      q-checkbox(v-model="filter" val="refrigerator" color="amber-9") 냉장고
-      q-checkbox(v-model="filter" val="bathTub" color="amber-9") 욕조
+      q-checkbox(v-model="filter" val="wifi" color="red-9") Wifi
+      q-checkbox(v-model="filter" val="tv" color="red-9") TV
+      q-checkbox(v-model="filter" val="airConditioner" color="red-9") 에어컨
+      q-checkbox(v-model="filter" val="miniBar" color="red-9") 미니바
+      q-checkbox(v-model="filter" val="refrigerator" color="red-9") 냉장고
+      q-checkbox(v-model="filter" val="bathTub" color="red-9") 욕조
     div(class="q-gutter-sm")
-      q-checkbox(v-model="filter" val="karaoke" color="amber-9") 노래방
-      q-checkbox(v-model="filter" val="convenienceStore" color="amber-9") 편의점
-      q-checkbox(v-model="filter" val="parkingLot" color="amber-9") 주차장
-      q-checkbox(v-model="filter" val="seminarRoom" color="amber-9") 세미나실
-      q-checkbox(v-model="filter" val="bbq" color="amber-9") BBQ
-      q-checkbox(v-model="filter" val="restaurant" color="amber-9") 식당
+      q-checkbox(v-model="filter" val="karaoke" color="red-9") 노래방
+      q-checkbox(v-model="filter" val="convenienceStore" color="red-9") 편의점
+      q-checkbox(v-model="filter" val="parkingLot" color="red-9") 주차장
+      q-checkbox(v-model="filter" val="seminarRoom" color="red-9") 세미나실
+      q-checkbox(v-model="filter" val="bbq" color="red-9") BBQ
+      q-checkbox(v-model="filter" val="restaurant" color="red-9") 식당
     div(class="q-gutter-sm")
-      q-checkbox(v-model="filter" val="pickup" color="amber-9") 픽업가능
-      q-checkbox(v-model="filter" val="breakfast" color="amber-9") 조식포함
-      q-checkbox(v-model="filter" val="freeParking" color="amber-9") 무료주차가능
-      q-checkbox(v-model="filter" val="cooking" color="amber-9") 취사가능
-  q-btn-dropdown(split color="amber-4" push no-caps @click="displayStore(locationFilterStore)" style="margin-left: 0.65rem; width: 10.5rem; height: 3.5rem;position: relative; z-index: 10;")
+      q-checkbox(v-model="filter" val="pickup" color="red-9") 픽업가능
+      q-checkbox(v-model="filter" val="breakfast" color="red-9") 조식포함
+      q-checkbox(v-model="filter" val="freeParking" color="red-9") 무료주차가능
+      q-checkbox(v-model="filter" val="cooking" color="red-9") 취사가능
+  q-btn-dropdown(split push no-caps @click="displayStore(locationFilterStore)" style="margin-top: 10px;margin-left: 0.8rem; margin-right: 0.9rem; width: 17rem; height: 3rem; position: relative; z-index: 10; border: 3px solid #ffc107; color: #ffc107; background-color: #fafafa;")
     template(v-slot:label)
       div(class="row items-center no-wrap")
         q-icon(left name="img:https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/store.svg")
         div(class="text-center" style="font-size: 1.35rem;") 맛집
     div(class="q-gutter-sm" style="margin-right: 0.75rem;")
-      q-radio(v-model="locationFilterStore" val="all" color="amber-9") 전체
-      q-radio(v-model="locationFilterStore" val="jeju" color="amber-9") 제주시
-      q-radio(v-model="locationFilterStore" val="aewol" color="amber-9") 애월
-      q-radio(v-model="locationFilterStore" val="hamdeok" color="amber-9") 함덕
-      q-radio(v-model="locationFilterStore" val="moonset" color="amber-9") 월정
-      q-radio(v-model="locationFilterStore" val="gujwa" color="amber-9") 구좌
-      q-radio(v-model="locationFilterStore" val="seogwipo" color="amber-9") 서귀포
-      q-radio(v-model="locationFilterStore" val="seongsan" color="amber-9") 성산
-      q-radio(v-model="locationFilterStore" val="pyoseon" color="amber-9") 표선
-  q-btn-dropdown(split color="light-blue-5" push no-caps @click="displayCharger(locationFilterCharger)" style="margin-left: 0.65rem; width: 10.5rem; height: 3.5rem;position: relative; z-index: 10;")
+      q-radio(v-model="locationFilterStore" val="all" color="amber-5") 전체
+      q-radio(v-model="locationFilterStore" val="jeju" color="amber-5") 제주시
+      q-radio(v-model="locationFilterStore" val="aewol" color="amber-5") 애월
+      q-radio(v-model="locationFilterStore" val="hamdeok" color="amber-5") 함덕
+      q-radio(v-model="locationFilterStore" val="moonset" color="amber-5") 월정
+      q-radio(v-model="locationFilterStore" val="gujwa" color="amber-5") 구좌
+      q-radio(v-model="locationFilterStore" val="seogwipo" color="amber-5") 서귀포
+      q-radio(v-model="locationFilterStore" val="seongsan" color="amber-5") 성산
+      q-radio(v-model="locationFilterStore" val="pyoseon" color="amber-5") 표선
+  q-btn-dropdown(split push no-caps @click="displayCharger(locationFilterCharger)" style="margin-top: 10px;margin-left: 0.8rem; margin-right: 0.9rem; width: 17rem; height: 3rem; position: relative; z-index: 10; border: 3px solid #03a9f4; color: #03a9f4; background-color: #fafafa;")
     template(v-slot:label)
       div(class="row items-center no-wrap")
         q-icon(left name="img:https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/chargerloc.svg")
-        div(class="text-center" style="font-size: 1.25rem;") 전기차충전소
+        div(class="text-center" style="font-size: 1.25rem;") 전기차 충전소
     div(class="q-gutter-sm" style="margin-right: 0.75rem;")
-      q-radio(v-model="locationFilterCharger" val="all" color="amber-9") 전체
-      q-radio(v-model="locationFilterCharger" val="jeju" color="amber-9") 제주시
-      q-radio(v-model="locationFilterCharger" val="aewol" color="amber-9") 애월
-      q-radio(v-model="locationFilterCharger" val="hamdeok" color="amber-9") 함덕
-      q-radio(v-model="locationFilterCharger" val="moonset" color="amber-9") 월정
-      q-radio(v-model="locationFilterCharger" val="gujwa" color="amber-9") 구좌
-      q-radio(v-model="locationFilterCharger" val="seogwipo" color="amber-9") 서귀포
-      q-radio(v-model="locationFilterCharger" val="seongsan" color="amber-9") 성산
-      q-radio(v-model="locationFilterCharger" val="pyoseon" color="amber-9") 표선
-  q-btn-dropdown(color="orange" push style="margin-left: 40.5rem;")
+      q-radio(v-model="locationFilterCharger" val="all" color="light-blue-6") 전체
+      q-radio(v-model="locationFilterCharger" val="jeju" color="light-blue-6") 제주시
+      q-radio(v-model="locationFilterCharger" val="aewol" color="light-blue-6") 애월
+      q-radio(v-model="locationFilterCharger" val="hamdeok" color="light-blue-6") 함덕
+      q-radio(v-model="locationFilterCharger" val="moonset" color="light-blue-6") 월정
+      q-radio(v-model="locationFilterCharger" val="gujwa" color="light-blue-6") 구좌
+      q-radio(v-model="locationFilterCharger" val="seogwipo" color="light-blue-6") 서귀포
+      q-radio(v-model="locationFilterCharger" val="seongsan" color="light-blue-6") 성산
+      q-radio(v-model="locationFilterCharger" val="pyoseon" color="light-blue-6") 표선
+  q-btn-dropdown(split push no-caps @click="displayCharger(locationFilterCharger)" style="margin-top: 10px; margin-left: 0.8rem; margin-right: 0.9rem; width: 18rem; height: 3rem; position: relative; z-index: 10; border: 3px solid #ff9800; color: #ff9800; background-color: #fafafa;")
     template(v-slot:label)
       div(class="row items-center no-wrap")
-        q-icon(left size="2.25rem" name="map")
-        div(class="text-center" style="font-size: 1rem;") 나만의 경로
-          br
-          | 만들기
-    div(class="q-gutter-sm")
-      q-radio(:disable="CustomDirection==2||CustomDirection==3 ? true : false" v-model="CustomDirection" val="1" color="orange" @click.once="customDirection(CustomDirection)") DAY1
-      q-radio(:disable="CustomDirection==1 ? false : true" v-model="CustomDirection" val="2" color="cyan" @click.once="customDirection(CustomDirection)") DAY2
-      q-radio(:disable="CustomDirection==2 ? false : true" v-model="CustomDirection" val="3" color="red" @click.once="customDirection(CustomDirection)") DAY3
+        q-icon(left name="map")
+        div(class="text-center"  style="font-size: 1.3rem;") 나만의 경로 만들기
+    div(class="q-gutter-sm" style="margin-right: 0rem;")
+      q-radio(:disable="CustomDirection==2||CustomDirection==3 ? true : false" v-model="CustomDirection" val="1" color="orange" @click.once="customDirection(CustomDirection)" style="margin-left: 0.7rem; margin-right: 0.6rem;") DAY1
+      q-radio(:disable="CustomDirection==1 ? false : true" v-model="CustomDirection" val="2" color="cyan" @click.once="customDirection(CustomDirection)" style="margin-left: 0.6rem; margin-right: 0.6rem;") DAY2
+      q-radio(:disable="CustomDirection==2 ? false : true" v-model="CustomDirection" val="3" color="red" @click.once="customDirection(CustomDirection)" style="margin-left: 0.6rem; margin-right: 0.7rem;") DAY3
       br
-      q-btn(@click="resetCustom()" color="orange" no-caps style="width: 15.75rem;") 초기화
+      q-btn(color="orange-6" no-caps style="width: 18rem;") 초기화
 
 div(id="map" style="width:90%; height:30rem; overflow:hidden; border-radius: 5px; margin: 0 auto;")
   </template>

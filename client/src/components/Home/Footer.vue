@@ -16,7 +16,7 @@
         <p style="font-weight: bold; padding-top: 3%; font-size: 14px;">제주올래?</p>
         <p>제주도의 전기차 충전소 안내, 맛집안내, 숙소 안내,리뷰 및 별점,<br> 제주도 굿즈 판매 및 결제 서비스 및 로그 데이터 분석을 목표로 한다</p>
 
-        <div>
+        <div class="PageInfoIcon">
          <a href="https://www.jejusi.go.kr/index.ac">
               <img src="https://velog.velcdn.com/images/kimjyunny_dev/post/edce56d2-5739-468e-87ca-a6930cb3d62f/image.png" width="25">
             </a>
@@ -95,6 +95,12 @@
       font-family: 'Noto Sans KR', sans-serif;
       place-self: end;
     }
-  a{ margin-right: 3%;}
 
+    .PageInfoIcon > a{
+      margin-right: 3px;
+    }
+
+    .personalInfo > a {
+      margin-right: 3px;
+    }
   </style>

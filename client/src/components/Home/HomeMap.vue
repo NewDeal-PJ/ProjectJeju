@@ -82,7 +82,7 @@ div(class="q-pa-md")
       q-radio(:disable="CustomDirection==1 ? false : true" v-model="CustomDirection" val="2" color="cyan" @click.once="customDirection(CustomDirection)") DAY2
       q-radio(:disable="CustomDirection==2 ? false : true" v-model="CustomDirection" val="3" color="red" @click.once="customDirection(CustomDirection)") DAY3
       br
-      q-btn(color="orange" no-caps style="width: 15.75rem;") 초기화
+      q-btn(@click="resetCustom()" color="orange" no-caps style="width: 15.75rem;") 초기화
 
 div(id="map" style="width:90%; height:30rem; overflow:hidden; border-radius: 5px; margin: 0 auto;")
   </template>
@@ -102,7 +102,7 @@ export default {
       locationFilterStore: ref('all'),
       locationFilterCharger: ref('all'),
       CustomDirection: ref(),
-      event:ref([]),
+      event: ref([]),
       hotelMarkers: ref([]),
       chargerMarkers: ref([]),
       storeMarkers: ref([]),
@@ -110,6 +110,9 @@ export default {
       chargerMarkerPositions: ref([]),
       storeMarkerPositions: ref([]),
       sidePanel: ref([]),
+      customMarkersDay1: ref([]),
+      customMarkersDay2: ref([]),
+      customMarkersDay3: ref([]),
     }
   },
   mounted() {
@@ -525,19 +528,22 @@ export default {
       }
     },
     customDirection(day) {
-      if (this.event[0]!==undefined) {
-        kakao.maps.event.removeListener(this.map,'click',this.event[0])
+      var clickLine // 마우스로 클릭한 좌표로 그려질 선 객체입니다
+      var distanceOverlay; // 선의 거리정보를 표시할 커스텀오버레이 입니다
+      var dots = {}; // 선이 그려지고 있을때 클릭할 때마다 클릭 지점과 거리를 표시하는 커스텀 오버레이 배열입니다.
+      if (this.event[0] !== undefined) {
+        kakao.maps.event.removeListener(this.map, 'click', this.event[0])
         this.event.pop()
       }
       var imageSrc = 'https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/flagDay' + day + '.png' // 마커이미지의 주소입니다
-      if (day==1) {
-        var imageSize = new kakao.maps.Size(49, 41)
+      if (day == 1) {
+        var imageSize = new kakao.maps.Size(55, 41)
       }
-      if (day==2){
-        var imageSize = new kakao.maps.Size(58, 41)
+      if (day == 2) {
+        var imageSize = new kakao.maps.Size(55, 41)
       }
-      if (day==3){
-        var imageSize = new kakao.maps.Size(50, 41)
+      if (day == 3) {
+        var imageSize = new kakao.maps.Size(56, 41)
       }
       var image = new kakao.maps.MarkerImage(imageSrc, imageSize)
       var marker = new kakao.maps.Marker({
@@ -545,18 +551,33 @@ export default {
         image,
       });
       marker.setMap(this.map);
-      var direcitonEvent=function (mouseEvent) {
+      var direcitonEvent = function (mouseEvent) {
         var latlng = mouseEvent.latLng;
 
         marker.setPosition(latlng);
       }
       kakao.maps.event.addListener(this.map, 'click', direcitonEvent);
       this.event.push(direcitonEvent)
-    },
-    removeEvent(marker) {
-      return () => {
-        infowindow.close();
+      if (day == 1) {
+        this.customMarkersDay1.forEach((marker) => marker.setMap(null));
+        this.customMarkersDay1.push(marker)
+        // this.customMarkersDay2.pop()
+        // this.customMarkersDay3.pop()
       }
+      if (day == 2) {
+        this.customMarkersDay2.forEach((marker) => marker.setMap(null));
+        this.customMarkersDay2.push(marker)
+      }
+      if (day == 3) {
+        this.customMarkersDay3.forEach((marker) => marker.setMap(null));
+        this.customMarkersDay3.push(marker)
+      }
+    },
+    resetCustom() {
+      this.customMarkersDay1.forEach((marker) => marker.setMap(null));
+      this.customMarkersDay2.forEach((marker) => marker.setMap(null));
+      this.customMarkersDay3.forEach((marker) => marker.setMap(null));
+      this.CustomDirection = '';
     },
     checkLogin() {
       axios.get("/api/login").then((res) => {

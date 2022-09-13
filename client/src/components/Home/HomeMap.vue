@@ -70,7 +70,7 @@ div(class="q-pa-md" style="max-width: 90%; overflow:hidden; margin: 0 auto; text
       q-radio(v-model="locationFilterCharger" val="seogwipo" color="light-blue-6") 서귀포
       q-radio(v-model="locationFilterCharger" val="seongsan" color="light-blue-6") 성산
       q-radio(v-model="locationFilterCharger" val="pyoseon" color="light-blue-6") 표선
-  q-btn-dropdown(split push no-caps @click="displayCharger(locationFilterCharger)" style="margin-top: 10px; margin-left: 0.8rem; margin-right: 0.9rem; width: 18rem; height: 3rem; position: relative; z-index: 10; border: 3px solid #ff9800; color: #ff9800; background-color: #fafafa;")
+  q-btn-dropdown(push no-caps style="margin-top: 10px; margin-left: 0.8rem; margin-right: 0.9rem; width: 18rem; height: 3rem; position: relative; z-index: 10; border: 3px solid #ff9800; color: #ff9800; background-color: #fafafa;")
     template(v-slot:label)
       div(class="row items-center no-wrap")
         q-icon(left name="map")
@@ -80,7 +80,7 @@ div(class="q-pa-md" style="max-width: 90%; overflow:hidden; margin: 0 auto; text
       q-radio(:disable="CustomDirection==1 ? false : true" v-model="CustomDirection" val="2" color="cyan" @click.once="customDirection(CustomDirection)" style="margin-left: 0.6rem; margin-right: 0.6rem;") DAY2
       q-radio(:disable="CustomDirection==2 ? false : true" v-model="CustomDirection" val="3" color="red" @click.once="customDirection(CustomDirection)" style="margin-left: 0.6rem; margin-right: 0.7rem;") DAY3
       br
-      q-btn(color="orange-6" no-caps style="width: 18rem;") 초기화
+      q-btn(@click.once="resetCustom()" color="orange-6" no-caps style="width: 18rem;") 초기화
 
 div(id="map" style="width:90%; height:30rem; overflow:hidden; border-radius: 5px; margin: 0 auto;")
   </template>

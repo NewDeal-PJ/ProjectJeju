@@ -140,7 +140,7 @@ header {
   background-color: antiquewhite;
   z-index: 99;
   width: 100%;
-  position: relative;
+  position: fixed;
   transition: 0.5s ease all;
   color: white;
   top: 0;

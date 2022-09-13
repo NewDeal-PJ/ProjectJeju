@@ -75,12 +75,12 @@ div(class="q-pa-md" style="max-width: 90%; overflow:hidden; margin: 0 auto; text
       div(class="row items-center no-wrap")
         q-icon(left name="map")
         div(class="text-center"  style="font-size: 1.3rem;") 나만의 경로 만들기
-    div(class="q-gutter-sm" style="margin-right: 0.75rem;")
-      q-radio(:disable="CustomDirection==2||CustomDirection==3 ? true : false" v-model="CustomDirection" val="1" color="orange" @click.once="customDirection(CustomDirection)") DAY1
-      q-radio(:disable="CustomDirection==1 ? false : true" v-model="CustomDirection" val="2" color="cyan" @click.once="customDirection(CustomDirection)") DAY2
-      q-radio(:disable="CustomDirection==2 ? false : true" v-model="CustomDirection" val="3" color="red" @click.once="customDirection(CustomDirection)") DAY3
+    div(class="q-gutter-sm" style="margin-right: 0rem;")
+      q-radio(:disable="CustomDirection==2||CustomDirection==3 ? true : false" v-model="CustomDirection" val="1" color="orange" @click.once="customDirection(CustomDirection)" style="margin-left: 1.3rem;") DAY1
+      q-radio(:disable="CustomDirection==1 ? false : true" v-model="CustomDirection" val="2" color="cyan" @click.once="customDirection(CustomDirection)" style="margin-left: 1.3rem;") DAY2
+      q-radio(:disable="CustomDirection==2 ? false : true" v-model="CustomDirection" val="3" color="red" @click.once="customDirection(CustomDirection)" style="margin-left: 1.3rem;") DAY3
       br
-      q-btn(color="orange" no-caps style="width: 19.5rem;") 초기화
+      q-btn(color="orange-6" no-caps style="width: 19.5rem;") 초기화
 
 //- div(class="q-pa-md")
 //-   q-layout(view="hHh Lpr lff" container style="height: 300px" class="shadow-2 rounded-borders")

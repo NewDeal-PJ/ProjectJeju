@@ -11,7 +11,7 @@
               <q-card class="my-card" v-for="(product,index) in products" :key="product.PRODUCTID" :name="product.PRODUCTID" >
                 <img :src="product.PRODUCTIMG"/>
                 <q-card-section class="goods" >
-                  <div class="row no-wrap items-center">
+                  <div class=" no-wrap items-center">
                     <div style="font-weight:bold">
                       {{product.PRODUCTNAME}}
                       <div class="text-caption text-grey">
@@ -20,7 +20,8 @@
                       <div class="text-subtitle1 text-red">
                         {{product.PRODUCTPRICE}} 원
                       </div>
-                      <div class="row">
+                      <div class="row" style="display: flex;
+    justify-content: center;">
                         <div class="col-auto">
                           <q-input
                           v-model.number="product.PRODUCTQTY"

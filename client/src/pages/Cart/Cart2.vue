@@ -220,4 +220,11 @@ import {ref} from 'vue';
       max-width: 450px;
     }
 
+    input{
+    overflow: visible;
+    text-transform: none;
+    background-color: antiquewhite;
+    border-radius: 3px;
+    border: 1px solid grey;
+    }
   </style>

@@ -29,7 +29,7 @@
         <ul v-show="mobileNav" class="dropdown-nav">
           <li><a href="http://localhost:9000">Home</a></li>
           <li><a :href="shopUrl+account.id">Shop</a></li>
-          <li><a href="http://localhost:9000/#/api/cart1">Cart</a></li>
+          <li><a href="http://localhost:9000/#/api/cart1">Cart({{cart.length}})</a></li>
 
           <a v-if="account.id">
             <li><a :href="myPageUrl+account.id">MyPage</a></li>
@@ -140,7 +140,7 @@ header {
   background-color: antiquewhite;
   z-index: 99;
   width: 100%;
-  position: relative;
+  position: fixed;
   transition: 0.5s ease all;
   color: white;
   top: 0;

@@ -113,6 +113,7 @@ export default {
       customMarkersDay1: ref([]),
       customMarkersDay2: ref([]),
       customMarkersDay3: ref([]),
+      clickPosition:ref([])
     }
   },
   mounted() {
@@ -779,4 +780,3 @@ export default {
 }
 </style>
 
-  <!-- https://velog.velcdn.com/images/kimjyunny_dev/post/c059d2b5-f7c1-4ad3-bd3b-16475b317069/image.svg     맛집 이미지-->

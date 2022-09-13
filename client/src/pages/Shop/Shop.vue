@@ -1,48 +1,46 @@
 <template>
   <Header></Header>
-
-
-  <!-- 제품 -->
-  <!-- 물량 추가버튼 수정하기 -->
-  <main style="margin: 60px">
-    <div class="shopContainer" >
-      <div class="row g-3">
-        <div>
-          <div style="display:flex;">
-            <q-card class="my-card" v-for="(product,index) in products" :key="product.PRODUCTID" :name="product.PRODUCTID" >
-              <img :src="product.PRODUCTIMG"/>
-              <q-card-section class="goods" >
-                <div class="row no-wrap items-center">
-                  <div style="font-weight:bold">
-                    {{product.PRODUCTNAME}}
-                    <div class="text-caption text-grey">
-                      {{product.PRODUCTDESCRIPTION}}
-                    </div>
-                    <div class="text-subtitle1 text-red">
-                      {{product.PRODUCTPRICE}} 원
-                    </div>
-                    <div class="row">
-                      <div class="col-auto">
-                        <q-input
-                        v-model.number="product.PRODUCTQTY"
-                        type="number"
-                        placeholder="1"
-                        filled style="width: 50px; " min="1" />
+  <body>
+    <!-- 제품 -->
+    <!-- 물량 추가버튼 수정하기 -->
+    <main style="margin: 60px">
+      <div class="shopContainer" >
+        <div class="row g-3">
+          <div>
+            <div style="display:flex;">
+              <q-card class="my-card" v-for="(product,index) in products" :key="product.PRODUCTID" :name="product.PRODUCTID" >
+                <img :src="product.PRODUCTIMG"/>
+                <q-card-section class="goods" >
+                  <div class="row no-wrap items-center">
+                    <div style="font-weight:bold">
+                      {{product.PRODUCTNAME}}
+                      <div class="text-caption text-grey">
+                        {{product.PRODUCTDESCRIPTION}}
                       </div>
+                      <div class="text-subtitle1 text-red">
+                        {{product.PRODUCTPRICE}} 원
+                      </div>
+                      <div class="row">
+                        <div class="col-auto">
+                          <q-input
+                          v-model.number="product.PRODUCTQTY"
+                          type="number"
+                          placeholder="1"
+                          filled style="width: 50px; " min="1" />
+                        </div>
+                      </div>
+
+                      <q-btn @click="addToCart(product)" flat style="color: blue" label="ADD TO CART" />
                     </div>
-                    
-                    <q-btn @click="addToCart(product)" flat style="color: blue" label="ADD TO CART" />
                   </div>
-                </div>
-              </q-card-section>
-            </q-card>
+                </q-card-section>
+              </q-card>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </main>
-
-
+    </main>
+  </body>
   <Footer></Footer>
 </template>
 
@@ -83,7 +81,7 @@ export default {
     //   }
     },
   updated() {
-    // 전체 화면내용이 다시 렌더링된 후에 아래의 코드가 실행됩니다. 
+    // 전체 화면내용이 다시 렌더링된 후에 아래의 코드가 실행됩니다.
   //   if(VueCookies.isKey('cart')){
   //     alert('카트정보가 있습니다.')
   //     alert(VueCookies.get('cart'))
@@ -156,5 +154,6 @@ export default {
 <style>
 .my-card {
   text-align: center;
+  margin: 10px;
 }
 </style>

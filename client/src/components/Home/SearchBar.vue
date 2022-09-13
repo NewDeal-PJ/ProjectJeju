@@ -1,6 +1,6 @@
 <template>
 
- <!-- <body> -->
+
 <div class="parent">
     <div class="child">
         <div class="title-container">
@@ -32,7 +32,7 @@
 
     </div>
     </div>
-<!-- </body> -->
+
 </template>
 
 <script>
@@ -133,10 +133,7 @@ h1 {
   50% { background-color: transparent;}
 }
 
-// body {
-//   background-color: white;
-//   margin: 0px;
-// }
+
 
 .parent {
   height: 260px;

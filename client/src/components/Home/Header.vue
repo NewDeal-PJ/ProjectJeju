@@ -1,5 +1,5 @@
 <template>
-  <header :class="{ 'scrolled-nav': scrolledNav}">
+  <header :class="{original_color: scrollPosition < 80, change_color: scrollPosition > 80}">
     <nav>
       <div class="branding">
         <i class="fas fa-seedling"></i>
@@ -75,6 +75,7 @@ export default {
       mobile: null,
       mobileNav: null,
       windowWidth: null,
+      scrollPosition: null,
       $q,
       shopUrl,
       cart,
@@ -109,6 +110,10 @@ export default {
       this.scrolledNav = false;
     },
 
+    updateScroll(){
+         this.scrollPosition = window.scrollY
+      },
+
     checkScreen() {
       this.windowWidth = window.innerWidth;
       if (this.windowWidth <= 750) {
@@ -137,13 +142,13 @@ export default {
 
 <style lang="scss" scoped>
 header {
-  background-color: antiquewhite;
+
   z-index: 99;
   width: 100%;
   position: fixed;
   transition: 0.5s ease all;
-  color: white;
   top: 0;
+
 
 
   nav {
@@ -199,9 +204,7 @@ header {
         transition: 0.5s ease all;
       }
 
-      i {
-        color: green;
-      }
+
     }
 
     .navigation {
@@ -218,7 +221,8 @@ header {
       top: 0;
       right: 24px;
       height: 100%;
-      color: green;
+
+
 
       i {
         cursor: pointer;
@@ -245,6 +249,10 @@ header {
       overflow: hidden;
       overflow-y: auto;
       padding-left: 0;
+
+      li > a {
+          color: orange;
+        }
 
       li {
         margin-left: 0;
@@ -288,7 +296,55 @@ header {
 
 a {
   text-decoration: none;
-  color: orange;
-  display: contents;
 }
+
+
+
+.original_color {
+  background-color: antiquewhite;
+  color: green;
+  width: 100%;
+
+  nav > .icon {
+    color: green;
+  }
+
+  nav > i {
+    color: orange;
+  }
+
+  a{
+    color: orange;
+  }
+
+}
+
+.change_color{
+  background-color: white;
+  	// #ECF7E1;
+
+  color: black;
+  width: 100%;
+  border-bottom: solid grey 1px;
+
+  nav > .icon{
+    color: green;
+  }
+
+  nav > .branding > i{
+    color: green;
+  }
+
+  nav > .branding > a {
+    color: orange;
+  }
+
+  a{
+    color: black;
+  }
+
+
+  }
+
+
 </style>

@@ -16,4 +16,8 @@ export default defineComponent({
   body.body--dark {
     background: #545d68
     }
+
+  body{
+    margin-top: 130px;
+  }
   </style>

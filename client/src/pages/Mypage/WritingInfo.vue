@@ -1,71 +1,72 @@
 <template>
   <Header></Header>
-  <div class="writingInfoBox1">
-    <p> My Comment </p>
-    <div>
-      <div style=" margin:0 auto; max-width: 80%;" v-if="jsdata" v-for="(dataItem, idx) in jsdata"
-        @click="selectReply(dataItem.RNO, dataItem)" v-bind:class="{ selected: dataItem.RNO === targetIdx }">
+  <body>
+    <div class="writingInfoBox1">
+      <p> My Comment </p>
+      <div>
+        <div style=" margin:0 auto; max-width: 80%;" v-if="jsdata" v-for="(dataItem, idx) in jsdata"
+          @click="selectReply(dataItem.RNO, dataItem)" v-bind:class="{ selected: dataItem.RNO === targetIdx }">
 
-        <q-markup-table :separator="separator" flat>
-          <thead>
-            <tr>
-              <th class="text-middle" style="font-weight: bold; font-size: 15px; background-color: #FAEBD7"> 작성한 글 </th>
-              <th class="text-middle " style="font-weight: bold; font-size: 15px; background-color:#FAEBD7"> 수정</th>
-              <th class="text-middle " style="font-weight: bold; font-size: 15px; background-color:#FAEBD7"> 삭제</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <div class="foodDetailReview" style=" width: 50%; margin: 0 auto;padding: 20px;">
-                <div>
-                  <div style="display: flex; font-size: 15px;">
-                    <p> {{ dataItem.NICKNAME }} </p>
-                  </div>
-                  <div style="display: flex; font-size: 15px;">
-                    <p> {{ dataItem.REGDATE }} </p>
-                  </div>
-                  <div class="cover">
-                    <img :src="dataItem.imgurl" />
-                  </div>
-                  <div class="reviewDescription" style="font-size: 15px;">
-                    <p> {{ dataItem.CONTENT }} </p>
+          <q-markup-table :separator="separator" flat>
+            <thead>
+              <tr>
+                <th class="text-middle" style="font-weight: bold; font-size: 15px; background-color: #FAEBD7"> 작성한 글 </th>
+                <th class="text-middle " style="font-weight: bold; font-size: 15px; background-color:#FAEBD7"> 수정</th>
+                <th class="text-middle " style="font-weight: bold; font-size: 15px; background-color:#FAEBD7"> 삭제</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <div class="foodDetailReview" style=" width: 50%; margin: 0 auto;padding: 20px;">
+                  <div>
+                    <div style="display: flex; font-size: 15px;">
+                      <p> {{ dataItem.NICKNAME }} </p>
+                    </div>
+                    <div style="display: flex; font-size: 15px;">
+                      <p> {{ dataItem.REGDATE }} </p>
+                    </div>
+                    <div class="cover">
+                      <img :src="dataItem.imgurl" />
+                    </div>
+                    <div class="reviewDescription" style="font-size: 15px;">
+                      <p> {{ dataItem.CONTENT }} </p>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <td class="text-middle">
-                <div class="cursor-pointer">
-                  <span class="ModifyContainer" v-on:click="ModifyComment">
-                    <i class="fas fa-pencil"></i> </span>
-                  <q-popup-edit v-model="editContent" :validate="val=>val.length>=1" v-slot="scope">
-                    <q-input autofocus dense v-model="scope.value" :model-value="scope.value" hint="댓글 수정" :rules="[
-                      val => scope.validate(val) || '한 글자 이상 적어주세요.'
-                    ]">
-                      <template v-slot:after>
-                        <q-btn flat dense color="negative" icon="cancel" @click.stop.prevent="scope.cancel" />
-                        <q-btn flat dense color="positive" icon="check_circle" @click.stop.prevent="scope.set"
-                          :disable="scope.validate(scope.value) === false || scope.initialValue === scope.value"
-                          @click="updateReply(dataItem.RNO,editContent)"
-                          v-bind:class="{ selected: dataItem.RNO === targetIdx }" />
-                      </template>
-                    </q-input>
-                  </q-popup-edit>
-                </div>
-              </td>
-              <td style=" margin-left: 1.5rem;" @click="deleteReply(dataItem.RNO,dataItem.uuid)"
-                v-bind:class="{ selected: dataItem.RNO === targetIdx }">
-                <div class="cursor-pointer">
-                  <span class="removeContainer" style="color: red;">
-                    <i class="fa-solid fa-trash-can" aria-hidden="true"></i> </span>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </q-markup-table>
+                <td class="text-middle">
+                  <div class="cursor-pointer">
+                    <span class="ModifyContainer" v-on:click="ModifyComment">
+                      <i class="fas fa-pencil"></i> </span>
+                    <q-popup-edit v-model="editContent" :validate="val=>val.length>=1" v-slot="scope">
+                      <q-input autofocus dense v-model="scope.value" :model-value="scope.value" hint="댓글 수정" :rules="[
+                        val => scope.validate(val) || '한 글자 이상 적어주세요.'
+                      ]">
+                        <template v-slot:after>
+                          <q-btn flat dense color="negative" icon="cancel" @click.stop.prevent="scope.cancel" />
+                          <q-btn flat dense color="positive" icon="check_circle" @click.stop.prevent="scope.set"
+                            :disable="scope.validate(scope.value) === false || scope.initialValue === scope.value"
+                            @click="updateReply(dataItem.RNO,editContent)"
+                            v-bind:class="{ selected: dataItem.RNO === targetIdx }" />
+                        </template>
+                      </q-input>
+                    </q-popup-edit>
+                  </div>
+                </td>
+                <td style=" margin-left: 1.5rem;" @click="deleteReply(dataItem.RNO,dataItem.uuid)"
+                  v-bind:class="{ selected: dataItem.RNO === targetIdx }">
+                  <div class="cursor-pointer">
+                    <span class="removeContainer" style="color: red;">
+                      <i class="fa-solid fa-trash-can" aria-hidden="true"></i> </span>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </q-markup-table>
+        </div>
       </div>
+
     </div>
-
-  </div>
-
+  </body>
   <Footer></Footer>
 </template>
 

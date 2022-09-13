@@ -1,5 +1,6 @@
 <template>
   <Header></Header>
+    <body>
       <div class="likeBox1">
           <p> Like </p>
           <div>
@@ -39,7 +40,7 @@
     </div>
 
       </div>
-
+    </body>
   <Footer></Footer>
   </template>
 

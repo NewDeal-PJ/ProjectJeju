@@ -1,6 +1,7 @@
 <template>
 <Header></Header>
- <div style="margin: 70px;border-radius: 10px;">
+<body>
+ <div style="border-radius: 10px;">
     <p class="SettingPasswordTitle" > Set New Password</p>
       <table class="SettingPasswordJointable">
         <tr>
@@ -21,7 +22,8 @@
           </q-btn>
         </div>
       </div>
-    </div>
+  </div>
+</body>
 <Footer></Footer>
 </template>
 

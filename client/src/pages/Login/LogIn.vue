@@ -1,6 +1,6 @@
 <template>
   <Header></Header>
-
+  <body>
       <div>
         <div class="Login">
           Login
@@ -42,7 +42,7 @@
         <hr class="two" style="width: 600px; color:gray; border: thin solid;" />
       </div>
       <LoginApi></LoginApi>
-
+  </body>
   <Footer></Footer>
 </template>
 

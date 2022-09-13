@@ -1,8 +1,8 @@
 <template>
 <Header></Header>
-
- <div style="margin: 70px;border-radius: 10px;
- margin-bottom: 100px;">
+<body>
+  <div style="border-radius: 10px;
+ margin-bottom: 150px;">
     <p class="findPasswordTitle" >Find password </p>
       <table class="findPasswordJointable">
         <tr>
@@ -22,7 +22,7 @@
         </div>
       </div>
   </div>
-
+</body>
 <Footer></Footer>
 </template>
 

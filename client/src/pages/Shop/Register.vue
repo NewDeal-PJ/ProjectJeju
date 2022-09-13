@@ -1,87 +1,89 @@
 <template>
-<Header></Header>
-<div style=" border-radius: 10px;">
-      <p class="goodsRegister">  상품등록페이지 </p>
-      <form  class="q-gutter-md">
-      <table class="goodsRegisterJointable">
-          <tr>
-            <th> 제품명</th>
-            <td style="padding-top: 20px; display: flex;">
-              <div class="q-gutter-md form-group"
-                style="width: 400px;">
-                <q-input ref="product_nameRef" filled v-model="product_name" :dense="dense" id="product_name" lazy-rules
-                  :rules="product_nameRules" required />
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <th> 제품가격 </th>
-            <td style="padding-top: 20px; display: flex;">
-              <div class="q-gutter-md form-group"
-                style="width: 400px;">
-                <q-input ref="product_priceRef" filled v-model="product_price" :dense="dense" id="product_price" lazy-rules
-                  :rules="product_priceRules" required />
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <th>제품사진</th>
-            <td style="padding-top: 20px; display: flex;">
-                <div class="q-pa-md">
-                  <div class="q-gutter-md row items-start">
-                    <q-file
-      v-model="image"
-      label="Pick one file"
-      filled
-      style="max-width: 300px"
-    />
-                  </div>
-              </div>
-            </td>
-          </tr>
+  <Header></Header>
+  <body>
+    <div style=" border-radius: 10px;">
+        <p class="goodsRegister">  상품등록페이지 </p>
+        <form  class="q-gutter-md">
+        <table class="goodsRegisterJointable">
+            <tr>
+              <th> 제품명</th>
+              <td style="padding-top: 20px; display: flex;">
+                <div class="q-gutter-md form-group"
+                  style="width: 400px;">
+                  <q-input ref="product_nameRef" filled v-model="product_name" :dense="dense" id="product_name" lazy-rules
+                    :rules="product_nameRules" required />
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th> 제품가격 </th>
+              <td style="padding-top: 20px; display: flex;">
+                <div class="q-gutter-md form-group"
+                  style="width: 400px;">
+                  <q-input ref="product_priceRef" filled v-model="product_price" :dense="dense" id="product_price" lazy-rules
+                    :rules="product_priceRules" required />
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th>제품사진</th>
+              <td style="padding-top: 20px; display: flex;">
+                  <div class="q-pa-md">
+                    <div class="q-gutter-md row items-start">
+                      <q-file
+        v-model="image"
+        label="Pick one file"
+        filled
+        style="max-width: 300px"
+      />
+                    </div>
+                </div>
+              </td>
+            </tr>
 
-          <tr>
-            <th>제품설명</th>
-            <td style="padding-top: 20px; display: flex;">
-                <div class="q-pa-md" style="width: 400px">
-                <q-input
-                  v-model="product_content"
-                  filled
-                  autogrow
-                />
-              </div>
-            </td>
-          </tr>
+            <tr>
+              <th>제품설명</th>
+              <td style="padding-top: 20px; display: flex;">
+                  <div class="q-pa-md" style="width: 400px">
+                  <q-input
+                    v-model="product_content"
+                    filled
+                    autogrow
+                  />
+                </div>
+              </td>
+            </tr>
 
-        </table>
-        <br>
-        <div style="padding: 10px;">
-          <div class="registerButton">
-            <div class="q-pa-md q-gutter-md form-group">
-              <q-btn @click="onsubmit()" type="submit" style="color: white; background-color: #FF9800; width: 300px;
-            height: 40px; margin: 0 auto; display: block; ">
-              <div style="font-size: 18px; font-weight: 200;
-            font-family: 'Noto Sans KR', sans-serif;">등록하기</div>
-              </q-btn>
-            </div>
-          </div>
-
-
+          </table>
+          <br>
           <div style="padding: 10px;">
-          <div class="cancelButton">
-            <div class="q-pa-md q-gutter-md form-group">
-              <q-btn @click="submit_cancel" type="submit" style="color: black; background-color:  #E7E7E7; width: 300px;
-            height: 40px; margin: 0 auto; display: block; ">
-              <div style="font-size: 18px; font-weight: 200;
-            font-family: 'Noto Sans KR', sans-serif;">취소하기</div>
-              </q-btn>
+            <div class="registerButton">
+              <div class="q-pa-md q-gutter-md form-group">
+                <q-btn @click="onsubmit()" type="submit" style="color: white; background-color: #FF9800; width: 300px;
+              height: 40px; margin: 0 auto; display: block; ">
+                <div style="font-size: 18px; font-weight: 200;
+              font-family: 'Noto Sans KR', sans-serif;">등록하기</div>
+                </q-btn>
+              </div>
             </div>
-          </div>
-          </div>
 
-        </div>
-      </form>
-      </div>
+
+            <div style="padding: 10px;">
+            <div class="cancelButton">
+              <div class="q-pa-md q-gutter-md form-group">
+                <q-btn @click="submit_cancel" type="submit" style="color: black; background-color:  #E7E7E7; width: 300px;
+              height: 40px; margin: 0 auto; display: block; ">
+                <div style="font-size: 18px; font-weight: 200;
+              font-family: 'Noto Sans KR', sans-serif;">취소하기</div>
+                </q-btn>
+              </div>
+            </div>
+            </div>
+
+          </div>
+        </form>
+    </div>
+  </body>
   <Footer></Footer>
 </template>
 

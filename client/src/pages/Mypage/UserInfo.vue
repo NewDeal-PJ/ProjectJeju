@@ -1,121 +1,123 @@
 <template>
   <Header></Header>
-  <div class="q-pa-md">
-    <div class="q-gutter-y-md column" style="max-width: 300px"></div>
-    <!-- 실제사용할때 보낼 페이지url 넣기  -->
-    <div style="margin: 70px; border-radius: 10px;">
-      <p class="UserInformationTitle"> Modifying Information </p>
-      <form action="http://localhost:9000/#/" @submit.prevent.stop="onSubmit" @reset.prevent.stop="onReset" class="q-gutter-md">
-      <table class="UserInformationJointable">
-
-        <tr>
-            <th><label for="user_pwd"> 새비밀번호</label></th>
-            <td style="padding-top: 20px; display: flex;">
-              <div class="q-gutter-md form-group" style="width: 400px;">
-                <q-input ref="PWDRef" :type="isPwd ? 'password' : 'text'" outlined v-model="PWD" :dense="dense"
-                  id="user_pwd" lazy-rules :rules="PWDRules" required>
-                  <template v-slot:append>
-                    <q-icon :name="isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer"
-                      @click="isPwd = !isPwd" />
-                  </template>
-                </q-input>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <th><label for="user_pwdChk">새비밀번호 확인 </label></th>
-            <td style="padding-top: 20px; display: flex;">
-              <div class="q-gutter-md form-group" style="width: 400px;">
-                <q-input ref="PWDChkRef" :type="isPwd ? 'password' : 'text'" outlined v-model="PWDChk" :dense="dense"
-                  id="user_pwdChk" lazy-rules :rules="PWDChkRules" required>
-                  <template v-slot:append>
-                    <q-icon :name="isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer"
-                      @click="isPwd = !isPwd" />
-                  </template>
-                </q-input>
-              </div>
-            </td>
-          </tr>
+  <body>
+    <div class="q-pa-md">
+      <div class="q-gutter-y-md column" style="max-width: 300px"></div>
+      <!-- 실제사용할때 보낼 페이지url 넣기  -->
+      <div style=" border-radius: 10px;">
+        <p class="UserInformationTitle"> Modifying Information </p>
+        <form action="http://localhost:9000/#/" @submit.prevent.stop="onSubmit" @reset.prevent.stop="onReset" class="q-gutter-md">
+        <table class="UserInformationJointable">
 
           <tr>
-            <th><label for="user_tel">연락처 </label></th>
-            <td style="padding-top: 20px; display: flex;">
-              <div class="q-gutter-md form-group" style="width: 150px;">
-                <q-input ref="TelRef" outlined v-model="Tel" :dense="dense" id="user_tel" lazy-rules :rules="TelRules"
-                  style="width: 80%; float: left;" required />
-              </div>
-              <div class="q-gutter-md form-group" style="width: 150px;">
-                <q-input ref="TelRef2" outlined v-model="Tel2" :dense="dense" id="user_tel2" lazy-rules
-                  :rules="TelRules2" style="width: 80%; float: left;" required />
-              </div>
-              <div class="q-gutter-md form-group" style="width: 150px;">
-                <q-input ref="TelRef3" outlined v-model="Tel3" :dense="dense" id="user_tel3" lazy-rules
-                  :rules="TelRules3" style="width: 80%; float: left;" required />
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <th><label for="user_email">이메일 </label></th>
-            <td style="padding-top: 20px; display: flex;">
-              <div class="q-gutter-md form-group"
-                style="width: 400px;">
-                <q-input ref="emailRef" outlined v-model="email" :dense="dense" id="user_email" lazy-rules
-                  :rules="emailRules" required />
-              </div>
-            </td>
-          </tr>
+              <th><label for="user_pwd"> 새비밀번호</label></th>
+              <td style="padding-top: 20px; display: flex;">
+                <div class="q-gutter-md form-group" style="width: 400px;">
+                  <q-input ref="PWDRef" :type="isPwd ? 'password' : 'text'" outlined v-model="PWD" :dense="dense"
+                    id="user_pwd" lazy-rules :rules="PWDRules" required>
+                    <template v-slot:append>
+                      <q-icon :name="isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer"
+                        @click="isPwd = !isPwd" />
+                    </template>
+                  </q-input>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th><label for="user_pwdChk">새비밀번호 확인 </label></th>
+              <td style="padding-top: 20px; display: flex;">
+                <div class="q-gutter-md form-group" style="width: 400px;">
+                  <q-input ref="PWDChkRef" :type="isPwd ? 'password' : 'text'" outlined v-model="PWDChk" :dense="dense"
+                    id="user_pwdChk" lazy-rules :rules="PWDChkRules" required>
+                    <template v-slot:append>
+                      <q-icon :name="isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer"
+                        @click="isPwd = !isPwd" />
+                    </template>
+                  </q-input>
+                </div>
+              </td>
+            </tr>
 
-          <tr>
-            <th><label for="user_nickname">닉네임 </label></th>
-            <td style="padding-top: 20px; display: flex;">
-              <div class="q-gutter-md form-group"
-                style="width: 400px;">
-                <q-input ref="NicknameRef" outlined v-model="Nickname" :dense="dense" id="user_nickname" lazy-rules
-                  :rules="NicknameRules" required/>
-              </div>
-            </td>
-          </tr>
+            <tr>
+              <th><label for="user_tel">연락처 </label></th>
+              <td style="padding-top: 20px; display: flex;">
+                <div class="q-gutter-md form-group" style="width: 150px;">
+                  <q-input ref="TelRef" outlined v-model="Tel" :dense="dense" id="user_tel" lazy-rules :rules="TelRules"
+                    style="width: 80%; float: left;" required />
+                </div>
+                <div class="q-gutter-md form-group" style="width: 150px;">
+                  <q-input ref="TelRef2" outlined v-model="Tel2" :dense="dense" id="user_tel2" lazy-rules
+                    :rules="TelRules2" style="width: 80%; float: left;" required />
+                </div>
+                <div class="q-gutter-md form-group" style="width: 150px;">
+                  <q-input ref="TelRef3" outlined v-model="Tel3" :dense="dense" id="user_tel3" lazy-rules
+                    :rules="TelRules3" style="width: 80%; float: left;" required />
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th><label for="user_email">이메일 </label></th>
+              <td style="padding-top: 20px; display: flex;">
+                <div class="q-gutter-md form-group"
+                  style="width: 400px;">
+                  <q-input ref="emailRef" outlined v-model="email" :dense="dense" id="user_email" lazy-rules
+                    :rules="emailRules" required />
+                </div>
+              </td>
+            </tr>
 
-        </table>
-        <br>
-          <div class="ModifyUserButton">
-              <q-btn @click="onsubmit()" style="color: white; background-color: #FF9800; width: 300px;
-            height: 40px; margin: 0 auto; display: block; ">
-              <div style="font-size: 18px; font-weight: 200;
-            font-family: 'Noto Sans KR', sans-serif;">수정하기</div>
-              </q-btn>
-          </div>
+            <tr>
+              <th><label for="user_nickname">닉네임 </label></th>
+              <td style="padding-top: 20px; display: flex;">
+                <div class="q-gutter-md form-group"
+                  style="width: 400px;">
+                  <q-input ref="NicknameRef" outlined v-model="Nickname" :dense="dense" id="user_nickname" lazy-rules
+                    :rules="NicknameRules" required/>
+                </div>
+              </td>
+            </tr>
 
-          <div class="deleteUser">
-             <q-btn label="탈퇴하기" @click="prompt = true" style="color: black; background-color: #E7E7E7; width: 300px; height: 40px; margin: 0 auto;  display: block; font-size: 18px; font-weight: 200;
-            font-family: 'Noto Sans KR', sans-serif;" />
-
-              <q-dialog v-model="prompt" persistent>
-               <q-card style="min-width: 350px">
-                <q-card-section>
-                 <div class="text-h6"> 탈퇴 전 확인하세요!</div>
-                <div> <p>탈퇴하시면 이용 중인 서비스는 삭제되며, 모든 데이터는 복구가 불가능합니다.
-              <br> 안내사항을 모두 확인하였으며, 탈퇴를 원하시면 "동의합니다."라고 입력해 주십시오.</p>
+          </table>
+          <br>
+            <div class="ModifyUserButton">
+                <q-btn @click="onsubmit()" style="color: white; background-color: #FF9800; width: 300px;
+              height: 40px; margin: 0 auto; display: block; ">
+                <div style="font-size: 18px; font-weight: 200;
+              font-family: 'Noto Sans KR', sans-serif;">수정하기</div>
+                </q-btn>
             </div>
-                </q-card-section>
 
-        <q-card-section class="q-pt-none">
-          <q-input dense v-model="state.form.content" autofocus @keyup.enter="prompt = false" />
-        </q-card-section>
+            <div class="deleteUser">
+              <q-btn label="탈퇴하기" @click="prompt = true" style="color: black; background-color: #E7E7E7; width: 300px; height: 40px; margin: 0 auto;  display: block; font-size: 18px; font-weight: 200;
+              font-family: 'Noto Sans KR', sans-serif;" />
 
-        <q-card-actions align="right" class="text-primary">
-          <q-btn flat label="취소" v-close-popup style="color:red;"/>
-          <q-btn @click='submitDelete()' flat label="확인" v-close-popup />
-        </q-card-actions>
-               </q-card>
-              </q-dialog>
-          </div>
+                <q-dialog v-model="prompt" persistent>
+                <q-card style="min-width: 350px">
+                  <q-card-section>
+                  <div class="text-h6"> 탈퇴 전 확인하세요!</div>
+                  <div> <p>탈퇴하시면 이용 중인 서비스는 삭제되며, 모든 데이터는 복구가 불가능합니다.
+                <br> 안내사항을 모두 확인하였으며, 탈퇴를 원하시면 "동의합니다."라고 입력해 주십시오.</p>
+              </div>
+                  </q-card-section>
+
+          <q-card-section class="q-pt-none">
+            <q-input dense v-model="state.form.content" autofocus @keyup.enter="prompt = false" />
+          </q-card-section>
+
+          <q-card-actions align="right" class="text-primary">
+            <q-btn flat label="취소" v-close-popup style="color:red;"/>
+            <q-btn @click='submitDelete()' flat label="확인" v-close-popup />
+          </q-card-actions>
+                </q-card>
+                </q-dialog>
+            </div>
 
 
 
-      </form>
+        </form>
+      </div>
     </div>
-  </div>
+  </body>
   <Footer></Footer>
 </template>
 

@@ -1,65 +1,67 @@
 <template>
   <Header></Header>
-  <div class="foodDetailPic">
-    <div class="q-pa-sm" style="width: 60%; padding: 20px;">
-      <q-carousel animated v-model="slide" navigation infinite :autoplay="autoplay" arrows transition-prev="slide-right"
-        transition-next="slide-left" @mouseenter="autoplay = false" @mouseleave="autoplay = true">
+  <body>
+    <div class="foodDetailPic">
+      <div class="q-pa-sm" style="width: 60%; padding: 20px;">
+        <q-carousel animated v-model="slide" navigation infinite :autoplay="autoplay" arrows transition-prev="slide-right"
+          transition-next="slide-left" @mouseenter="autoplay = false" @mouseleave="autoplay = true">
 
-        <!-- <q-carousel-slide :name="1" img-src={{ homeimg }} />
-          <q-carousel-slide :name="2" img-src="https://cdn.quasar.dev/img/parallax1.jpg" />
-          <q-carousel-slide :name="3" img-src="https://cdn.quasar.dev/img/parallax2.jpg" />
-          <q-carousel-slide :name="4" img-src="https://cdn.quasar.dev/img/quasar.jpg" /> -->
+          <!-- <q-carousel-slide :name="1" img-src={{ homeimg }} />
+            <q-carousel-slide :name="2" img-src="https://cdn.quasar.dev/img/parallax1.jpg" />
+            <q-carousel-slide :name="3" img-src="https://cdn.quasar.dev/img/parallax2.jpg" />
+            <q-carousel-slide :name="4" img-src="https://cdn.quasar.dev/img/quasar.jpg" /> -->
 
-        <!-- <q-carousel-slide
-              v-for = "slide in imgjsdata"
-              :name = "slide.path"
-              :img-src = "slide.imgurl">
-            </q-carousel-slide> -->
+          <!-- <q-carousel-slide
+                v-for = "slide in imgjsdata"
+                :name = "slide.path"
+                :img-src = "slide.imgurl">
+              </q-carousel-slide> -->
 
-        <q-carousel-slide v-for="slide in imgjsdata" :name="slide.id" :img-src="slide.imgurl">
-        </q-carousel-slide>
+          <q-carousel-slide v-for="slide in imgjsdata" :name="slide.id" :img-src="slide.imgurl">
+          </q-carousel-slide>
 
-      </q-carousel>
-    </div>
-    <!-- <div class="foodDetailInfo"> -->
-    <div class="foodDetailInfo" v-for="dataItem in jsdata" :key="dataItem.STOREID" :name="dataItem.STOREID">
-      <!-- <p>🍽️식당이름</p> -->
-      <p style="font-size: 25px; font-weight: bold;"> {{ dataItem.STORENAME }} </p>
-      <!-- <p>식당주소</p> -->
-      <p> {{ dataItem.ADDRESS }} </p>
-      <!-- <P> 식당전화번호</P> -->
-      <p> {{ dataItem.TEL }} </p>
-      <!-- <p>영업시간</p> -->
-      <p> {{ dataItem.OPEN }} </p>
-      <!-- <p>식당소개</p>
-          <p> {{ dataItem.INFO }} </p> -->
-      <!-- <p>테마키워드</p> -->
-      <p> {{ dataItem.KEYWORD }} </p>
-      <!-- <p>별점</p> -->
-      <div style="display: flex;">
-        <span> ⭐</span>
-        <p> {{ dataItem.STARRATE }} </p>
+        </q-carousel>
       </div>
+      <!-- <div class="foodDetailInfo"> -->
+      <div class="foodDetailInfo" v-for="dataItem in jsdata" :key="dataItem.STOREID" :name="dataItem.STOREID">
+        <!-- <p>🍽️식당이름</p> -->
+        <p style="font-size: 25px; font-weight: bold;"> {{ dataItem.STORENAME }} </p>
+        <!-- <p>식당주소</p> -->
+        <p> {{ dataItem.ADDRESS }} </p>
+        <!-- <P> 식당전화번호</P> -->
+        <p> {{ dataItem.TEL }} </p>
+        <!-- <p>영업시간</p> -->
+        <p> {{ dataItem.OPEN }} </p>
+        <!-- <p>식당소개</p>
+            <p> {{ dataItem.INFO }} </p> -->
+        <!-- <p>테마키워드</p> -->
+        <p> {{ dataItem.KEYWORD }} </p>
+        <!-- <p>별점</p> -->
+        <div style="display: flex;">
+          <span> ⭐</span>
+          <p> {{ dataItem.STARRATE }} </p>
+        </div>
 
-      <div>
         <div>
-          <div class="q-pa-md" style="max-width: 350px">
-            <q-list padding bordered>
-              <q-expansion-item dense expand-separator icon="house" label="식당소개">
-                <q-card>
-                  <q-card-section>
-                    <p> {{ dataItem.INFO }} </p>
-                  </q-card-section>
-                </q-card>
-              </q-expansion-item>
-            </q-list>
+          <div>
+            <div class="q-pa-md" style="max-width: 350px">
+              <q-list padding bordered>
+                <q-expansion-item dense expand-separator icon="house" label="식당소개">
+                  <q-card>
+                    <q-card-section>
+                      <p> {{ dataItem.INFO }} </p>
+                    </q-card-section>
+                  </q-card>
+                </q-expansion-item>
+              </q-list>
+            </div>
           </div>
         </div>
+
+
       </div>
-
-
     </div>
-  </div>
+  </body>
   <RestReview></RestReview>
 
 
@@ -193,12 +195,13 @@ img {
 
 .foodDetailReviewStar {
 
-  width: 60%;
+  width: 50%;
   margin: 0 auto;
   padding: 10px;
-  margin-bottom: 40px;
-  border-radius: 5px;
-  border: 1px solid;
+  margin-bottom: 30px;
+  margin-top: 30px;
+  border-radius: 3px;
+  border: 5px #D3D3D3 solid;
 
 }
 </style>

@@ -77,6 +77,7 @@ export default {
   font-weight: bold;
   font-family: 'Rubik', sans-serif;
   text-align: center;
+  margin-top: 70px;
 
 }
 

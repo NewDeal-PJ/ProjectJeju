@@ -66,6 +66,7 @@
           height: 30px;
           display: block;
           margin-left: 77%;
+          margin-bottom: 20px;
         " >
             <div style="font-size: 18px; font-weight: 900;
             font-family: 'Noto Sans KR', sans-serif;"> 주문하기</div>

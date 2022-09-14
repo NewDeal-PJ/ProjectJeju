@@ -1,6 +1,6 @@
 <template lang="pug">
 div(class="q-pa-md" style="max-width: 90%; overflow:hidden; margin: 0 auto; text-align: center; padding: 15px 0px;")
-  q-btn-dropdown(split push no-caps @click="displayHotel(category, filter, locationFilterHotel)" style="margin-top: 10px;margin-left: 0.8rem; margin-right: 0.9rem; width: 18.5rem; height: 3rem; position: relative; z-index: 10; border: 3px solid #f04040; color: #f04040; background-color: #fafafa; ")
+  q-btn-dropdown(split push no-caps @click="displayHotel(category, filter, locationFilterHotel)" style="margin-left: 0.8rem; margin-right: 0.9rem; width: 18.5rem; height: 3rem; position: relative; z-index: 10; border: 3px solid #f04040; color: #f04040; background-color: #fafafa; ")
     template(v-slot:label)
       div(class="row items-center no-wrap")
         q-icon(left name="img:https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/hotel.svg")
@@ -40,7 +40,7 @@ div(class="q-pa-md" style="max-width: 90%; overflow:hidden; margin: 0 auto; text
       q-checkbox(v-model="filter" val="breakfast" color="red-9") 조식포함
       q-checkbox(v-model="filter" val="freeParking" color="red-9") 무료주차가능
       q-checkbox(v-model="filter" val="cooking" color="red-9") 취사가능
-  q-btn-dropdown(split push no-caps @click="displayStore(locationFilterStore)" style="margin-top: 10px;margin-left: 0.8rem; margin-right: 0.9rem; width: 18.5rem;height: 3rem; position: relative; z-index: 10; border: 3px solid #ffc107; color: #ffc107; background-color: #fafafa;")
+  q-btn-dropdown(split push no-caps @click="displayStore(locationFilterStore)" style="margin-left: 0.8rem; margin-right: 0.9rem; width: 18.5rem;height: 3rem; position: relative; z-index: 10; border: 3px solid #ffc107; color: #ffc107; background-color: #fafafa;")
     template(v-slot:label)
       div(class="row items-center no-wrap")
         q-icon(left name="img:https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/store.svg")
@@ -55,7 +55,7 @@ div(class="q-pa-md" style="max-width: 90%; overflow:hidden; margin: 0 auto; text
       q-radio(v-model="locationFilterStore" val="seogwipo" color="amber-5") 서귀포
       q-radio(v-model="locationFilterStore" val="seongsan" color="amber-5") 성산
       q-radio(v-model="locationFilterStore" val="pyoseon" color="amber-5") 표선
-  q-btn-dropdown(split push no-caps @click="displayCharger(locationFilterCharger)" style="margin-top: 10px;margin-left: 0.8rem; margin-right: 0.9rem; width: 18.5rem; height: 3rem; position: relative; z-index: 10; border: 3px solid #03a9f4; color: #03a9f4; background-color: #fafafa;")
+  q-btn-dropdown(split push no-caps @click="displayCharger(locationFilterCharger)" style="margin-left: 0.8rem; margin-right: 0.9rem; width: 18.5rem; height: 3rem; position: relative; z-index: 10; border: 3px solid #03a9f4; color: #03a9f4; background-color: #fafafa;")
     template(v-slot:label)
       div(class="row items-center no-wrap")
         q-icon(left name="img:https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/chargerloc.svg")
@@ -70,7 +70,7 @@ div(class="q-pa-md" style="max-width: 90%; overflow:hidden; margin: 0 auto; text
       q-radio(v-model="locationFilterCharger" val="seogwipo" color="light-blue-6") 서귀포
       q-radio(v-model="locationFilterCharger" val="seongsan" color="light-blue-6") 성산
       q-radio(v-model="locationFilterCharger" val="pyoseon" color="light-blue-6") 표선
-  q-btn-dropdown(push no-caps style="margin-top: 10px; margin-left: 0.8rem; margin-right: 0.9rem; width: 18.5rem; height: 3rem; position: relative; z-index: 10; border: 3px solid #ff9800; color: #ff9800; background-color: #fafafa;")
+  q-btn-dropdown(push no-caps style="margin-left: 0.8rem; margin-right: 0.9rem; width: 18.5rem; height: 3rem; position: relative; z-index: 10; border: 3px solid #ff9800; color: #ff9800; background-color: #fafafa;")
     template(v-slot:label)
       div(class="row items-center no-wrap")
         q-icon(left name="map")
@@ -82,32 +82,26 @@ div(class="q-pa-md" style="max-width: 90%; overflow:hidden; margin: 0 auto; text
       br
       q-btn(@click.once="resetCustom()" color="orange-6" no-caps style="width: 18rem;") 초기화
 
-
-div(class="q-pa-md q-gutter-sm" )
-  <q-btn label="Left" icon="keyboard_arrow_left" color="primary" @click="open('left')" />
-  <q-btn label="Right" icon="keyboard_arrow_right" color="primary" @click="open('right')" />
-
-  <q-dialog v-model="dialog" :position="position">
-    <q-card style="width: 400px">
-      <q-linear-progress :value="1" color="amber-5" />
-
-      <q-card-section class="row items-center no-wrap">
-        <div>
-          img(class="responsive" src="https://velog.velcdn.com/images/kimjyunny_dev/post/691f7792-b949-456e-9d70-0e64e3322086/image.png" width="400")
-          <div class="text-weight-bold">우진해장국</div>
-          <div class="text-grey">제주 제주시 서사로 11</div>
-          <q-card-actions align="right">
-           <a href="http://localhost:9000/#/detail/0?auth=undefined"><q-btn flat label="더보기" color="primary"/> </a> 
-            <q-btn flat label="Cancel" color="primary" v-close-popup />
-          </q-card-actions>
-          
-        </div>
-      </q-card-section>
-    </q-card>
-  </q-dialog>
+//- <q-btn label="Left" icon="keyboard_arrow_left" color="primary" @click="open('left')" />
+//- <q-btn label="Right" icon="keyboard_arrow_right" color="primary" @click="open('right')" />
+div
+  q-dialog(v-model="dialog" :position="position")
+    q-card(style="width: 400px")
+      q-linear-progress(:value="0.7" color="red-9")
+      q-card-section(class="row items-center no-wrap")
+        div(v-for="dataItem in sidePanel" :key="dataItem.STOREID" :name="dataItem.STOREID")
+          img(class="responsive" :src="dataItem.imgurl" width="400")
+          div(class="text-weight-bold") {{dataItem.NAME}}
+          div(class="text-grey") {{dataItem.ADDRESS}}
+          q-card-actions(align="right")
+            a(:href="'http://localhost:9000/#/detail/'+ dataItem.STOREID") 
+              q-btn(flat label="더보기" color="primary")
+            q-btn(flat label="Cancel" color="primary" v-close-popup)
+      q-linear-progress(:value="0.3" color="amber-5")
+   
 
 div(id="map" style="width:90%; height:30rem; overflow:hidden; border-radius: 5px; margin: 0 auto;")
-  </template>
+</template>
 
 <script>
 import { ref } from "vue";
@@ -119,7 +113,9 @@ export default {
     const dialog = ref(false)
     const position = ref('top')
     return {
-      // id,
+      storeWordCloud:ref([]),
+      hotelWordCloud:ref([]),
+      id,
       category: ref('0'),
       filter: ref([]),
       locationFilterHotel: ref('all'),
@@ -306,7 +302,7 @@ export default {
         for (let i = 0; i < Response.data.length; i++) {
           if (this.hotelMarkerPositions.length < Response.data.length) {
             this.hotelMarkerPositions.push({
-              content: '<div style="font-weight:bold;"><img src="https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/' + Response.data[i].PATH + '/' + Response.data[i].UUID + '" width="240px" height="110px" style="overflow:hidden; margin-bottom:8px;"><br>' + Response.data[i].NAME + '<br> 별점 : ' + Math.round(Response.data[i].STARRATE * 100) / 100 + '</div>',
+              content: '<div style="font-weight:600; font-size: 10pt; font-family: 나눔고딕; text-align: center;"><img src="https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/' + Response.data[i].PATH + '/' + Response.data[i].UUID + '" width="240px" height="110px" style="overflow:hidden; margin-bottom:8px;"><br>' + Response.data[i].NAME + '<br> 별점 : ' + Math.round(Response.data[i].STARRATE * 100) / 100 + '</div>',
               latlng: new kakao.maps.LatLng(Response.data[i].LATITUDE, Response.data[i].LONGITUDE),
               info: {
                 HOTELID: Response.data[i].HOTELID,
@@ -404,7 +400,7 @@ export default {
           for (let i = 0; i < Response.data.length; i++) {
             if (this.chargerMarkerPositions.length < Response.data.length) {
               this.chargerMarkerPositions.push({
-                content: '<div style="font-weight:bold;">' + Response.data[i].NAME + '<br><br>' + Response.data[i].ADDRESS + '<br><br></div>',
+                content: '<div style="font-weight:600; text-align: center;">' + Response.data[i].NAME + '<br><br>' + Response.data[i].ADDRESS + '<br><br></div>',
                 latlng: new kakao.maps.LatLng(Response.data[i].LATITUDE, Response.data[i].LONGITUDE),
                 info: {
                   CHAGERID: Response.data[i].CHAGERID,
@@ -496,11 +492,11 @@ export default {
           for (let i = 0; i < Response.data.length; i++) {
             if (this.storeMarkerPositions.length < Response.data.length) {
               this.storeMarkerPositions.push({
-                content: '<div style="font-weight:bold;"><img src="https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/' + Response.data[i].PATH + '/' + Response.data[i].UUID + '"width="240px" height="110px" style="display: block; margin: 0 auto;overflow:hidden; margin-bottom:8px;"><br>' + Response.data[i].STORENAME + '<br><br>' + Response.data[i].ADDRESS + '<br><br></div>',
+                content: '<div style="font-weight:600; font-size: 10pt; font-family: 나눔고딕; text-align: center;">' + Response.data[i].STORENAME + '</div>',
                 latlng: new kakao.maps.LatLng(Response.data[i].LATITUDE, Response.data[i].LONGITUDE),
                 info: {
                   STOREID: Response.data[i].STOREID,
-                  STORENAME: Response.data[i].STORENAME,
+                  NAME: Response.data[i].STORENAME,
                   CATEGORY: Response.data[i].CATEGORY,
                   ADDRESS: Response.data[i].ADDRESS,
                   INFO: Response.data[i].INFO,
@@ -550,14 +546,37 @@ export default {
     },
     displaySidePanel(info) {
       return () => {
-        this.sidePanel = [],
-          this.sidePanel.push(info)
-        if (this.id == '') {
-          window.location.href = 'http://localhost:9000/#/detail/' + info.STOREID
-        }
-        else {
-          window.location.href = 'http://localhost:9000/#/detail/' + info.STOREID + '?auth=' + this.id;
-        }
+        this.sidePanel = []
+          if (info.STOREID) {
+            this.open('right')
+            const url = "https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/RestWordcloudW/"+info.STOREID+".jpg"
+            this.sidePanel.push({
+                STOREID: info.STOREID,
+                NAME: info.NAME,
+                ADDRESS: info.ADDRESS,
+                imgurl: url
+            })
+            console.log(this.sidePanel)
+            // console.log("https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/RestWordcloudW/"+info.STOREID+".jpg")
+          }
+          else if (info.HOTELID) {
+            this.open('left')
+            const url = "https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/HotelWordcloudW/"+info.HOTELID+".jpg"
+            this.sidePanel.push({
+              HOTELID: info.HOTELID,
+              NAME: info.NAME,
+              ADDRESS: info.ADDRESS,
+              imgurl: url
+            })
+            console.log(this.sidePanel)
+            // console.log("https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/HotelWordcloudW/"+info.HOTELID+".jpg")
+          }
+        // if (this.id == '') {
+        //   window.location.href = 'http://localhost:9000/#/detail/' + info.STOREID
+        // }
+        // else {
+        //   window.location.href = 'http://localhost:9000/#/detail/' + info.STOREID + '?auth=' + this.id;
+        // }
       }
     },
     customDirection(day) {

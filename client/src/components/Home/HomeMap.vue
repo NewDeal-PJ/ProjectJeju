@@ -82,6 +82,25 @@ div(class="q-pa-md" style="max-width: 90%; overflow:hidden; margin: 0 auto; text
       br
       q-btn(@click.once="resetCustom()" color="orange-6" no-caps style="width: 18rem;") 초기화
 
+
+div(class="q-pa-md q-gutter-sm" )
+  <q-btn label="Left" icon="keyboard_arrow_left" color="primary" @click="open('left')" />
+  <q-btn label="Right" icon="keyboard_arrow_right" color="primary" @click="open('right')" />
+
+  <q-dialog v-model="dialog" :position="position">
+    <q-card style="width: 350px">
+      <q-linear-progress :value="0.6" color="amber-5" />
+
+      <q-card-section class="row items-center no-wrap">
+      <div>
+      img(class="responsive" src="https://cdn.quasar.dev/img/quasar.jpg")
+      <div class="text-weight-bold">우진해장국</div>
+      <div class="text-grey">제주 제주시 서사로 11</div>
+    </div>
+  </q-card-section>
+  </q-card>
+  </q-dialog>
+
 div(id="map" style="width:90%; height:30rem; overflow:hidden; border-radius: 5px; margin: 0 auto;")
   </template>
 
@@ -91,7 +110,9 @@ import axios from "axios";
 axios.defaults.withCredentials = true;
 export default {
   setup() {
-    // const id = ref([])
+    const id = ref([])
+    const dialog = ref(false)
+    const position = ref('right')
     return {
       // id,
       category: ref('0'),
@@ -111,7 +132,15 @@ export default {
       customMarkersDay1: ref([]),
       customMarkersDay2: ref([]),
       customMarkersDay3: ref([]),
-      clickPosition:ref([])
+      clickPosition:ref([]),
+      dialog,
+      position,
+      dialog: ref(true),
+      
+      open (pos) {
+        position.value = pos
+        dialog.value = true
+      }
     }
   },
   mounted() {

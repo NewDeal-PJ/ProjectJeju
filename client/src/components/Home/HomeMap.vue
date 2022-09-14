@@ -1,11 +1,11 @@
 <template lang="pug">
-div(class="q-pa-md" style="max-width: 90%; overflow:hidden; margin: 0 auto; text-align: center;")
-  q-btn-dropdown(split push no-caps @click="displayHotel(category, filter, locationFilterHotel)" style="margin-top: 10px;margin-left: 0.8rem; margin-right: 0.9rem; width: 17rem; height: 3rem; position: relative; z-index: 10; border: 3px solid #f04040; color: #f04040; background-color: #fafafa;")
+div(class="q-pa-md" style="max-width: 90%; overflow:hidden; margin: 0 auto; text-align: center; padding: 15px 0px;")
+  q-btn-dropdown(split push no-caps @click="displayHotel(category, filter, locationFilterHotel)" style="margin-top: 10px;margin-left: 0.8rem; margin-right: 0.9rem; width: 18.5rem; height: 3rem; position: relative; z-index: 10; border: 3px solid #f04040; color: #f04040; background-color: #fafafa; ")
     template(v-slot:label)
       div(class="row items-center no-wrap")
         q-icon(left name="img:https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/hotel.svg")
         div(class="text-center" style="font-size: 1.35rem;") 숙소
-    div(class="q-gutter-sm" style="margin-right: 0.75rem;")
+    div(class="q-gutter-sm" style="margin-right: 0.75rem")
       q-radio(v-model="locationFilterHotel" val="all" color="red-9") 전체
       q-radio(v-model="locationFilterHotel" val="jeju" color="red-9") 제주시
       q-radio(v-model="locationFilterHotel" val="aewol" color="red-9") 애월
@@ -40,7 +40,7 @@ div(class="q-pa-md" style="max-width: 90%; overflow:hidden; margin: 0 auto; text
       q-checkbox(v-model="filter" val="breakfast" color="red-9") 조식포함
       q-checkbox(v-model="filter" val="freeParking" color="red-9") 무료주차가능
       q-checkbox(v-model="filter" val="cooking" color="red-9") 취사가능
-  q-btn-dropdown(split push no-caps @click="displayStore(locationFilterStore)" style="margin-top: 10px;margin-left: 0.8rem; margin-right: 0.9rem; width: 17rem; height: 3rem; position: relative; z-index: 10; border: 3px solid #ffc107; color: #ffc107; background-color: #fafafa;")
+  q-btn-dropdown(split push no-caps @click="displayStore(locationFilterStore)" style="margin-top: 10px;margin-left: 0.8rem; margin-right: 0.9rem; width: 18.5rem;height: 3rem; position: relative; z-index: 10; border: 3px solid #ffc107; color: #ffc107; background-color: #fafafa;")
     template(v-slot:label)
       div(class="row items-center no-wrap")
         q-icon(left name="img:https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/store.svg")
@@ -55,7 +55,7 @@ div(class="q-pa-md" style="max-width: 90%; overflow:hidden; margin: 0 auto; text
       q-radio(v-model="locationFilterStore" val="seogwipo" color="amber-5") 서귀포
       q-radio(v-model="locationFilterStore" val="seongsan" color="amber-5") 성산
       q-radio(v-model="locationFilterStore" val="pyoseon" color="amber-5") 표선
-  q-btn-dropdown(split push no-caps @click="displayCharger(locationFilterCharger)" style="margin-top: 10px;margin-left: 0.8rem; margin-right: 0.9rem; width: 17rem; height: 3rem; position: relative; z-index: 10; border: 3px solid #03a9f4; color: #03a9f4; background-color: #fafafa;")
+  q-btn-dropdown(split push no-caps @click="displayCharger(locationFilterCharger)" style="margin-top: 10px;margin-left: 0.8rem; margin-right: 0.9rem; width: 18.5rem; height: 3rem; position: relative; z-index: 10; border: 3px solid #03a9f4; color: #03a9f4; background-color: #fafafa;")
     template(v-slot:label)
       div(class="row items-center no-wrap")
         q-icon(left name="img:https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/chargerloc.svg")
@@ -70,7 +70,7 @@ div(class="q-pa-md" style="max-width: 90%; overflow:hidden; margin: 0 auto; text
       q-radio(v-model="locationFilterCharger" val="seogwipo" color="light-blue-6") 서귀포
       q-radio(v-model="locationFilterCharger" val="seongsan" color="light-blue-6") 성산
       q-radio(v-model="locationFilterCharger" val="pyoseon" color="light-blue-6") 표선
-  q-btn-dropdown(push no-caps style="margin-top: 10px; margin-left: 0.8rem; margin-right: 0.9rem; width: 18rem; height: 3rem; position: relative; z-index: 10; border: 3px solid #ff9800; color: #ff9800; background-color: #fafafa;")
+  q-btn-dropdown(push no-caps style="margin-top: 10px; margin-left: 0.8rem; margin-right: 0.9rem; width: 18.5rem; height: 3rem; position: relative; z-index: 10; border: 3px solid #ff9800; color: #ff9800; background-color: #fafafa;")
     template(v-slot:label)
       div(class="row items-center no-wrap")
         q-icon(left name="map")
@@ -112,7 +112,7 @@ export default {
   setup() {
     const id = ref([])
     const dialog = ref(false)
-    const position = ref('right')
+    const position = ref('top')
     return {
       // id,
       category: ref('0'),
@@ -135,8 +135,8 @@ export default {
       clickPosition:ref([]),
       dialog,
       position,
-      dialog: ref(true),
-      
+
+
       open (pos) {
         position.value = pos
         dialog.value = true

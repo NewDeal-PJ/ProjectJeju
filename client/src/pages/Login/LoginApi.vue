@@ -43,6 +43,7 @@ export default{
   display: block;
   text-align: center;
   padding: 20px;
+  margin-bottom: 70px;
 }
 .kakao{
   display:inline-block;zoom:1;

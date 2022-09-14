@@ -40,6 +40,8 @@ export default{
   font-size: 35px;
   font-weight: bold;
   font-family: 'Rubik', sans-serif;
+  margin-top: 70px;
+  margin-bottom: 70px;
 }
 .SettingPasswordJointable{
   padding: 40px;

@@ -105,6 +105,7 @@
       font-weight: bold;
       font-family: 'Rubik', sans-serif;
       margin-bottom: 70px;
+      margin-top: 70px;
     }
 
     .customerService2{

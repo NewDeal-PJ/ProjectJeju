@@ -88,17 +88,22 @@ div(class="q-pa-md q-gutter-sm" )
   <q-btn label="Right" icon="keyboard_arrow_right" color="primary" @click="open('right')" />
 
   <q-dialog v-model="dialog" :position="position">
-    <q-card style="width: 350px">
-      <q-linear-progress :value="0.6" color="amber-5" />
+    <q-card style="width: 400px">
+      <q-linear-progress :value="1" color="amber-5" />
 
       <q-card-section class="row items-center no-wrap">
-      <div>
-      img(class="responsive" src="https://cdn.quasar.dev/img/quasar.jpg")
-      <div class="text-weight-bold">우진해장국</div>
-      <div class="text-grey">제주 제주시 서사로 11</div>
-    </div>
-  </q-card-section>
-  </q-card>
+        <div>
+          img(class="responsive" src="https://velog.velcdn.com/images/kimjyunny_dev/post/691f7792-b949-456e-9d70-0e64e3322086/image.png" width="400")
+          <div class="text-weight-bold">우진해장국</div>
+          <div class="text-grey">제주 제주시 서사로 11</div>
+          <q-card-actions align="right">
+           <a href="http://localhost:9000/#/detail/0?auth=undefined"><q-btn flat label="더보기" color="primary"/> </a> 
+            <q-btn flat label="Cancel" color="primary" v-close-popup />
+          </q-card-actions>
+          
+        </div>
+      </q-card-section>
+    </q-card>
   </q-dialog>
 
 div(id="map" style="width:90%; height:30rem; overflow:hidden; border-radius: 5px; margin: 0 auto;")
@@ -804,6 +809,10 @@ export default {
 
 .body--dark {
   background: #000
+}
+
+a {
+  text-decoration: none;
 }
 </style>
 

@@ -1,7 +1,6 @@
 <template>
 <Header></Header>
-<body>
-  <div style="padding: 120px;">
+  <div style="padding: 80px;">
     <div class="airplane">
       <img src="https://velog.velcdn.com/images/kimjyunny_dev/post/6f0242f0-488a-4306-b697-f7157d0b865e/image.png" width="200"/>
     </div>
@@ -9,7 +8,6 @@
     구매가 정상적으로 <h style="color: red;">완료</h> 되었습니다.
     </p>
   </div>
-</body>
 <Footer></Footer>
 </template>
 

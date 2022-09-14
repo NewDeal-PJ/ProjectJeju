@@ -1,88 +1,83 @@
 <template>
   <Header></Header>
-  <body>
-    <div id='wrapper'>
-    <div style="width: 100%; display: flex;">
+  <div id='wrapper'>
+  <div style="width: 100%; display: flex;">
 
-        <div class="cartGoods">
-        <div  style=" margin:0 auto;">
-          <q-markup-table :separator="separator" flat >
-            <thead>
-              <tr>
-                <th class="text-middle" style="font-weight: bold; font-size: 15px; background-color: #FAEBD7"> Item </th>
-                <th class="text-middle " style="font-weight: bold; font-size: 15px; background-color:#FAEBD7"> Detail</th>
-                <th class="text-middle" style="font-weight: bold; font-size: 15px; background-color:#FAEBD7"> Price</th>
-                <th class="text-middle" style="font-weight: bold; font-size: 15px; background-color:#FAEBD7"> Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="item in cart" :key="cart.index" :name="cart.PRODUCTID">
-                <th class="text-middle"><img :src="item.PRODUCTIMG"/></th>
-                <th class="text-middle">{{item.PRODUCTNAME}}</th>
-                <th class="text-middle">{{item.PRODUCTPRICE}}</th>
-                <th class="text-middle"> <span class="removeContainer" style="color: red;" v-on:click="removeItemFromCart(prodcut)">
-            <i class="fa-solid fa-trash-can" aria-hidden="true"></i> </span> </th>
-              </tr>
-            </tbody>
-          </q-markup-table>
-        </div>
-        </div>
-
-        <div class="cartTotal">
-          <span
-          style="font-size: 23px;
-          font-family: 'Rubik', sans-serif;
-          margin-left: 20px;">Total</span>
-          <hr width="90%">
-
-          <div>
-            <div  style=" margin:0 auto;">
-            <q-markup-table :separator="separator" flat >
+      <div class="cartGoods">
+      <div  style=" margin:0 auto;">
+        <q-markup-table :separator="separator" flat >
+          <thead>
+            <tr>
+              <th class="text-middle" style="font-weight: bold; font-size: 15px; background-color: #FAEBD7"> Item </th>
+              <th class="text-middle " style="font-weight: bold; font-size: 15px; background-color:#FAEBD7"> Name</th>
+              <th class="text-middle" style="font-weight: bold; font-size: 15px; background-color:#FAEBD7"> Price</th>
+            </tr>
+          </thead>
           <tbody>
-              <tr v-for="item in cart" :key="cart.PRODUCTID" :name="cart.PRODUCTID">
-                <th class="text-middle">{{item.PRODUCTNAME}}</th>
-                <th class="text-middle">{{item.PRODUCTQTY}}</th>
-                <th class="text-middle">{{item.PRODUCTPRICE}}</th>
-              </tr>
+            <tr v-for="item in cart" :key="cart.index" :name="cart.PRODUCTID">
+              <th class="text-middle"><img :src="item.PRODUCTIMG"/></th>
+              <th class="text-middle">{{item.PRODUCTNAME}}</th>
+              <th class="text-middle">{{item.PRODUCTPRICE}}</th>
+            </tr>
           </tbody>
-    </q-markup-table>
-    </div>
-          </div>
-          <hr width="90%">
-          <div style="padding: 10px 40px;">
-            <table style="margin-left:auto;">
-              <td style="font-weight: bold;"> 합계 :  </td>
-              <td> {{price}} 원</td>
-            </table>
-          </div>
-
-        </div>
-    </div>
-      <div class="cart1Button" >
-          <a href="http://localhost:9000/#/api/cart2">
-          <q-btn style="color: white;
-          background-color: #F79a38;
-          width: 180px;
-          height: 30px;
-          display: block;
-          margin-left: 77%;
-        " >
-            <div style="font-size: 18px; font-weight: 900;
-            font-family: 'Noto Sans KR', sans-serif;"> 주문하기</div>
-          </q-btn></a>
-          <q-btn v-on:click="removeItemFromCart()" style="color: black;
-          background-color: #E7E7E7;
-          width: 180px;
-          height: 30px;
-          display: block;
-          margin-left: 77%;
-          margin-bottom: 50px;" >
-            <div style="font-size: 18px; font-weight: 900;
-            font-family: 'Noto Sans KR', sans-serif;"> 카트 비우기</div>
-          </q-btn>
+        </q-markup-table>
       </div>
+      </div>
+
+      <div class="cartTotal">
+        <span
+        style="font-size: 23px;
+        font-family: 'Rubik', sans-serif;
+        margin-left: 20px;">Total</span>
+        <hr width="90%">
+
+        <div>
+          <div  style=" margin:0 auto;">
+          <q-markup-table :separator="separator" flat >
+         <tbody>
+            <tr v-for="item in cart" :key="cart.PRODUCTID" :name="cart.PRODUCTID">
+              <th class="text-middle">{{item.PRODUCTNAME}}</th>
+              <th class="text-middle">{{item.PRODUCTQTY}}</th>
+              <th class="text-middle">{{item.PRODUCTPRICE}}</th>
+            </tr>
+         </tbody>
+  </q-markup-table>
+  </div>
+        </div>
+        <hr width="90%">
+        <div style="padding: 10px 40px;">
+          <table style="margin-left:auto;">
+            <td style="font-weight: bold;"> 합계 :  </td>
+            <td> {{price}} 원</td>
+          </table>
+        </div>
+
+      </div>
+  </div>
+    <div class="cart1Button" >
+        <a href="http://localhost:9000/#/api/cart2">
+        <q-btn style="color: white;
+        background-color: #F79a38;
+        width: 180px;
+        height: 30px;
+        display: block;
+        margin-left: 77%;
+        margin-bottom: 50px;" >
+          <div style="font-size: 18px; font-weight: 900;
+          font-family: 'Noto Sans KR', sans-serif;"> 주문하기</div>
+        </q-btn></a>
+        <q-btn v-on:click="removeItemFromCart()" style="color: beige;
+        background-color: darkorchid;
+        width: 180px;
+        height: 30px;
+        display: block;
+        margin-left: 77%;
+        margin-bottom: 50px;" >
+          <div style="font-size: 18px; font-weight: 900;
+          font-family: 'Noto Sans KR', sans-serif;"> 카트 비우기</div>
+        </q-btn>
     </div>
-  </body>
+  </div>
   <Footer></Footer>
   </template>
 
@@ -166,16 +161,15 @@
 
   #wrapper{
   min-height: 100%;
-  padding-bottom: 100px;
+  padding-bottom: 2000px;
 }
 footer{
-  height: 200px;
+  height: 2000px;
   position : fixed;
   transform : translateY(-100%);
   bottom: 0;
   width: 100%;
 }
-
 
   </style>
 

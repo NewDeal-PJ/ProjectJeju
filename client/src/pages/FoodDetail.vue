@@ -2,17 +2,17 @@
   <Header></Header>
   <body>
     <div class="foodDetailPic">
-      <div class="q-pa-sm" style="width: 60%; padding: 20px;">
-        <q-carousel 
-        animated 
-        v-model="slide" 
-        navigation 
-        infinite 
-        :autoplay="autoplay" 
-        arrows 
+      <div class="q-pa-sm" style="width: 60%; padding: 20px; max-width: 100%;">
+        <q-carousel
+        animated
+        v-model="slide"
+        navigation
+        infinite
+        :autoplay="autoplay"
+        arrows
         transition-prev="slide-right"
-        transition-next="slide-left" 
-        @mouseenter="autoplay = false" 
+        transition-next="slide-left"
+        @mouseenter="autoplay = false"
         @mouseleave="autoplay = true"
         >
           <q-carousel-slide v-for="slide in imgjsdata" :name="slide.id" :img-src="slide.imgurl">
@@ -42,7 +42,7 @@
 
         <div>
           <div>
-            <div class="q-pa-md" style="max-width: 350px">
+            <div class="q-pa-md" style="width: 350px; max-width: 100%;">
               <q-list padding bordered>
                 <q-expansion-item dense expand-separator icon="house" label="식당소개">
                   <q-card>
@@ -167,12 +167,13 @@ export default {
   width: 70%;
   display: flex;
   margin-top: 40px;
+  max-width: 100%;
 }
 
 .foodDetailInfo {
 
   width: 40%;
-
+  max-width: 100%;
   padding: 30px;
   margin: 0 auto;
 
@@ -188,12 +189,13 @@ img {
   height: 300px;
   width: 300px;
   margin: 0 auto;
+  max-width: 100%;
 }
 
 
 
 .foodDetailReviewStar {
-
+  max-width: 100%;
   width: 50%;
   margin: 0 auto;
   padding: 10px;

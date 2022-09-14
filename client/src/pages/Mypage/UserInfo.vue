@@ -12,7 +12,7 @@
           <tr>
               <th><label for="user_pwd"> 새비밀번호</label></th>
               <td style="padding-top: 20px; display: flex;">
-                <div class="q-gutter-md form-group" style="width: 400px;">
+                <div class="q-gutter-md form-group" style="width: 350px;">
                   <q-input ref="PWDRef" :type="isPwd ? 'password' : 'text'" outlined v-model="PWD" :dense="dense"
                     id="user_pwd" lazy-rules :rules="PWDRules" required>
                     <template v-slot:append>
@@ -26,7 +26,7 @@
             <tr>
               <th><label for="user_pwdChk">새비밀번호 확인 </label></th>
               <td style="padding-top: 20px; display: flex;">
-                <div class="q-gutter-md form-group" style="width: 400px;">
+                <div class="q-gutter-md form-group" style="width: 350px;">
                   <q-input ref="PWDChkRef" :type="isPwd ? 'password' : 'text'" outlined v-model="PWDChk" :dense="dense"
                     id="user_pwdChk" lazy-rules :rules="PWDChkRules" required>
                     <template v-slot:append>
@@ -41,15 +41,15 @@
             <tr>
               <th><label for="user_tel">연락처 </label></th>
               <td style="padding-top: 20px; display: flex;">
-                <div class="q-gutter-md form-group" style="width: 150px;">
+                <div class="q-gutter-md form-group" style="width: 130px;">
                   <q-input ref="TelRef" outlined v-model="Tel" :dense="dense" id="user_tel" lazy-rules :rules="TelRules"
                     style="width: 80%; float: left;" required />
                 </div>
-                <div class="q-gutter-md form-group" style="width: 150px;">
+                <div class="q-gutter-md form-group" style="width: 130px;">
                   <q-input ref="TelRef2" outlined v-model="Tel2" :dense="dense" id="user_tel2" lazy-rules
                     :rules="TelRules2" style="width: 80%; float: left;" required />
                 </div>
-                <div class="q-gutter-md form-group" style="width: 150px;">
+                <div class="q-gutter-md form-group" style="width: 130px;">
                   <q-input ref="TelRef3" outlined v-model="Tel3" :dense="dense" id="user_tel3" lazy-rules
                     :rules="TelRules3" style="width: 80%; float: left;" required />
                 </div>
@@ -59,7 +59,7 @@
               <th><label for="user_email">이메일 </label></th>
               <td style="padding-top: 20px; display: flex;">
                 <div class="q-gutter-md form-group"
-                  style="width: 400px;">
+                  style="width: 350px;">
                   <q-input ref="emailRef" outlined v-model="email" :dense="dense" id="user_email" lazy-rules
                     :rules="emailRules" required />
                 </div>
@@ -70,7 +70,7 @@
               <th><label for="user_nickname">닉네임 </label></th>
               <td style="padding-top: 20px; display: flex;">
                 <div class="q-gutter-md form-group"
-                  style="width: 400px;">
+                  style="width: 350px;">
                   <q-input ref="NicknameRef" outlined v-model="Nickname" :dense="dense" id="user_nickname" lazy-rules
                     :rules="NicknameRules" required/>
                 </div>
@@ -80,7 +80,7 @@
           </table>
           <br>
             <div class="ModifyUserButton">
-                <q-btn @click="onsubmit()" style="color: white; background-color: #FF9800; width: 300px;
+                <q-btn @click="onsubmit()" style="color: white; background-color: #FF9800; width: 250px;
               height: 40px; margin: 0 auto; display: block; ">
                 <div style="font-size: 18px; font-weight: 200;
               font-family: 'Noto Sans KR', sans-serif;">수정하기</div>
@@ -88,7 +88,7 @@
             </div>
 
             <div class="deleteUser">
-              <q-btn label="탈퇴하기" @click="prompt = true" style="color: black; background-color: #E7E7E7; width: 300px; height: 40px; margin: 0 auto;  display: block; font-size: 18px; font-weight: 200;
+              <q-btn label="탈퇴하기" @click="prompt = true" style="color: black; background-color: #E7E7E7; width: 250px; height: 40px; margin: 0 auto;  display: block; font-size: 18px; font-weight: 200;
               font-family: 'Noto Sans KR', sans-serif;" />
 
                 <q-dialog v-model="prompt" persistent>
@@ -363,7 +363,8 @@ export default {
 }
 
 .textForm {
-  width: 400px;
+  max-width: 100%;
+  width: 300px;
   height: 40px;
   border: 1px solid #ddd;
   border-radius: 5px;

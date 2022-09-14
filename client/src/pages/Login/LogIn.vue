@@ -7,7 +7,7 @@
         </div>
         <div class="LoginIdBox">
 
-            <div class="q-gutter-y-md column" style="width: 31rem; margin: 0 auto;">
+            <div class="q-gutter-y-md column" style="width: 400px; max-width: 100%; margin: 0 auto;">
               <q-input outlined v-model="state.form.loginId" type="text" id="loginId" placeholder="User  ID"
                 :dense="dense" />
             </div>
@@ -15,7 +15,7 @@
         </div>
         <div class="LoginPasswordBox">
 
-            <div class="q-gutter-y-md column" style="width: 31rem; margin: 0 auto;">
+            <div class="q-gutter-y-md column" style="width: 400px; margin: 0 auto;">
               <q-input outlined v-model="state.form.loginPw" :type="isPwd ? 'password' : 'text'" id="loginPw"
                 placeholder="Password" :dense="dense">
                 <template v-slot:append>
@@ -28,7 +28,7 @@
         <div class="LoginButton">
 
             <q-btn @click="submit()"
-              style="color: white; background-color: #F79a38; width: 31rem; margin: 0 auto; display: block; padding: 10px; margin-top: 10px;">
+              style="color: white; background-color: #F79a38; width: 400px; max-width: 100%; margin: 0 auto; display: block; padding: 10px; margin-top: 10px;">
               <div style="font-size: 18px; font-weight: 900;">로그인</div>
             </q-btn>
 
@@ -39,7 +39,7 @@
           <a href="http://localhost:9000/#/api/signup" style="color: black;">회원가입 </a>
           <a href="http://localhost:9000/#/api/findpassword" style="color:black;">비밀번호찾기</a>
         </div>
-        <hr class="two" style="width: 600px; color:gray; border: thin solid;" />
+        <hr class="two" style="width: 500px; max-width: 100%; color:gray; border: thin solid;" />
       </div>
       <LoginApi></LoginApi>
   </body>

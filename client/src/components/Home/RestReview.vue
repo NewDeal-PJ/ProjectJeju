@@ -9,14 +9,14 @@
 
         <div style="padding: 1% 20%;">
             <div>
-                <div style="width: 500px;">
+                <div style="width: 500px; max-width: 100%;">
                     <q-input v-model="content" filled autogrow val="content" />
                 </div>
             </div>
         </div>
 
         <div style="display: flex; padding: 1% 20%;">
-            <div style="width: 400px;">
+            <div style="width: 400px; max-width: 100%;">
                 <q-input @update:model-value="val => { files = val[0] }" filled type="file" accept=".jpg, .png, .svg" />
             </div>
             <div style="padding:10px;">
@@ -25,7 +25,7 @@
         </div>
 
     </div>
-    <div class="foodDetailReview" style="width: 50%; margin: 0 auto;padding: 20px;" v-if="jsdata"
+    <div class="foodDetailReview" style="width: 50%; max-width: 100%; margin: 0 auto;padding: 20px;" v-if="jsdata"
         v-for="(dataItem, idx) in jsdata" @click="selectReply(dataItem.RNO, dataItem)"
         v-bind:class="{ selected: dataItem.RNO === targetIdx }">
         <hr>
@@ -145,11 +145,11 @@ export default {
                 loginPw: ""
             },
 
-        }); 
+        });
         axios.get("/api/login").then((res) => {
             state.account = res.data;
         });
-        
+
         return {
             state,
             editContent: ref([]),

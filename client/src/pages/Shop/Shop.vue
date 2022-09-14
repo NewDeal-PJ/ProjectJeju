@@ -11,7 +11,7 @@
               <q-card class="my-card" v-for="(product,index) in products" :key="product.PRODUCTID" :name="product.PRODUCTID" >
                 <img :src="product.PRODUCTIMG"/>
                 <q-card-section class="goods" >
-                  <div class=" no-wrap items-center">
+                  <div class=" wrap items-center" >
                     <div style="font-weight:bold">
                       {{product.PRODUCTNAME}}
                       <div class="text-caption text-grey">

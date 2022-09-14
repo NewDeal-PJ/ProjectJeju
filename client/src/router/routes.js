@@ -146,6 +146,13 @@ const routes = [
         { path: '', component: () => import('pages/FoodDetail.vue') }
       ]
       },
+      {
+        path: '/api/test',
+        component: () => import('layouts/MainLayout.vue'),
+        children: [
+          { path: '', component: () => import('pages/Cart/test.vue') }
+        ]
+        },
 
   // Always leave this as last one,
   // but you can also remove it

@@ -5,7 +5,7 @@
     <!-- 물량 추가버튼 수정하기 -->
     <main style="margin: 60px">
       <div class="shopContainer" >
-        <div class="row g-3">
+        <div class="row g-5">
           <div>
             <div style="display:flex;">
               <q-card class="my-card" v-for="(product,index) in products" :key="product.PRODUCTID" :name="product.PRODUCTID" >

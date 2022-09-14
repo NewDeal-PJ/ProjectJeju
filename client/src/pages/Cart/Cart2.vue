@@ -3,7 +3,7 @@
   <div id="join-wrap">
 
         <div class="cartInfo2" style="text-align: center;">
-          <table class="jointable" style="width: 1200px;  height: 180px; padding: 30px; margin-left: 140px;">
+          <table class="jointable" style="width: 1200px;  height: 180px; padding: 30px; max-width: 100%;     margin: 0 auto;">
 
             <div  style=" margin:0 auto;">
 
@@ -32,9 +32,12 @@
 
           </table>
         </div>
-<div style="text-align:right; padding-right: 300px; "> 배송비 : {{del_price}} 원</div>
-<div style="text-align:right; padding-right: 300px;"> Total(가격+배송비) : {{order_total_price}}원</div>
-    <table class="jointable" style="width: 1200px; height: 200px; padding: 30px; margin-left: 140px;">
+<div>
+  <div style="text-align:right; width: 1150px; max-width: 90%;"> 배송비 : {{del_price}} 원</div>
+  <div style="text-align:right;  width: 1150px; max-width: 90%;"> Total(가격+배송비) : {{order_total_price}}원</div>
+</div>
+
+    <table class="jointable" style="width: 1200px; height: 200px; padding: 30px; max-width: 100%; margin: 0 auto;">
       <q-markup-table :separator="separator" flat >
           <thead>
             <tr>
@@ -66,14 +69,14 @@
                     <div style="display: flex;">
                     <q-input type="text"
                     filled v-model="postcode" placeholder="우편번호" :dense="dense"/>
-                    <input type="button" @click="execDaumPostcode()" value="우편번호 찾기">
+                    <input type="button" @click="execDaumPostcode()" value="우편번호 찾기" style="background-color: rgb(250, 235, 215); border-radius: 3px; border: 1px solid grey; ">
                     </div>
                 <br>
                 <q-input type="text"
                 filled v-model="address" :dense="dense" id="address" placeholder="주소"/>
 
                 <br>
-                <q-input type="text"  
+                <q-input type="text"
                 filled v-model="detailaddress" :dense="dense" id="detailAddress"
                 placeholder="상세주소"/>
                 <br>
@@ -120,7 +123,7 @@ import {ref} from 'vue';
       const del_price = 3000
       const total_price = JSON.parse(localStorage.getItem("totalPrice")) || ""
       const order_total_price = Number(total_price) + Number(del_price)
-      let today = new Date();   
+      let today = new Date();
       let year = today.getFullYear().toString(); // 년도
       let month = (today.getMonth() + 1).toString();  // 월
       let date = today.getDate().toString();  // 날짜
@@ -270,7 +273,7 @@ import {ref} from 'vue';
         }
       });
     // window.location.href = 'http://localhost:9000/#/api/cart3';
-      } 
+      }
         catch (error) {
             console.log(error)
             alert("결제에 실패하였습니다. 에러 내용: " +  response.error_msg);

@@ -132,7 +132,7 @@
 
   <style>
   .cartGoods{
-
+    max-width: 100%;
     width: 80%;
     height: 350px;
     margin: 60px;

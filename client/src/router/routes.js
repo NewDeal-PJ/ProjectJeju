@@ -81,10 +81,10 @@ const routes = [
     ]
   },
   {
-    path: '/api/likeinfo',
+    path: '/api/mymaptracking',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/MyPage/LikeInfo.vue') }
+      { path: '', component: () => import('pages/MyPage/MyMapTracking.vue') }
     ]
   },
 

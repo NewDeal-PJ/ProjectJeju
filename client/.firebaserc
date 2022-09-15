@@ -1,7 +1,8 @@
 {
   "projects": {
-    "default": "quasarinjeju",
-    "quasarinjeju": "quasarinjeju"
+    "default": "j-track-503a3",
+    "quasarinjeju": "quasarinjeju",
+    "j-track": "j-track-503a3"
   },
   "targets": {},
   "etags": {}

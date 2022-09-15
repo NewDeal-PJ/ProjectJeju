@@ -1,6 +1,21 @@
 <template>
   <Header></Header>
   <body>
+    <div v-if="account.id == 'manager'">
+    <div class="goRegister">
+      <a href="http://localhost:9000/#/api/shop/register">
+                <q-btn style="color: white;
+                background-color: #F79a38;
+                height: 30px;
+                display: block;
+                margin:0 auto;
+                margin-top: 10px;
+              " >
+                  <div style="font-size: 18px; font-weight: 900;
+                  font-family: 'Noto Sans KR', sans-serif;"> 상품등록하기</div>
+      </q-btn></a>
+    </div>
+  </div>
     <!-- 제품 -->
     <!-- 물량 추가버튼 수정하기 -->
     <main style="margin: 60px">
@@ -9,7 +24,7 @@
           <div>
             <div style="display:flex;">
               <q-card class="my-card" v-for="(product,index) in products" :key="product.PRODUCTID" :name="product.PRODUCTID" >
-                <img :src="product.PRODUCTIMG"/>
+                <img :src="product.imgurl" style="width:300px; height: 100px;" />
                 <q-card-section class="goods" >
                   <div class=" wrap items-center" >
                     <div style="font-weight:bold">
@@ -20,8 +35,7 @@
                       <div class="text-subtitle1 text-red">
                         {{product.PRODUCTPRICE}} 원
                       </div>
-                      <div class="row" style="display: flex;
-    justify-content: center;">
+                      <div class="row" style="display: flex; justify-content: center;">
                         <div class="col-auto">
                           <q-input
                           v-model.number="product.PRODUCTQTY"
@@ -41,6 +55,8 @@
         </div>
       </div>
     </main>
+
+
   </body>
   <Footer></Footer>
 </template>
@@ -55,13 +71,23 @@ export default {
     const products=ref([])
     const cart = ref([])
     const PRODUCTQTY = ref(1)
+    const account = {
+      id: '',
+      name: ''
+    }
+    
     return {
       products,
       cart,
-      PRODUCTQTY
+      PRODUCTQTY,
+      account
     }
   },
   beforeCreate(){
+    // 백엔드의 계정정보를 호출
+    axios.get("/api/login").then((res) => {
+      this.account = res.data;
+    });
     // localStorage.setItem("cart",JSON.stringify(this.cart));
   },
   created(){
@@ -70,29 +96,7 @@ export default {
   mounted() {
     this.getProduct()
     console.log(`mounted`)
-    // if(window.localStorage.key('cart'))
-    //   {
-    //     // this.cart = window.localStorage.getItem('cart')
-    //     // console.log(window.localStorage.getItem('cart'))
-    //     this.cart = window.localStorage.getItem('cart')
-    //     console.log(this.cart)
-    //   }
-    //   else{
-    //     console.log('카트가 비었습니다.')
-    //   }
     },
-  updated() {
-    // 전체 화면내용이 다시 렌더링된 후에 아래의 코드가 실행됩니다.
-  //   if(VueCookies.isKey('cart')){
-  //     alert('카트정보가 있습니다.')
-  //     alert(VueCookies.get('cart'))
-  //     this.cart = VueCookies.get('cart')
-  //     console.log('cart:',this.cart)
-  //     console.log('length:',this.cart.length)
-  //     console.log('updated')
-  // }
-
-  },
   methods: {
     getProduct() {
       axios({
@@ -103,14 +107,20 @@ export default {
       })
         .then((Response) => {
           for (let i = 0; i < Response.data.length; i++) {
+            if (Response.data[i].product_uuid) {
+              const uuid = Response.data[i].product_uuid
+              const path = Response.data[i].product_path
+              const url = 'https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/'
             this.products.push({
-              PRODUCTID: Response.data[i].id,
+              PRODUCTID: Response.data[i].product_id,
               PRODUCTNAME: Response.data[i].product_name,
-              PRODUCTIMG : `https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrpo2xqATkvmnvnMEaj3IVVcyjVV3rW6S3iQ&usqp=CAU`,
-              PRODUCTPRICE: Response.data[i].price,
-              PRODUCTDESCRIPTION: Response.data[i].description,
-              PRODUCTQTY : this.PRODUCTQTY
+              PRODUCTPRICE: Response.data[i].product_price,
+              PRODUCTDESCRIPTION: Response.data[i].product_description,
+              PRODUCTQTY : this.PRODUCTQTY,
+              imgurl: url + path + '/' + uuid,
+              uuid
             })
+          }
           }
           console.log('Products:',this.products)
         }).catch(function (error) {
@@ -157,4 +167,7 @@ export default {
   text-align: center;
   margin: 10px;
 }
+
+a{ text-decoration: none;}
+
 </style>

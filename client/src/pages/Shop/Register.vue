@@ -171,7 +171,7 @@ export default{
                                     url: 'http://localhost:3000/shop/register/insertAttach',
                                     data: {
                                         UUID: uuidv4(),
-                                        PATH: 'ProductPic/',
+                                        PATH: 'ProductPic',
                                     },
                                     headers: { 'X-Requested-With': 'XMLHttpRequest' },
                                     responseType: 'json'

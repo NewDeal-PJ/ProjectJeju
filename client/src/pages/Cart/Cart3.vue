@@ -33,6 +33,7 @@ export default {
       })
         .then((Response) => {
           //결제 API 성공 시
+          console.log("모든 결제가 완료되었습니다.")
           console.log(Response)
         })
     },

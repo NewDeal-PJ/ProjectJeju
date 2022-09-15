@@ -356,7 +356,8 @@ app.post('/api/shop', (req, res) => {
         console.error(err.message);
         return;
       }
-      var query = `SELECT * FROM TBL_PRODUCT`;
+      var format = { language: 'sql', indent: ' ' }
+      var query = mybatisMapper.getStatement('oracleMapper', 'getListProduct',format);
       connection.execute(query, {}, function (err, result) {
         if (err) {
           console.error(err.message);
@@ -366,16 +367,23 @@ app.post('/api/shop', (req, res) => {
           if (Object.hasOwnProperty.call(result.rows, i)) {
             let rows = result.rows[i]
             const jsonData = {
-              id: rows[0],
+              product_id: rows[0],
               product_name: rows[1],
-              price: rows[3],
-              description: rows[2]
+              product_description: rows[2],
+              product_price: rows[3],
+              product_uuid : rows[4],
+              product_path : rows[5],
+              product_image : rows[6]
+              
             }
             ShopData.push(jsonData)
           }
         }
         res.send(ShopData)
       })
+
+
+
     })
 
 })
@@ -410,12 +418,13 @@ app.post('/api/shop/register', function (req, res) {
     })
 })
 app.post('/shop/register/insertAttach', function (request, response) {
+  const date_uuid =  Date.now().toString() + request.body.UUID
   const upload = multer({
     storage: multerS3({
       s3: s3,
       bucket: 'jejuprojectimage/' + request.body.PATH,
       key: function (req, file, cb) {
-        cb(null, request.body.UUID);
+        cb(null, date_uuid);
       },
       acl: 'public-read-write',
       contentType: multerS3.AUTO_CONTENT_TYPE
@@ -431,7 +440,7 @@ app.post('/shop/register/insertAttach', function (request, response) {
         return;
       }
       var param = {
-        uuid: request.body.UUID,
+        uuid: date_uuid,
         path: request.body.PATH,
       }
       var format = { language: 'sql', indent: ' ' }
@@ -457,9 +466,9 @@ app.post("/api/cart_info", async (req, res) => {
   console.log('cart_length:', req.body.length)
   for (let i = 0; i < req.body.length; i++) {
     const jsonData = {
-      "QUANTITY": req.body[i].PRODUCTQTY,
-      "PRICE": req.body[i].PRODUCTPRICE,
-      "PRODUCTID": req.body[i].PRODUCTID
+      QUANTITY: req.body[i].PRODUCTQTY,
+      PRICE: req.body[i].PRODUCTPRICE,
+      PRODUCTID: req.body[i].PRODUCTID
     }
     console.log(jsonData)
     if (orderItem.length < req.body.length) {
@@ -572,18 +581,11 @@ app.post("/api/payments/complete", async (req, res) => {
 
 
 app.post("/api/orderItem", (req, res) => {
-  //    //데이터베이스 ORDERITEM 푸시
-  //orderItem도 데이터 가져와서 디비에 넣어보자
-  console.log("새로운 OrderItem", orderItem)
+  console.log("orderItem의 LIST",orderItem)
   console.log("새로운orderitem:", orderItem.length)
   console.log("QUANTITY:", orderItem[0].QUANTITY)
-  console.log("PRICE:", orderItem[0].PRICE)
-  console.log("PRODUCTID:", orderItem[0].PRODUCTID)
-  console.log("QUANTITY:", orderItem[1].QUANTITY)
-  console.log("PRICE:", orderItem[1].PRICE)
-  console.log("PRODUCTID:", orderItem[1].PRODUCTID)
-
-
+  //    //데이터베이스 ORDERITEM 푸시
+  //orderItem도 데이터 가져와서 디비에 넣어보자
   for (let i = 0; i < orderItem.length; i++) {
     OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
       function (err, connection) {
@@ -607,13 +609,10 @@ app.post("/api/orderItem", (req, res) => {
             return;
           }
           console.log('Insert  성공 : ' + result.rowsAffected)
-          connectionRelease(res, connection, result.rowsAffected)
         })
       })
   }
-  orderItem = []
-
-
+  connectionRelease(res, connection, result.rowsAffected)
 });
 
 

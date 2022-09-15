@@ -15,7 +15,7 @@
       </table>
       <div class="SettingPasswordButton" >
         <div class="q-pa-md q-gutter-md">
-          <q-btn style="color: white; background-color: #F79a38; width: 300px;
+          <q-btn style="color: white; background-color: #F79a38; width: 250px;
           height: 40px; margin: 0 auto; display: block; " >
           <div style="font-size: 20px;
           font-family: 'Noto Sans KR', sans-serif;">등록하기</div>
@@ -39,7 +39,7 @@ export default{
   text-align: center;
   font-size: 35px;
   font-weight: bold;
-  font-family: 'Rubik', sans-serif;
+  font-family: 'Ubuntu', sans-serif;
   margin-top: 70px;
   margin-bottom: 70px;
 }

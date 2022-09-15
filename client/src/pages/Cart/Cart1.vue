@@ -10,7 +10,7 @@
                     <th class="text-middle" style="font-weight: bold; font-size: 15px; background-color: #FAEBD7"> Item </th>
                     <th class="text-middle " style="font-weight: bold; font-size: 15px; background-color:#FAEBD7"> Detail</th>
                     <th class="text-middle" style="font-weight: bold; font-size: 15px; background-color:#FAEBD7"> Price</th>
-                    <th class="text-middle" style="font-weight: bold; font-size: 15px; background-color:#FAEBD7"> Action</th>
+
                   </tr>
                 </thead>
                 <tbody>
@@ -18,8 +18,7 @@
                     <th class="text-middle"><img :src="item.PRODUCTIMG"/></th>
                     <th class="text-middle">{{item.PRODUCTNAME}}</th>
                     <th class="text-middle">{{item.PRODUCTPRICE}}</th>
-                    <th class="text-middle"> <span class="removeContainer" style="color: red;" v-on:click="removeItemFromCart(prodcut)">
-                <i class="fa-solid fa-trash-can" aria-hidden="true"></i> </span> </th>
+
                   </tr>
                 </tbody>
               </q-markup-table>
@@ -31,7 +30,7 @@
           <div class="cartTotal">
                 <span
                 style="font-size: 23px;
-                font-family: 'Rubik', sans-serif;
+                font-family: 'Noto Sans KR', sans-serif;
                 margin-left: 5%;">Total</span>
                 <hr width="90%">
 
@@ -94,18 +93,28 @@
   <script>
   import Header from 'src/components/Home/Header.vue';
   import Footer from '../../components/Home/Footer.vue';
+  import axios from "axios"
   export default{
     data : ()=> {
       const price = ''
       const total_price = ''
+      const account = {
+      id: '',
+      name: ''
+    }
       const cart = JSON.parse(localStorage.getItem("cart")) || ""
       return {
         cart,
         price,
-        total_price
+        total_price,
+        account
       };
     },
     mounted(){
+      // 백엔드의 계정정보를 호출
+    axios.get("/api/login").then((res) => {
+      this.account = res.data;
+    });
       this.getTotalPrice()
     },
     methods : {

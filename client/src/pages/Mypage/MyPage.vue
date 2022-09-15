@@ -75,7 +75,7 @@ export default {
 .myPageTitle {
   font-size: 35px;
   font-weight: bold;
-  font-family: 'Rubik', sans-serif;
+  font-family: 'Ubuntu', sans-serif;
   text-align: center;
   margin-top: 70px;
 

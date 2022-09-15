@@ -76,7 +76,6 @@ export default {
       windowWidth: null,
       scrollPosition: null,
       $q,
-      shopUrl,
       cart,
       myPageUrl,
       account,

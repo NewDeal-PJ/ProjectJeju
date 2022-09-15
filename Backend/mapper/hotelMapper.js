@@ -381,7 +381,6 @@ app.post('/api/shop', (req, res) => {
 
 
 
-
 app.post('/api/shop/register', function (req, res) {
   console.log(req.body)
   OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
@@ -409,6 +408,46 @@ app.post('/api/shop/register', function (req, res) {
       })
     })
 })
+
+app.post('/shop/register/insertAttach', function (request, response) {
+
+  const upload = multer({
+    storage: multerS3({
+      s3: s3,
+      bucket: 'jejuprojectimage/' + request.body.PATH,
+      key: function (req, file, cb) {
+        cb(null, request.body.UUID);
+      },
+      acl: 'public-read-write',
+      contentType: multerS3.AUTO_CONTENT_TYPE
+    }),
+  });
+  app.post('/product/upload', upload.single("File"), function (req, res, next) {
+    console.log(req.file)
+  })
+  OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
+    function (err, connection) {
+      if (err) {
+        console.error(err.message);
+        return;
+      }
+      var param = {
+        uuid: request.body.UUID,
+        path: request.body.PATH,
+      }
+      var format = { language: 'sql', indent: ' ' }
+      var query = mybatisMapper.getStatement('oracleMapper', 'insertProductAttach', param, format);
+      console.log(query)
+      connection.execute(query, [], function (err, result) {
+        if (err) {
+          console.error(err.message);
+          return;
+        }
+        console.log('InsertProductAttach 성공 : ' + result.rowsAffected)
+        connectionRelease(response, connection, result.rowsAffected)
+      })
+    })
+});
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -852,6 +891,8 @@ app.post('/reply/insertAttach', function (request, response) {
       })
     })
 });
+
+
 app.put('/updateReply', function (request, response) {
   OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
     function (err, connection) {

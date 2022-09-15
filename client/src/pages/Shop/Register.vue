@@ -30,12 +30,7 @@
               <td style="padding-top: 20px; display: flex;">
                   <div class="q-pa-md">
                     <div class="q-gutter-md row items-start">
-                      <q-file
-        v-model="image"
-        label="Pick one file"
-        filled
-        style="max-width: 300px"
-      />
+                      <q-input @update:model-value="val => { files = val[0] }" filled type="file" accept=".jpg, .png, .svg" />
                     </div>
                 </div>
               </td>
@@ -88,15 +83,35 @@
 </template>
 
 <script>
-import { ref } from 'vue'
 import Header from 'src/components/Home/Header.vue';
 import Footer from '../../components/Home/Footer.vue';
-import { useQuasar } from 'quasar';
+import axios from "axios";
 import { reactive } from 'vue';
-import axios from 'axios';
+import { ref, onMounted } from 'vue'
+import { useQuasar } from 'quasar';
+import { useRoute } from "vue-router";
+import { v4 } from "uuid";
+import { uuidv4 } from "@firebase/util";
+axios.defaults.withCredentials = true;
 
 export default{
     setup () {
+      const route = useRoute()
+      onMounted(() => {
+            if (route.query.auth) {
+                axios.get("/api/login").then((res) => {
+                    const id = res.data.id
+                    if (id !== route.query.auth) {
+                        $q.notify({
+                            color: 'negative',
+                            position: 'center',
+                            message: '잘못된 접근입니다.'
+                        })
+                        window.location.href = 'http://localhost:9000/#/';
+                    }
+                })
+            }
+        })
       const state = reactive({
       data: []
     });
@@ -105,12 +120,11 @@ export default{
     const product_price = ref(null)
     const product_priceRef = ref(null)
     const product_content = ref(null)
-    const image = ref(null)
     const $q = useQuasar();
 
     return {
       dense: ref(false),
-      image,
+      files: ref(null),
       state,
       product_content,
       product_name,
@@ -133,7 +147,6 @@ export default{
             const args = {
               product_name : product_name,
               product_price : product_price,
-              product_image : image,
               product_content : product_content
             };
             if (product_nameRef.value.hasError || product_priceRef.value.hasError) {
@@ -145,21 +158,41 @@ export default{
             else {
               axios
                 .post("/api/shop/register", args)
-                .then((res) => {
-                  console.log(image)
-                  // console.log(image._value[0].name)
-                  // console.log(img._value)
-                  state.data = res.data;
-                  window.location.href = 'http://localhost:9000/#/api/shop';
-                  $q.notify({
-                    color: 'orange-7',
-                    icon: 'thumb_up',
-                    message: product_name.value + `등록이 완료되었습니다.`,
-                    position: 'center',
-                    timeout: 1200
-
-                  })
-                })
+                .then(() => {
+                            if (this.files) {
+                              console.log(this.files)
+                                function uuidv4() {
+                                    const tokens = v4().split('-')
+                                    return tokens[2] + tokens[1] + tokens[0] + tokens[3] + tokens[4];
+                                }
+                                axios({
+                                    method: 'post',
+                                    url: 'http://localhost:3000//shop/register/insertAttach',
+                                    data: {
+                                        UUID: uuidv4(),
+                                        PATH: 'ProductPic/',
+                                    },
+                                    headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                                    responseType: 'json'
+                                })
+                                const uploadFile = this.files
+                                const formData = new FormData()
+                                formData.append("File", uploadFile)
+                                setTimeout(() => {
+                                    axios({
+                                        method: 'post',
+                                        url: 'http://localhost:3000/product/upload',
+                                        data: formData,
+                                        headers: {
+                                            'Content-Type': 'multipart/form-data',
+                                        },
+                                    }).catch(function (error) {
+                                        console.log(error.toJSON())
+                                    });
+                                }, 300);
+                            }
+                            window.location.href = 'http://localhost:9000/#/api/shop';
+                          })
                 //redirect logic
                 .catch(function (error) {
                   // 에러 핸들링

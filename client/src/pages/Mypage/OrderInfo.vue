@@ -125,7 +125,7 @@
 
     <div class="orderInfoButton">
               <div class="q-pa-md q-gutter-md form-group">
-                <q-btn @click="confirm" style="color: white; background-color: #FF9800; width: 300px;
+                <q-btn @click="confirm" style="color: white; background-color: #FF9800; width: 250px;
               height: 40px; margin: 0 auto; display: block; ">
                 <div style="font-size: 18px; font-weight: 200;
               font-family: 'Noto Sans KR', sans-serif;">취소하기</div>

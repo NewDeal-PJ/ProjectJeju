@@ -60,7 +60,7 @@
     font-size: 35px;
     font-weight: bold;
     margin-top: 70px;
-    font-family: 'Rubik', sans-serif;
+    font-family: 'Ubuntu', sans-serif;
     margin-bottom: 70px;
   }
 

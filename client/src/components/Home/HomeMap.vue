@@ -1,6 +1,6 @@
 <template lang="pug">
 div(class="q-pa-md" style="max-width: 90%; overflow:hidden; margin: 0 auto; text-align: center; padding: 15px 0px;")
-  q-btn-dropdown(split push no-caps @click="displayHotel(category, filter, locationFilterHotel)" style="margin-left: 0.8rem; margin-right: 0.9rem; width: 18.5rem; height: 3rem; position: relative; z-index: 10; border: 3px solid #f04040; color: #f04040; background-color: #fafafa; ")
+  q-btn-dropdown(split push no-caps @click="displayHotel(category, filter, locationFilterHotel)" style="margin-left: 0.8rem; margin-right: 0.9rem; width: 18.5rem; height: 3rem; position: relative; z-index: 10; border: 3px solid #f04040; color: #f04040; background-color: #fafafa; font-family: 'Nanum Gothic Coding', monospace;")
     template(v-slot:label)
       div(class="row items-center no-wrap")
         q-icon(left name="img:https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/hotel.svg")
@@ -40,7 +40,7 @@ div(class="q-pa-md" style="max-width: 90%; overflow:hidden; margin: 0 auto; text
       q-checkbox(v-model="filter" val="breakfast" color="red-9") 조식포함
       q-checkbox(v-model="filter" val="freeParking" color="red-9") 무료주차가능
       q-checkbox(v-model="filter" val="cooking" color="red-9") 취사가능
-  q-btn-dropdown(split push no-caps @click="displayStore(locationFilterStore)" style="margin-left: 0.8rem; margin-right: 0.9rem; width: 18.5rem;height: 3rem; position: relative; z-index: 10; border: 3px solid #ffc107; color: #ffc107; background-color: #fafafa;")
+  q-btn-dropdown(split push no-caps @click="displayStore(locationFilterStore)" style="margin-left: 0.8rem; margin-right: 0.9rem; width: 18.5rem;height: 3rem; position: relative; z-index: 10; border: 3px solid #ffc107; color: #ffc107; background-color: #fafafa;font-family: 'Nanum Gothic Coding', monospace;")
     template(v-slot:label)
       div(class="row items-center no-wrap")
         q-icon(left name="img:https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/store.svg")
@@ -55,7 +55,7 @@ div(class="q-pa-md" style="max-width: 90%; overflow:hidden; margin: 0 auto; text
       q-radio(v-model="locationFilterStore" val="seogwipo" color="amber-5") 서귀포
       q-radio(v-model="locationFilterStore" val="seongsan" color="amber-5") 성산
       q-radio(v-model="locationFilterStore" val="pyoseon" color="amber-5") 표선
-  q-btn-dropdown(split push no-caps @click="displayCharger(locationFilterCharger)" style="margin-left: 0.8rem; margin-right: 0.9rem; width: 18.5rem; height: 3rem; position: relative; z-index: 10; border: 3px solid #03a9f4; color: #03a9f4; background-color: #fafafa;")
+  q-btn-dropdown(split push no-caps @click="displayCharger(locationFilterCharger)" style="margin-left: 0.8rem; margin-right: 0.9rem; width: 18.5rem; height: 3rem; position: relative; z-index: 10; border: 3px solid #03a9f4; color: #03a9f4; background-color: #fafafa;font-family: 'Nanum Gothic Coding', monospace;")
     template(v-slot:label)
       div(class="row items-center no-wrap")
         q-icon(left name="img:https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/chargerloc.svg")
@@ -70,7 +70,7 @@ div(class="q-pa-md" style="max-width: 90%; overflow:hidden; margin: 0 auto; text
       q-radio(v-model="locationFilterCharger" val="seogwipo" color="light-blue-6") 서귀포
       q-radio(v-model="locationFilterCharger" val="seongsan" color="light-blue-6") 성산
       q-radio(v-model="locationFilterCharger" val="pyoseon" color="light-blue-6") 표선
-  q-btn-dropdown(split push no-caps style="margin-left: 0.8rem; margin-right: 0.9rem; width: 18.5rem; height: 3rem; position: relative; z-index: 10; border: 3px solid #ff9800; color: #ff9800; background-color: #fafafa;")
+  q-btn-dropdown(push no-caps style="margin-left: 0.8rem; margin-right: 0.9rem; width: 18.5rem; height: 3rem; position: relative; z-index: 10; border: 3px solid #ff9800; color: #ff9800; background-color: #fafafa; font-family: 'Nanum Gothic Coding', monospace;")
     template(v-slot:label)
       div(class="row items-center no-wrap")
         q-icon(left name="map")
@@ -80,7 +80,10 @@ div(class="q-pa-md" style="max-width: 90%; overflow:hidden; margin: 0 auto; text
       q-radio(:disable="CustomDirection==1 ? false : true" v-model="CustomDirection" val="2" color="cyan" @click.once="customDirection(CustomDirection)" style="margin-left: 0.6rem; margin-right: 0.6rem;") DAY2
       q-radio(:disable="CustomDirection==2 ? false : true" v-model="CustomDirection" val="3" color="red" @click.once="customDirection(CustomDirection)" style="margin-left: 0.6rem; margin-right: 0.7rem;") DAY3
       br
-      q-btn(@click.once="resetCustom()" color="orange-6" no-caps style="width: 18.5rem;") 초기화
+      q-btn(@click.once="resetCustom()" color="orange-6" no-caps style="width: 18rem;") 초기화
+
+//- <q-btn label="Left" icon="keyboard_arrow_left" color="primary" @click="open('left')" />
+//- <q-btn label="Right" icon="keyboard_arrow_right" color="primary" @click="open('right')" />
 div
   q-dialog(v-model="dialog" :position="position")
     q-card(style="width: 400px")
@@ -91,11 +94,11 @@ div
           div(class="text-weight-bold") {{dataItem.NAME}}
           div(class="text-grey") {{dataItem.ADDRESS}}
           q-card-actions(align="right")
-            a(:href="'http://localhost:9000/#/detail/'+ dataItem.STOREID") 
+            a(:href="'http://localhost:9000/#/detail/'+ dataItem.STOREID")
               q-btn(flat label="더보기" color="primary")
             q-btn(flat label="Cancel" color="primary" v-close-popup)
       q-linear-progress(:value="0.3" color="amber-5")
-   
+
 
 div(id="map" style="width:90%; height:30rem; overflow:hidden; border-radius: 5px; margin: 0 auto;")
 </template>

@@ -2,8 +2,8 @@
   <header :class="{original_color: scrollPosition < 80, change_color: scrollPosition > 80}">
     <nav>
       <div class="branding">
-        <i class="fas fa-seedling"></i>
-        <a href="http://localhost:9000/#/api/map">Jeju Olle?</a>
+        <i class="fas fa-shoe-prints"></i>
+        <a href="http://localhost:9000/#/api/map">J-TRACK</a>
       </div>
       <ul v-show="!mobile" class="navigation">
         <li><a href="http://localhost:9000/#/api/map">Home</a></li>
@@ -148,8 +148,6 @@ header {
   top: 0;
 
 
-
-
   nav {
     position: relative;
     display: flex;
@@ -158,6 +156,12 @@ header {
     width: 90%;
     margin: 0 auto;
 
+
+    .branding > a {
+      font-family: 'Bungee', cursive;
+      font-size: 35px;
+      white-space: nowrap;
+    }
 
     @media (min-width: 1293px) {
       max-width: 1293px;
@@ -212,7 +216,12 @@ header {
       align-items: center;
       flex: 1;
       justify-content: flex-end;
+      font-family: 'Raleway', sans-serif;
+      font-size: 16px;
+
     }
+
+
 
     .icon {
       display: flex;

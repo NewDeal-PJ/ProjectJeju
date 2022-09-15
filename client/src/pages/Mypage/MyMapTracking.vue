@@ -23,7 +23,7 @@ import MapTracking from 'src/components/Home/mapTracking.vue';
 .myTrackingMapTitle{
   font-size: 35px;
   font-weight: bold;
-  font-family: 'Rubik', sans-serif;
+  font-family: 'Ubuntu', sans-serif;
   text-align: center;
   margin-top: 60px;
 }

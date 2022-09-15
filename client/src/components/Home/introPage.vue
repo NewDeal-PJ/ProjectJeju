@@ -7,24 +7,24 @@
       <q-carousel-slide name="first"
         img-src="https://velog.velcdn.com/images/kimjyunny_dev/post/072d9c43-7183-4152-8048-27a6e21df906/image.jpeg">
         <div class="absolute-bottom custom-caption">
-          <div class="text-h2">First stop</div>
-          <div class="text-subtitle1">제주 올래?</div>
+          <div class="text-h2">웹사이트 소개 첫번째 내용 쓸 자리</div>
+          <div class="text-subtitle1">J-Track 입니다</div>
         </div>
       </q-carousel-slide>
 
       <q-carousel-slide name="second"
         img-src="https://blog.kakaocdn.net/dn/o1KIw/btqu9mflPY6/rGk1mM3iugV1c6jj9Z3E80/img.jpg">
         <div class="absolute-bottom custom-caption">
-          <div class="text-h2">Second stop</div>
-          <div class="text-subtitle1">제주 올래?</div>
+          <div class="text-h2">웹사이트 소개 두번째 내용 쓸 자리</div>
+          <div class="text-subtitle1">J-Track 입니다</div>
         </div>
       </q-carousel-slide>
 
       <q-carousel-slide name="third"
         img-src="https://wehotel.co.kr/wp-content/uploads/sites/35/2019/06/Spring-of-Halla-mountain_1920x1080.jpg">
         <div class="absolute-bottom custom-caption">
-          <div class="text-h2">Third stop</div>
-          <div class="text-subtitle1">제주 올래?</div>
+          <div class="text-h2">웹사이트 소개 세번째 내용 쓸 자리</div>
+          <div class="text-subtitle1">J-Track 입니다</div>
         </div>
       </q-carousel-slide>
 

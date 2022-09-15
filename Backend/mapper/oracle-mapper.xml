@@ -179,11 +179,25 @@
     * FROM TBL_REPLY full join tbl_reply_attach Using(rno) WHERE NICKNAME=#{nickname} ORDER BY REGDATE DESC
   </select>
 	<insert id="insertProduct">
-	<!-- <selectKey resultType="Long" keyProperty="productid" order="BEFORE">
-        SELECT seq_product.nextval FROM dual      
-    </selectKey>  -->
 	INSERT INTO TBL_PRODUCT(PRODUCTID,PRODUCTNAME,PRICE,DESCRIPTION) 
 	VALUES(SEQ_PRODUCT.NEXTVAL,#{productname},#{price},#{description})
   </insert>
-
+	<insert id="insertOrder">
+	INSERT ALL
+	INTO TBL_ORDER(ORDERID,ORDERNAME,CREATEDATE,PAID,EMAIL,ADDRESS,USERID,PHONE) 
+	VALUES(SEQ_ORDER.NEXTVAL,#{ORDERNAME},SYSDATE,#{PAID},#{EMAIL},#{ADDRESS},#{USERID},#{PHONE})
+	INTO TBL_PAYMENT(PAYMENTNUM,PAYMENTPRICE,PAYMENTDATE,PAYMENTSTATUS,USERID)
+	VALUES(#{PAYMENTNUM},#{PAYMENTPRICE},SYSDATE,#{PAID},#{USERID})
+	select * from DUAL
+	</insert>
+	<insert id="insertOrderItem">
+	INSERT INTO TBL_ORDER_ITEM(ORDERITEMID,QUANTITY,CREATEDATE,PRICE,PRODUCTID,ORDERID) 
+	VALUES(SEQ_ORDER_ITEM.NEXTVAL,#{QUANTITY},SYSDATE,#{PRICE},#{PRODUCTID},(SELECT (LAST_NUMBER)-1 FROM USER_SEQUENCES WHERE SEQUENCE_NAME='SEQ_ORDER'))
+  </insert>
+  	<select id="getCustomList">
+		SELECT *
+		FROM(
+			SELECT STOREID,HOTELID,NAME,STARRATE,STORENAME,ADDRESS,LONGITUDE,LATITUDE,UUID,PATH,(6371 * acos( cos( radians(#{LATITUDE}) ) * cos( radians(latitude) ) * cos( radians(longitude) - radians(#{LONGITUDE}) ) + sin( radians(#{LATITUDE}) ) * sin( radians(latitude) ) ) ) AS distance 
+		FROM V_CUSTOM) where distance<![CDATA[ <= ]]>2 order by storeid
+	</select>
 </mapper>

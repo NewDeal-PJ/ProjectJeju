@@ -3,10 +3,10 @@
     <nav>
       <div class="branding">
         <i class="fas fa-seedling"></i>
-        <a href="">Jeju Olle?</a>
+        <a href="http://localhost:9000/#/api/map">Jeju Olle?</a>
       </div>
       <ul v-show="!mobile" class="navigation">
-        <li><a href="http://localhost:9000">Home</a></li>
+        <li><a href="http://localhost:9000/#/api/map">Home</a></li>
         <li><a :href="shopUrl+account.id">Shop</a></li>
         <li><a href="http://localhost:9000/#/api/cart1">Cart({{cart.length}})</a></li>
 
@@ -145,9 +145,10 @@ header {
 
   z-index: 99;
   width: 100%;
-  position: fixed;
+  position: sticky;
   transition: 0.5s ease all;
   top: 0;
+
 
 
 
@@ -159,8 +160,9 @@ header {
     width: 90%;
     margin: 0 auto;
 
-    @media (min-width: 1140px) {
-      max-width: 1140px;
+
+    @media (min-width: 1293px) {
+      max-width: 1293px;
     }
 
     ul,
@@ -325,7 +327,7 @@ a {
 
   color: black;
   width: 100%;
-  border-bottom: solid grey 1px;
+
 
   nav > .icon{
     color: green;

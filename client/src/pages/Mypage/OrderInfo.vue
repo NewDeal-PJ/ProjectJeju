@@ -55,7 +55,7 @@
     <div id="join-wrap">
 
           <div class="cartInfo2" style="text-align: center;">
-            <table class="jointable" style="width: 1200px;  height: 180px; padding: 30px; margin-left: 140px;">
+            <table class="jointable" style="width: 1200px;  height: 180px; padding: 30px; max-width: 100%; margin: 0 auto;">
 
               <div  style=" margin:0 auto;">
 
@@ -85,7 +85,7 @@
             </table>
           </div>
 
-      <table class="jointable" style="width: 1200px; height: 200px; padding: 30px; margin-left: 140px;">
+      <table class="jointable" style="width: 1200px; height: 200px; padding: 30px; max-width: 100%; margin: 0 auto;">
         <q-markup-table :separator="separator" flat >
             <thead>
               <tr>

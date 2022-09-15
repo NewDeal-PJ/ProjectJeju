@@ -13,7 +13,7 @@
             <tr>
               <th class="SignUpFirst"><label for="user_id"> 아이디</label></th>
               <td style="padding-top: 20px; display: flex;">
-                <div class="q-gutter-md form-group" style="width: 310px;">
+                <div class="q-gutter-md form-group" style="width: 260px;">
                   <q-input ref="IDRef" outlined v-model="ID" :dense="dense" id="user_id" lazy-rules :rules="IDRules"
                     required autofocus />
                   <!-- <input type="text" id="user_id" class="textForm" required autofocus> -->
@@ -32,7 +32,7 @@
             <tr>
               <th><label for="user_pwd"> 비밀번호</label></th>
               <td style="padding-top: 20px; display: flex;">
-                <div class="q-gutter-md form-group" style="width: 400px;">
+                <div class="q-gutter-md form-group" style="width: 350px;">
                   <q-input ref="PWDRef" :type="isPwd ? 'password' : 'text'" outlined v-model="PWD" :dense="dense"
                     id="user_pwd" lazy-rules :rules="PWDRules" required>
                     <template v-slot:append>
@@ -46,7 +46,7 @@
             <tr>
               <th><label for="user_pwdChk">비밀번호 확인 </label></th>
               <td style="padding-top: 20px; display: flex;">
-                <div class="q-gutter-md form-group" style="width: 400px;">
+                <div class="q-gutter-md form-group" style="width: 350px;">
                   <q-input ref="PWDChkRef" :type="isPwd ? 'password' : 'text'" outlined v-model="PWDChk" :dense="dense"
                     id="user_pwdChk" lazy-rules :rules="PWDChkRules" required>
                     <template v-slot:append>
@@ -60,16 +60,16 @@
             <tr>
               <th><label for="user_name">이름 </label></th>
               <td style="padding-top: 20px; display: flex;">
-                <div class="q-gutter-md form-group" style="width: 400px;">
+                <div class="q-gutter-md form-group" style="width: 350px;">
                   <q-input ref="NameRef" outlined v-model="Name" :dense="dense" id="user_name" lazy-rules
                     :rules="NameRules" required />
                 </div>
               </td>
             </tr>
             <tr>
-              <th><label for="date">생년월일 (6자리) </label></th>
+              <th><label for="date">생년월일</label></th>
               <td style="padding-top: 20px; display: flex;">
-                <div class="q-gutter-md form-group" style="width: 400px;">
+                <div class="q-gutter-md form-group" style="width: 350px;">
                   <q-btn-toggle v-model=gender no-caps toggle-color="orange" color="white" text-color="black" :options="[
                     { label: '남', value: '1' },
                     { label: '여', value: '2' }
@@ -83,15 +83,15 @@
             <tr>
               <th><label for="user_tel">연락처 </label></th>
               <td style="padding-top: 20px; display: flex;">
-                <div class="q-gutter-md form-group" style="width: 150px;">
+                <div class="q-gutter-md form-group" style="width: 130px;">
                   <q-input ref="TelRef" outlined v-model="Tel" :dense="dense" id="user_tel" lazy-rules :rules="TelRules"
                     style="width: 80%; float: left;" required />
                 </div>
-                <div class="q-gutter-md form-group" style="width: 150px;">
+                <div class="q-gutter-md form-group" style="width: 130px;">
                   <q-input ref="TelRef2" outlined v-model="Tel2" :dense="dense" id="user_tel2" lazy-rules
                     :rules="TelRules2" style="width: 80%; float: left;" required />
                 </div>
-                <div class="q-gutter-md form-group" style="width: 150px;">
+                <div class="q-gutter-md form-group" style="width: 130px;">
                   <q-input ref="TelRef3" outlined v-model="Tel3" :dense="dense" id="user_tel3" lazy-rules
                     :rules="TelRules3" style="width: 80%; float: left;" required />
                 </div>
@@ -101,7 +101,7 @@
             <tr>
               <th><label for="user_email">이메일 </label></th>
               <td style="padding-top: 20px; display: flex;">
-                <div class="q-gutter-md form-group" style="width: 400px;">
+                <div class="q-gutter-md form-group" style="width: 350px;">
                   <q-input ref="emailRef" outlined v-model="email" :dense="dense" id="user_email" lazy-rules
                     :rules="emailRules" required />
                 </div>
@@ -111,7 +111,7 @@
             <tr>
               <th><label for="user_nickname">닉네임 </label></th>
               <td style="padding-top: 20px; display: flex;">
-                <div class="q-gutter-md form-group" style="width: 400px;">
+                <div class="q-gutter-md form-group" style="width: 350px;">
                   <q-input ref="NicknameRef" outlined v-model="Nickname" :dense="dense" id="user_nickname" lazy-rules
                     :rules="NicknameRules" required />
                 </div>
@@ -122,7 +122,7 @@
           <br>
           <div class="SignUpButton">
             <div class="q-pa-md q-gutter-md form-group">
-              <q-btn @click="onsubmit()" style="color: white; background-color: #FF9800; width: 300px;
+              <q-btn @click="onsubmit()" style="color: white; background-color: #FF9800; width: 250px;
             height: 40px; margin: 0 auto; display: block; ">
                 <div style="font-size: 18px; font-weight: 500;
             font-family: 'Noto Sans KR', sans-serif;">가입하기</div>
@@ -386,6 +386,7 @@ export default {
   font-size: 35px;
   font-weight: bold;
   font-family: 'Rubik', sans-serif;
+  margin-top: 70px;
 }
 
 .SignUpJointable {
@@ -396,7 +397,8 @@ export default {
 }
 
 .textForm {
-  width: 400px;
+  max-width: 100%;
+  width: 300px;
   height: 40px;
   border: 1px solid #ddd;
   border-radius: 5px;

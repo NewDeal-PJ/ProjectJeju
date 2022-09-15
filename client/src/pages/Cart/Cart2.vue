@@ -1,106 +1,112 @@
 <template>
   <Header></Header>
-  <body>
-    <div id="join-wrap">
+  <div id="join-wrap">
 
-          <div class="cartInfo2" style="text-align: center;">
-            <table class="jointable" style="width: 1200px;  height: 180px; padding: 30px; margin-left: 140px;">
+        <div class="cartInfo2" style="text-align: center;">
+          <table class="jointable" style="width: 1200px;  height: 180px; padding: 30px; max-width: 100%;     margin: 0 auto;">
 
-              <div  style=" margin:0 auto;">
+            <div  style=" margin:0 auto;">
 
+    <q-markup-table :separator="separator" flat >
+      <thead>
+        <tr>
+          <th class="text-middle" style="font-weight: bold; font-size: 15px; background-color: #FAEBD7">  </th>
+          <th class="text-middle " style="font-weight: bold; font-size: 15px; background-color:#FAEBD7"> 상품정보 </th>
+          <!-- <th class="text-middle" style="font-weight: bold; font-size: 15px; background-color:#FAEBD7"> 배송비</th> -->
+          <th class="text-middle" style="font-weight: bold; font-size: 15px; background-color:#FAEBD7"> 수량</th>
+          <th class="text-middle" style="font-weight: bold; font-size: 15px; background-color:#FAEBD7"> 상품금액</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="item in cart" :key="cart.index" :name="cart.PRODUCTID">
+          <th class="text-middle"></th>
+          <th class="text-middle">{{item.PRODUCTNAME}}</th>
+          <!-- <th class="text-middle">배송비 : {{del_price}}</th> -->
+          <th class="text-middle">{{item.PRODUCTQTY}}</th>
+          <th class="text-middle">{{item.PRODUCTPRICE}}</th>
+        </tr>
+
+      </tbody>
+    </q-markup-table>
+    </div>
+
+          </table>
+        </div>
+<div>
+  <div style="text-align:right; width: 1150px; max-width: 90%;"> 배송비 : {{del_price}} 원</div>
+  <div style="text-align:right;  width: 1150px; max-width: 90%;"> Total(가격+배송비) : {{order_total_price}}원</div>
+</div>
+
+    <table class="jointable" style="width: 1200px; height: 200px; padding: 30px; max-width: 100%; margin: 0 auto;">
       <q-markup-table :separator="separator" flat >
-        <thead>
-          <tr>
-            <th class="text-middle" style="font-weight: bold; font-size: 15px; background-color: #FAEBD7">  </th>
-            <th class="text-middle " style="font-weight: bold; font-size: 15px; background-color:#FAEBD7"> 상품정보 </th>
-            <!-- <th class="text-middle" style="font-weight: bold; font-size: 15px; background-color:#FAEBD7"> 배송비</th> -->
-            <th class="text-middle" style="font-weight: bold; font-size: 15px; background-color:#FAEBD7"> 수량</th>
-            <th class="text-middle" style="font-weight: bold; font-size: 15px; background-color:#FAEBD7"> 상품금액</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="item in cart" :key="cart.index" :name="cart.PRODUCTID">
-            <th class="text-middle"></th>
-            <th class="text-middle">{{item.PRODUCTNAME}}</th>
-            <!-- <th class="text-middle">배송비 : {{del_price}}</th> -->
-            <th class="text-middle">{{item.PRODUCTQTY}}</th>
-            <th class="text-middle">{{item.PRODUCTPRICE}}</th>
-          </tr>
+          <thead>
+            <tr>
+              <td colspan='2'  style=" text-align: center; font-size: 15px; background-color: #FAEBD7"> 배송정보 </td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th class="text-right"> 수령인</th>
+              <th class="text-middle"><q-input filled v-model="recipient" :dense="dense"  style="max-width: 450px;" /></th>
 
-        </tbody>
-      </q-markup-table>
-      </div>
+            </tr>
+            <tr>
+              <th class="text-right"> email</th>
+              <th class="text-middle"><q-input filled v-model="email" :dense="dense"  style="max-width: 450px;" /></th>
 
-            </table>
+            </tr>
+
+            <tr>
+              <th class="text-right"> 연락처</th>
+              <th class="text-middle"><q-input filled v-model="phone" :dense="dense"  style="max-width: 450px;" /></th>
+            </tr>
+
+            <tr>
+              <th class="text-right">배송주소</th>
+
+              <th class="text-middle">
+                <div class="shippingInformation">
+                    <div style="display: flex;">
+                    <q-input type="text"
+                    filled v-model="postcode" placeholder="우편번호" :dense="dense"/>
+                    <input type="button" @click="execDaumPostcode()" value="우편번호 찾기" style="background-color: rgb(250, 235, 215); border-radius: 3px; border: 1px solid grey; ">
+                    </div>
+                <br>
+                <q-input type="text"
+                filled v-model="address" :dense="dense" id="address" placeholder="주소"/>
+
+                <br>
+                <q-input type="text"
+                filled v-model="detailaddress" :dense="dense" id="detailAddress"
+                placeholder="상세주소"/>
+                <br>
+                <!-- <q-input type="text"
+                filled :dense="dense" id="extraAddress" placeholder="참고항목"/> -->
+              </div>
+
+              </th>
+            </tr>
+
+
+          </tbody>
+        </q-markup-table>
+
+
+
+      </table>
+
+  </div>
+
+  <div class="cart2Button" >
+          <div class="q-pa-md q-gutter-md">
+            <q-btn v-on:click="submit_payment()" style="color: white; background-color: #F79a38; width: 150px;
+            height: 30px; margin: 0 auto; display: block; " >
+            <div style="font-size: 15px; font-weight: 900;
+             font-family: 'Noto Sans KR', sans-serif;">결제하기</div>
+            </q-btn>
           </div>
-  <div style="text-align:right; padding-right: 300px; "> 배송비 : {{del_price}} 원</div>
-  <div style="text-align:right; padding-right: 300px;"> Total(가격+배송비) : {{order_total_price}}원</div>
-      <table class="jointable" style="width: 1200px; height: 200px; padding: 30px; margin-left: 140px;">
-        <q-markup-table :separator="separator" flat >
-            <thead>
-              <tr>
-                <td colspan='2'  style=" text-align: center; font-size: 15px; background-color: #FAEBD7"> 배송정보 </td>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th class="text-right"> 수령인</th>
-                <th class="text-middle"><q-input filled v-model="recipient" :dense="dense"  style="max-width: 450px;" /></th>
+        </div>
 
-              </tr>
-
-              <tr>
-                <th class="text-right"> 연락처</th>
-                <th class="text-middle"><q-input filled v-model="phone" :dense="dense"  style="max-width: 450px;" /></th>
-
-              </tr>
-
-              <tr>
-                <th class="text-right">배송주소</th>
-
-                <th class="text-middle">
-                  <div class="shippingInformation">
-                      <div style="display: flex;">
-                      <q-input type="text"
-                      filled v-model="postcode" placeholder="우편번호" :dense="dense"/>
-                      <input type="button" @click="execDaumPostcode()" value="우편번호 찾기">
-                      </div>
-                  <br>
-                  <q-input type="text"
-                  filled v-model="address" :dense="dense" id="address" placeholder="주소"/>
-
-                  <br>
-                  <q-input type="text"
-                  filled v-model="detailaddress" :dense="dense" id="detailAddress"
-                  placeholder="상세주소"/>
-                  <br>
-                  <!-- <q-input type="text"
-                  filled :dense="dense" id="extraAddress" placeholder="참고항목"/> -->
-                </div>
-
-                </th>
-              </tr>
-
-
-            </tbody>
-          </q-markup-table>
-
-
-
-        </table>
-
-    </div>
-
-    <div class="cart2Button" >
-            <div class="q-pa-md q-gutter-md">
-              <q-btn v-on:click="submit_payment()" style="color: white; background-color: #F79a38; width: 150px;
-              height: 30px; margin: 0 auto; display: block; " >
-              <div style="font-size: 15px; font-weight: 900;
-              font-family: 'Noto Sans KR', sans-serif;">결제하기</div>
-              </q-btn>
-            </div>
-    </div>
-  </body>
  <Footer></Footer>
   </template>
 
@@ -109,6 +115,7 @@ import Header from 'src/components/Home/Header.vue';
 import Footer from '../../components/Home/Footer.vue';
 import {ref} from 'vue';
 
+
   export default {
     data() {
       const order_info = ref([])
@@ -116,20 +123,39 @@ import {ref} from 'vue';
       const del_price = 3000
       const total_price = JSON.parse(localStorage.getItem("totalPrice")) || ""
       const order_total_price = Number(total_price) + Number(del_price)
+      let today = new Date();
+      let year = today.getFullYear().toString(); // 년도
+      let month = (today.getMonth() + 1).toString();  // 월
+      let date = today.getDate().toString();  // 날짜
+      let hours = today.getHours().toString(); // 시
+      let minutes = today.getMinutes().toString();  // 분
+      let seconds = today.getSeconds().toString();  // 초
+      let day = year+month+date
+      let time = `${hours}:${minutes}:${seconds}`
         return {
             postcode: "",
             address: "",
             detailaddress : "",
             extraAddress: "",
             recipient : "",
+            email : "",
             phone : "",
             order_info,
             cart,
             del_price,
             total_price,
-            order_total_price
-
+            order_total_price,
+            day,
+            time,
         };
+    },
+    mounted(){
+    let Script1 = document.createElement("script");
+    let Script2 = document.createElement("script");
+    Script1.setAttribute("src", "https://code.jquery.com/jquery-1.12.4.min.js");
+    Script2.setAttribute("src","https://cdn.iamport.kr/js/iamport.payment-1.1.5.js")
+    document.head.appendChild(Script1);
+    document.head.appendChild(Script2);
     },
     methods: {
         execDaumPostcode() {
@@ -178,7 +204,6 @@ import {ref} from 'vue';
         },
         submit_payment(){
           alert("결제창으로 이동합니다.")
-          alert(this.postcode+this.address+this.detailaddress+this.recipient+this.phone)
           try {
           for(let i=0; i<this.cart.length; i++)
           {
@@ -192,6 +217,7 @@ import {ref} from 'vue';
             order_prodcut_total_price : Number(this.total_price),
             order_product_recipient : this.recipient,
             order_product_rec_phone : this.phone,
+            order_product_rec_email : this.email,
             order_product_rec_postcode : this.postcode,
             order_product_rec_address : this.address + this.detailaddress
           })
@@ -204,9 +230,53 @@ import {ref} from 'vue';
       window.localStorage.setItem('order_info', JSON.stringify(this.cart));
     }
     console.log("order_info:",this.order_info)
+    console.log("order_info_length:",this.order_info.length)
+    // IMP.init("imp81388935")
+    let IMP = window.IMP
+    IMP.init('imp81388935');
+    console.log('IMP:',IMP)
+    IMP.request_pay({ // param
+          pg: "html5_inicis",
+          pay_method: "card",
+          merchant_uid: `mid_${this.day}_${this.time}`,
+          name: `${this.order_info[0].order_product_name}`+"외" + (`${this.cart.length}`-1),
+          amount: this.order_total_price,
+          buyer_email: this.order_info.order_product_rec_email,
+          buyer_name: this.order_info.order_product_recipient,
+          buyer_tel: this.order_info.order_product_rec_phone,
+          buyer_addr: this.order_info.order_product_rec_address,
+          buyer_postcode: this.order_info.order_product_rec_postcode
+      }, response => { // callback
+        console.log('res:',response);
+        console.log('name:',this.name)
+        console.log('amount:',this.amount)
+        console.log('buyer_email:',this.buyer_email)
+        console.log('buyer_name:',this.buyer_name)
+        console.log('buyer_addr:',this.buyer_addr)
+        if (response.success) {
+          console.log("결제 성공");
+          // jQuery로 HTTP 요청
+        jQuery.ajax({
+            url: "http://localhost:9000/#/api/cart3", // 예: https://www.myservice.com/payments/complete
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            data: {
+                imp_uid: response.imp_uid,
+                merchant_uid: response.merchant_uid
+            }
+        }).done(function (data) {
+          // 가맹점 서버 결제 API 성공시 로직
+          console.log("결제 성공")
+        })
+        } else {
+          console.log("결제 실패");
+        }
+      });
+    // window.location.href = 'http://localhost:9000/#/api/cart3';
       }
         catch (error) {
             console.log(error)
+            alert("결제에 실패하였습니다. 에러 내용: " +  response.error_msg);
           }
         }
     },
@@ -220,11 +290,4 @@ import {ref} from 'vue';
       max-width: 450px;
     }
 
-    input{
-    overflow: visible;
-    text-transform: none;
-    background-color: antiquewhite;
-    border-radius: 3px;
-    border: 1px solid grey;
-    }
   </style>

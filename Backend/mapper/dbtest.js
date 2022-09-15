@@ -1,4 +1,5 @@
-// require("dotenv").config();
+
+require("dotenv").config();
 
 // const db_user = process.env.DB_USER
 // const db_password = process.env.DB_PASSWORD
@@ -124,6 +125,66 @@
 // // run()
 
 
-const { v4 } = require('uuid');
-console.log(v4('/main/product/01'));
+// const { v4 } = require('uuid');
+// console.log(v4('/main/product/01'));
 
+// 1. 아임포트 REST API 호출에 필요한 모듈을 불러옵니다.
+// const {Iamport,Request,Enum} = require("iamport-rest-client-nodejs");
+// const { Banks } = Request;
+// const { BankCodeEnum } = Enum;
+
+// // 2. 아임포트 객체를 생성합니다. 귀하의 API 정보는 아임포트 관리자페이지 > 시스템설정 > 내정보를 참고해주세요.
+// const iamport = new Iamport({
+//   apiKey: '9805576493799803', 
+//   apiSecret: 'e60609a714936a6f1e1fb76ef53b5d99e0c0f4e24fca73d5290856b5fa653527e58f98e3ee03fe19',
+// });
+
+// // EX1. 모든 은행 정보를 조회합니다.
+// const getBanks = Banks.getBanks();
+// getBanks.request(iamport)
+// .then(response => console.log('response: ', response.data))
+// .catch(error => console.log('error: ', error.response.data));
+
+// // EX2. 특정 은행 정보를 조회합니다.
+// const getBank = Banks.getBank({
+//   code: BankCodeEnum.SC,
+// });
+// const ready = async function(){
+// await getBank.request(iamport)
+// .then(response => console.log('response: ', response.data))
+// .catch(error => console.log('error: ', error.response.data));
+// }
+// ready()
+
+// let today = new Date();   
+// let year = today.getFullYear().toString(); // 년도
+// let month = (today.getMonth() + 1).toString();  // 월
+// let date = today.getDate().toString();  // 날짜
+// let day = year+month+date
+// console.log(day)
+// let hours = (today.getHours()).toString(); // 시
+// let minutes = today.getMinutes().toString();  // 분
+// let seconds = today.getSeconds().toString();  // 초
+// let time = `${hours}:${minutes}:${seconds}`
+// console.log(time)
+// console.log(today)
+var Iamport = require('iamport');
+const imp_key = process.env.VUE_APP_IMP_REST_API_KEY
+const imp_secret = process.env.VUE_APP_IMP_REST_API_SECRET
+
+
+var iamport = new Iamport({
+  impKey: imp_key,
+  impSecret: imp_secret
+});
+
+// // 아임포트 고유 아이디로 결제 정보를 조회
+// iamport.payment.getByImpUid({
+//   imp_uid: 'imp_070847185028'  
+// }).then(function(result){
+//   console.log(result)
+//   // To do
+// }).catch(function(error){
+//   console.log(error)
+//   // handle error
+// });

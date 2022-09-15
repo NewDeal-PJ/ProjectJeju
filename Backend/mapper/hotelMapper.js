@@ -1,9 +1,18 @@
 require("dotenv").config();
+var Iamport = require('iamport');
+const axios = require('axios')
 const aws = require('aws-sdk')
 const db_user = process.env.DB_USER
 const db_password = process.env.DB_PASSWORD
 const db_string = process.env.DB_CONNECTSTRING
 const jwt_key = process.env.JWT_KEY
+const imp_key = process.env.VUE_APP_IMP_REST_API_KEY
+const imp_secret = process.env.VUE_APP_IMP_REST_API_SECRET
+const orderItem = []
+var iamport = new Iamport({
+  impKey: imp_key,
+  impSecret: imp_secret
+});
 const s3 = new aws.S3({
   accessKeyId: process.env.AWSAccessKeyId,
   secretAccessKey: process.env.AWSSecretKey,
@@ -401,40 +410,173 @@ app.post('/api/shop/register', function (req, res) {
     })
 })
 
-// OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
-//   function (err, connection) {
-//     if (err) {
-//       console.error(err.message);
-//       return;
-//     }
-//     var param = {
-//       nickname: request.body.NICKNAME,
-//       storeid: Number(request.body.STOREID),
-//       content: request.body.CONTENT,
-//       starrate: Number(request.body.STARRATE),
-//     }
-
-//     var format = { language: 'sql', indent: ' ' }
-//     var query = mybatisMapper.getStatement('oracleMapper', 'insertReply', param, format);
-//     console.log(query)
-//     connection.execute(query, [], function (err, result) {
-//       if (err) {
-//         console.error(err.message);
-//         return;
-//       }
-//       console.log('Insert 성공 : ' + result.rowsAffected)
-//       connectionRelease(response, connection, result.rowsAffected)
-//     })
-//   })
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //장바구니부분 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
+app.post("/api/cart_info",async(req,res)=>{
+  console.log(req.body)
+  console.log('cart_length:',req.body.length)
+  for (let i = 0; i<req.body.length; i++) {
+      const jsonData = {
+        "QUANTITY" : req.body[i].PRODUCTQTY,
+        "PRICE" : req.body[i].PRODUCTPRICE,
+        "PRODUCTID" : req.body[i].PRODUCTID
+      }
+      console.log(jsonData)
+      if (orderItem.length < req.body.length) {
+        orderItem.push(jsonData)
+      }
+  }
+  console.log("orderItem:",orderItem)
+  console.log("카트정보 받고 응답 완료")
+  res.send("카트 정보 잘 받았다 이누마!")
+})
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //결제부분 /////////////////////////////////////////////////////////////////////////////////////////////////////
+  // "/payments/complete"에 대한 POST 요청을 처리
+  app.post("/api/payments/complete", async (req, res) => {
+    try {
+      const { imp_uid, merchant_uid} = req.body; // req의 body에서 imp_uid, merchant_uid 추출
+      console.log(req.body)
+      
+       // 액세스 토큰(access token) 발급 받기
+       const getToken = await axios({
+        url: "https://api.iamport.kr/users/getToken",
+        method: "post", // POST method
+        headers: { "Content-Type": "application/json" }, // "Content-Type": "application/json"
+        data: {
+          imp_key: imp_key, // REST API키
+          imp_secret: imp_secret // REST API Secret
+        }
+      });
+      const { access_token } = getToken.data.response; // 인증 토큰
+      console.log('access_token:',access_token)
+     
+       // imp_uid로 아임포트 서버에서 결제 정보 조회
+       const getPaymentData = await axios({
+        url: `https://api.iamport.kr/payments/${imp_uid}`, // imp_uid 전달
+        method: "get", // GET method
+        headers: { "Authorization" : access_token},
+        // 인증 토큰 Authorization header에 추가
+        data : {
+          imp_key: imp_key, // REST API키
+          imp_secret: imp_secret, // REST API Secret
+          imp_uid : imp_uid
+        }
+         
+      });
+      const paymentData = getPaymentData.data.response; // 조회한 결제 정보
+      console.log('paymentData:',paymentData)
+      
+     
+      //데이터베이스 ORDER 푸시
+      OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
+        function (err, connection) {
+          if (err) {
+            console.error(err.message);
+            return;
+          }
+          var param = {
+            ORDERNAME : req.body.name ,
+            PAID : paymentData.status,
+            EMAIL : req.body.buyer_email,
+            ADDRESS : req.body.buyer_addr, 
+            USERID : req.body.buyer_user_id,
+            PHONE :req.body.buyer_tel,
+            PAYMENTNUM : imp_uid ,
+            PAYMENTPRICE : req.body.amount
+          }
+    
+          var format = { language: 'sql', indent: ' ' }
+          var query = mybatisMapper.getStatement('oracleMapper', 'insertOrder', param, format);
+
+          console.log(query)
+          connection.execute(query, [], function (err, result) {
+            if (err) {
+              console.error(err.message);
+              return;
+            }
+            console.log('Insert  성공 : ' + result.rowsAffected)
+            connectionRelease(res, connection, result.rowsAffected)
+          })
+        })
+      
+
+      // // DB에서 결제되어야 하는 금액 조회
+      // const order = await Orders.findById(paymentData.merchant_uid);
+      // const amountToBePaid = order.amount; // 결제 되어야 하는 금액
+      // console.log('order:',order)
+      // console.log('amountToBePaid:',amountToBePaid)
+      
+      
+      // 결제 검증하기
+      // const { amount, status } = paymentData;
+      // if (amount === amountToBePaid) { // 결제 금액 일치. 결제 된 금액 === 결제 되어야 하는 금액
+      //   await Orders.findByIdAndUpdate(merchant_uid, { $set: paymentData }); // DB에 결제 정보 저장
+        
+      //   switch (status) {
+      //     case "paid": // 결제 완료
+      //       res.send({ status: "success", message: "일반 결제 성공" });
+      //       break;
+      //   }
+      // } else { // 결제 금액 불일치. 위/변조 된 결제
+      //   throw { status: "forgery", message: "위조된 결제시도" };
+      // }
+       res.sendStatus(200)
+       
+    } catch (error) {
+        console.log(error)
+    }
+  });
+
+
+  app.post("/api/orderItem",(req, res) => {
+    //    //데이터베이스 ORDERITEM 푸시
+      //orderItem도 데이터 가져와서 디비에 넣어보자
+      console.log("새로운 OrderItem",orderItem)
+      console.log("새로운orderitem:",orderItem.length)
+      console.log("QUANTITY:",orderItem[0].QUANTITY)
+      console.log("PRICE:",orderItem[0].PRICE)
+      console.log("PRODUCTID:",orderItem[0].PRODUCTID)
+      console.log("QUANTITY:",orderItem[1].QUANTITY)
+      console.log("PRICE:",orderItem[1].PRICE)
+      console.log("PRODUCTID:",orderItem[1].PRODUCTID)
+      
+
+      for(let i=0; i<orderItem.length; i++){
+      OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
+        function (err, connection) {
+          if (err) {
+            console.error(err.message);
+            return;
+          }
+          var param = {
+            QUANTITY : orderItem[i].QUANTITY,
+            PRICE : orderItem[i].PRICE,
+            PRODUCTID : orderItem[i].PRODUCTID,
+          }
+    
+          var format = { language: 'sql', indent: ' ' }
+          var query = mybatisMapper.getStatement('oracleMapper', 'insertOrderItem', param, format);
+
+          console.log(query)
+          connection.execute(query, [], function (err, result) {
+            if (err) {
+              console.error(err.message);
+              return;
+            }
+            console.log('Insert  성공 : ' + result.rowsAffected)
+            connectionRelease(res, connection, result.rowsAffected)
+          })
+        })
+      }
+      orderItem = []
+
+
+  });
 
 
 

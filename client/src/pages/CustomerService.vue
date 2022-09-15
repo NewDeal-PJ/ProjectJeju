@@ -3,9 +3,9 @@
 <body>
   <div class="customerService1">
     <p> Q&A </p>
-      <div class="q-pa-md" style="width: 60%; margin:0 auto;">
+      <div class="q-pa-md" >
 
-        <q-markup-table :separator="separator" flat bordered>
+        <q-markup-table :separator="separator" flat bordered style="width: 80%; max-width:100%; margin: 0 auto;">
           <thead>
             <tr>
               <th class="text-middle" style="font-weight: bold; font-size: 15px; background-color: #FAEBD7"> 번호 </th>
@@ -105,6 +105,7 @@
       font-weight: bold;
       font-family: 'Rubik', sans-serif;
       margin-bottom: 70px;
+      margin-top: 70px;
     }
 
     .customerService2{
@@ -112,7 +113,7 @@
     /* border-top: 5px solid black;
     border-bottom: 5px solid black; */
     padding-bottom: 20px;
-    width: 60%;
+    width: 100%;
     }
 
     </style>

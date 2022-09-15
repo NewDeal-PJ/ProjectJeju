@@ -8,30 +8,30 @@
           <div class="myPageMember">
             <a href="http://localhost:9000/#/api/userinfo" type="button" style="color: black;">
               <img src="https://velog.velcdn.com/images/kimjyunny_dev/post/4a9937e2-23f5-4595-bc39-6402a5e42187/image.png"
-                width="80">
+                >
               <p>회원정보 수정</p>
             </a>
           </div>
           <div class="myPageOrder">
             <a href="http://localhost:9000/#/api/orderinfo" type="button" style="color: black;">
               <img src="https://velog.velcdn.com/images/kimjyunny_dev/post/2422b5e0-250f-4a47-b0ec-631ca1c4ee94/image.png"
-                width="80">
+         >
               <p>주문내역</p>
             </a>
           </div>
           <div class="myPageWrite">
             <a :href="writinginfoUrl" type="button" style="color: black;">
               <img src="https://velog.velcdn.com/images/kimjyunny_dev/post/53ea14e5-f61a-44fb-ba7d-d1c542bc36a7/image.png"
-                width="80">
+           >
               <p>작성한 글</p>
             </a>
           </div>
-          <!-- <div class="myPageLike">
-              <a href ="http://localhost:9000/#/likeinfo" type="button"  style="color: black;">
-              <img src="https://velog.velcdn.com/images/kimjyunny_dev/post/bdc5cd07-2946-4985-847c-03689d903d46/image.png" width="80" >
-              <p>좋아요</p>
+          <div class="myMapTracking">
+              <a href ="http://localhost:9000/#/api/mymaptracking" type="button"  style="color: black;">
+              <img src="https://velog.velcdn.com/images/kimjyunny_dev/post/36ffecab-fbd6-4cba-b352-106310a3d3c7/image.png"  >
+              <p>나의 트래킹</p>
             </a>
-            </div> -->
+            </div>
         </div>
       </div>
       <Footer></Footer>
@@ -77,6 +77,7 @@ export default {
   font-weight: bold;
   font-family: 'Rubik', sans-serif;
   text-align: center;
+  margin-top: 70px;
 
 }
 
@@ -90,7 +91,7 @@ export default {
   font-size: 25px;
   font-family: 'Noto Sans KR', sans-serif;
   padding: 30px;
-  padding-left: 170px;
+
 }
 
 .myPageMember {
@@ -116,9 +117,10 @@ export default {
   margin: 10px;
   width: 25%;
   padding: 5%;
+
 }
 
-.myPageLike {
+.myMapTracking {
   border: 4px solid #FAEBD7;
   border-radius: 5px;
   margin: 10px;
@@ -140,6 +142,15 @@ a {
 
 .myPageWrite:hover{
   background-color: bisque;
+}
+
+.myMapTracking:hover{
+  background-color: bisque;
+}
+
+img{
+  width: 80;
+  max-width: 100%;
 }
 
 </style>

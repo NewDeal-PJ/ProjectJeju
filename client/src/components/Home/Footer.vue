@@ -94,6 +94,8 @@
       padding: 18px;
       font-family: 'Noto Sans KR', sans-serif;
       place-self: end;
+
+
     }
 
     .PageInfoIcon > a{
@@ -103,4 +105,9 @@
     .personalInfo > a {
       margin-right: 3px;
     }
+
+
+  footer{
+
+  }
   </style>

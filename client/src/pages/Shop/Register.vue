@@ -171,7 +171,7 @@ export default{
                                     url: 'http://localhost:3000/shop/register/insertAttach',
                                     data: {
                                         UUID: uuidv4(),
-                                        PATH: 'ProductPic/',
+                                        PATH: 'ProductPic',
                                     },
                                     headers: { 'X-Requested-With': 'XMLHttpRequest' },
                                     responseType: 'json'
@@ -192,8 +192,9 @@ export default{
                                     });
                                 }, 300);
                             }
-                            window.location.href = 'http://localhost:9000/#/api/shop';
+                            
                           })
+                          // window.location.href = 'http://localhost:9000/#/api/shop';
                 //redirect logic
                 .catch(function (error) {
                   // 에러 핸들링

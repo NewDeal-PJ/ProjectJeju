@@ -6,7 +6,7 @@
       <!-- 실제사용할때 보낼 페이지url 넣기  -->
       <div style=" border-radius: 10px;">
         <p class="SignUpTitle"> Sign up </p>
-        <form action="http://localhost:9000/#/" @submit.prevent.stop="onSubmit" @reset.prevent.stop="onReset"
+        <form action="#/" @submit.prevent.stop="onSubmit" @reset.prevent.stop="onReset"
           class="q-gutter-md">
           <table class="SignUpJointable">
 
@@ -311,7 +311,7 @@ export default {
                 .post("/api/signup", args)
                 .then((res) => {
                   state.data = res.data;
-                  window.location.href = 'http://localhost:9000/#/api/login';
+                  window.location.href = '#/api/login';
                   $q.notify({
                     color: 'orange-7',
                     icon: 'thumb_up',

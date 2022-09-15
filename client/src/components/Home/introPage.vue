@@ -33,7 +33,7 @@
           style="padding: 20px 8px; margin-bottom: -20px">
 
           <div>
-            <a href="http://localhost:9000/#/api/map">
+            <a href="#/api/map">
               <div class="q-pa-md q-gutter-sm">
                 <q-btn class="glossy" rounded color="orange" label="START" @click="Start" style="font-size: 11pt">
                 </q-btn>

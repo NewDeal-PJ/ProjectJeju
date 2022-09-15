@@ -291,10 +291,10 @@
           .then((Response) => {
             //결제 API 성공 시
             if(Response.status === 200){
-               window.location.href = 'http://localhost:9000/#/api/cart3';
+               window.location.href = '#/api/cart3';
             }
           })
-          //  window.location.href = 'http://localhost:9000/#/api/cart3';
+          //  window.location.href = '#/api/cart3';
           } else {
             console.log("결제 실패");
           }

@@ -130,7 +130,7 @@ export default {
                             position: 'center',
                             message: '잘못된 접근입니다.'
                         })
-                        window.location.href = 'http://localhost:9000/#/';
+                        window.location.href = '#';
                     }
                 })
             }
@@ -246,7 +246,7 @@ export default {
                             position: 'center',
                             message: '잘못된 접근입니다.'
                         })
-                        window.location.href = 'http://localhost:9000/#/';
+                        window.location.href = '#';
                     }
                     else {
                         axios({
@@ -321,7 +321,7 @@ export default {
                     timeout: 1100
                 })
                 setTimeout(() => {
-                    window.location.href = 'http://localhost:9000/#/api/login';
+                    window.location.href = '#/api/login';
                 }, 900);
             }
         },

@@ -3,7 +3,7 @@
   <body>
     <div v-if="account.id == 'manager'">
     <div class="goRegister">
-      <a href="http://localhost:9000/#/api/shop/register">
+      <a href="#/api/shop/register">
                 <q-btn style="color: white;
                 background-color: #F79a38;
                 height: 30px;

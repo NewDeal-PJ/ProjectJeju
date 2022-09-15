@@ -94,7 +94,7 @@ div
           div(class="text-weight-bold") {{dataItem.NAME}}
           div(class="text-grey") {{dataItem.ADDRESS}}
           q-card-actions(align="right")
-            a(:href="'http://localhost:9000/#/detail/'+ dataItem.STOREID")
+            a(:href="'#/detail/'+ dataItem.STOREID")
               q-btn(flat label="더보기" color="primary")
             q-btn(flat label="Cancel" color="primary" v-close-popup)
       q-linear-progress(:value="0.3" color="amber-5")
@@ -159,7 +159,7 @@ export default {
   mounted() {
     // this.checkLogin()
     if (this.$route.query.addr) {
-      window.location.href = "http://localhost:9000/#/api/map";
+      window.location.href = "#/api/map";
     }
     if (window.kakako && window.kakako.maps) {
       this.initMap();

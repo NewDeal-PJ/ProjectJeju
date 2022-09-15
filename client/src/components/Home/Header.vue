@@ -3,45 +3,45 @@
     <nav>
       <div class="branding">
         <i class="fas fa-shoe-prints"></i>
-        <a href="http://localhost:9000/#/api/map">J-TRACK</a>
+        <a href="#">J-TRACK</a>
       </div>
       <ul v-show="!mobile" class="navigation">
-        <li><a href="http://localhost:9000/#/api/map">Home</a></li>
-        <li><a href="http://localhost:9000/#/api/shop">Shop</a></li>
-        <li><a href="http://localhost:9000/#/api/cart1">Cart({{cart.length}})</a></li>
+        <li><a href="#/api/map">Home</a></li>
+        <li><a href="#/api/shop">Shop</a></li>
+        <li><a href="#/api/cart1">Cart({{cart.length}})</a></li>
 
         <a v-if="account.id">
           <li><a :href="myPageUrl+account.id">MyPage</a></li>
         </a>
         <div v-if="account.id">
-          <li><a href="http://localhost:9000/#/api/logout" @click='logout()'>LogOut</a></li>
+          <li><a href="#/api/logout" @click='logout()'>LogOut</a></li>
         </div>
 
         <div v-else>
-          <li><a href="http://localhost:9000/#/api/login">LogIn</a></li>
+          <li><a href="#/api/login">LogIn</a></li>
         </div>
-        <li><a href="http://localhost:9000/#/api/CustomerService">Q&A</a></li>
+        <li><a href="#/api/CustomerService">Q&A</a></li>
       </ul>
       <div class="icon">
         <i @click="toggleMobileNav" v-show="mobile" class="fas fa-bars" :class="{ 'icon-active': mobileNav }"></i>
       </div>
       <transition name="mobile-nav">
         <ul v-show="mobileNav" class="dropdown-nav">
-          <li><a href="http://localhost:9000">Home</a></li>
-          <li><a href="http://localhost:9000/#/api/shop">Shop</a></li>
-          <li><a href="http://localhost:9000/#/api/cart1">Cart({{cart.length}})</a></li>
+          <li><a href="#/api/map">Home</a></li>
+          <li><a href="#/api/shop">Shop</a></li>
+          <li><a href="#/api/cart1">Cart({{cart.length}})</a></li>
 
           <a v-if="account.id">
             <li><a :href="myPageUrl+account.id">MyPage</a></li>
           </a>
           <div v-if="account.id">
-            <li><a href="http://localhost:9000/#/api/logout" @click='logout()'>LogOut</a></li>
+            <li><a href="#/api/logout" @click='logout()'>LogOut</a></li>
           </div>
 
           <div v-else>
-            <li><a href="http://localhost:9000/#/api/login">LogIn</a></li>
+            <li><a href="#/api/login">LogIn</a></li>
           </div>
-          <li><a href="http://localhost:9000/#/api/CustomerService">Q&A</a></li>
+          <li><a href="#/api/CustomerService">Q&A</a></li>
         </ul>
       </transition>
     </nav>
@@ -68,7 +68,7 @@ export default {
     }
     const $q = useQuasar()
     const cart = ref([])
-    const myPageUrl = "http://localhost:9000/#/api/mypage/";
+    const myPageUrl = "#/api/mypage/";
     return {
       scrolledNav: null,
       mobile: null,
@@ -131,7 +131,7 @@ export default {
         })
         this.account.name = "";
         this.account.id = ""
-        window.location.href = 'http://localhost:9000/#/api/login';
+        window.location.href = '#/api/login';
       });
     },
   },

@@ -107,7 +107,7 @@ export default{
                             position: 'center',
                             message: '잘못된 접근입니다.'
                         })
-                        window.location.href = 'http://localhost:9000/#/';
+                        window.location.href = '#/';
                     }
                 })
             }
@@ -201,7 +201,7 @@ export default{
             }
           },
           submit_cancel(){
-            window.location.href = 'http://localhost:9000/#/api/shop';
+            window.location.href = '#/api/shop';
           },
           // upload(image) {
           //   console.log(image)

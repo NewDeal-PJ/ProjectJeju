@@ -6,14 +6,14 @@
         <p class="myPageTitle"> My Page</p>
         <div class="myPageSelect">
           <div class="myPageMember">
-            <a href="http://localhost:9000/#/api/userinfo" type="button" style="color: black;">
+            <a href="#/api/userinfo" type="button" style="color: black;">
               <img src="https://velog.velcdn.com/images/kimjyunny_dev/post/4a9937e2-23f5-4595-bc39-6402a5e42187/image.png"
                 >
               <p>회원정보 수정</p>
             </a>
           </div>
           <div class="myPageOrder">
-            <a href="http://localhost:9000/#/api/orderinfo" type="button" style="color: black;">
+            <a href="#/api/orderinfo" type="button" style="color: black;">
               <img src="https://velog.velcdn.com/images/kimjyunny_dev/post/2422b5e0-250f-4a47-b0ec-631ca1c4ee94/image.png"
          >
               <p>주문내역</p>
@@ -27,7 +27,7 @@
             </a>
           </div>
           <div class="myMapTracking">
-              <a href ="http://localhost:9000/#/api/mymaptracking" type="button"  style="color: black;">
+              <a href ="#/api/mymaptracking" type="button"  style="color: black;">
               <img src="https://velog.velcdn.com/images/kimjyunny_dev/post/36ffecab-fbd6-4cba-b352-106310a3d3c7/image.png"  >
               <p>나의 트래킹</p>
             </a>
@@ -60,10 +60,10 @@ export default {
             position: 'center',
             message: '잘못된 접근입니다.'
           })
-          window.location.href = 'http://localhost:9000/#/';
+          window.location.href = '#/';
         }
       }));
-      const writinginfoUrl = "http://localhost:9000/#/api/writinginfo?auth="+route.params.id;
+      const writinginfoUrl = "#/api/writinginfo?auth="+route.params.id;
       return{
         writinginfoUrl
       }

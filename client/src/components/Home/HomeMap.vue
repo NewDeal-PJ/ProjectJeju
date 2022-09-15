@@ -70,7 +70,7 @@ div(class="q-pa-md" style="max-width: 90%; overflow:hidden; margin: 0 auto; text
       q-radio(v-model="locationFilterCharger" val="seogwipo" color="light-blue-6") 서귀포
       q-radio(v-model="locationFilterCharger" val="seongsan" color="light-blue-6") 성산
       q-radio(v-model="locationFilterCharger" val="pyoseon" color="light-blue-6") 표선
-  q-btn-dropdown(push no-caps style="margin-left: 0.8rem; margin-right: 0.9rem; width: 18.5rem; height: 3rem; position: relative; z-index: 10; border: 3px solid #ff9800; color: #ff9800; background-color: #fafafa;")
+  q-btn-dropdown(split push no-caps style="margin-left: 0.8rem; margin-right: 0.9rem; width: 18.5rem; height: 3rem; position: relative; z-index: 10; border: 3px solid #ff9800; color: #ff9800; background-color: #fafafa;")
     template(v-slot:label)
       div(class="row items-center no-wrap")
         q-icon(left name="map")

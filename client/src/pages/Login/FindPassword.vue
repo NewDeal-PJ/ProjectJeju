@@ -14,7 +14,7 @@
 
       <div class="findPasswordButton" >
         <div class="q-pa-md q-gutter-md">
-          <q-btn style="color: white; background-color: #F79a38; width: 300px;
+          <q-btn style="color: white; background-color: #F79a38; width: 250px;
           height: 40px; margin: 0 auto; display: block; " >
           <div style="font-size: 20px;
            font-family: 'Noto Sans KR', sans-serif;"> 이메일 보내기</div>
@@ -38,7 +38,7 @@ export default{
   text-align: center;
   font-size: 35px;
   font-weight: bold;
-  font-family: 'Rubik', sans-serif;
+  font-family: 'Ubuntu', sans-serif;
   margin-top: 70px;
 }
 .findPasswordJointable{
@@ -46,6 +46,6 @@ export default{
   padding-bottom:60px ;
   margin: 0 auto;
   font-size: 25px;
-   font-family: 'Rubik', sans-serif;
+  font-family: 'Ubuntu', sans-serif;
 }
 </style>

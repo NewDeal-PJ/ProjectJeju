@@ -2817,6 +2817,11 @@ isobject@^3.0.1:
   resolved "https://registry.npmjs.org/isobject/-/isobject-3.0.1.tgz"
   integrity sha512-WhB9zCku7EGTj/HQQRz5aUQEUeoQZH2bWcltRErOpymJ4boYE6wL9Tbr23krRPSZ+C5zqNSrSw+Cc7sZZ4b7vg==
 
+jQuery@^1.7.4:
+  version "1.7.4"
+  resolved "https://registry.yarnpkg.com/jQuery/-/jQuery-1.7.4.tgz#f32dc5c85a7044ee864b4443b9ee45f9478ba137"
+  integrity sha512-hf/hWBnkFhu4FzP96tBjZNPF9qTcUaOKFA8hpVJX0Cb/892JefRzoVGCe/vkmry/pOhZiK6VnQvnuV8CoHf1rA==
+
 jake@^10.8.5:
   version "10.8.5"
   resolved "https://registry.npmjs.org/jake/-/jake-10.8.5.tgz"
@@ -4317,6 +4322,16 @@ vue-demi@*:
   version "0.13.6"
   resolved "https://registry.npmjs.org/vue-demi/-/vue-demi-0.13.6.tgz"
   integrity sha512-02NYpxgyGE2kKGegRPYlNQSL1UWfA/+JqvzhGCOYjhfbLWXU5QQX0+9pAm/R2sCOPKr5NBxVIab7fvFU0B1RxQ==
+
+vue-head@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/vue-head/-/vue-head-2.2.0.tgz#9e3a141d5a011599a3f6d7adb42a65c428cf73e1"
+  integrity sha512-Oss1gakOSPQ4e/XZ0yM7yolnhSDvfDYZbM6CDD3xkCpAyPfTR+Bv3tabgtKE41gHr5GzC/NJh1EwQSu7o05XRw==
+
+vue-iamport@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/vue-iamport/-/vue-iamport-0.1.2.tgz#3918545d83c3c764fda37a89fed0e547937b7fad"
+  integrity sha512-782E5m07sIFzMjz0WGGazNaRwkTcaGYlfmd+/ZcZDbWxt8jE+PofX7M+0Ern4IMo59fj4FB7994VhpU2guooOA==
 
 vue-router@^4.1.5:
   version "4.1.5"

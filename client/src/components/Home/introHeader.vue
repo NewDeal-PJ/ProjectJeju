@@ -1,13 +1,12 @@
 <template>
     <header :class="{ 'scrolled-nav': scrolledNav}">
       <nav>
-        <div class="branding" style="height: 81px;">
-          <i class="fas fa-seedling" ></i>
-          <a href="http://localhost:9000/#/api/map">Jeju Olle?</a>
+        <div class="branding" style="height: 81px; margin: 0 auto;">
+          <div class="branding">
+        <i class="fas fa-shoe-prints"></i>
+        <a href="http://localhost:9000/#/api/map">J-TRACK</a>
+      </div>
         </div>
-        <ul v-show="!mobile" class="navigation">
-        </ul>
-
       </nav>
     </header>
   </template>
@@ -27,13 +26,21 @@
     top: 0;
 
 
+
     nav {
       position: relative;
       display: flex;
       flex-direction: row;
       transition: 0.5s ease all;
-      width: 90%;
-      margin: 0 auto;
+      white-space: nowrap;
+
+
+
+
+         .branding > a {
+      font-family: 'Bungee', cursive;
+      font-size: 35px;
+    }
 
       @media (min-width: 1293px) {
         max-width: 1293px;
@@ -172,4 +179,6 @@
     color: orange;
     display: contents;
   }
+
+
   </style>

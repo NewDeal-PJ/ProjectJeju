@@ -1,6 +1,21 @@
 <template>
   <Header></Header>
   <body>
+
+    <div class="goRegister">
+      <a href="http://localhost:9000/#/api/shop/register">
+                <q-btn style="color: white;
+                background-color: #F79a38;
+                height: 30px;
+                display: block;
+                margin:0 auto;
+                margin-top: 10px;
+              " >
+                  <div style="font-size: 18px; font-weight: 900;
+                  font-family: 'Noto Sans KR', sans-serif;"> 상품등록하기</div>
+      </q-btn></a>
+    </div>
+
     <!-- 제품 -->
     <!-- 물량 추가버튼 수정하기 -->
     <main style="margin: 60px">
@@ -41,6 +56,8 @@
         </div>
       </div>
     </main>
+
+
   </body>
   <Footer></Footer>
 </template>
@@ -157,4 +174,6 @@ export default {
   text-align: center;
   margin: 10px;
 }
+
+a{ text-decoration: none;}
 </style>

@@ -351,7 +351,7 @@ export default {
   text-align: center;
   font-size: 35px;
   font-weight: bold;
-  font-family: 'Rubik', sans-serif;
+  font-family: 'Ubuntu', sans-serif;
   margin-top: 70px;
 }
 

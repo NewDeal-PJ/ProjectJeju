@@ -13,7 +13,7 @@
     <div style="display: flex; text-align: left; ">
 
         <div class="teamInfo" style="padding-left: 15%;">
-        <p style="font-weight: bold; padding-top: 3%; font-size: 14px;">제주올래?</p>
+        <p style="font-weight: bold; padding-top: 3%; font-size: 14px;">J-TRACK</p>
         <p>제주도의 전기차 충전소 안내, 맛집안내, 숙소 안내,리뷰 및 별점,<br> 제주도 굿즈 판매 및 결제 서비스 및 로그 데이터 분석을 목표로 한다</p>
 
         <div class="PageInfoIcon">

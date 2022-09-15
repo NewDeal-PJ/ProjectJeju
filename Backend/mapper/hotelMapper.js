@@ -466,9 +466,9 @@ app.post("/api/cart_info", async (req, res) => {
   console.log('cart_length:', req.body.length)
   for (let i = 0; i < req.body.length; i++) {
     const jsonData = {
-      "QUANTITY": req.body[i].PRODUCTQTY,
-      "PRICE": req.body[i].PRODUCTPRICE,
-      "PRODUCTID": req.body[i].PRODUCTID
+      QUANTITY: req.body[i].PRODUCTQTY,
+      PRICE: req.body[i].PRODUCTPRICE,
+      PRODUCTID: req.body[i].PRODUCTID
     }
     console.log(jsonData)
     if (orderItem.length < req.body.length) {
@@ -581,18 +581,11 @@ app.post("/api/payments/complete", async (req, res) => {
 
 
 app.post("/api/orderItem", (req, res) => {
-  //    //데이터베이스 ORDERITEM 푸시
-  //orderItem도 데이터 가져와서 디비에 넣어보자
-  console.log("새로운 OrderItem", orderItem)
+  console.log("orderItem의 LIST",orderItem)
   console.log("새로운orderitem:", orderItem.length)
   console.log("QUANTITY:", orderItem[0].QUANTITY)
-  console.log("PRICE:", orderItem[0].PRICE)
-  console.log("PRODUCTID:", orderItem[0].PRODUCTID)
-  console.log("QUANTITY:", orderItem[1].QUANTITY)
-  console.log("PRICE:", orderItem[1].PRICE)
-  console.log("PRODUCTID:", orderItem[1].PRODUCTID)
-
-
+  //    //데이터베이스 ORDERITEM 푸시
+  //orderItem도 데이터 가져와서 디비에 넣어보자
   for (let i = 0; i < orderItem.length; i++) {
     OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
       function (err, connection) {
@@ -616,13 +609,10 @@ app.post("/api/orderItem", (req, res) => {
             return;
           }
           console.log('Insert  성공 : ' + result.rowsAffected)
-          connectionRelease(res, connection, result.rowsAffected)
         })
       })
   }
-  orderItem = []
-
-
+  connectionRelease(res, connection, result.rowsAffected)
 });
 
 

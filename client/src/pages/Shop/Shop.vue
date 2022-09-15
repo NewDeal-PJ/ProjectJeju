@@ -1,7 +1,7 @@
 <template>
   <Header></Header>
   <body>
-
+    <div v-if="account.id == 'manager'">
     <div class="goRegister">
       <a href="http://localhost:9000/#/api/shop/register">
                 <q-btn style="color: white;
@@ -15,7 +15,7 @@
                   font-family: 'Noto Sans KR', sans-serif;"> 상품등록하기</div>
       </q-btn></a>
     </div>
-
+  </div>
     <!-- 제품 -->
     <!-- 물량 추가버튼 수정하기 -->
     <main style="margin: 60px">
@@ -24,8 +24,7 @@
           <div>
             <div style="display:flex;">
               <q-card class="my-card" v-for="(product,index) in products" :key="product.PRODUCTID" :name="product.PRODUCTID" >
-                <img :src="product.imgurl" />
-                {{product.imgurl}}
+                <img :src="product.imgurl" style="width:300px; height: 100px;" />
                 <q-card-section class="goods" >
                   <div class=" wrap items-center" >
                     <div style="font-weight:bold">
@@ -72,13 +71,23 @@ export default {
     const products=ref([])
     const cart = ref([])
     const PRODUCTQTY = ref(1)
+    const account = {
+      id: '',
+      name: ''
+    }
+    
     return {
       products,
       cart,
-      PRODUCTQTY
+      PRODUCTQTY,
+      account
     }
   },
   beforeCreate(){
+    // 백엔드의 계정정보를 호출
+    axios.get("/api/login").then((res) => {
+      this.account = res.data;
+    });
     // localStorage.setItem("cart",JSON.stringify(this.cart));
   },
   created(){
@@ -160,4 +169,5 @@ export default {
 }
 
 a{ text-decoration: none;}
+
 </style>

@@ -93,18 +93,28 @@
   <script>
   import Header from 'src/components/Home/Header.vue';
   import Footer from '../../components/Home/Footer.vue';
+  import axios from "axios"
   export default{
     data : ()=> {
       const price = ''
       const total_price = ''
+      const account = {
+      id: '',
+      name: ''
+    }
       const cart = JSON.parse(localStorage.getItem("cart")) || ""
       return {
         cart,
         price,
-        total_price
+        total_price,
+        account
       };
     },
     mounted(){
+      // 백엔드의 계정정보를 호출
+    axios.get("/api/login").then((res) => {
+      this.account = res.data;
+    });
       this.getTotalPrice()
     },
     methods : {

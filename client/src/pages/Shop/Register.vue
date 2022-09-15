@@ -192,7 +192,6 @@ export default{
                                     });
                                 }, 300);
                             }
-                            window.location.href = 'http://localhost:9000/#/api/shop';
                           })
                 //redirect logic
                 .catch(function (error) {

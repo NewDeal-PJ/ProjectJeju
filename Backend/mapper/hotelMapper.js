@@ -852,13 +852,13 @@ app.post('/reply/insert', function (request, response) {
     })
 })
 app.post('/reply/insertAttach', function (request, response) {
-
+  const date=Date.now().toString()
   const upload = multer({
     storage: multerS3({
       s3: s3,
       bucket: 'jejuprojectimage/' + request.body.PATH,
       key: function (req, file, cb) {
-        cb(null, request.body.UUID);
+        cb(null, date + request.body.UUID);
       },
       acl: 'public-read-write',
       contentType: multerS3.AUTO_CONTENT_TYPE
@@ -874,7 +874,7 @@ app.post('/reply/insertAttach', function (request, response) {
         return;
       }
       var param = {
-        uuid: request.body.UUID,
+        uuid: date+ request.body.UUID,
         path: request.body.PATH,
       }
       var format = { language: 'sql', indent: ' ' }
@@ -1188,6 +1188,10 @@ app.post('/customList', function (req, res) {
               LATITUDE: rows[7],
               UUID: rows[8],
               PATH: rows[9],
+              COMMENTS: rows[10],
+              PRICE: rows[11],
+              INFO: rows[12],
+              TEL: rows[13]
             }
             if (customData.length < result.rows.length) {
               customData.push(jsonData)

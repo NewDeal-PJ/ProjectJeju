@@ -201,7 +201,7 @@
   	<select id="getCustomList">
 		SELECT *
 		FROM(
-			SELECT STOREID,HOTELID,NAME,STARRATE,STORENAME,ADDRESS,LONGITUDE,LATITUDE,UUID,PATH,(6371 * acos( cos( radians(#{LATITUDE}) ) * cos( radians(latitude) ) * cos( radians(longitude) - radians(#{LONGITUDE}) ) + sin( radians(#{LATITUDE}) ) * sin( radians(latitude) ) ) ) AS distance 
+			SELECT STOREID,HOTELID,NAME,STARRATE,STORENAME,ADDRESS,LONGITUDE,LATITUDE,UUID,PATH,COMMENTS,PRICE,INFO,TEL,(6371 * acos( cos( radians(#{LATITUDE}) ) * cos( radians(latitude) ) * cos( radians(longitude) - radians(#{LONGITUDE}) ) + sin( radians(#{LATITUDE}) ) * sin( radians(latitude) ) ) ) AS distance 
 		FROM V_CUSTOM) where distance<![CDATA[ <= ]]>2 order by storeid
 	</select>
 </mapper>

@@ -409,9 +409,7 @@ app.post('/api/shop/register', function (req, res) {
       })
     })
 })
-
 app.post('/shop/register/insertAttach', function (request, response) {
-
   const upload = multer({
     storage: multerS3({
       s3: s3,

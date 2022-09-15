@@ -159,6 +159,7 @@ export default{
               axios
                 .post("/api/shop/register", args)
                 .then(() => {
+                  console.log(this.files)
                             if (this.files) {
                               console.log(this.files)
                                 function uuidv4() {
@@ -167,7 +168,7 @@ export default{
                                 }
                                 axios({
                                     method: 'post',
-                                    url: 'http://localhost:3000//shop/register/insertAttach',
+                                    url: 'http://localhost:3000/shop/register/insertAttach',
                                     data: {
                                         UUID: uuidv4(),
                                         PATH: 'ProductPic/',

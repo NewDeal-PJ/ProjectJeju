@@ -81,9 +81,6 @@ div(class="q-pa-md" style="max-width: 90%; overflow:hidden; margin: 0 auto; text
       q-radio(:disable="CustomDirection==2 ? false : true" v-model="CustomDirection" val="3" color="red" @click.once="customDirection(CustomDirection)" style="margin-left: 0.6rem; margin-right: 0.7rem;") DAY3
       br
       q-btn(@click.once="resetCustom()" color="orange-6" no-caps style="width: 18.5rem;") 초기화
-
-//- <q-btn label="Left" icon="keyboard_arrow_left" color="primary" @click="open('left')" />
-//- <q-btn label="Right" icon="keyboard_arrow_right" color="primary" @click="open('right')" />
 div
   q-dialog(v-model="dialog" :position="position")
     q-card(style="width: 400px")

@@ -14,18 +14,40 @@
 <script>
 import Header from 'src/components/Home/Header.vue';
 import Footer from '../../components/Home/Footer.vue';
-
-
+import axios from 'axios';
 
 
 export default {
+  data : () => {
+      const order_info = JSON.parse(localStorage.getItem("order_info")) || ""
+      return {
+        order_info
+      };
+    },
+    created(){
+      axios({
+        method: 'post',
+        url: 'http://localhost:3000/api/orderItem',
+        headers: { 'X-Requested-With': 'XMLHttpRequest' },
+        responseType: 'json',
+      })
+        .then((Response) => {
+          //결제 API 성공 시
+          console.log(Response)
+        })
+    },
+    mounted(){
+      window.localStorage.removeItem('cart')
+      window.localStorage.removeItem('order_info')
+      window.localStorage.removeItem('totalPrice')
+    },
+
   components: {
     Header,
     Footer
 }
 }
 </script>
-
 
 <style>
 

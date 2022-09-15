@@ -1,4 +1,5 @@
-// require("dotenv").config();
+
+require("dotenv").config();
 
 // const db_user = process.env.DB_USER
 // const db_password = process.env.DB_PASSWORD
@@ -155,15 +156,35 @@
 // }
 // ready()
 
-let today = new Date();   
-let year = today.getFullYear().toString(); // 년도
-let month = (today.getMonth() + 1).toString();  // 월
-let date = today.getDate().toString();  // 날짜
-let day = year+month+date
-console.log(day)
-let hours = (today.getHours()).toString(); // 시
-let minutes = today.getMinutes().toString();  // 분
-let seconds = today.getSeconds().toString();  // 초
-let time = `${hours}:${minutes}:${seconds}`
-console.log(time)
-console.log(today)
+// let today = new Date();   
+// let year = today.getFullYear().toString(); // 년도
+// let month = (today.getMonth() + 1).toString();  // 월
+// let date = today.getDate().toString();  // 날짜
+// let day = year+month+date
+// console.log(day)
+// let hours = (today.getHours()).toString(); // 시
+// let minutes = today.getMinutes().toString();  // 분
+// let seconds = today.getSeconds().toString();  // 초
+// let time = `${hours}:${minutes}:${seconds}`
+// console.log(time)
+// console.log(today)
+var Iamport = require('iamport');
+const imp_key = process.env.VUE_APP_IMP_REST_API_KEY
+const imp_secret = process.env.VUE_APP_IMP_REST_API_SECRET
+
+
+var iamport = new Iamport({
+  impKey: imp_key,
+  impSecret: imp_secret
+});
+
+// // 아임포트 고유 아이디로 결제 정보를 조회
+// iamport.payment.getByImpUid({
+//   imp_uid: 'imp_070847185028'  
+// }).then(function(result){
+//   console.log(result)
+//   // To do
+// }).catch(function(error){
+//   console.log(error)
+//   // handle error
+// });

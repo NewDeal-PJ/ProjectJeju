@@ -7,7 +7,7 @@
       </div>
       <ul v-show="!mobile" class="navigation">
         <li><a href="http://localhost:9000/#/api/map">Home</a></li>
-        <li><a :href="shopUrl+account.id">Shop</a></li>
+        <li><a href="http://localhost:9000/#/api/shop">Shop</a></li>
         <li><a href="http://localhost:9000/#/api/cart1">Cart({{cart.length}})</a></li>
 
         <a v-if="account.id">
@@ -28,7 +28,7 @@
       <transition name="mobile-nav">
         <ul v-show="mobileNav" class="dropdown-nav">
           <li><a href="http://localhost:9000">Home</a></li>
-          <li><a :href="shopUrl+account.id">Shop</a></li>
+          <li><a href="http://localhost:9000/#/api/shop">Shop</a></li>
           <li><a href="http://localhost:9000/#/api/cart1">Cart({{cart.length}})</a></li>
 
           <a v-if="account.id">
@@ -69,7 +69,6 @@ export default {
     const $q = useQuasar()
     const cart = ref([])
     const myPageUrl = "http://localhost:9000/#/api/mypage/";
-    const shopUrl = "http://localhost:9000/#/api/shop/";
     return {
       scrolledNav: null,
       mobile: null,

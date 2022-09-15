@@ -2,6 +2,7 @@ require("dotenv").config();
 var Iamport = require('iamport');
 const axios = require('axios')
 const aws = require('aws-sdk')
+const compression = require('compression')
 const db_user = process.env.DB_USER
 const db_password = process.env.DB_PASSWORD
 const db_string = process.env.DB_CONNECTSTRING
@@ -60,25 +61,25 @@ app.use(session({
   // store : new FileStore()
 }))
 
-
 app.use(express.static(__dirname));
 app.use(
   cors({
     origin: ['http://localhost:9000'],
     credentials: true,
   }),
-);
-// 백엔드 서버 포트
-app.set('port', process.env.PORT || 3000);
-
-// app.get('/',(req,res)=>{
-//   res.send('Root')x
-// })
-// bodyparsor
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
-
-
+  );
+  // 백엔드 서버 포트
+  app.set('port', process.env.PORT || 3000);
+  
+  // app.get('/',(req,res)=>{
+    //   res.send('Root')x
+    // })
+    // bodyparsor
+    app.use(express.json())
+    app.use(express.urlencoded({ extended: true }))
+    
+    
+    app.use(compression());
 
 // 기본 라우트
 // app.get('http://localhost:3000', (req, res) => {

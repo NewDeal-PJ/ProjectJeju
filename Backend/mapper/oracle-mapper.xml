@@ -121,7 +121,11 @@
     SELECT
     * FROM TBL_REPLY full join tbl_reply_attach Using(rno) WHERE STOREID= #{storeid} ORDER BY REGDATE DESC
   </select>
-
+<!-- 제품 정보 가져오기 조인 -->
+  <select id="getListProduct">
+    SELECT 
+		* FROM TBL_product full join tbl_product_attach Using(productid) WHERE productid = productid ORDER BY productid DESC
+  </select>
 
   <!-- 맛집 새리뷰 DB 넣고 띄우기 -->
   <insert id="insertReply">

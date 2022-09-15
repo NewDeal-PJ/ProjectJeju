@@ -356,7 +356,8 @@ app.post('/api/shop', (req, res) => {
         console.error(err.message);
         return;
       }
-      var query = `SELECT * FROM TBL_PRODUCT`;
+      var format = { language: 'sql', indent: ' ' }
+      var query = mybatisMapper.getStatement('oracleMapper', 'getListProduct',format);
       connection.execute(query, {}, function (err, result) {
         if (err) {
           console.error(err.message);
@@ -366,16 +367,23 @@ app.post('/api/shop', (req, res) => {
           if (Object.hasOwnProperty.call(result.rows, i)) {
             let rows = result.rows[i]
             const jsonData = {
-              id: rows[0],
+              product_id: rows[0],
               product_name: rows[1],
-              price: rows[3],
-              description: rows[2]
+              product_description: rows[2],
+              product_price: rows[3],
+              product_uuid : rows[4],
+              product_path : rows[5],
+              product_image : rows[6]
+              
             }
             ShopData.push(jsonData)
           }
         }
         res.send(ShopData)
       })
+
+
+
     })
 
 })
@@ -410,12 +418,13 @@ app.post('/api/shop/register', function (req, res) {
     })
 })
 app.post('/shop/register/insertAttach', function (request, response) {
+  const date_uuid =  Date.now().toString() + request.body.UUID
   const upload = multer({
     storage: multerS3({
       s3: s3,
       bucket: 'jejuprojectimage/' + request.body.PATH,
       key: function (req, file, cb) {
-        cb(null, request.body.UUID);
+        cb(null, date_uuid);
       },
       acl: 'public-read-write',
       contentType: multerS3.AUTO_CONTENT_TYPE
@@ -431,7 +440,7 @@ app.post('/shop/register/insertAttach', function (request, response) {
         return;
       }
       var param = {
-        uuid: request.body.UUID,
+        uuid: date_uuid,
         path: request.body.PATH,
       }
       var format = { language: 'sql', indent: ' ' }

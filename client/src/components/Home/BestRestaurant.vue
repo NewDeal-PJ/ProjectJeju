@@ -7,15 +7,16 @@
       q-carousel(class="bg-grey-1 rounded-borders" style="height: 100%;" animated v-model="slide" navigation swipeable control-color="grey-2" :autoplay="autoplay" arrows transition-prev="slide-right" transition-next="slide-left" @mouseenter="autoplay = false" @mouseleave="autoplay = true" )
         q-carousel-slide(:name="1" class="column no-wrap")
           div(class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap")
-            q-card.card(class="my-card" v-for="customStoreDATAItem in customStoreDATA" style="max-width: 300px;  height: 400px; margin: 10px;" )
-              q-img(:src="'https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/'+customStoreDATAItem.PATH+'/'+customStoreDATAItem.UUID" style="height: 170px;")
+            q-card.card(class="my-restaurant-card" v-for="customStoreDATAItem in customStoreDATA" )
+              q-img(:src="'https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/'+customStoreDATAItem.PATH+'/'+customStoreDATAItem.UUID" style="width:350px; max-width: 100%; height: 170px; max-height: 100%;")
               q-card-section
                 div(class="row no-wrap items-center")
-                div(class="col text-h6 ellipsis") {{ customStoreDATAItem.NAME }}
+                div(class="col text-h6 ellipsis") {{ customStoreDATAItem.STORENAME }}
                 q-card-section(class="q-pt-none")
                 div(class="text-caption") {{ customStoreDATAItem.ADDRESS }}
               q-card-section(class="q-pt-none")
-                div(class="text-caption text-grey") {{ customStoreDATAItem.INFO }}
+                div(class="text-caption text-grey"
+                style="white-space: normal; display: -webkit-box; -webkit-line-clamp: 4;-webkit-box-orient: vertical;overflow: hidden;" ) {{ customStoreDATAItem.INFO }}
                 div(class="text-subtitle2 text-red") {{ customStoreDATAItem.TEL }}
 
 </template>
@@ -79,9 +80,12 @@ export default {
 
 
 
-<style lang="sass" scoped>
-.my-card
-  max-width: 300px
-  margin: 10px
-
-</style>
+<style>
+  .my-restaurant-card{
+    width: 250px;
+    height: 400px;
+    max-width: 100%;
+    text-align: center;
+    margin: 10px;
+  }
+  </style>

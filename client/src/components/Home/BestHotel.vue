@@ -7,16 +7,20 @@
       q-carousel(class="bg-grey-1 rounded-borders" style="height: 100%;" animated v-model="slide" navigation swipeable control-color="grey-2" :autoplay="autoplay" arrows transition-prev="slide-right" transition-next="slide-left" @mouseenter="autoplay = false" @mouseleave="autoplay = true" )
         q-carousel-slide(:name="1" class="column no-wrap")
           div(class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap")
-            q-card.card(class="my-card" v-for="customHotelDATAItem in customHotelDATA" style="max-width: 300px;  height: 400px; margin: 10px;" )
-              q-img(:src="'https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/'+customHotelDATAItem.PATH+'/'+customHotelDATAItem.UUID" style="height: 170px;")
+            q-card.card(class="my-hotel-card" v-for="customHotelDATAItem in customHotelDATA" )
+              q-img(:src="'https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/'+customHotelDATAItem.PATH+'/'+customHotelDATAItem.UUID" style="width:350px; max-width: 100%; height: 170px; max-height: 100%;")
               q-card-section
                 div(class="row no-wrap items-center") {{ index }}
                 div(class="col text-h6 ellipsis") {{ customHotelDATAItem.NAME }}
                 q-card-section(class="q-pt-none")
                 div(class="text-caption") {{ customHotelDATAItem.ADDRESS }}
               q-card-section(class="q-pt-none")
-                div(class="text-caption text-grey") {{ customHotelDATAItem.COMMENTS }}
+                div(class="text-caption text-grey"
+                style="white-space: normal; display: -webkit-box; -webkit-line-clamp: 4;-webkit-box-orient: vertical;overflow: hidden;") {{ customHotelDATAItem.COMMENTS }}
                 div(class="text-subtitle2 text-red") {{ customHotelDATAItem.PRICE }} 원~
+
+
+
 
         //- q-carousel-slide(:name="2" class="column no-wrap")
         //-   div(class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap")
@@ -163,3 +167,12 @@ export default {
 
 
 
+<style>
+.my-hotel-card{
+  width: 250px;
+  height: 400px;
+  max-width: 100%;
+  text-align: center;
+  margin: 10px;
+}
+</style>

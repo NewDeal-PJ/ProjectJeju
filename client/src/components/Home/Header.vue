@@ -98,7 +98,7 @@ export default {
     window.addEventListener('resize', this.checkScreen);
     this.checkScreen();
     // 백엔드의 계정정보를 호출
-    axios.get("/api/login").then((res) => {
+    axios.get("http://localhost:3000/api/login").then((res) => {
       this.account = res.data;
       if(this.account.id === ''){
         window.location.href = '#/api/login';
@@ -106,7 +106,7 @@ export default {
       }
     });
     // 백엔드의 소셜 계정정보를 호출
-    axios.get("/api/kakao_login").then((res) => {
+    axios.get("http://localhost:3000/api/kakao_login").then((res) => {
       this.social = res.data;
       console.log(this.social)
     });
@@ -143,7 +143,7 @@ export default {
       return;
     },
     logout() {
-      axios.delete("/api/logout").then((res) => {
+      axios.delete("http://localhost:3000/api/logout").then((res) => {
         this.$q.notify({
           color: 'teal',
           position: 'center',

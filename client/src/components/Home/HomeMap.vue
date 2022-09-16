@@ -788,7 +788,7 @@ export default {
       this.CustomDirection = "";
     },
     checkLogin() {
-      axios.get("/api/login").then((res) => {
+      axios.get("http://localhost:3000/api/login").then((res) => {
         this.id.push(res.data.id);
       });
     }

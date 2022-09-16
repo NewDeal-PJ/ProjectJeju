@@ -49,7 +49,7 @@ export default {
       loginPw : state.form.loginPw
       }
       
-      axios.post("/api/account", args).then((res) => {
+      axios.post("http://localhost:3000/api/account", args).then((res) => {
         //로그인에 성공
         alert("로그인에 성공하셨습니다! 즐거운 여행 되세요 !")
         state.account = res.data;
@@ -65,7 +65,7 @@ export default {
     }
     // 로그아웃  method
     const logout = () => {
-      axios.delete("/api/account").then((res) => {
+      axios.delete("http://localhost:3000/api/account").then((res) => {
         alert("로그아웃이 완료되었습니다.")
         state.account.id = null;
         state.account.name = "";
@@ -74,7 +74,7 @@ export default {
     }
 
     // 백엔드의 계정정보를 호출
-    axios.get("/api/account").then((res) => {
+    axios.get("http://localhost:3000/api/account").then((res) => {
       state.account = res.data;
     });
     return { state, submit, logout};

@@ -308,7 +308,7 @@ export default {
             }
             else {
               axios
-                .post("/api/signup", args)
+                .post("http://localhost:3000/api/signup", args)
                 .then((res) => {
                   state.data = res.data;
                   window.location.href = '#/api/login';
@@ -345,7 +345,7 @@ export default {
             user_id: ID
           };
           axios
-            .post("/api/check_id", args)
+            .post("http://localhost:3000/api/check_id", args)
             .then((res) => {
               state.data = res.data;
               if (res.data.result === 1) {

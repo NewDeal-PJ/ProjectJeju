@@ -158,7 +158,7 @@ export default {
       }
     })
     // 백엔드의 계정정보를 호출
-    axios.get("/api/login").then((res) => {
+    axios.get("http://localhost:3000/api/login").then((res) => {
       state.account = res.data;
     });
 
@@ -254,7 +254,7 @@ export default {
         }
         else {
               axios
-                .put("/api/userinfo/update", args)
+                .put("http://localhost:3000/api/userinfo/update", args)
                 .then((res) => {
                   state.data = res.data;
                   window.location.href = `#/api/mypage`;
@@ -293,7 +293,7 @@ export default {
         if (state.form.content === '동의합니다.')
         {
           axios
-          .post("/api/userinfo/delete", args)
+          .post("http://localhost:3000/api/userinfo/delete", args)
           .then((res) => {
             state.data = res.data;
             state.account.name = "";

@@ -129,8 +129,8 @@
 
   <!-- 맛집 새리뷰 DB 넣고 띄우기 -->
   <insert id="insertReply">
-	INSERT INTO TBL_REPLY(RNO,NICKNAME,REGDATE,STOREID,CONTENT,STARRATE,RRNO) 
-	VALUES(SEQ_REPLY.NEXTVAL,#{nickname},SYSDATE,#{storeid},#{content},#{starrate},#{rrno})
+	INSERT INTO TBL_REPLY(RNO,NICKNAME,REGDATE,STOREID,CONTENT,STARRATE) 
+	VALUES(SEQ_REPLY.NEXTVAL,#{nickname},SYSDATE,#{storeid},#{content},#{starrate})
   </insert>
 
   <insert id="insertReplyAttach">
@@ -220,5 +220,16 @@
 		FROM(
 			SELECT STOREID,HOTELID,NAME,STARRATE,STORENAME,ADDRESS,LONGITUDE,LATITUDE,UUID,PATH,COMMENTS,PRICE,INFO,TEL,(6371 * acos( cos( radians(#{LATITUDE}) ) * cos( radians(latitude) ) * cos( radians(longitude) - radians(#{LONGITUDE}) ) + sin( radians(#{LATITUDE}) ) * sin( radians(latitude) ) ) ) AS distance 
 		FROM V_CUSTOM) where distance<![CDATA[ <= ]]>2 order by storeid
+	</select>
+	<select id="getReplyCount">
+		SELECT count(*) FROM TBL_REPLY full join tbl_reply_attach Using(rno) WHERE STOREID= #{storeid} ORDER BY REGDATE DESC
+	</select>
+	<select id="getReplyPaging">
+		SELECT *
+			FROM (SELECT A.*, ROWNUM AS RNUM FROM (SELECT * FROM TBL_REPLY full join tbl_reply_attach Using(rno) WHERE STOREID= #{storeid} ORDER BY REGDATE DESC) A WHERE ROWNUM <![CDATA[ <= ]]> #{lastReplyCount})
+		WHERE RNUM <![CDATA[ > ]]>#{firstReplyCount}
+	</select>
+	<select id="getHotelWordCloud">
+		select * from tbl_hotel_wordcloud full outer join tbL_hotel using(hotelid) where uuid is null
 	</select>
 </mapper>

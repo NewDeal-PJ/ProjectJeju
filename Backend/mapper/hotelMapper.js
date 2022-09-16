@@ -968,8 +968,7 @@ app.post('/charger', function (req, res) {
 });
 
 
-app.get('/reply/:storeid', function (request, response) {
-  const replyData = [];
+app.post('/reply/:storeid', function (request, response) {
   OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
     function (err, connection) {
       if (err) {
@@ -980,7 +979,31 @@ app.get('/reply/:storeid', function (request, response) {
         storeid: request.params.storeid
       }
       var format = { language: 'sql', indent: ' ' }
-      var query = mybatisMapper.getStatement('oracleMapper', 'getListReply', param, format);
+      var query = mybatisMapper.getStatement('oracleMapper', 'getReplyCount', param, format);
+      connection.execute(query, {}, function (err, result) {
+        if (err) {
+          console.error(err.message);
+          return;
+        }
+        response.send(result.rows[0])
+      })
+    })
+});
+app.post('/replyPaging', function (request, response) {
+  const replyData = [];
+  OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
+    function (err, connection) {
+      if (err) {
+        console.error(err.message);
+        return;
+      }
+      var param = {
+        storeid: request.body.storeid,
+        lastReplyCount: request.body.lastReplyCount,
+        firstReplyCount: request.body.firstReplyCount
+      }
+      var format = { language: 'sql', indent: ' ' }
+      var query = mybatisMapper.getStatement('oracleMapper', 'getReplyPaging', param, format);
       connection.execute(query, {}, function (err, result) {
         if (err) {
           console.error(err.message);
@@ -996,9 +1019,8 @@ app.get('/reply/:storeid', function (request, response) {
               STOREID: rows[3],
               CONTENT: rows[4],
               STARRATE: rows[5],
-              RRNO: rows[6],
-              UUID: rows[7],
-              PATH: rows[8],
+              UUID: rows[6],
+              PATH: rows[7],
             }
             replyData.push(jsonData)
           }
@@ -1019,7 +1041,6 @@ app.post('/reply/insert', function (request, response) {
         storeid: Number(request.body.STOREID),
         content: request.body.CONTENT,
         starrate: Number(request.body.STARRATE),
-        rrno: request.body.RRNO,
       }
 
       var format = { language: 'sql', indent: ' ' }

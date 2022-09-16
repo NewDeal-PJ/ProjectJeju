@@ -67,7 +67,7 @@ export default {
     const route = useRoute()
     const $q = useQuasar();
     onMounted(() =>
-      axios.get("/api/login").then((res) => {
+      axios.get("http://localhost:3000/api/login").then((res) => {
         const id = res.data.id
         if (id !== route.params.id) {
           $q.notify({
@@ -85,7 +85,7 @@ export default {
   },
   mounted (){
 // 백엔드의 계정정보를 호출
-axios.get("/api/login").then((res) => {
+axios.get("http://localhost:3000/api/login").then((res) => {
       this.account = res.data;
       if(this.account.id === ''){
         window.location.href = '#/api/login';
@@ -93,7 +93,7 @@ axios.get("/api/login").then((res) => {
       }
     });
     // 백엔드의 소셜 계정정보를 호출
-    axios.get("/api/kakao_login").then((res) => {
+    axios.get("http://localhost:3000/api/kakao_login").then((res) => {
       this.social = res.data;
     });
   },

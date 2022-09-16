@@ -91,7 +91,7 @@ export default {
         loginPw: state.form.loginPw
       }
 
-      axios.post("/api/login", args).then((res) => {
+      axios.post("http://localhost:3000/api/login", args).then((res) => {
         //로그인에 성공
         state.account = res.data;
         if(res.data.id=='admin'){
@@ -129,7 +129,7 @@ export default {
 
     // 로그아웃  method
     const logout = () => {
-      axios.delete("/api/logout").then((res) => {
+      axios.delete("http://localhost:3000/api/logout").then((res) => {
         $q.notify({
             color: 'teal',
             position: 'center',
@@ -142,7 +142,7 @@ export default {
     }
 
     // 백엔드의 계정정보를 호출
-    axios.get("/api/login").then((res) => {
+    axios.get("http://localhost:3000/api/login").then((res) => {
       state.account = res.data;
     });
     // // 백엔드의 소셜 계정정보를 호출

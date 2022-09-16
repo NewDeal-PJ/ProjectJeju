@@ -136,7 +136,7 @@ export default {
       };
 
       axios
-      .post("/api/signup", args)
+      .post("http://localhost:3000/api/signup", args)
       .then((res) => {
       state.data = res.data;
       if(res.status === 200){

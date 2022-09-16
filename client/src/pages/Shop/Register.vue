@@ -99,7 +99,7 @@ export default{
       const route = useRoute()
       onMounted(() => {
             if (route.query.auth) {
-                axios.get("/api/login").then((res) => {
+                axios.get("http://localhost:3000/api/login").then((res) => {
                     const id = res.data.id
                     if (id !== route.query.auth) {
                         $q.notify({

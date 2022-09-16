@@ -61,7 +61,7 @@ import {reactive} from 'vue';
                     "kakao_user_nickname" : this.kakao_account.profile.nickname,
                     "login_method" : "kakao"
                 }
-                axios.post("/api/kakao_login",args)
+                axios.post("http://localhost:3000/api/kakao_login",args)
                 .then((res) => {
                   console.log(res)
                   //카카오 로그인 성공
@@ -70,7 +70,7 @@ import {reactive} from 'vue';
                   position: 'center',
                   message: '로그인 성공! 즐거운 여행 되세요!'
                 })
-                window.location.href = 'http://localhost:9000/#/';
+                window.location.href = '#/';
                 })
               }
             });

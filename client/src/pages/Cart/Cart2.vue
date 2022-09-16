@@ -172,7 +172,7 @@
       },
       methods: {
         sendCartinfo(){
-          axios.post("/api/cart_info",this.cart)
+          axios.post("http://localhost:3000/api/cart_info",this.cart)
           .then((res) => {
           console.log('res:',res);
           });
@@ -223,11 +223,11 @@
           },
           submit_payment(){
             // 백엔드의 계정정보를 호출
-          axios.get("/api/login").then((res) => {
+          axios.get("http://localhost:3000/api/login").then((res) => {
           this.account = res.data;
           });
           // 백엔드의 소셜 계정정보를 호출
-          axios.get("/api/kakao_login").then((res) => {
+          axios.get("http://localhost:3000/api/kakao_login").then((res) => {
           this.social = res.data;
           });
             alert("결제창으로 이동합니다.")

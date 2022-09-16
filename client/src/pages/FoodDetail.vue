@@ -82,7 +82,7 @@ export default {
     const route = useRoute()
     onMounted(() => {
       if (!route.query.auth) {
-        axios.get("/api/login").then((res) => {
+        axios.get("http://localhost:3000/api/login").then((res) => {
           if (res.data.id!=='') {
             window.location.href = '#/detail/' + route.params.id + '?auth=' + res.data.id;
           }

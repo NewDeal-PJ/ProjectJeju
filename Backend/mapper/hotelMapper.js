@@ -1029,7 +1029,7 @@ app.post('/replyPaging', function (request, response) {
       })
     })
 });
-app.post('/reply/insert', function (request, response) {
+app.post('/api/reply/insert', function (request, response) {
   OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
     function (err, connection) {
       if (err) {

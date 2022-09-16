@@ -283,7 +283,7 @@ export default {
                     else {
                         axios({
                             method: 'post',
-                            url: 'http://localhost:3000/reply/insert',
+                            url: 'http://localhost:3000/api/reply/insert',
                             data: {
                                 NICKNAME: this.$route.query.auth,
                                 STOREID: this.$route.params.id,

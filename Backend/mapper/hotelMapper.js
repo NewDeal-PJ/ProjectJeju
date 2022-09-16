@@ -64,7 +64,7 @@ app.use(session({
 app.use(express.static(__dirname));
 app.use(
   cors({
-    origin: ['http://localhost:9000'],
+    origin: ['http://localhost:9000','https://j-track-503a3.web.app'],
     credentials: true,
   }),
   );

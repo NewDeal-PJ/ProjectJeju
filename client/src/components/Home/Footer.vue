@@ -59,7 +59,7 @@
       <br>
       <a href>
         <img src="https://velog.velcdn.com/images/kimjyunny_dev/post/b2e7e05b-aea5-4d0b-a31a-d206a6c6e7f3/image.png" width="18">
-      </a>이수빈 : Backend
+      </a>이수빈 : Frontend, Backend
       </div>
     </div>
   </div>

@@ -90,7 +90,7 @@ export default {
       }
     })
     return {
-      slide: ref(1),
+      slide: ref(0),
       autoplay: ref(true),
       fullscreen: ref(false),
       quality: ref(3),

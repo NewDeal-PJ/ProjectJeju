@@ -150,6 +150,7 @@ export default {
       clickPosition: ref([]),
       dialog,
       position,
+      wordCloudinfo: ref([]),
       open(pos) {
         position.value = pos;
         dialog.value = true;
@@ -157,6 +158,19 @@ export default {
     };
   },
   mounted() {
+    axios({
+      method: "post",
+      url: "http://localhost:3000/hotelWordCloud",
+      headers: { "X-Requested-With": "XMLHttpRequest" },
+      responseType: "json"
+    })
+      .then((Response) => {
+        for (let i = 0; i < Response.data.length; i++) {
+          this.wordCloudinfo.push(
+            Response.data[i].HOTELID
+          );
+        }
+      })
     // this.checkLogin()
     if (this.$route.query.addr) {
       window.location.href = "#/api/map";
@@ -260,6 +274,7 @@ export default {
       if (selectedFilter.includes("cooking")) {
         cooking = 1;
       }
+
       axios({
         method: "post",
         url: "http://localhost:3000/hotel",
@@ -540,14 +555,55 @@ export default {
           // console.log("https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/RestWordcloudW/"+info.STOREID+".jpg")
         }
         else if (info.HOTELID) {
+          if (this.wordCloudinfo.includes(info.HOTELID)) {
+            console.log(info.HOTELID)
+            const url = "https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/j-track.png";
+            this.sidePanel.push({
+              HOTELID: info.HOTELID,
+              NAME: info.NAME,
+              ADDRESS: info.ADDRESS,
+              imgurl: url
+            });
+          }
+          else{
+            console.log(this.wordCloudinfo)
+            const url = "https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/HotelWordcloudW/" + info.HOTELID + '.jpg';
+            this.sidePanel.push({
+              HOTELID: info.HOTELID,
+              NAME: info.NAME,
+              ADDRESS: info.ADDRESS,
+              imgurl: url
+            });
+          }
+
           this.open("left");
-          const url = "https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/HotelWordcloudW/" + info.HOTELID + ".jpg";
-          this.sidePanel.push({
-            HOTELID: info.HOTELID,
-            NAME: info.NAME,
-            ADDRESS: info.ADDRESS,
-            imgurl: url
-          });
+          // if (info.HOTELID==this.wordCloudinfo.HOTELID) {
+          //   const url = "https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/j-track.png"
+          //   this.sidePanel.push({
+          //   HOTELID: info.HOTELID,
+          //   NAME: info.NAME,
+          //   ADDRESS: info.ADDRESS,
+          //   imgurl: url
+          // });
+          // }
+          // else{
+          //   const url = "https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/HotelWordcloudW/" + info.HOTELID + '.jpg';
+          //   this.sidePanel.push({
+          //   HOTELID: info.HOTELID,
+          //   NAME: info.NAME,
+          //   ADDRESS: info.ADDRESS,
+          //   imgurl: url
+          // });
+          // }
+          // else {
+          //   const url = "https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/j-track.png"
+          //   this.sidePanel.push({
+          //     HOTELID: info.HOTELID,
+          //     NAME: info.NAME,
+          //     ADDRESS: info.ADDRESS,
+          //     imgurl: url
+          //   });
+          // }
           console.log(this.sidePanel);
           // console.log("https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/HotelWordcloudW/"+info.HOTELID+".jpg")
         }
@@ -611,7 +667,7 @@ export default {
               }
               for (let i = 0; i < Response.data.length; i++) {
                 if (Response.data[i].STOREID) {
-                  if (Response.data[i].STOREID!==Response.data[i+1].STOREID) {
+                  if (Response.data[i].STOREID !== Response.data[i + 1].STOREID) {
                     customStoreDATA.push(Response.data[i])
                   }
                   CUSTOMSTORE.push({

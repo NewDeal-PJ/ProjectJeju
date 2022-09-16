@@ -3,50 +3,67 @@
     <nav>
       <div class="branding">
         <i class="fas fa-shoe-prints"></i>
-        <a href="http://localhost:9000/#/api/map">J-TRACK</a>
+        <a href="#">J-TRACK</a>
       </div>
       <ul v-show="!mobile" class="navigation">
+<<<<<<< HEAD
         <li><a href="http://localhost:9000/#/api/map">Home</a></li>
         <li><a href="http://localhost:9000/#/api/shop">Shop</a></li>
         <li><a href="http://localhost:9000/#/api/cart1">Cart({{cart.length}})</a></li>
+=======
+        <li><a href="#/api/map">Home</a></li>
+        <li><a href="#/api/shop">Shop</a></li>
+        <li><a href="#/api/cart1">Cart({{cart.length}})</a></li>
+
+>>>>>>> d66b7e1d7a18371848f3e8d77aae0034434bfc1d
         <a v-if="account.id">
           <li><a :href="myPageUrl + account.id ">MyPage</a></li>
         </a>
+<<<<<<< HEAD
         <a v-if="social.id">
           <li><a :href="myPageUrl + social.id ">MyPage</a></li>
         </a>
         <div v-if="account.id || social.id">
           <li><a href="http://localhost:9000/#/api/logout" @click='logout()'>LogOut</a></li>
+=======
+        <div v-if="account.id">
+          <li><a href="#/api/logout" @click='logout()'>LogOut</a></li>
+>>>>>>> d66b7e1d7a18371848f3e8d77aae0034434bfc1d
         </div>
 
         <div v-else>
-          <li><a href="http://localhost:9000/#/api/login">LogIn</a></li>
+          <li><a href="#/api/login">LogIn</a></li>
         </div>
-        <li><a href="http://localhost:9000/#/api/CustomerService">Q&A</a></li>
+        <li><a href="#/api/CustomerService">Q&A</a></li>
       </ul>
       <div class="icon">
         <i @click="toggleMobileNav" v-show="mobile" class="fas fa-bars" :class="{ 'icon-active': mobileNav }"></i>
       </div>
       <transition name="mobile-nav">
         <ul v-show="mobileNav" class="dropdown-nav">
-          <li><a href="http://localhost:9000">Home</a></li>
-          <li><a href="http://localhost:9000/#/api/shop">Shop</a></li>
-          <li><a href="http://localhost:9000/#/api/cart1">Cart({{cart.length}})</a></li>
+          <li><a href="#/api/map">Home</a></li>
+          <li><a href="#/api/shop">Shop</a></li>
+          <li><a href="#/api/cart1">Cart({{cart.length}})</a></li>
 
           <a v-if="account.id">
             <li><a :href="myPageUrl + account.id">MyPage</a></li>
           </a>
+<<<<<<< HEAD
           <a v-if="social.id">
           <li><a :href="myPageUrl + social.id ">MyPage</a></li>
         </a>
           <div v-if="account.id || social.id">
             <li><a href="http://localhost:9000/#/api/logout" @click='logout()'>LogOut</a></li>
+=======
+          <div v-if="account.id">
+            <li><a href="#/api/logout" @click='logout()'>LogOut</a></li>
+>>>>>>> d66b7e1d7a18371848f3e8d77aae0034434bfc1d
           </div>
 
           <div v-else>
-            <li><a href="http://localhost:9000/#/api/login">LogIn</a></li>
+            <li><a href="#/api/login">LogIn</a></li>
           </div>
-          <li><a href="http://localhost:9000/#/api/CustomerService">Q&A</a></li>
+          <li><a href="#/api/CustomerService">Q&A</a></li>
         </ul>
       </transition>
     </nav>
@@ -78,7 +95,7 @@ export default {
     }
     const $q = useQuasar()
     const cart = ref([])
-    const myPageUrl = "http://localhost:9000/#/api/mypage/";
+    const myPageUrl = "#/api/mypage/";
     return {
       scrolledNav: null,
       mobile: null,
@@ -150,11 +167,16 @@ export default {
           message: '로그아웃 되었습니다.'
         })
         this.account.name = "";
+<<<<<<< HEAD
         this.account.id = "";
         this.social.id = "";
         this.social.method = "";
         this.social.nickname = "";
         window.location.href = 'http://localhost:9000/#/api/login';
+=======
+        this.account.id = ""
+        window.location.href = '#/api/login';
+>>>>>>> d66b7e1d7a18371848f3e8d77aae0034434bfc1d
       });
     },
   },

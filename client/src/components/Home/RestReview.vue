@@ -157,6 +157,7 @@ export default {
         });
 
         return {
+
             idx: ref(null),
             pageCnt: ref(null),
             state,
@@ -171,6 +172,7 @@ export default {
             files: ref(null),
             quality: ref(),
             submitResult,
+
             onSubmit(evt) {
                 const formData = new FormData(evt.target)
                 const data = []
@@ -262,98 +264,97 @@ export default {
                 })
         },
         creatReply(quality, content) {
-            console.log(this.$route.params.id)
-            console.log(this.$route.query.auth)
-            console.log(content)
-            console.log(quality)
-            if (this.$route.query.auth) {
-                this.id = []
-                axios.get("/api/login").then((res) => {
-                    this.id[0] = res.data.id
-                }).then(() => {
-                    if (this.id[0] !== this.$route.query.auth) {
-                        console.log(this.$route.query.auth)
-                        this.$q.notify({
-                            color: 'negative',
-                            position: 'center',
-                            message: '잘못된 접근입니다.'
-                        })
-                        window.location.href = '#';
-                    }
-                    else {
-                        axios({
-                            method: 'post',
-                            url: 'http://localhost:3000/api/reply/insert',
-                            data: {
-                                NICKNAME: this.$route.query.auth,
-                                STOREID: this.$route.params.id,
-                                CONTENT: content,
-                                STARRATE: quality,
-                            },
-                            headers: { 'X-Requested-With': 'XMLHttpRequest' },
-                            responseType: 'json'
-                        }).then(() => {
-                            if (this.files) {
-                                function uuidv4() {
-                                    const tokens = v4().split('-')
-                                    return tokens[2] + tokens[1] + tokens[0] + tokens[3] + tokens[4];
-                                }
-                                axios({
-                                    method: 'post',
-                                    url: 'http://localhost:3000/reply/insertAttach',
-                                    data: {
-                                        UUID: uuidv4(),
-                                        PATH: 'ReplyPic/' + this.$route.params.id,
-                                    },
-                                    headers: { 'X-Requested-With': 'XMLHttpRequest' },
-                                    responseType: 'json'
-                                })
-                                const uploadFile = this.files
-                                const formData = new FormData()
-                                formData.append("File", uploadFile)
-                                setTimeout(() => {
+            if (quality == null) {
+                quality = 0
+                if (this.$route.query.auth) {
+                    this.id = []
+                    axios.get("/api/login").then((res) => {
+                        this.id[0] = res.data.id
+                    }).then(() => {
+                        if (this.id[0] !== this.$route.query.auth) {
+                            console.log(this.$route.query.auth)
+                            this.$q.notify({
+                                color: 'negative',
+                                position: 'center',
+                                message: '잘못된 접근입니다.'
+                            })
+                            window.location.href = '#';
+                        }
+                        else {
+                            axios({
+                                method: 'post',
+                                url: 'http://localhost:3000/api/reply/insert',
+                                data: {
+                                    NICKNAME: this.$route.query.auth,
+                                    STOREID: this.$route.params.id,
+                                    CONTENT: content,
+                                    STARRATE: quality,
+                                },
+                                headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                                responseType: 'json'
+                            }).then(() => {
+                                if (this.files) {
+                                    function uuidv4() {
+                                        const tokens = v4().split('-')
+                                        return tokens[2] + tokens[1] + tokens[0] + tokens[3] + tokens[4];
+                                    }
                                     axios({
                                         method: 'post',
-                                        url: 'http://localhost:3000/upload',
-                                        data: formData,
-                                        headers: {
-                                            'Content-Type': 'multipart/form-data',
+                                        url: 'http://localhost:3000/reply/insertAttach',
+                                        data: {
+                                            UUID: uuidv4(),
+                                            PATH: 'ReplyPic/' + this.$route.params.id,
                                         },
-                                    }).catch(function (error) {
-                                        console.log(error.toJSON())
-                                    });
-                                }, 300);
-                            }
-                            this.$q.notify({
-                                color: 'orange-7',
-                                icon: 'thumb_up',
-                                message: `소중한 의견 감사합니다.`,
-                                position: 'center',
-                                timeout: 1200
+                                        headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                                        responseType: 'json'
+                                    })
+                                    const uploadFile = this.files
+                                    const formData = new FormData()
+                                    formData.append("File", uploadFile)
+                                    setTimeout(() => {
+                                        axios({
+                                            method: 'post',
+                                            url: 'http://localhost:3000/upload',
+                                            data: formData,
+                                            headers: {
+                                                'Content-Type': 'multipart/form-data',
+                                            },
+                                        }).catch(function (error) {
+                                            console.log(error.toJSON())
+                                        });
+                                    }, 300);
+                                }
+                                this.$q.notify({
+                                    color: 'orange-7',
+                                    icon: 'thumb_up',
+                                    message: `소중한 의견 감사합니다.`,
+                                    position: 'center',
+                                    timeout: 1200
+                                })
+                                setTimeout(() => {
+                                    window.location.reload()
+                                }, 1000);
+                            }).catch(function (error) {
+                                // 에러 핸들링
+                                console.log(error.toJSON());
                             })
-                            setTimeout(() => {
-                                window.location.reload()
-                            }, 1000);
-                        }).catch(function (error) {
-                            // 에러 핸들링
-                            console.log(error.toJSON());
-                        })
-                    }
-                }).catch(function (err) {
-                    console.log(err.toJSON())
-                })
-            }
-            else {
-                this.$q.notify({
-                    color: 'negative',
-                    icon: 'thumb_up',
-                    message: `리뷰등록은 로그인 후 가능합니다.`,
-                    position: 'center',
-                    timeout: 1100
-                })
-                setTimeout(() => {
-                    window.location.href = '#/api/login';
-                }, 900);
+                        }
+                    }).catch(function (err) {
+                        console.log(err.toJSON())
+                    })
+                }
+                else {
+                    this.$q.notify({
+                        color: 'negative',
+                        icon: 'thumb_up',
+                        message: `리뷰등록은 로그인 후 가능합니다.`,
+                        position: 'center',
+                        timeout: 1100
+                    })
+                    setTimeout(() => {
+                        window.location.href = '#/api/login';
+                    }, 900);
+                }
             }
         },
         updateReply(rno, editContent) {

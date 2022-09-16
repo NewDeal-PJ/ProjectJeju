@@ -4,8 +4,8 @@
     <div>
       <div class="myPageBox">
         <p class="myPageTitle"> My Page</p>
-        <div class="myPageSelect">
-          <div class="myPageMember">
+        <div class="myPageSelect" >
+          <div class="myPageMember" v-if="account.id">
             <a href="http://localhost:9000/#/api/userinfo" type="button" style="color: black;">
               <img src="https://velog.velcdn.com/images/kimjyunny_dev/post/4a9937e2-23f5-4595-bc39-6402a5e42187/image.png"
                 >
@@ -48,6 +48,21 @@ import { useQuasar } from 'quasar';
 import { useRoute } from "vue-router";
 import { onMounted } from "vue";
 export default {
+  data() {
+    const account = {
+      id: '',
+      name: ''
+    }
+    const  social = {
+        id : '',
+        method : '',
+        nickname : ''
+    }
+    return{
+      account,
+      social
+    }
+  },
   setup() {
     const route = useRoute()
     const $q = useQuasar();
@@ -68,8 +83,25 @@ export default {
         writinginfoUrl
       }
   },
+  mounted (){
+// 백엔드의 계정정보를 호출
+axios.get("/api/login").then((res) => {
+      this.account = res.data;
+      if(this.account.id === ''){
+        window.location.href = 'http://localhost:9000/#/api/login';
+        alert("로그인 해주세요")
+      }
+    });
+    // 백엔드의 소셜 계정정보를 호출
+    axios.get("/api/kakao_login").then((res) => {
+      this.social = res.data;
+    });
+  },
+
   components: { Header, Footer }
-}</script>
+}
+
+</script>
 
 <style>
 .myPageTitle {

@@ -123,6 +123,11 @@
         id: '',
         name: ''
       }
+      const social = {
+        id : '',
+        method : '',
+        nickname : ''
+      }
         const order_info = ref([])
         const cart = JSON.parse(localStorage.getItem("cart")) || ""
         const del_price = 3000
@@ -152,7 +157,8 @@
               order_total_price,
               day,
               time,
-              account
+              account,
+              social
           };
       },
       mounted(){
@@ -220,6 +226,10 @@
           axios.get("/api/login").then((res) => {
           this.account = res.data;
           });
+          // 백엔드의 소셜 계정정보를 호출
+          axios.get("/api/kakao_login").then((res) => {
+          this.social = res.data;
+          });
             alert("결제창으로 이동합니다.")
             try {
             for(let i=0; i<this.cart.length; i++)
@@ -259,6 +269,7 @@
             name: `${this.order_info[0].order_product_name}`+"외" + (`${this.cart.length}`-1),
             amount: this.order_total_price,
             buyer_user_id : this.account.id,
+            buyer_user_social_id : this.social.id,
             buyer_email: this.email,
             buyer_name: this.recipient,
             buyer_tel: this.phone,
@@ -277,7 +288,9 @@
           data: {
             imp_uid: response.imp_uid,
             merchant_uid: response.merchant_uid,
+            login_method : this.social.method,
             buyer_user_id : this.account.id,
+            buyer_user_social_id : this.social.id,
             buyer_email : this.email,
             buyer_addr: this.address  + " " + this.detailaddress,
             buyer_tel: this.phone,

@@ -23,6 +23,13 @@ const routes = [
     ]
   },
   {
+    path: '/api/kakao_login',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/Login/LoginApi.vue') }
+    ]
+  },  
+  {
     path: '/api/logout',
     component: () => import('layouts/MainLayout.vue'),
     children: [
@@ -89,7 +96,7 @@ const routes = [
   },
 
   {
-    path: '/api/shop/',
+    path: '/api/shop',
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/Shop/Shop.vue') }

@@ -9,11 +9,13 @@
         <li><a href="http://localhost:9000/#/api/map">Home</a></li>
         <li><a href="http://localhost:9000/#/api/shop">Shop</a></li>
         <li><a href="http://localhost:9000/#/api/cart1">Cart({{cart.length}})</a></li>
-
         <a v-if="account.id">
-          <li><a :href="myPageUrl+account.id">MyPage</a></li>
+          <li><a :href="myPageUrl + account.id ">MyPage</a></li>
         </a>
-        <div v-if="account.id">
+        <a v-if="social.id">
+          <li><a :href="myPageUrl + social.id ">MyPage</a></li>
+        </a>
+        <div v-if="account.id || social.id">
           <li><a href="http://localhost:9000/#/api/logout" @click='logout()'>LogOut</a></li>
         </div>
 
@@ -32,9 +34,12 @@
           <li><a href="http://localhost:9000/#/api/cart1">Cart({{cart.length}})</a></li>
 
           <a v-if="account.id">
-            <li><a :href="myPageUrl+account.id">MyPage</a></li>
+            <li><a :href="myPageUrl + account.id">MyPage</a></li>
           </a>
-          <div v-if="account.id">
+          <a v-if="social.id">
+          <li><a :href="myPageUrl + social.id ">MyPage</a></li>
+        </a>
+          <div v-if="account.id || social.id">
             <li><a href="http://localhost:9000/#/api/logout" @click='logout()'>LogOut</a></li>
           </div>
 
@@ -61,6 +66,11 @@ export default {
       id: '',
       name: ''
     }
+    const  social = {
+        id : '',
+        method : '',
+        nickname : ''
+    }
     // 로그인 정보 담아서 보내주려면 객체를 만들어줘야죠~
     const form = {
       loginId: "",
@@ -79,6 +89,7 @@ export default {
       cart,
       myPageUrl,
       account,
+      social,
       form,
       cart: JSON.parse(localStorage.getItem("cart")) || ""
     };
@@ -89,6 +100,15 @@ export default {
     // 백엔드의 계정정보를 호출
     axios.get("/api/login").then((res) => {
       this.account = res.data;
+      if(this.account.id === ''){
+        window.location.href = 'http://localhost:9000/#/api/login';
+        alert("로그인 해주세요")
+      }
+    });
+    // 백엔드의 소셜 계정정보를 호출
+    axios.get("/api/kakao_login").then((res) => {
+      this.social = res.data;
+      console.log(this.social)
     });
   },
   mounted() {
@@ -130,7 +150,10 @@ export default {
           message: '로그아웃 되었습니다.'
         })
         this.account.name = "";
-        this.account.id = ""
+        this.account.id = "";
+        this.social.id = "";
+        this.social.method = "";
+        this.social.nickname = "";
         window.location.href = 'http://localhost:9000/#/api/login';
       });
     },

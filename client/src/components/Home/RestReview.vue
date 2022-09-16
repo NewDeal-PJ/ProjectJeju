@@ -2,8 +2,8 @@
     <div class="foodDetailReviewStar">
         <div class="star" style="padding:0 30% ;text-align: center; margin-top: 1%;">
             <q-form @submit="onSubmit" class>
-                <q-rating name="quality" v-model="quality" max="5" size="3em" color="yellow" icon="star_border"
-                    icon-selected="star" no-dimming />
+                <q-rating name="quality" v-model="quality" value="quality" max="5" size="3em" color="yellow"
+                    icon="star_border" icon-selected="star" no-dimming />
             </q-form>
         </div>
 
@@ -20,7 +20,7 @@
                 <q-input @update:model-value="val => { files = val[0] }" filled type="file" accept=".jpg, .png, .svg" />
             </div>
             <div style="padding:10px;">
-                <q-btn @click="creatReply(content)" label="등록" type="submit" color="orange" />
+                <q-btn @click="creatReply(quality,content)" label="SUBMIT" type="submit" color="orange" />
             </div>
         </div>
 
@@ -31,7 +31,7 @@
         <hr>
 
         <div class="foodDetailNickname" style=" font-weight: bold; font-size: 18px; display: flex; ">
-            <span> 🧡　</span>
+            <span> 🧡</span>
             <p> {{ dataItem.NICKNAME }} </p>
         </div>
         <div style="display: flex;">
@@ -40,13 +40,13 @@
                     icon-selected="star" no-dimming />
             </q-form>
             <span> {{ dataItem.STARRATE }}</span>
-            <span> 📅　</span>
+            <span> 　📅　</span>
             <p> {{ dataItem.REGDATE }} </p>
         </div>
         <div class="cover">
             <img :src="dataItem.imgurl" />
         </div>
-        <div class="reviewDescription" style="font-size: 15px; display: flex;">
+        <div class="reviewDescription" style="font-size: 16px; display: flex; margin-top: 10px;">
             <span> 🗣️　 </span>
             <p style="float: left; margin-right: 1.25rem;"> {{ dataItem.CONTENT }} </p>
             <div class="cursor-pointer" v-if="state.account.id==dataItem.NICKNAME">
@@ -95,6 +95,10 @@
         </div>
     </div>
 
+    <div class="q-pa-lg flex flex-center">
+        <q-pagination @click="selectReply((current-1)*20,current*20)" v-model="current" :max="pageCnt" color="black"
+            active-color="orange" />
+    </div>
     <!-- </q-pagination> -->
 
 
@@ -105,11 +109,12 @@
 </template>
 
 
+
 <script>
 import axios from "axios";
 import { reactive } from 'vue';
 import { ref, onMounted } from 'vue'
-import { useQuasar } from 'quasar';
+import { Loading, useQuasar } from 'quasar';
 import { useRoute } from "vue-router";
 import { v4 } from "uuid";
 import { uuidv4 } from "@firebase/util";
@@ -118,6 +123,7 @@ export default {
     setup() {
         const $q = useQuasar();
         const jsdata = ref([])
+        const pageJsData = []
         const submitResult = ref([])
         const route = useRoute()
         onMounted(() => {
@@ -151,17 +157,19 @@ export default {
         });
 
         return {
+            idx: ref(null),
+            pageCnt: ref(null),
             state,
             editContent: ref([]),
             $q,
             id: ref([]),
-            current: ref(1),
+            current: ref(),
             jsdata,
             slide: ref(1),
             fullscreen: ref(false),
             content: ref([]),
             files: ref(null),
-            quality: ref(3),
+            quality: ref(),
             submitResult,
             onSubmit(evt) {
                 const formData = new FormData(evt.target)
@@ -177,7 +185,24 @@ export default {
         }
     },
     mounted() {
-        this.getListReply()
+        axios({
+            method: 'post',
+            url: 'http://localhost:3000/reply/' + this.$route.params.id,
+            headers: { 'X-Requested-With': 'XMLHttpRequest' },
+            responseType: 'json'
+        }).then((Response) => {
+            for (let i = 0; i < Response.data.length; i++) {
+                if (Response.data[i].UUID) {
+                    const uuid = Response.data[i].UUID
+                    const path = Response.data[i].PATH
+                    const url = 'https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/'
+                }
+            }
+            this.pageCnt = Math.round(Response.data[0] / 20)
+        }).catch((err) => {
+            console(err.toJSON)
+        })
+        this.selectReply(0, 20)
     },
     data() {
         return {
@@ -186,18 +211,21 @@ export default {
         }
     },
     methods: {
-        selectReply(idx, data) {
-            this.targetData = data
-            this.targetIdx = idx
-            console.log(data)
-        },
-        getListReply() {
+        selectReply(firstReplyCount, lastReplyCount) {
             axios({
-                method: 'get',
-                url: 'http://localhost:3000/reply/' + this.$route.params.id,
+                method: 'post',
+                url: 'http://localhost:3000/replyPaging',
+                data: {
+                    storeid: this.$route.params.id,
+                    lastReplyCount,
+                    firstReplyCount,
+                },
                 headers: { 'X-Requested-With': 'XMLHttpRequest' },
                 responseType: 'json'
             }).then((Response) => {
+                if (this.jsdata.length > 0) {
+                    this.jsdata.length = 0
+                }
                 for (let i = 0; i < Response.data.length; i++) {
                     if (Response.data[i].UUID) {
                         const uuid = Response.data[i].UUID
@@ -233,7 +261,11 @@ export default {
                     console.log(error.toJSON())
                 })
         },
-        creatReply(content) {
+        creatReply(quality, content) {
+            console.log(this.$route.params.id)
+            console.log(this.$route.query.auth)
+            console.log(content)
+            console.log(quality)
             if (this.$route.query.auth) {
                 this.id = []
                 axios.get("/api/login").then((res) => {
@@ -256,8 +288,7 @@ export default {
                                 NICKNAME: this.$route.query.auth,
                                 STOREID: this.$route.params.id,
                                 CONTENT: content,
-                                STARRATE: 4.1,
-                                RRNO: null,
+                                STARRATE: quality,
                             },
                             headers: { 'X-Requested-With': 'XMLHttpRequest' },
                             responseType: 'json'
@@ -316,7 +347,7 @@ export default {
                 this.$q.notify({
                     color: 'negative',
                     icon: 'thumb_up',
-                    message: `댓글등록은 로그인 후 가능합니다.`,
+                    message: `리뷰등록은 로그인 후 가능합니다.`,
                     position: 'center',
                     timeout: 1100
                 })
@@ -427,3 +458,4 @@ export default {
 };
 
 </script>
+    

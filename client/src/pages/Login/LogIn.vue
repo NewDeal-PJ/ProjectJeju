@@ -71,6 +71,12 @@ export default {
         id: '',
         name: ''
       },
+      social : {
+        email : '',
+        method : '',
+        nickname : ''
+
+      },
       // 로그인 정보 담아서 보내주려면 객체를 만들어줘야죠~
       form: {
         loginId: "",
@@ -139,6 +145,10 @@ export default {
     axios.get("/api/login").then((res) => {
       state.account = res.data;
     });
+    // // 백엔드의 소셜 계정정보를 호출
+    // axios.get("/api/kakao_login").then((res) => {
+    //   state.social = res.data;
+    // });
     return { state, submit, logout, isPwd: ref(true), };
   }
 }</script>

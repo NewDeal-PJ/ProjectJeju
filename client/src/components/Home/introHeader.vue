@@ -1,7 +1,7 @@
 <template>
     <header :class="{ 'scrolled-nav': scrolledNav}">
       <nav>
-        <div class="branding" style="height: 81px; margin: 0 auto;">
+        <div class="branding" style="height: 10vh; margin: 0 auto;">
           <div class="branding">
         <i class="fas fa-shoe-prints"></i>
         <a href="#/api/map">J-TRACK</a>
@@ -42,9 +42,6 @@
       font-size: 35px;
     }
 
-      @media (min-width: 1293px) {
-        max-width: 1293px;
-      }
 
       ul,
       .link {

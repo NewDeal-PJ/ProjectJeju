@@ -29,7 +29,7 @@
           <div class="myMapTracking">
               <a href ="#/api/mymaptracking" type="button"  style="color: black;">
               <img src="https://velog.velcdn.com/images/kimjyunny_dev/post/36ffecab-fbd6-4cba-b352-106310a3d3c7/image.png"  >
-              <p>나의 트래킹</p>
+              <p>나의 <br/>트래킹</p>
             </a>
             </div>
         </div>

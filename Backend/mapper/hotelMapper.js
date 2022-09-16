@@ -31,7 +31,9 @@ const session = require("express-session")
 const database = require('./database.js')
 const bcrypt = require('bcrypt')
 let members = [];
+let social_members = [];
 let check_member = [];
+let check_socialmember = [];
 
 
 // mybatis-mapper 추가
@@ -64,7 +66,7 @@ app.use(session({
 app.use(express.static(__dirname));
 app.use(
   cors({
-    origin: ['http://localhost:9000'],
+    origin: ['http://localhost:9000','https://j-track-503a3.web.app'],
     credentials: true,
   }),
   );
@@ -118,6 +120,148 @@ app.get('/api/login', (req, res) => {
     res.sendStatus(401);
     //권한없음으로 던짐
   };
+});
+app.get('/api/kakao_login', (req, res) => {
+  console.log(req.cookies)
+  console.log(req.cookies.social_token)
+  //쿠키 정보 있으면 파싱해줘서 새로고침해도 로그인이 유지
+  if (req.cookies && req.cookies.social_token) {
+    //token화 시켰기에 이걸 uncapsule 해야한다.
+    //verify param은 token, "보안키" .. 이다
+    jwt.verify(req.cookies.social_token, jwt_key, (err, decoded) => {
+      if (err) {
+      }
+      else {
+        res.send(decoded);
+      }
+    })
+  }
+  else {
+    //권한없음으로 던짐
+  };
+});
+
+app.post('/api/kakao_login', (req, res) => {
+  console.log(req.body)
+  const USERID = req.body.kakao_user_email;
+  console.log('req:', USERID)
+  OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
+    function (err, connection) {
+      if (err) {
+        console.error(err.message);
+        return;
+      }
+      var query = `SELECT * FROM TBL_MEMBER`;
+      connection.execute(query, {}, function (err, result) {
+        if (err) {
+          console.error(err.message);
+          return;
+        }
+        if(result.rows.length<1){
+          console.log('데이터가 없으므로 생성합니다.')
+          OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
+            function (err, connection) {
+              if (err) {
+                console.error(err.message);
+                return;
+              }
+              var param = {
+                USERID : req.body.kakao_user_email,
+                BIRTHDATE  : req.body.kakao_user_birthday,
+                NICKNAME : req.body.kakao_user_nickname,
+                METHOD : req.body.login_method
+              }
+        
+              var format = { language: 'sql', indent: ' ' }
+              var query = mybatisMapper.getStatement('oracleMapper', 'insertKakao', param, format);
+              console.log(query)
+              connection.execute(query, [], function (err, result) {
+                if (err) {
+                  console.error(err.message);
+                  return;
+                }
+                console.log('Insert 성공 : ' + result.rowsAffected)
+                connectionRelease(res, connection, result.rowsAffected)
+              })
+            })
+        }
+        else{
+        for (const i in result.rows) {
+          if (Object.hasOwnProperty.call(result.rows, i)) {
+            let rows = result.rows[i]
+            const jsonData = {
+              USERID: rows[0],
+              BIRTHDAY  : rows[12],
+              NICKNAME : rows[13],
+              METHOD : rows[20]
+            }
+            social_members.push(jsonData)
+          }
+        }
+        console.log('social_members:',social_members)
+        const member = social_members.find(m => m.USERID === USERID)
+        //member값이 있으면 member 정보를 send, 없으면 없다고 보냄
+        if (member) {
+            const options = {
+              domain: "localhost",
+              path: "/",
+              httpOnly: true,
+              sameSite: "strict"
+            };
+            const token = jwt.sign({
+              // 우리가 필요한 객체 정보
+              id : member.USERID,
+              method : member.METHOD,
+              nickname : member.NICKNAME
+            },
+              // 2번째 인자로는 암호키, 만료시간, 토큰배급자
+              jwt_key, {
+              expiresIn: "60m",
+              issuer: "J_Track"
+            });
+            // 클라이언트에 토큰값을 쏘자 !
+
+            res.cookie("social_token", token, options)
+            res.send(member);
+            social_members = []
+        }
+        else {
+          OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
+            function (err, connection) {
+              if (err) {
+                console.error(err.message);
+                return;
+              }
+              var param = {
+                USERID : req.body.kakao_user_email,
+                BIRTHDATE  : req.body.kakao_user_birthday,
+                NICKNAME : req.body.kakao_user_nickname,
+                METHOD : req.body.login_method
+              }
+        
+              var format = { language: 'sql', indent: ' ' }
+              var query = mybatisMapper.getStatement('oracleMapper', 'insertKakao', param, format);
+              console.log(query)
+              connection.execute(query, [], function (err, result) {
+                if (err) {
+                  console.error(err.message);
+                  return;
+                }
+                console.log('Insert 성공 : ' + result.rowsAffected)
+                connectionRelease(res, connection, result.rowsAffected)
+              })
+            })
+
+          res.sendStatus(401)
+        }
+        console.log('USERID:', USERID)
+
+      }
+      })
+      
+    })
+
+
 })
 
 app.post('/api/login', (req, res) => {
@@ -170,13 +314,13 @@ app.post('/api/login', (req, res) => {
             },
               // 2번째 인자로는 암호키, 만료시간, 토큰배급자
               jwt_key, {
-              expiresIn: "180m",
-              issuer: "jejuOlle"
+              expiresIn: "60m",
+              issuer: "J_Track"
             });
             // 클라이언트에 토큰값을 쏘자 !
 
             res.cookie("token", token, options)
-            res.send(member);
+            res.send(200);
             members = []
           }
           else {
@@ -186,7 +330,6 @@ app.post('/api/login', (req, res) => {
         else {
           res.sendStatus(401)
         }
-        console.log('loginId:', loginId, 'loginPw:', loginPw)
       })
     })
 
@@ -197,9 +340,11 @@ app.post('/api/login', (req, res) => {
 
 // 로그아웃 api
 app.delete('/api/logout', (req, res) => {
-  if (req.cookies && req.cookies.token) {
+  if (req.cookies && req.cookies.token || req.cookies && req.cookies.social_token) {
     res.clearCookie("token")
+    res.clearCookie("social_token")
   }
+
   res.sendStatus(200)
 });
 
@@ -264,7 +409,39 @@ app.post('/api/signup', async (req, res) => {
   try {
     console.log("회원가입 하는 중 !")
     const body = req.body
-    await database.create_user(body)
+    const salt = await bcrypt.genSalt(10)
+    const hashedPwd = await bcrypt.hash(body.user_pwd._value,salt)
+    OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
+      function (err, connection) {
+        if (err) {
+          console.error(err.message);
+          return;
+        }
+        var param = {
+          USERID : body.user_id._value,
+          PW : hashedPwd,
+          NAME : body.user_name._value,
+          BIRTHDATE : body.user_birth._value,
+          GENDER : body.user_gender._value,
+          PHONE : body.user_tel1._value,
+          PHONE2 : body.user_tel2._value,
+          PHONE3 : body.user_tel3._value,
+          EMAIL : body.user_email._value,
+          NICKNAME : body.user_nickname._value
+        }
+        var format = { language: 'sql', indent: ' ' }
+        var query = mybatisMapper.getStatement('oracleMapper', 'insertMember', param, format);
+        console.log(query)
+        connection.execute(query, [], function (err, result) {
+          if (err) {
+            console.error(err.message);
+            return;
+          }
+          console.log('User SignUp 성공 : ' + result.rowsAffected)
+          connectionRelease(res, connection, result.rowsAffected)
+        })
+      })
+
     res.sendStatus(200)
     console.log('회원가입이 완료되었습니다.')
 
@@ -485,10 +662,17 @@ app.post("/api/cart_info", async (req, res) => {
 //결제부분 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // "/payments/complete"에 대한 POST 요청을 처리
 app.post("/api/payments/complete", async (req, res) => {
+  let payments_id = ''
+  if(req.body.login_method === 'kakao'){
+    payments_id = req.body.buyer_user_social_id
+  }
+  else{
+    payments_id = req.body.buyer_user_id
+  }
   try {
     const { imp_uid, merchant_uid } = req.body; // req의 body에서 imp_uid, merchant_uid 추출
     console.log(req.body)
-
+    
     // 액세스 토큰(access token) 발급 받기
     const getToken = await axios({
       url: "https://api.iamport.kr/users/getToken",
@@ -531,7 +715,7 @@ app.post("/api/payments/complete", async (req, res) => {
           PAID: paymentData.status,
           EMAIL: req.body.buyer_email,
           ADDRESS: req.body.buyer_addr,
-          USERID: req.body.buyer_user_id,
+          USERID: payments_id,
           PHONE: req.body.buyer_tel,
           PAYMENTNUM: imp_uid,
           PAYMENTPRICE: req.body.amount

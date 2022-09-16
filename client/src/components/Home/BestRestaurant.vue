@@ -1,7 +1,7 @@
 <template lang="pug">
 
 <!-- v-for -->
-  div(style="font-size: 30px; font-weight: bold; margin-left: 80px;")
+
   main
     div(class="q-pa-md" style="padding: 10px 0; margin: 0 auto; width: 90%;")
       q-carousel(class="bg-grey-1 rounded-borders" style="height: 100%;" animated v-model="slide" navigation swipeable control-color="grey-2" :autoplay="autoplay" arrows transition-prev="slide-right" transition-next="slide-left" @mouseenter="autoplay = false" @mouseleave="autoplay = true" )

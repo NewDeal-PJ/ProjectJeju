@@ -10,10 +10,14 @@
         img-src="https://velog.velcdn.com/images/kimjyunny_dev/post/072d9c43-7183-4152-8048-27a6e21df906/image.jpeg">
         <div class="absolute-bottom"
         style="text-align: center; padding: 40vh 0px; color: white; font-family: 'Nanum Gothic Coding', monospace;">
-          <div style="font-family: 'Song Myung', serif; font-size: 55px; font-weight: bold;">
+          <div class="introText">
             <span class="type-text">{{ typeValue }}
             </span>
-              <span class="cursor" :class="{'typing' : typeStatus}"> &nbsp; </span></div>
+
+            <span class="cursor" :class="{'typing' : typeStatus}"> &nbsp; </span>
+
+
+          </div>
           <div style="font-size: 25px;"> J-TRACK에서 제주도 맛집, 숙박, 전기차 정보를 한눈에 쏙!<br/> 당신의 제주 여행 계획을 도와드립니다.</div>
 
         </div>
@@ -45,13 +49,13 @@
           <div>
             <a href="#/api/map">
 
-              <div class="q-pa-md q-gutter-sm">
-               <q-btn rounded outline style="color: white; font-size: 15px;
+              <span class="q-pa-md q-gutter-sm" style="padding: 0;">
+               <q-btn rounded outline style="color: white; font-size: 17px;
 
-               font-family: 'Raleway', sans-serif;"
+               font-family: 'Raleway', sans-serif; margin-bottom: 30vh;"
 
                label="START" />
-              </div>
+              </span>
 
             </a>
           </div>
@@ -81,8 +85,6 @@ export default {
         typeStatus: false,
         typeArray: ['혼저옵서예'],
         typingSpeed: 200,
-        erasingSpeed: 100,
-        newTextDelay: 2000,
         typeArrayIndex: 0,
         charIndex:0
       }
@@ -128,5 +130,28 @@ a {
 }
 
 
+.introText{
+  font-family: 'Song Myung', serif; font-size: 55px;
+  font-weight: bold;
+}
+
+
+span.cursor {
+    display: inline-block;
+    margin-left: 3px;
+    width:4px;
+    background-color: #f9ea8f;
+    animation: cursorBlink 1s infinite;
+  }
+
+  span.cursor.typing {
+    animation: none;
+  }
+
+  @keyframes cursorBlink {
+  49% { background-color: #fff;}
+  50% { background-color: transparent;}
+  50% { background-color: transparent;}
+}
 
 </style>

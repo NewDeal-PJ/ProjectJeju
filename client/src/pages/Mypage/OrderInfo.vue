@@ -85,7 +85,7 @@
             </table>
           </div>
 
-      <table class="jointable" style="width: 1200px; height: 200px; padding: 30px; max-width: 100%; margin: 0 auto;">
+      <table class="jointable" style="width: 1200px; height: 200px; padding: 30px; max-width: 100%; margin: 0 auto; font-size: 15px;">
         <q-markup-table :separator="separator" flat >
             <thead>
               <tr>
@@ -95,24 +95,24 @@
             <tbody>
               <tr>
                 <th class="text-right"> 수령인</th>
-                <th class="text-middle"><q-input filled v-model="text" :dense="dense"  style="max-width: 450px;" /></th>
+                <th class="text-middle"> 김제주</th>
 
               </tr>
 
               <tr>
                 <th class="text-right"> 연락처</th>
-                <th class="text-middle"><q-input filled v-model="text" :dense="dense"  style="max-width: 450px;" /></th>
+                <th class="text-middle">010-1234-5678</th>
 
               </tr>
 
               <tr>
                 <th class="text-right">배송주소</th>
-                <th class="text-middle"><q-input filled v-model="text" :dense="dense"  style="max-width: 450px;"/></th>
+                <th class="text-middle"> 제주시 제주읍 </th>
               </tr>
 
               <tr>
                 <th class="text-right">배송메모</th>
-                <th class="text-middle"><q-input filled v-model="text" :dense="dense"  style="max-width: 450px;" /></th>
+                <th class="text-middle">안전배송 부탁해용~</th>
               </tr>
             </tbody>
           </q-markup-table>

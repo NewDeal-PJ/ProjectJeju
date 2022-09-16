@@ -4,15 +4,9 @@
     <div>
       <div class="myPageBox">
         <p class="myPageTitle"> My Page</p>
-<<<<<<< HEAD
         <div class="myPageSelect" >
           <div class="myPageMember" v-if="account.id">
-            <a href="http://localhost:9000/#/api/userinfo" type="button" style="color: black;">
-=======
-        <div class="myPageSelect">
-          <div class="myPageMember">
             <a href="#/api/userinfo" type="button" style="color: black;">
->>>>>>> d66b7e1d7a18371848f3e8d77aae0034434bfc1d
               <img src="https://velog.velcdn.com/images/kimjyunny_dev/post/4a9937e2-23f5-4595-bc39-6402a5e42187/image.png"
                 >
               <p>회원정보 수정</p>
@@ -94,7 +88,7 @@ export default {
 axios.get("/api/login").then((res) => {
       this.account = res.data;
       if(this.account.id === ''){
-        window.location.href = 'http://localhost:9000/#/api/login';
+        window.location.href = '#/api/login';
         alert("로그인 해주세요")
       }
     });

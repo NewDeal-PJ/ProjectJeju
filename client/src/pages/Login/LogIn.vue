@@ -36,8 +36,8 @@
 
 
         <div class="LoginText" style="margin: 20px;">
-          <a href="http://localhost:9000/#/api/signup" style="color: black;">회원가입 </a>
-          <a href="http://localhost:9000/#/api/findpassword" style="color:black;">비밀번호찾기</a>
+          <a href="#/api/signup" style="color: black;">회원가입 </a>
+          <a href="#/api/findpassword" style="color:black;">비밀번호찾기</a>
         </div>
         <hr class="two" style="width: 500px; max-width: 100%; color:gray; border: thin solid;" />
       </div>
@@ -108,7 +108,7 @@ export default {
             message: '로그인 성공! 즐거운 여행 되세요!'
           })
         }
-        window.location.href = 'http://localhost:9000/#/';
+        window.location.href = '#/';
         //로그인 성공시 '/' 페이지로 이동
       })
         //로그인 실패
@@ -119,7 +119,7 @@ export default {
             message: '로그인에 실패하셨습니다. 계정정보를 확인해 주세요!'
           })
           console.log(error.toJSON());
-          // window.location.href = 'http://localhost:9000/#/api/login';
+          // window.location.href = '#/api/login';
           //login 실패서 login 페이지로 이동
         });
 

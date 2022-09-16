@@ -44,8 +44,9 @@
           <tbody>
             <tr>
               <th class="text-middle"> <q-checkbox v-model="right" /> 제주호텔</th>
+              {{customHotel}}
               <th class="text-middle"> <q-checkbox left-label v-model="left" />제주맛집</th>
-
+              {{customStore}}
             </tr>
           </tbody>
           </q-markup-table>
@@ -72,7 +73,7 @@
 
 
     </q-card>
-
+    <div>Hello {{customHotelDATA}} {{customStoreDATA}}</div>
 
 
 
@@ -82,9 +83,10 @@
 
 <script>
   import { ref } from 'vue'
-  
 
   export default {
+    name:'mapTracking',
+    props:['customHotelDATA','customStoreDATA'],
     setup () {
       return {
         tab: ref('mails'),

@@ -58,7 +58,7 @@
           </div>
 
           <div class="cart1Button" >
-              <a href="http://localhost:9000/#/api/cart2">
+              <a href="#/api/cart2">
               <q-btn style="color: white;
               background-color: #F79a38;
               width: 180px;

@@ -6,7 +6,7 @@
       <!-- 실제사용할때 보낼 페이지url 넣기  -->
       <div style=" border-radius: 10px;">
         <p class="UserInformationTitle"> Modifying Information </p>
-        <form action="http://localhost:9000/#/" @submit.prevent.stop="onSubmit" @reset.prevent.stop="onReset" class="q-gutter-md">
+        <form action="#/" @submit.prevent.stop="onSubmit" @reset.prevent.stop="onReset" class="q-gutter-md">
         <table class="UserInformationJointable">
 
           <tr>
@@ -257,7 +257,7 @@ export default {
                 .put("/api/userinfo/update", args)
                 .then((res) => {
                   state.data = res.data;
-                  window.location.href = `http://localhost:9000/#/api/mypage`;
+                  window.location.href = `#/api/mypage`;
                   $q.notify({
                     color: 'orange-7',
                     icon: 'thumb_up',
@@ -298,7 +298,7 @@ export default {
             state.data = res.data;
             state.account.name = "";
             state.account.id = ""
-            window.location.href = `http://localhost:9000/#/`;
+            window.location.href = `#/`;
             $q.notify({
               color: 'orange-7',
               icon: 'thumb_up',

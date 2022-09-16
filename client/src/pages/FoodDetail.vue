@@ -84,7 +84,7 @@ export default {
       if (!route.query.auth) {
         axios.get("/api/login").then((res) => {
           if (res.data.id!=='') {
-            window.location.href = 'http://localhost:9000/#/detail/' + route.params.id + '?auth=' + res.data.id;
+            window.location.href = '#/detail/' + route.params.id + '?auth=' + res.data.id;
           }
         })
       }

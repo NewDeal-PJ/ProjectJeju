@@ -4,7 +4,7 @@
         <div class="branding" style="height: 81px; margin: 0 auto;">
           <div class="branding">
         <i class="fas fa-shoe-prints"></i>
-        <a href="http://localhost:9000/#/api/map">J-TRACK</a>
+        <a href="#/api/map">J-TRACK</a>
       </div>
         </div>
       </nav>

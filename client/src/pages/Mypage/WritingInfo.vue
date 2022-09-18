@@ -20,16 +20,22 @@
                 <div class="foodDetailReview" style=" width: 50%; margin: 0 auto;padding: 20px;">
                   <div>
                     <div style="display: flex; font-size: 15px;">
+                      <span>🧡　</span>
                       <p> {{ dataItem.NICKNAME }} </p>
                     </div>
                     <div style="display: flex; font-size: 15px;">
+                      <span> {{ dataItem.STARRATE }}</span>
+                    </div>
+                    <div style="display: flex; font-size: 15px;">
+                      <span>📅　</span>
                       <p> {{ dataItem.REGDATE }} </p>
                     </div>
+                    <div class="reviewDescription" style="font-size: 15px; display: flex; ">
+                      <span>🗣️　 </span>
+                      <p> {{ dataItem.CONTENT }} </p>
                     <div class="cover">
                       <img :src="dataItem.imgurl" />
                     </div>
-                    <div class="reviewDescription" style="font-size: 15px;">
-                      <p> {{ dataItem.CONTENT }} </p>
                     </div>
                   </div>
                 </div>

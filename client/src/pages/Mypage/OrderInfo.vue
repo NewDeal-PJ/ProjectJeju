@@ -85,7 +85,7 @@
             </table>
           </div>
 
-      <table class="jointable" style="width: 1200px; height: 200px; padding: 30px; max-width: 100%; margin: 0 auto; font-size: 15px;">
+      <table class="jointable" style="width: 1200px; height: 200px; padding: 30px; max-width: 100%; margin: 0 auto; font-size: 15px; font-weight: bold;">
         <q-markup-table :separator="separator" flat >
             <thead>
               <tr>
@@ -94,7 +94,7 @@
             </thead>
             <tbody>
               <tr>
-                <th class="text-right"> 수령인</th>
+                <th class="text-right"> 받으시는 분</th>
                 <th class="text-middle"> 김제주</th>
 
               </tr>

@@ -97,13 +97,16 @@
     </div>
 
     <div class="q-pa-lg flex flex-center">
-        <q-pagination @click="selectReply((current-1)*20,current*20)" v-model="current" :max="pageCnt" color="black"
+        <q-pagination @click="selectReply((current-1)*20,current*20); GoToTop()" v-model="current" :max="pageCnt" color="black"
             active-color="orange" />
+        <q-pagination  />
     </div>
 
-
-
-
+    <div>
+        <q-page-scroller position="bottom-right" :scroll-offset="150" :offset="[18, 18]">
+        <q-btn fab icon="keyboard_arrow_up" color="orange" />
+        </q-page-scroller>
+    </div>
 
 
 </template>
@@ -115,7 +118,7 @@ import axios from "axios";
 import { reactive } from 'vue';
 import { ref, onMounted } from 'vue'
 import { Loading, useQuasar } from 'quasar';
-import { useRoute } from "vue-router";
+import { createWebHashHistory, useRoute } from "vue-router";
 import { v4 } from "uuid";
 import { uuidv4 } from "@firebase/util";
 axios.defaults.withCredentials = true;
@@ -167,9 +170,7 @@ export default {
         axios.get("http://localhost:3000/api/kakao_login").then((res) => {
             state.social = res.data;
         });
-
         return {
-
             idx: ref(null),
             pageCnt: ref(null),
             state,
@@ -184,7 +185,6 @@ export default {
             file: ref(null),
             quality: ref(0),
             submitResult,
-
             onSubmit(evt) {
                 const formData = new FormData(evt.target)
                 const data = []
@@ -475,6 +475,9 @@ export default {
                 })
             }
 
+        },
+        GoToTop() {
+            window.scrollTo(0, 500);
         },
     }
 };

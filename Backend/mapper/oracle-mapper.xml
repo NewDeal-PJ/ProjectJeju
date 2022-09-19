@@ -116,11 +116,6 @@
 	WHERE STOREID = #{storeid}
   </select>
 
-  <!-- 맛집 리뷰 크로링 정보 띄우기 -->
-  <select id="getListReply">
-    SELECT
-    * FROM TBL_REPLY full join tbl_reply_attach Using(rno) WHERE STOREID= #{storeid} ORDER BY REGDATE DESC
-  </select>
 <!-- 제품 정보 가져오기 조인 -->
   <select id="getListProduct">
     SELECT 
@@ -143,13 +138,6 @@
  			REGDATE = SYSDATE,
  			STARRATE = #{starRate},
  			CONTENT = #{content}
- 		WHERE RNO = #{rno}
-  </update>
-  <update id="updateReplyAttach">
- 		UPDATE TBL_REPLY_ATTACH SET 
- 			UUID = #{uuid},
- 			REGDATE = SYSDATE,
- 			PATH = #{path}
  		WHERE RNO = #{rno}
   </update>
 

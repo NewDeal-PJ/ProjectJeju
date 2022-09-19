@@ -21,15 +21,12 @@ const s3 = new aws.S3({
 })
 const multer = require('multer')
 const multerS3 = require('multer-s3')
-const path = require("path");
-const { v4 } = require('uuid');
 
 var OracleDB = require('oracledb');
 var cors = require('cors')
 const session = require("express-session")
 // const FileStore = require('session-file-store')(session);
-const database = require('./database.js')
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 let members = [];
 let social_members = [];
 let check_member = [];
@@ -49,12 +46,10 @@ var express = require('express')
 var app = express();
 
 //post로 받은 body를 pars하기 위한 미들웨어
-const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 // info 를 토큰화 시키기위해서 jwt사용 !
 const jwt = require('jsonwebtoken')
 // parse application/json
-app.use(bodyParser.json())
 app.use(cookieParser())
 app.use(session({
   secret: 'blackzat',
@@ -122,8 +117,6 @@ app.get('/api/login', (req, res) => {
   };
 });
 app.get('/api/kakao_login', (req, res) => {
-  console.log(req.cookies)
-  console.log(req.cookies.social_token)
   //쿠키 정보 있으면 파싱해줘서 새로고침해도 로그인이 유지
   if (req.cookies && req.cookies.social_token) {
     //token화 시켰기에 이걸 uncapsule 해야한다.
@@ -271,7 +264,6 @@ app.post('/api/login', (req, res) => {
   // 들어온 값과 서버의 값을 비교해서 유효성 검사
   const loginId = req.body.loginId;
   const loginPw = req.body.loginPw;
-  console.log('req:', loginId, loginPw)
   OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
     function (err, connection) {
       if (err) {
@@ -878,48 +870,7 @@ app.post('/hotel', function (req, res) {
       })
     })
 });
-app.post('/carousel', function (request, response) {
 
-  const TopTenList = [];
-  OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
-
-    function (err, connection) {
-      if (err) {
-        console.error(err.message);
-        return;
-      }
-
-      var format = { language: 'sql', indent: ' ' }
-      var query = mybatisMapper.getStatement('oracleMapper', 'getListTopTen', format);
-      connection.execute(query, [], function (err, result) {
-        if (err) {
-          console.error(err.message);
-          return;
-        }
-        for (const i in result.rows) {
-          if (Object.hasOwnProperty.call(result.rows, i)) {
-            let rows = result.rows[i]
-            const jsonData = {
-              HOTELID: rows[0],
-              NAME: rows[1],
-              ADDRESS: rows[2],
-              COMMENTS: rows[3],
-              PRICE: rows[4],
-              STARRATE: rows[5],
-              LATITUDE: rows[6],
-              LONGITUDE: rows[7],
-              UUID: rows[9],
-              PATH: rows[11],
-            }
-            if (TopTenList.length < 10) {
-              TopTenList.push(jsonData)
-            }
-          }
-        }
-        response.send(TopTenList)
-      })
-    })
-});
 app.post('/charger', function (req, res) {
   const ChargerList = [];
   OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
@@ -1051,18 +1002,17 @@ app.post('/api/reply/insert', function (request, response) {
           console.error(err.message);
           return;
         }
-        connectionRelease(response, connection, result.rowsAffected)
       })
     })
 })
-app.post('/reply/insertAttach', function (request, response) {
-  const date_uuid =  Date.now().toString() + request.body.UUID
+app.post('/replyInsertAttach', function (request, response) {
+  const date_uuid =  Date.now().toString() 
   const upload = multer({
     storage: multerS3({
       s3: s3,
       bucket: 'jejuprojectimage/' + request.body.PATH,
       key: function (req, file, cb) {
-        cb(null, date_uuid);
+        cb(null, date_uuid+ request.body.UUID);
       },
       acl: 'public-read-write',
       contentType: multerS3.AUTO_CONTENT_TYPE
@@ -1078,7 +1028,7 @@ app.post('/reply/insertAttach', function (request, response) {
         return;
       }
       var param = {
-        uuid: date_uuid,
+        uuid: date_uuid+ request.body.UUID,
         path: request.body.PATH,
       }
       var format = { language: 'sql', indent: ' ' }
@@ -1111,47 +1061,6 @@ app.put('/updateReply', function (request, response) {
 
       var format = { language: 'sql', indent: ' ' }
       var query = mybatisMapper.getStatement('oracleMapper', 'updateReply', param, format);
-      console.log(query)
-      connection.execute(query, [], function (err, result) {
-        if (err) {
-          console.error(err.message);
-          return;
-        }
-        console.log('Update 성공 : ' + result.rowsAffected)
-        connectionRelease(response, connection, result.rowsAffected)
-      })
-    })
-});
-app.put('/updateReplyAttach', function (request, response) {
-  OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
-    function (err, connection) {
-      if (err) {
-        console.error(err.message);
-        return;
-      }
-      var param = {
-        rno: request.body.rno,
-        uuid: request.body.uuid,
-        path: request.body.path,
-      }
-      const upload = multer({
-        storage: multerS3({
-          s3: s3,
-          bucket: 'jejuprojectimage' + request.body.path,
-          key: function (req, file, cb) {
-            const extension = path.extname(file.originalname);
-            cb(null, Date.now().toString() + extension);
-          },
-          acl: 'public-read-write',
-          contentType: multerS3.AUTO_CONTENT_TYPE
-        }),
-      });
-      upload.single("File"), function (req, res, next) {
-        console.log(req.file)
-      }
-
-      var format = { language: 'sql', indent: ' ' }
-      var query = mybatisMapper.getStatement('oracleMapper', 'updateReplyAttach', param, format);
       console.log(query)
       connection.execute(query, [], function (err, result) {
         if (err) {
@@ -1417,30 +1326,6 @@ function connectionRelease(res, connection, result) {
 
 }
 
-
-
 http.createServer(app).listen(app.get('port'), () => {
   console.log('Express server port : ' + app.get('port'))
 })
-
-// function uuidv4() {
-//   return (
-//       [1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
-//           (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
-//       );
-// }
-// const upload = multer({
-//   storage: multerS3({
-//     s3: s3,
-//     bucket: 'jejuprojectimage/ReplyPic/',
-//     key: function (req, file, cb) {
-//       const extension = path.extname(uuidv4());
-//       cb(null, Date.now().toString() + extension);
-//     },
-//     acl: 'public-read-write',
-//     contentType: multerS3.AUTO_CONTENT_TYPE
-//   }),
-// });
-// app.post('/upload', upload.single("File"), function (req, res, next) {
-//   console.log(req.file)
-// })

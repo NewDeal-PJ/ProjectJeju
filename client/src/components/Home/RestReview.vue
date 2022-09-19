@@ -99,7 +99,6 @@
         <q-pagination @click="selectReply((current-1)*20,current*20)" v-model="current" :max="pageCnt" color="black"
             active-color="orange" />
     </div>
-    <!-- </q-pagination> -->
 
 
 
@@ -123,7 +122,6 @@ export default {
     setup() {
         const $q = useQuasar();
         const jsdata = ref([])
-        const pageJsData = []
         const submitResult = ref([])
         const route = useRoute()
         onMounted(() => {
@@ -164,13 +162,13 @@ export default {
             editContent: ref([]),
             $q,
             id: ref([]),
-            current: ref(),
+            current: ref(0),
             jsdata,
             slide: ref(1),
             fullscreen: ref(false),
             content: ref([]),
             files: ref(null),
-            quality: ref(),
+            quality: ref(0),
             submitResult,
 
             onSubmit(evt) {
@@ -193,13 +191,6 @@ export default {
             headers: { 'X-Requested-With': 'XMLHttpRequest' },
             responseType: 'json'
         }).then((Response) => {
-            for (let i = 0; i < Response.data.length; i++) {
-                if (Response.data[i].UUID) {
-                    const uuid = Response.data[i].UUID
-                    const path = Response.data[i].PATH
-                    const url = 'https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/'
-                }
-            }
             this.pageCnt = Math.round(Response.data[0] / 20)
         }).catch((err) => {
             console(err.toJSON)
@@ -268,7 +259,12 @@ export default {
                 quality = 0
                 if (this.$route.query.auth) {
                     this.id = []
-                    axios.get("http://localhost:3000/api/login").then((res) => {
+                    axios({
+                        method: 'get',
+                        url: 'http://localhost:3000/api/login',
+                        headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                        responseType: 'json'
+                    }).then((res) => {
                         this.id[0] = res.data.id
                     }).then(() => {
                         if (this.id[0] !== this.$route.query.auth) {
@@ -300,7 +296,7 @@ export default {
                                     }
                                     axios({
                                         method: 'post',
-                                        url: 'http://localhost:3000/reply/insertAttach',
+                                        url: 'http://localhost:3000/replyInsertAttach',
                                         data: {
                                             UUID: uuidv4(),
                                             PATH: 'ReplyPic/' + this.$route.params.id,

@@ -210,11 +210,11 @@
 		FROM V_CUSTOM) where distance<![CDATA[ <= ]]>2 order by storeid
 	</select>
 	<select id="getReplyCount">
-		SELECT count(*) FROM TBL_REPLY full join tbl_reply_attach Using(rno) WHERE STOREID= #{storeid} ORDER BY REGDATE DESC
+		SELECT count(*) FROM TBL_REPLY full outer join tbl_reply_attach Using(rno) WHERE STOREID= #{storeid} ORDER BY REGDATE DESC
 	</select>
 	<select id="getReplyPaging">
 		SELECT *
-			FROM (SELECT A.*, ROWNUM AS RNUM FROM (SELECT * FROM TBL_REPLY full join tbl_reply_attach Using(rno) WHERE STOREID= #{storeid} ORDER BY REGDATE DESC) A WHERE ROWNUM <![CDATA[ <= ]]> #{lastReplyCount})
+			FROM (SELECT A.*, ROWNUM AS RNUM FROM (SELECT * FROM TBL_REPLY full outer join tbl_reply_attach Using(rno) WHERE STOREID= #{storeid} ORDER BY REGDATE DESC) A WHERE ROWNUM <![CDATA[ <= ]]> #{lastReplyCount})
 		WHERE RNUM <![CDATA[ > ]]>#{firstReplyCount}
 	</select>
 	<select id="getHotelWordCloud">

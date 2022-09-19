@@ -36,10 +36,9 @@
         </div>
         <div style="display: flex;">
             <q-form @submit="onSubmit" class>
-                <q-rating name="quality" v-model="quality" max="5" size="1rem" color="yellow" icon="star_border"
+                <q-rating name="STARRATE" v-model="STARRATE" :model-value="dataItem.STARRATE" max="5" size="1rem" color="yellow" icon="star_border"
                     icon-selected="star" no-dimming />
             </q-form>
-            <span> {{ dataItem.STARRATE }}</span>
             <span> 　📅　</span>
             <p> {{ dataItem.REGDATE }} </p>
         </div>
@@ -155,7 +154,7 @@ export default {
         });
 
         return {
-
+            STARRATE:ref(),
             idx: ref(null),
             pageCnt: ref(null),
             state,
@@ -235,6 +234,7 @@ export default {
                             imgurl: url + path + '/' + uuid,
                             uuid
                         })
+                        
                     }
                     else {
                         this.jsdata.push({

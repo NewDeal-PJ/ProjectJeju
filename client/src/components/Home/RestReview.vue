@@ -127,6 +127,11 @@ export default {
             if (route.query.auth) {
                 axios.get("http://localhost:3000/api/login").then((res) => {
                     const id = res.data.id
+                    if(id === ''){
+                        axios.get("http://localhost:3000/api/kakao_login").then((res)=>{
+                            id = res.data.id
+                        })
+                    }
                     if (id !== route.query.auth) {
                         $q.notify({
                             color: 'negative',
@@ -143,6 +148,11 @@ export default {
                 id: '',
                 name: ''
             },
+            social : {
+                id : '',
+                nickname : '',
+                method : ''
+            },
             form: {
                 loginId: "",
                 loginPw: ""
@@ -151,6 +161,9 @@ export default {
         });
         axios.get("http://localhost:3000/api/login").then((res) => {
             state.account = res.data;
+        });
+        axios.get("http://localhost:3000/api/kakao_login").then((res) => {
+            state.social = res.data;
         });
 
         return {
@@ -462,8 +475,6 @@ export default {
 
         },
     }
-
 };
 
 </script>
-    

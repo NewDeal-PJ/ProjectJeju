@@ -33,7 +33,7 @@
             <img src="https://velog.velcdn.com/images/kimjyunny_dev/post/d5a79cf3-6074-4797-96ad-6380375aed33/image.png" width="25">
           </a>
           </div>
-              Copyright 2022. JejuOlle All rights reserved.
+              Copyright 2022. J-TRACK All rights reserved.
         </div>
 
       <!-- 포폴, 역할수정 필요 -->

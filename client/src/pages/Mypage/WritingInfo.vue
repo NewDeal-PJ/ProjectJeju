@@ -20,11 +20,16 @@
                 <div class="foodDetailReview" style=" width: 50%; margin: 0 auto;padding: 20px;">
                   <div>
                     <div style="display: flex; font-size: 15px;">
+                      <span>🍽️　</span>
+                      <p> {{ dataItem.STORENAME }} </p>
+                    </div>
+                    <div style="display: flex; font-size: 15px;">
                       <span>🧡　</span>
                       <p> {{ dataItem.NICKNAME }} </p>
                     </div>
                     <div style="display: flex; font-size: 15px;">
-                      <span> {{ dataItem.STARRATE }}</span>
+                      <span>⭐　</span>
+                      <p> {{ dataItem.STARRATE }} / 5점</p>
                     </div>
                     <div style="display: flex; font-size: 15px;">
                       <span>📅　</span>
@@ -33,9 +38,9 @@
                     <div class="reviewDescription" style="font-size: 15px; display: flex; ">
                       <span>🗣️　 </span>
                       <p> {{ dataItem.CONTENT }} </p>
+                    </div>
                     <div class="cover">
                       <img :src="dataItem.imgurl" />
-                    </div>
                     </div>
                   </div>
                 </div>
@@ -152,6 +157,7 @@ export default {
               NICKNAME: Response.data[i].NICKNAME,
               REGDATE: Response.data[i].REGDATE.slice(0, -14),
               STOREID: Response.data[i].STOREID,
+              STORENAME: Response.data[i].STORENAME,
               CONTENT: Response.data[i].CONTENT,
               STARRATE: Response.data[i].STARRATE,
               RRNO: Response.data[i].RRNO,

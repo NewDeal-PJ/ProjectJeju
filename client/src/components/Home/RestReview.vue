@@ -31,19 +31,18 @@
         <hr>
 
         <div class="foodDetailNickname" style=" font-weight: bold; font-size: 18px; display: flex; ">
-            <span> 🧡</span>
+            <span>🧡　</span>
             <p> {{ dataItem.NICKNAME }} </p>
         </div>
-        <div style="display: flex;">
+        <div style="display: flex; font-size: 15px;">
             <q-form @submit="onSubmit" class>
-                <q-rating name="STARRATE" v-model="STARRATE" :model-value="dataItem.STARRATE" max="5" size="1rem"
-                    color="yellow" icon="star_border" icon-selected="star" no-dimming />
             </q-form>
-            <span> 　📅　</span>
-            <p> {{ dataItem.REGDATE }} </p>
+            <span>⭐　</span>
+            <span> {{ dataItem.STARRATE }} / 5점 </span>
         </div>
-        <div class="cover">
-            <img :src="dataItem.imgurl" />
+        <div style="display: flex; font-size: 15px;">
+            <span>📅　</span>
+            <p> {{ dataItem.REGDATE }} </p>
         </div>
         <div class="reviewDescription" style="font-size: 16px; display: flex; margin-top: 10px;">
             <span> 🗣️　 </span>
@@ -73,6 +72,9 @@
                         style="color: red;">
                         <i class="fa-solid fa-trash-can" aria-hidden="true"></i> </span> </td>
             </div>
+        </div>
+        <div class="cover">
+            <img :src="dataItem.imgurl" />
         </div>
 
         <div class="reviewDescription" style="font-size: 15px;  display: flex;">
@@ -167,7 +169,7 @@ export default {
         });
 
         return {
-            STARRATE: ref(),
+
             idx: ref(null),
             pageCnt: ref(null),
             state,

@@ -5,6 +5,7 @@
       arrows
       animated
       v-model="slide"
+      :autoplay="autoplay"
       infinite
       transition-prev="slide-right"
       transition-next="slide-left"

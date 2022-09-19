@@ -167,7 +167,7 @@ export default {
             fullscreen: ref(false),
             content: ref([]),
             files: ref(null),
-            quality: ref(0),
+            quality: ref(null),
             submitResult,
 
             onSubmit(evt) {

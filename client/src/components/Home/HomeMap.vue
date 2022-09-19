@@ -158,16 +158,7 @@ export default {
     };
   },
   mounted() {
-    axios({
-      method: "post",
-      url: "http://localhost:3000/hotelWordCloud",
-      headers: { "X-Requested-With": "XMLHttpRequest" },
-      responseType: "json",
-    }).then((Response) => {
-      for (let i = 0; i < Response.data.length; i++) {
-        this.wordCloudinfo.push(Response.data[i].HOTELID);
-      }
-    });
+
     // this.checkLogin()
     if (this.$route.query.addr) {
       window.location.href = "#/api/map";
@@ -355,7 +346,7 @@ export default {
         })
         .then(() => {
           var imageSrc =
-              "https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/hotel.svg", // 마커이미지의 주소입니다
+            "https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/hotel.svg", // 마커이미지의 주소입니다
             imageSize = new kakao.maps.Size(21, 26);
           var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
           for (var i = 0; i < this.hotelMarkerPositions.length; i++) {
@@ -385,7 +376,7 @@ export default {
             this.hotelMarkers.push(marker);
           }
         })
-        .catch(function(error) {
+        .catch(function (error) {
           // 에러 핸들링
           console.log(error.toJSON());
         });
@@ -462,7 +453,7 @@ export default {
         })
         .then(() => {
           var imageSrc =
-              "https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/chargerloc.svg", // 마커이미지의 주소입니다
+            "https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/chargerloc.svg", // 마커이미지의 주소입니다
             imageSize = new kakao.maps.Size(21, 26);
           var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
           for (var i = 0; i < this.chargerMarkerPositions.length; i++) {
@@ -488,7 +479,7 @@ export default {
             this.chargerMarkers.push(marker);
           }
         })
-        .catch(function(error) {
+        .catch(function (error) {
           // 에러 핸들링
           console.log(error.toJSON());
         });
@@ -571,7 +562,7 @@ export default {
         })
         .then(() => {
           var imageSrc =
-              "https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/store.svg", // 마커이미지의 주소입니다
+            "https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/store.svg", // 마커이미지의 주소입니다
             imageSize = new kakao.maps.Size(21, 26);
           var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
           for (var i = 0; i < this.storeMarkerPositions.length; i++) {
@@ -601,7 +592,7 @@ export default {
             this.storeMarkers.push(marker);
           }
         })
-        .catch(function(error) {
+        .catch(function (error) {
           // 에러 핸들링
           console.log(error.toJSON());
         });
@@ -634,8 +625,20 @@ export default {
           console.log(this.sidePanel);
           // console.log("https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/RestWordcloudW/"+info.STOREID+".jpg")
         } else if (info.HOTELID) {
+          axios({
+            method: "post",
+            url: "http://localhost:3000/hotelWordCloud",
+            headers: { "X-Requested-With": "XMLHttpRequest" },
+            responseType: "json",
+          }).then((Response) => {
+            for (let i = 0; i < Response.data.length; i++) {
+              this.wordCloudinfo.push(Response.data[i].HOTELID);
+              console.log(this.wordCloudinfo[i])
+            }
+          }).catch((err)=>{
+            console.log(err.toJSON)
+          });
           if (this.wordCloudinfo.includes(info.HOTELID)) {
-            console.log(info.HOTELID);
             const url =
               "https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/j-track.png";
             this.sidePanel.push({
@@ -645,7 +648,6 @@ export default {
               imgurl: url,
             });
           } else {
-            console.log(this.wordCloudinfo);
             const url =
               "https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/HotelWordcloudW/" +
               info.HOTELID +
@@ -771,7 +773,7 @@ export default {
                     ),
                   });
                   var imageSrc =
-                      "https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/store.svg", // 마커이미지의 주소입니다
+                    "https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/store.svg", // 마커이미지의 주소입니다
                     imageSize = new kakao.maps.Size(21, 26);
                   var markerImage = new kakao.maps.MarkerImage(
                     imageSrc,
@@ -818,7 +820,7 @@ export default {
                     ),
                   });
                   var imageSrc =
-                      "https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/hotel.svg", // 마커이미지의 주소입니다
+                    "https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/hotel.svg", // 마커이미지의 주소입니다
                     imageSize = new kakao.maps.Size(21, 26);
                   var markerImage = new kakao.maps.MarkerImage(
                     imageSrc,
@@ -849,7 +851,7 @@ export default {
               }
             }, 80);
           })
-          .catch(function(error) {
+          .catch(function (error) {
             // 에러 핸들링
             console.log(error.toJSON());
           });
@@ -889,8 +891,8 @@ export default {
         image,
       });
       marker.setMap(this.map);
-      var direcitonEvent = function(mouseEvent) {
-        searchDetailAddrFromCoords(mouseEvent.latLng, function(result, status) {
+      var direcitonEvent = function (mouseEvent) {
+        searchDetailAddrFromCoords(mouseEvent.latLng, function (result, status) {
           if (status === kakao.maps.services.Status.OK) {
             var latlng = mouseEvent.latLng;
             marker.setPosition(latlng);
@@ -1027,8 +1029,7 @@ export default {
 
 #placesList .info .jibun {
   padding-left: 26px;
-  background: url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_jibun.png)
-    no-repeat;
+  background: url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_jibun.png) no-repeat;
 }
 
 #placesList .info .tel {
@@ -1041,8 +1042,7 @@ export default {
   width: 36px;
   height: 37px;
   margin: 10px 0 0 10px;
-  background: url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png)
-    no-repeat;
+  background: url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png) no-repeat;
 }
 
 #placesList .item .marker_1 {

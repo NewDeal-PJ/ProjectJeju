@@ -1316,6 +1316,36 @@ app.post('/customList', function (req, res) {
       })
     })
 });
+app.post('/hotelWordCloud', function (req, res) {
+  const wordCloud = [];
+  OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
+    function (err, connection) {
+      if (err) {
+        console.error(err.message);
+        return;
+      }
+      var format = { language: 'sql', indent: ' ' }
+      var query = mybatisMapper.getStatement('oracleMapper', 'getHotelWordCloud', format);
+      connection.execute(query, [], function (err, result) {
+        if (err) {
+          console.error(err.message);
+          return;
+        }
+        for (const i in result.rows) {
+          if (Object.hasOwnProperty.call(result.rows, i)) {
+            let rows = result.rows[i]
+            const jsonData = {
+              HOTELID: rows[0],
+            }
+            if (wordCloud.length < result.rows.length) {
+              wordCloud.push(jsonData)
+            }
+          }
+        }
+        res.send(wordCloud)
+      })
+    })
+});
 
 function connectionRelease(res, connection, result) {
   connection.release(function (err) {

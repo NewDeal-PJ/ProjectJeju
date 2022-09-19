@@ -87,6 +87,7 @@ export default {
 // 백엔드의 계정정보를 호출
 axios.get("http://localhost:3000/api/login").then((res) => {
       this.account = res.data;
+      console.log(this.account)
       if(this.account.id === ''){
         window.location.href = '#/api/login';
         alert("로그인 해주세요")

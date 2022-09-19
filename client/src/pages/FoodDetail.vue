@@ -88,6 +88,13 @@ export default {
           }
         })
       }
+      if (!route.query.auth) {
+        axios.get("http://localhost:3000/api/kakao_login").then((res) => {
+          if (res.data.id!=='') {
+            window.location.href = '#/detail/' + route.params.id + '?auth=' + res.data.id;
+          }
+        })
+      }
     })
     return {
       slide: ref(0),

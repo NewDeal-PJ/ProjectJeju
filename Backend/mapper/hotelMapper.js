@@ -26,7 +26,7 @@ var OracleDB = require('oracledb');
 var cors = require('cors')
 const session = require("express-session")
 // const FileStore = require('session-file-store')(session);
-const bcrypt = require('bcryptjs')
+const bcrypt = require('bcrypt')
 let members = [];
 let social_members = [];
 let check_member = [];
@@ -199,7 +199,8 @@ app.post('/api/kakao_login', (req, res) => {
               domain: "localhost",
               path: "/",
               httpOnly: true,
-              sameSite: "strict"
+              sameSite: "none",
+              secure : true
             };
             const token = jwt.sign({
               // 우리가 필요한 객체 정보
@@ -312,7 +313,7 @@ app.post('/api/login', (req, res) => {
             // 클라이언트에 토큰값을 쏘자 !
 
             res.cookie("token", token, options)
-            res.send(200);
+            res.sendStatus(200);
             members = []
           }
           else {

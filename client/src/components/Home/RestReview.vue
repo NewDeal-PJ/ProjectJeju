@@ -17,7 +17,7 @@
 
         <div style="display: flex; padding: 1% 20%;">
             <div style="width: 400px; max-width: 100%;">
-                <q-input @update:model-value="val => { files = val[0] }" filled type="file" accept=".jpg, .png, .svg" />
+                <q-input @update:model-value="val => { file  = val[0] }" filled type="file" accept=".jpg, .png, .svg" />
             </div>
             <div style="padding:10px;">
                 <q-btn @click="creatReply(quality,content)" label="SUBMIT" type="submit" color="orange" />
@@ -36,8 +36,8 @@
         </div>
         <div style="display: flex;">
             <q-form @submit="onSubmit" class>
-                <q-rating name="STARRATE" v-model="STARRATE" :model-value="dataItem.STARRATE" max="5" size="1rem" color="yellow" icon="star_border"
-                    icon-selected="star" no-dimming />
+                <q-rating name="STARRATE" v-model="STARRATE" :model-value="dataItem.STARRATE" max="5" size="1rem"
+                    color="yellow" icon="star_border" icon-selected="star" no-dimming />
             </q-form>
             <span> 　📅　</span>
             <p> {{ dataItem.REGDATE }} </p>
@@ -154,7 +154,7 @@ export default {
         });
 
         return {
-            STARRATE:ref(),
+            STARRATE: ref(),
             idx: ref(null),
             pageCnt: ref(null),
             state,
@@ -166,8 +166,8 @@ export default {
             slide: ref(1),
             fullscreen: ref(false),
             content: ref([]),
-            files: ref(null),
-            quality: ref(null),
+            file: ref(null),
+            quality: ref(0),
             submitResult,
 
             onSubmit(evt) {
@@ -234,7 +234,7 @@ export default {
                             imgurl: url + path + '/' + uuid,
                             uuid
                         })
-                        
+
                     }
                     else {
                         this.jsdata.push({
@@ -255,71 +255,72 @@ export default {
                 })
         },
         creatReply(quality, content) {
-            if (quality == null) {
-                quality = 0
-                if (this.$route.query.auth) {
-                    this.id = []
-                    axios({
-                        method: 'get',
-                        url: 'http://localhost:3000/api/login',
-                        headers: { 'X-Requested-With': 'XMLHttpRequest' },
-                        responseType: 'json'
-                    }).then((res) => {
-                        this.id[0] = res.data.id
-                    }).then(() => {
-                        if (this.id[0] !== this.$route.query.auth) {
-                            console.log(this.$route.query.auth)
-                            this.$q.notify({
-                                color: 'negative',
-                                position: 'center',
-                                message: '잘못된 접근입니다.'
-                            })
-                            window.location.href = '#';
-                        }
-                        else {
-                            axios({
-                                method: 'post',
-                                url: 'http://localhost:3000/api/reply/insert',
-                                data: {
-                                    NICKNAME: this.$route.query.auth,
-                                    STOREID: this.$route.params.id,
-                                    CONTENT: content,
-                                    STARRATE: quality,
-                                },
-                                headers: { 'X-Requested-With': 'XMLHttpRequest' },
-                                responseType: 'json'
-                            }).then(() => {
-                                if (this.files) {
-                                    function uuidv4() {
-                                        const tokens = v4().split('-')
-                                        return tokens[2] + tokens[1] + tokens[0] + tokens[3] + tokens[4];
-                                    }
-                                    axios({
-                                        method: 'post',
-                                        url: 'http://localhost:3000/replyInsertAttach',
-                                        data: {
-                                            UUID: uuidv4(),
-                                            PATH: 'ReplyPic/' + this.$route.params.id,
-                                        },
-                                        headers: { 'X-Requested-With': 'XMLHttpRequest' },
-                                        responseType: 'json'
-                                    })
-                                    const uploadFile = this.files
-                                    const formData = new FormData()
-                                    formData.append("File", uploadFile)
-                                    setTimeout(() => {
-                                        axios({
-                                            method: 'post',
-                                            url: 'http://localhost:3000/upload',
-                                            data: formData,
-                                            headers: {
-                                                'Content-Type': 'multipart/form-data',
-                                            },
-                                        }).catch(function (error) {
-                                            console.log(error.toJSON())
-                                        });
-                                    }, 300);
+            if (this.$route.query.auth) {
+                this.id = []
+                axios({
+                    method: 'get',
+                    url: 'http://localhost:3000/api/login',
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                    responseType: 'json'
+                }).then((res) => {
+                    this.id[0] = res.data.id
+                }).then(() => {
+                    if (this.id[0] !== this.$route.query.auth) {
+                        console.log(this.$route.query.auth)
+                        this.$q.notify({
+                            color: 'negative',
+                            position: 'center',
+                            message: '잘못된 접근입니다.'
+                        })
+                        window.location.href = '#';
+                    }
+                    else {
+                        axios({
+                            method: 'post',
+                            url: 'http://localhost:3000/api/reply/insert',
+                            data: {
+                                NICKNAME: this.$route.query.auth,
+                                STOREID: this.$route.params.id,
+                                CONTENT: content,
+                                STARRATE: quality,
+                            },
+                            headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                            responseType: 'json'
+                        })
+                        if (this.file !== undefined) {
+                            setTimeout(() => {
+
+                                function uuidv4() {
+                                    const tokens = v4().split('-')
+                                    return tokens[2] + tokens[1] + tokens[0] + tokens[3] + tokens[4];
                                 }
+                                axios({
+                                    method: 'post',
+                                    url: 'http://localhost:3000/replyInsertAttach',
+                                    data: {
+                                        UUID: uuidv4(),
+                                        PATH: 'ReplyPic/' + this.$route.params.id,
+                                    },
+                                    headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                                    responseType: 'json'
+                                })
+                            }, 400);
+                            setTimeout(() => {
+                                const uploadFile = this.file
+                                const formData = new FormData()
+                                formData.append("File", uploadFile)
+                                axios({
+                                    method: 'post',
+                                    url: 'http://localhost:3000/upload',
+                                    data: formData,
+                                    headers: {
+                                        'Content-Type': 'multipart/form-data',
+                                    },
+                                }).catch(function (error) {
+                                    console.log(error.toJSON())
+                                });
+                            }, 600);
+                            setTimeout(() => {
                                 this.$q.notify({
                                     color: 'orange-7',
                                     icon: 'thumb_up',
@@ -327,30 +328,40 @@ export default {
                                     position: 'center',
                                     timeout: 1200
                                 })
-                                setTimeout(() => {
-                                    window.location.reload()
-                                }, 1000);
-                            }).catch(function (error) {
-                                // 에러 핸들링
-                                console.log(error.toJSON());
-                            })
+                            }, 1300);
+                            // setTimeout(() => {
+                            //     window.location.reload()
+                            // }, 1500);
                         }
-                    }).catch(function (err) {
-                        console.log(err.toJSON())
-                    })
-                }
-                else {
-                    this.$q.notify({
-                        color: 'negative',
-                        icon: 'thumb_up',
-                        message: `리뷰등록은 로그인 후 가능합니다.`,
-                        position: 'center',
-                        timeout: 1100
-                    })
-                    setTimeout(() => {
-                        window.location.href = '#/api/login';
-                    }, 900);
-                }
+                        else {
+                            this.$q.notify({
+                                color: 'orange-7',
+                                icon: 'thumb_up',
+                                message: `소중한 의견 감사합니다.`,
+                                position: 'center',
+                                timeout: 1200
+                            })
+                            setTimeout(() => {
+                                window.location.reload()
+                            }, 600);
+                        }
+
+                    }
+                }).catch(function (err) {
+                    console.log(err.toJSON())
+                })
+            }
+            else {
+                this.$q.notify({
+                    color: 'negative',
+                    icon: 'thumb_up',
+                    message: `리뷰등록은 로그인 후 가능합니다.`,
+                    position: 'center',
+                    timeout: 1100
+                })
+                setTimeout(() => {
+                    window.location.href = '#/api/login';
+                }, 900);
             }
         },
         updateReply(rno, editContent) {

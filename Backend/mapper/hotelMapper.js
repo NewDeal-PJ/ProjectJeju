@@ -1007,13 +1007,13 @@ app.post('/api/reply/insert', function (request, response) {
     })
 })
 app.post('/replyInsertAttach', function (request, response) {
-  const date_uuid =  Date.now().toString() 
+  const date_uuid =  Date.now().toString()
   const upload = multer({
     storage: multerS3({
       s3: s3,
       bucket: 'jejuprojectimage/' + request.body.PATH,
       key: function (req, file, cb) {
-        cb(null, date_uuid+ request.body.UUID);
+        cb(null, date_uuid + request.body.UUID);
       },
       acl: 'public-read-write',
       contentType: multerS3.AUTO_CONTENT_TYPE
@@ -1029,7 +1029,7 @@ app.post('/replyInsertAttach', function (request, response) {
         return;
       }
       var param = {
-        uuid: date_uuid+ request.body.UUID,
+        uuid: date_uuid + request.body.UUID,
         path: request.body.PATH,
       }
       var format = { language: 'sql', indent: ' ' }

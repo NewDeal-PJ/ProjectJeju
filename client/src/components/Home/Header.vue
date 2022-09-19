@@ -108,7 +108,6 @@ export default {
     // 백엔드의 소셜 계정정보를 호출
     axios.get("http://localhost:3000/api/kakao_login").then((res) => {
       this.social = res.data;
-      console.log(this.social)
     });
   },
   mounted() {

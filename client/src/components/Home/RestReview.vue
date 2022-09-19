@@ -35,14 +35,14 @@
             <p> {{ dataItem.NICKNAME }} </p>
         </div>
         <div style="display: flex; font-size: 15px;">
+            <span>📅　</span>
+            <p> {{ dataItem.REGDATE }} </p>
+        </div>
+        <div style="display: flex; font-size: 15px;">
             <q-form @submit="onSubmit" class>
             </q-form>
             <span>⭐　</span>
             <span> {{ dataItem.STARRATE }} / 5점 </span>
-        </div>
-        <div style="display: flex; font-size: 15px;">
-            <span>📅　</span>
-            <p> {{ dataItem.REGDATE }} </p>
         </div>
         <div class="reviewDescription" style="font-size: 16px; display: flex; margin-top: 10px;">
             <span> 🗣️　 </span>
@@ -249,7 +249,6 @@ export default {
                             imgurl: url + path + '/' + uuid,
                             uuid
                         })
-
                     }
                     else {
                         this.jsdata.push({

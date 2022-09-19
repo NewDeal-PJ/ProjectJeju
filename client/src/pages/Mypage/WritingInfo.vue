@@ -21,19 +21,21 @@
                   <div>
                     <div style="display: flex; font-size: 15px;">
                       <span>🍽️　</span>
-                      <p> {{ dataItem.STORENAME }} </p>
+                      <a href="'#/detail/' + dataItem.STOREID">
+                        <p> {{ dataItem.STOREID }} </p> 
+                      </a>
                     </div>
                     <div style="display: flex; font-size: 15px;">
                       <span>🧡　</span>
                       <p> {{ dataItem.NICKNAME }} </p>
                     </div>
                     <div style="display: flex; font-size: 15px;">
-                      <span>⭐　</span>
-                      <p> {{ dataItem.STARRATE }} / 5점</p>
-                    </div>
-                    <div style="display: flex; font-size: 15px;">
                       <span>📅　</span>
                       <p> {{ dataItem.REGDATE }} </p>
+                    </div>
+                    <div style="display: flex; font-size: 15px;">
+                      <span>⭐　</span>
+                      <p> {{ dataItem.STARRATE }} / 5점</p>
                     </div>
                     <div class="reviewDescription" style="font-size: 15px; display: flex; ">
                       <span>🗣️　 </span>
@@ -154,10 +156,10 @@ export default {
             const url = 'https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/'
             this.jsdata.push({
               RNO: Response.data[i].RNO,
+              STORENAME: Response.data[i].STORENAME,
               NICKNAME: Response.data[i].NICKNAME,
               REGDATE: Response.data[i].REGDATE.slice(0, -14),
               STOREID: Response.data[i].STOREID,
-              STORENAME: Response.data[i].STORENAME,
               CONTENT: Response.data[i].CONTENT,
               STARRATE: Response.data[i].STARRATE,
               RRNO: Response.data[i].RRNO,
@@ -168,6 +170,7 @@ export default {
           else {
             this.jsdata.push({
               RNO: Response.data[i].RNO,
+              STORENAME: Response.data[i].STORENAME,
               NICKNAME: Response.data[i].NICKNAME,
               REGDATE: Response.data[i].REGDATE.slice(0, -14),
               STOREID: Response.data[i].STOREID,

@@ -1,6 +1,6 @@
 <template lang="pug">
 div(class="q-pa-md" style="max-width: 90%; overflow:hidden; margin: 0 auto; text-align: center; padding: 15px 0px;")
-  q-btn-dropdown(split push no-caps @click="displayHotel(category, filter, locationFilterHotel)" style="margin-left: 0.8rem; margin-right: 0.9rem; width: 18.5rem; height: 3rem; position: relative; z-index: 10; border: 3px solid #f04040; color: #f04040; background-color: #fafafa; font-family: 'Nanum Gothic Coding', monospace;")
+  q-btn-dropdown(split push no-caps @click="displayHotel(category, filter, locationFilterHotel)" style="margin-left: 0.8rem; margin-right: 0.9rem; width: 18rem; height: 3rem; position: relative; z-index: 10; border: 3px solid #f04040; color: #f04040; background-color: #fafafa; font-family: 'Nanum Gothic Coding', monospace;")
     template(v-slot:label)
       div(class="row items-center no-wrap")
         q-icon(left name="img:https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/hotel.svg")
@@ -40,7 +40,7 @@ div(class="q-pa-md" style="max-width: 90%; overflow:hidden; margin: 0 auto; text
       q-checkbox(v-model="filter" val="breakfast" color="red-9") 조식포함
       q-checkbox(v-model="filter" val="freeParking" color="red-9") 무료주차가능
       q-checkbox(v-model="filter" val="cooking" color="red-9") 취사가능
-  q-btn-dropdown(split push no-caps @click="displayStore(locationFilterStore)" style="margin-left: 0.8rem; margin-right: 0.9rem; width: 18.5rem;height: 3rem; position: relative; z-index: 10; border: 3px solid #ffc107; color: #ffc107; background-color: #fafafa;font-family: 'Nanum Gothic Coding', monospace;")
+  q-btn-dropdown(split push no-caps @click="displayStore(locationFilterStore)" style="margin-left: 0.8rem; margin-right: 0.9rem; width: 18rem;height: 3rem; position: relative; z-index: 10; border: 3px solid #ffc107; color: #ffc107; background-color: #fafafa;font-family: 'Nanum Gothic Coding', monospace;")
     template(v-slot:label)
       div(class="row items-center no-wrap")
         q-icon(left name="img:https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/store.svg")
@@ -55,7 +55,7 @@ div(class="q-pa-md" style="max-width: 90%; overflow:hidden; margin: 0 auto; text
       q-radio(v-model="locationFilterStore" val="seogwipo" color="amber-5") 서귀포
       q-radio(v-model="locationFilterStore" val="seongsan" color="amber-5") 성산
       q-radio(v-model="locationFilterStore" val="pyoseon" color="amber-5") 표선
-  q-btn-dropdown(split push no-caps @click="displayCharger(locationFilterCharger)" style="margin-left: 0.8rem; margin-right: 0.9rem; width: 18.5rem; height: 3rem; position: relative; z-index: 10; border: 3px solid #03a9f4; color: #03a9f4; background-color: #fafafa;font-family: 'Nanum Gothic Coding', monospace;")
+  q-btn-dropdown(split push no-caps @click="displayCharger(locationFilterCharger)" style="margin-left: 0.8rem; margin-right: 0.9rem; width: 18rem; height: 3rem; position: relative; z-index: 10; border: 3px solid #03a9f4; color: #03a9f4; background-color: #fafafa;font-family: 'Nanum Gothic Coding', monospace;")
     template(v-slot:label)
       div(class="row items-center no-wrap")
         q-icon(left name="img:https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/chargerloc.svg")
@@ -70,7 +70,7 @@ div(class="q-pa-md" style="max-width: 90%; overflow:hidden; margin: 0 auto; text
       q-radio(v-model="locationFilterCharger" val="seogwipo" color="light-blue-6") 서귀포
       q-radio(v-model="locationFilterCharger" val="seongsan" color="light-blue-6") 성산
       q-radio(v-model="locationFilterCharger" val="pyoseon" color="light-blue-6") 표선
-  q-btn-dropdown(push no-caps style="margin-left: 0.8rem; margin-right: 0.9rem; width: 18.5rem; height: 3rem; position: relative; z-index: 10; border: 3px solid #ff9800; color: #ff9800; background-color: #fafafa; font-family: 'Nanum Gothic Coding', monospace;")
+  q-btn-dropdown(push no-caps style="margin-left: 0.8rem; margin-right: 0.9rem; width: 18rem; height: 3rem; position: relative; z-index: 10; border: 3px solid #ff9800; color: #ff9800; background-color: #fafafa; font-family: 'Nanum Gothic Coding', monospace;")
     template(v-slot:label)
       div(class="row items-center no-wrap")
         q-icon(left name="map")
@@ -80,7 +80,7 @@ div(class="q-pa-md" style="max-width: 90%; overflow:hidden; margin: 0 auto; text
       q-radio(:disable="CustomDirection==1 ? false : true" v-model="CustomDirection" val="2" color="cyan" @click.once="customDirection(CustomDirection)" style="margin-left: 0.6rem; margin-right: 0.6rem;") DAY2
       q-radio(:disable="CustomDirection==2 ? false : true" v-model="CustomDirection" val="3" color="red" @click.once="customDirection(CustomDirection)" style="margin-left: 0.6rem; margin-right: 0.7rem;") DAY3
       br
-      q-btn(@click.once="resetCustom()" color="orange-6" no-caps style="width: 18.5rem;") 초기화
+      q-btn(@click.once="resetCustom()" color="orange-6" no-caps style="width: 18rem;") 초기화
 
 //- <q-btn label="Left" icon="keyboard_arrow_left" color="primary" @click="open('left')" />
 //- <q-btn label="Right" icon="keyboard_arrow_right" color="primary" @click="open('right')" />
@@ -154,7 +154,7 @@ export default {
       open(pos) {
         position.value = pos;
         dialog.value = true;
-      }
+      },
     };
   },
   mounted() {
@@ -162,26 +162,23 @@ export default {
       method: "post",
       url: "http://localhost:3000/hotelWordCloud",
       headers: { "X-Requested-With": "XMLHttpRequest" },
-      responseType: "json"
-    })
-      .then((Response) => {
-        for (let i = 0; i < Response.data.length; i++) {
-          this.wordCloudinfo.push(
-            Response.data[i].HOTELID
-          );
-        }
-      })
+      responseType: "json",
+    }).then((Response) => {
+      for (let i = 0; i < Response.data.length; i++) {
+        this.wordCloudinfo.push(Response.data[i].HOTELID);
+      }
+    });
     // this.checkLogin()
     if (this.$route.query.addr) {
       window.location.href = "#/api/map";
     }
     if (window.kakako && window.kakako.maps) {
       this.initMap();
-    }
-    else {
+    } else {
       const script = document.createElement("script");
       script.onload = () => kakao.maps.load(this.initMap);
-      script.src = "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=cfd4e527f6a472cb323f1ffa306cf3a8&libraries=services";
+      script.src =
+        "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=cfd4e527f6a472cb323f1ffa306cf3a8&libraries=services";
       document.head.appendChild(script);
     }
   },
@@ -190,7 +187,7 @@ export default {
       var mapContainer = document.getElementById("map"), // 지도를 표시할 div
         mapOption = {
           center: new kakao.maps.LatLng(33.37113980098013, 126.55530201679869),
-          level: 9 // 지도의 확대 레벨
+          level: 9, // 지도의 확대 레벨
         };
       this.map = new kakao.maps.Map(mapContainer, mapOption);
     },
@@ -200,7 +197,22 @@ export default {
       }
       this.hotelMarkers = [];
       this.hotelMarkerPositions = [];
-      let wifi, tv, airConditioner, miniBar, refrigerator, bathTub, karaoke, convenienceStore, parkingLot, seminarRoom, bbq, restaurant, pickup, breakfast, freeParking, cooking;
+      let wifi,
+        tv,
+        airConditioner,
+        miniBar,
+        refrigerator,
+        bathTub,
+        karaoke,
+        convenienceStore,
+        parkingLot,
+        seminarRoom,
+        bbq,
+        restaurant,
+        pickup,
+        breakfast,
+        freeParking,
+        cooking;
       let jeju, aewol, hamdeok, moonset, gujwa, seogwipo, seongsan, pyoseon;
       if (locationFilter.includes("jeju")) {
         jeju = 1;
@@ -306,47 +318,74 @@ export default {
           pyoseon,
         },
         headers: { "X-Requested-With": "XMLHttpRequest" },
-        responseType: "json"
-      }).then((Response) => {
-        for (let i = 0; i < Response.data.length; i++) {
-          if (this.hotelMarkerPositions.length < Response.data.length) {
-            this.hotelMarkerPositions.push({
-              content: "<div style=\"font-weight:600; font-size: 10pt; font-family: 나눔고딕; text-align: center;\"><img src=\"https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/" + Response.data[i].PATH + "/" + Response.data[i].UUID + "\" width=\"240px\" height=\"110px\" style=\"overflow:hidden; margin-bottom:8px;\"><br>" + Response.data[i].NAME + "<br> 별점 : " + Math.round(Response.data[i].STARRATE * 100) / 100 + "</div>",
-              latlng: new kakao.maps.LatLng(Response.data[i].LATITUDE, Response.data[i].LONGITUDE),
-              info: {
-                HOTELID: Response.data[i].HOTELID,
-                NAME: Response.data[i].NAME,
-                CATEGORY: Response.data[i].CATEGORY,
-                ADDRESS: Response.data[i].ADDRESS,
-                COMMENTS: Response.data[i].COMMENTS,
-                PRICE: Response.data[i].PRICE,
-                STARRATE: Response.data[i].STARRATE,
-                UUID: Response.data[i].UUID,
-                PATH: Response.data[i].PATH,
-              }
-            });
-          }
-        }
-      }).then(() => {
-        var imageSrc = "https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/hotel.svg", // 마커이미지의 주소입니다
-          imageSize = new kakao.maps.Size(21, 26);
-        var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
-        for (var i = 0; i < this.hotelMarkerPositions.length; i++) {
-          var marker = new kakao.maps.Marker({
-            map: this.map,
-            position: this.hotelMarkerPositions[i].latlng,
-            image: markerImage,
-          });
-          var infowindow = new kakao.maps.InfoWindow({
-            content: this.hotelMarkerPositions[i].content, // 인포윈도우에 표시할 내용
-          });
-          kakao.maps.event.addListener(marker, "mouseover", this.displayInfowindow(marker, infowindow));
-          kakao.maps.event.addListener(marker, "mouseout", this.closeInfowindow(infowindow));
-          kakao.maps.event.addListener(marker, "click", this.displaySidePanel(this.hotelMarkerPositions[i].info));
-          this.hotelMarkers.push(marker);
-        }
+        responseType: "json",
       })
-        .catch(function (error) {
+        .then((Response) => {
+          for (let i = 0; i < Response.data.length; i++) {
+            if (this.hotelMarkerPositions.length < Response.data.length) {
+              this.hotelMarkerPositions.push({
+                content:
+                  '<div style="font-weight:600; font-size: 10pt; font-family: 나눔고딕; text-align: center;"><img src="https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/' +
+                  Response.data[i].PATH +
+                  "/" +
+                  Response.data[i].UUID +
+                  '" width="240px" height="110px" style="overflow:hidden; margin-bottom:8px;"><br>' +
+                  Response.data[i].NAME +
+                  "<br> 별점 : " +
+                  Math.round(Response.data[i].STARRATE * 100) / 100 +
+                  "</div>",
+                latlng: new kakao.maps.LatLng(
+                  Response.data[i].LATITUDE,
+                  Response.data[i].LONGITUDE
+                ),
+                info: {
+                  HOTELID: Response.data[i].HOTELID,
+                  NAME: Response.data[i].NAME,
+                  CATEGORY: Response.data[i].CATEGORY,
+                  ADDRESS: Response.data[i].ADDRESS,
+                  COMMENTS: Response.data[i].COMMENTS,
+                  PRICE: Response.data[i].PRICE,
+                  STARRATE: Response.data[i].STARRATE,
+                  UUID: Response.data[i].UUID,
+                  PATH: Response.data[i].PATH,
+                },
+              });
+            }
+          }
+        })
+        .then(() => {
+          var imageSrc =
+              "https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/hotel.svg", // 마커이미지의 주소입니다
+            imageSize = new kakao.maps.Size(21, 26);
+          var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+          for (var i = 0; i < this.hotelMarkerPositions.length; i++) {
+            var marker = new kakao.maps.Marker({
+              map: this.map,
+              position: this.hotelMarkerPositions[i].latlng,
+              image: markerImage,
+            });
+            var infowindow = new kakao.maps.InfoWindow({
+              content: this.hotelMarkerPositions[i].content, // 인포윈도우에 표시할 내용
+            });
+            kakao.maps.event.addListener(
+              marker,
+              "mouseover",
+              this.displayInfowindow(marker, infowindow)
+            );
+            kakao.maps.event.addListener(
+              marker,
+              "mouseout",
+              this.closeInfowindow(infowindow)
+            );
+            kakao.maps.event.addListener(
+              marker,
+              "click",
+              this.displaySidePanel(this.hotelMarkerPositions[i].info)
+            );
+            this.hotelMarkers.push(marker);
+          }
+        })
+        .catch(function(error) {
           // 에러 핸들링
           console.log(error.toJSON());
         });
@@ -396,24 +435,34 @@ export default {
           pyoseon,
         },
         headers: { "X-Requested-With": "XMLHttpRequest" },
-        responseType: "json"
+        responseType: "json",
       })
         .then((Response) => {
           for (let i = 0; i < Response.data.length; i++) {
             if (this.chargerMarkerPositions.length < Response.data.length) {
               this.chargerMarkerPositions.push({
-                content: "<div style=\"font-weight:600; text-align: center;\">" + Response.data[i].NAME + "<br><br>" + Response.data[i].ADDRESS + "<br><br></div>",
-                latlng: new kakao.maps.LatLng(Response.data[i].LATITUDE, Response.data[i].LONGITUDE),
+                content:
+                  '<div style="font-weight:600; text-align: center;">' +
+                  Response.data[i].NAME +
+                  "<br><br>" +
+                  Response.data[i].ADDRESS +
+                  "<br><br></div>",
+                latlng: new kakao.maps.LatLng(
+                  Response.data[i].LATITUDE,
+                  Response.data[i].LONGITUDE
+                ),
                 info: {
                   CHAGERID: Response.data[i].CHAGERID,
                   NAME: Response.data[i].NAME,
                   ADDRESS: Response.data[i].ADDRESS,
-                }
+                },
               });
             }
           }
-        }).then(() => {
-          var imageSrc = "https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/chargerloc.svg", // 마커이미지의 주소입니다
+        })
+        .then(() => {
+          var imageSrc =
+              "https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/chargerloc.svg", // 마커이미지의 주소입니다
             imageSize = new kakao.maps.Size(21, 26);
           var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
           for (var i = 0; i < this.chargerMarkerPositions.length; i++) {
@@ -425,13 +474,21 @@ export default {
             var infowindow = new kakao.maps.InfoWindow({
               content: this.chargerMarkerPositions[i].content, // 인포윈도우에 표시할 내용
             });
-            kakao.maps.event.addListener(marker, "mouseover", this.displayInfowindow(marker, infowindow));
-            kakao.maps.event.addListener(marker, "mouseout", this.closeInfowindow(infowindow));
+            kakao.maps.event.addListener(
+              marker,
+              "mouseover",
+              this.displayInfowindow(marker, infowindow)
+            );
+            kakao.maps.event.addListener(
+              marker,
+              "mouseout",
+              this.closeInfowindow(infowindow)
+            );
             // kakao.maps.event.addListener(marker, 'click', this.displaySidePanel(this.chargerMarkerPositions[i].info));
             this.chargerMarkers.push(marker);
           }
         })
-        .catch(function (error) {
+        .catch(function(error) {
           // 에러 핸들링
           console.log(error.toJSON());
         });
@@ -481,14 +538,20 @@ export default {
           pyoseon,
         },
         headers: { "X-Requested-With": "XMLHttpRequest" },
-        responseType: "json"
+        responseType: "json",
       })
         .then((Response) => {
           for (let i = 0; i < Response.data.length; i++) {
             if (this.storeMarkerPositions.length < Response.data.length) {
               this.storeMarkerPositions.push({
-                content: "<div style=\"font-weight:600; font-size: 10pt; font-family: 나눔고딕; text-align: center;\">" + Response.data[i].STORENAME + "</div>",
-                latlng: new kakao.maps.LatLng(Response.data[i].LATITUDE, Response.data[i].LONGITUDE),
+                content:
+                  '<div style="font-weight:600; font-size: 10pt; font-family: 나눔고딕; text-align: center;">' +
+                  Response.data[i].STORENAME +
+                  "</div>",
+                latlng: new kakao.maps.LatLng(
+                  Response.data[i].LATITUDE,
+                  Response.data[i].LONGITUDE
+                ),
                 info: {
                   STOREID: Response.data[i].STOREID,
                   NAME: Response.data[i].STORENAME,
@@ -501,12 +564,14 @@ export default {
                   TEL: Response.data[i].TEL,
                   UUID: Response.data[i].UUID,
                   PATH: Response.data[i].PATH,
-                }
+                },
               });
             }
           }
-        }).then(() => {
-          var imageSrc = "https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/store.svg", // 마커이미지의 주소입니다
+        })
+        .then(() => {
+          var imageSrc =
+              "https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/store.svg", // 마커이미지의 주소입니다
             imageSize = new kakao.maps.Size(21, 26);
           var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
           for (var i = 0; i < this.storeMarkerPositions.length; i++) {
@@ -518,13 +583,25 @@ export default {
             var infowindow = new kakao.maps.InfoWindow({
               content: this.storeMarkerPositions[i].content, // 인포윈도우에 표시할 내용
             });
-            kakao.maps.event.addListener(marker, "mouseover", this.displayInfowindow(marker, infowindow));
-            kakao.maps.event.addListener(marker, "mouseout", this.closeInfowindow(infowindow));
-            kakao.maps.event.addListener(marker, "click", this.displaySidePanel(this.storeMarkerPositions[i].info));
+            kakao.maps.event.addListener(
+              marker,
+              "mouseover",
+              this.displayInfowindow(marker, infowindow)
+            );
+            kakao.maps.event.addListener(
+              marker,
+              "mouseout",
+              this.closeInfowindow(infowindow)
+            );
+            kakao.maps.event.addListener(
+              marker,
+              "click",
+              this.displaySidePanel(this.storeMarkerPositions[i].info)
+            );
             this.storeMarkers.push(marker);
           }
         })
-        .catch(function (error) {
+        .catch(function(error) {
           // 에러 핸들링
           console.log(error.toJSON());
         });
@@ -544,35 +621,40 @@ export default {
         this.sidePanel = [];
         if (info.STOREID) {
           this.open("right");
-          const url = "https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/RestWordcloudW/" + info.STOREID + ".jpg";
+          const url =
+            "https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/RestWordcloudW/" +
+            info.STOREID +
+            ".jpg";
           this.sidePanel.push({
             STOREID: info.STOREID,
             NAME: info.NAME,
             ADDRESS: info.ADDRESS,
-            imgurl: url
+            imgurl: url,
           });
           console.log(this.sidePanel);
           // console.log("https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/RestWordcloudW/"+info.STOREID+".jpg")
-        }
-        else if (info.HOTELID) {
+        } else if (info.HOTELID) {
           if (this.wordCloudinfo.includes(info.HOTELID)) {
-            console.log(info.HOTELID)
-            const url = "https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/j-track.png";
+            console.log(info.HOTELID);
+            const url =
+              "https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/j-track.png";
             this.sidePanel.push({
               HOTELID: info.HOTELID,
               NAME: info.NAME,
               ADDRESS: info.ADDRESS,
-              imgurl: url
+              imgurl: url,
             });
-          }
-          else{
-            console.log(this.wordCloudinfo)
-            const url = "https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/HotelWordcloudW/" + info.HOTELID + '.jpg';
+          } else {
+            console.log(this.wordCloudinfo);
+            const url =
+              "https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/HotelWordcloudW/" +
+              info.HOTELID +
+              ".jpg";
             this.sidePanel.push({
               HOTELID: info.HOTELID,
               NAME: info.NAME,
               ADDRESS: info.ADDRESS,
-              imgurl: url
+              imgurl: url,
             });
           }
 
@@ -625,8 +707,8 @@ export default {
       const CUSTOMHOTEL = this.customHotel;
       const map = this.map;
       const customMarkers = this.customMarkers;
-      const customStoreDATA = this.customStoreDATA
-      const customHotelDATA = this.customHotelDATA
+      const customStoreDATA = this.customStoreDATA;
+      const customHotelDATA = this.customHotelDATA;
       function displayInfowindow(params1, params2) {
         return () => {
           params2.open(map, params1);
@@ -643,10 +725,10 @@ export default {
           url: "http://localhost:3000/customList",
           data: {
             LATITUDE,
-            LONGITUDE
+            LONGITUDE,
           },
           headers: { "X-Requested-With": "XMLHttpRequest" },
-          responseType: "json"
+          responseType: "json",
         })
           .then((Response) => {
             if (customMarkers.length > 0) {
@@ -660,23 +742,41 @@ export default {
             }
             setTimeout(() => {
               if (customStoreDATA.length > 0) {
-                customStoreDATA.length = 0
+                customStoreDATA.length = 0;
               }
               if (customHotelDATA.length > 0) {
-                customHotelDATA.length = 0
+                customHotelDATA.length = 0;
               }
               for (let i = 0; i < Response.data.length; i++) {
                 if (Response.data[i].STOREID) {
-                  if (Response.data[i].STOREID !== Response.data[i + 1].STOREID) {
-                    customStoreDATA.push(Response.data[i])
+                  if (
+                    Response.data[i].STOREID !== Response.data[i + 1].STOREID
+                  ) {
+                    customStoreDATA.push(Response.data[i]);
                   }
                   CUSTOMSTORE.push({
-                    content: "<div style=\"font-weight:bold;\"><img src=\"https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/" + Response.data[i].PATH + "/" + Response.data[i].UUID + "\"width=\"240px\" height=\"110px\" style=\"display: block; margin: 0 auto;overflow:hidden; margin-bottom:8px;\"><br>" + Response.data[i].STORENAME + "<br><br>" + Response.data[i].ADDRESS + "<br><br></div>",
-                    latlng: new kakao.maps.LatLng(Response.data[i].LATITUDE, Response.data[i].LONGITUDE)
+                    content:
+                      '<div style="font-weight:bold;"><img src="https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/' +
+                      Response.data[i].PATH +
+                      "/" +
+                      Response.data[i].UUID +
+                      '"width="240px" height="110px" style="display: block; margin: 0 auto;overflow:hidden; margin-bottom:8px;"><br>' +
+                      Response.data[i].STORENAME +
+                      "<br><br>" +
+                      Response.data[i].ADDRESS +
+                      "<br><br></div>",
+                    latlng: new kakao.maps.LatLng(
+                      Response.data[i].LATITUDE,
+                      Response.data[i].LONGITUDE
+                    ),
                   });
-                  var imageSrc = "https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/store.svg", // 마커이미지의 주소입니다
+                  var imageSrc =
+                      "https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/store.svg", // 마커이미지의 주소입니다
                     imageSize = new kakao.maps.Size(21, 26);
-                  var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+                  var markerImage = new kakao.maps.MarkerImage(
+                    imageSrc,
+                    imageSize
+                  );
                   for (var j = 0; j < CUSTOMSTORE.length; j++) {
                     var marker = new kakao.maps.Marker({
                       map,
@@ -686,21 +786,44 @@ export default {
                     var infowindow = new kakao.maps.InfoWindow({
                       content: CUSTOMSTORE[j].content, // 인포윈도우에 표시할 내용
                     });
-                    kakao.maps.event.addListener(marker, "mouseover", displayInfowindow(marker, infowindow));
-                    kakao.maps.event.addListener(marker, "mouseout", closeInfowindow(infowindow));
+                    kakao.maps.event.addListener(
+                      marker,
+                      "mouseover",
+                      displayInfowindow(marker, infowindow)
+                    );
+                    kakao.maps.event.addListener(
+                      marker,
+                      "mouseout",
+                      closeInfowindow(infowindow)
+                    );
                     customMarkers.push(marker);
                   }
                 }
                 if (Response.data[i].HOTELID) {
-
-                  customHotelDATA.push(Response.data[i])
+                  customHotelDATA.push(Response.data[i]);
                   CUSTOMHOTEL.push({
-                    content: "<div style=\"font-weight:bold;\"><img src=\"https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/" + Response.data[i].PATH + "/" + Response.data[i].UUID + "\" width=\"240px\" height=\"110px\" style=\"overflow:hidden; margin-bottom:8px;\"><br>" + Response.data[i].NAME + "<br> 별점 : " + Math.round(Response.data[i].STARRATE * 100) / 100 + "</div>",
-                    latlng: new kakao.maps.LatLng(Response.data[i].LATITUDE, Response.data[i].LONGITUDE),
+                    content:
+                      '<div style="font-weight:bold;"><img src="https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/' +
+                      Response.data[i].PATH +
+                      "/" +
+                      Response.data[i].UUID +
+                      '" width="240px" height="110px" style="overflow:hidden; margin-bottom:8px;"><br>' +
+                      Response.data[i].NAME +
+                      "<br> 별점 : " +
+                      Math.round(Response.data[i].STARRATE * 100) / 100 +
+                      "</div>",
+                    latlng: new kakao.maps.LatLng(
+                      Response.data[i].LATITUDE,
+                      Response.data[i].LONGITUDE
+                    ),
                   });
-                  var imageSrc = "https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/hotel.svg", // 마커이미지의 주소입니다
+                  var imageSrc =
+                      "https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/hotel.svg", // 마커이미지의 주소입니다
                     imageSize = new kakao.maps.Size(21, 26);
-                  var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+                  var markerImage = new kakao.maps.MarkerImage(
+                    imageSrc,
+                    imageSize
+                  );
                   for (var j = 0; j < CUSTOMHOTEL.length; j++) {
                     var marker = new kakao.maps.Marker({
                       map,
@@ -710,15 +833,23 @@ export default {
                     var infowindow = new kakao.maps.InfoWindow({
                       content: CUSTOMHOTEL[j].content, // 인포윈도우에 표시할 내용
                     });
-                    kakao.maps.event.addListener(marker, "mouseover", displayInfowindow(marker, infowindow));
-                    kakao.maps.event.addListener(marker, "mouseout", closeInfowindow(infowindow));
+                    kakao.maps.event.addListener(
+                      marker,
+                      "mouseover",
+                      displayInfowindow(marker, infowindow)
+                    );
+                    kakao.maps.event.addListener(
+                      marker,
+                      "mouseout",
+                      closeInfowindow(infowindow)
+                    );
                     customMarkers.push(marker);
                   }
                 }
               }
             }, 80);
           })
-          .catch(function (error) {
+          .catch(function(error) {
             // 에러 핸들링
             console.log(error.toJSON());
           });
@@ -739,7 +870,10 @@ export default {
         kakao.maps.event.removeListener(this.map, "click", this.event[0]);
         this.event.pop();
       }
-      var imageSrc = "https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/flagDay" + day + ".png"; // 마커이미지의 주소입니다
+      var imageSrc =
+        "https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/flagDay" +
+        day +
+        ".png"; // 마커이미지의 주소입니다
       if (day == 1) {
         var imageSize = new kakao.maps.Size(55, 41);
       }
@@ -755,13 +889,16 @@ export default {
         image,
       });
       marker.setMap(this.map);
-      var direcitonEvent = function (mouseEvent) {
-        searchDetailAddrFromCoords(mouseEvent.latLng, function (result, status) {
+      var direcitonEvent = function(mouseEvent) {
+        searchDetailAddrFromCoords(mouseEvent.latLng, function(result, status) {
           if (status === kakao.maps.services.Status.OK) {
             var latlng = mouseEvent.latLng;
             marker.setPosition(latlng);
             customList(marker.getPosition().Ma, marker.getPosition().La);
-            var url = location.origin + "/#/api/map?addr=" + result[0].address.address_name;
+            var url =
+              location.origin +
+              "/#/api/map?addr=" +
+              result[0].address.address_name;
             history.pushState(null, null, url);
           }
         });
@@ -791,16 +928,16 @@ export default {
       axios.get("http://localhost:3000/api/login").then((res) => {
         this.id.push(res.data.id);
       });
-    }
+    },
   },
-}
+};
 </script>
 <style>
 .map_wrap,
 .map_wrap * {
   margin: 0;
   padding: 0;
-  font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;
+  font-family: "Malgun Gothic", dotum, "돋움", sans-serif;
   font-size: 12px;
 }
 
@@ -840,7 +977,7 @@ export default {
   display: block;
   height: 1px;
   border: 0;
-  border-top: 2px solid #5F5F5F;
+  border-top: 2px solid #5f5f5f;
   margin: 3px 0;
 }
 
@@ -890,7 +1027,8 @@ export default {
 
 #placesList .info .jibun {
   padding-left: 26px;
-  background: url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_jibun.png) no-repeat;
+  background: url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_jibun.png)
+    no-repeat;
 }
 
 #placesList .info .tel {
@@ -903,7 +1041,8 @@ export default {
   width: 36px;
   height: 37px;
   margin: 10px 0 0 10px;
-  background: url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png) no-repeat;
+  background: url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png)
+    no-repeat;
 }
 
 #placesList .item .marker_1 {
@@ -915,7 +1054,7 @@ export default {
 }
 
 #placesList .item .marker_3 {
-  background-position: 0 -102px
+  background-position: 0 -102px;
 }
 
 #placesList .item .marker_4 {
@@ -983,11 +1122,10 @@ export default {
 }
 
 .body--dark {
-  background: #000
+  background: #000;
 }
 
 a {
   text-decoration: none;
 }
 </style>
-

@@ -36,10 +36,9 @@
         </div>
         <div style="display: flex;">
             <q-form @submit="onSubmit" class>
-                <q-rating name="quality" v-model="quality" max="5" size="1rem" color="yellow" icon="star_border"
+                <q-rating name="STARRATE" v-model="STARRATE" :model-value="dataItem.STARRATE" max="5" size="1rem" color="yellow" icon="star_border"
                     icon-selected="star" no-dimming />
             </q-form>
-            <span> {{ dataItem.STARRATE }}</span>
             <span> 　📅　</span>
             <p> {{ dataItem.REGDATE }} </p>
         </div>
@@ -99,7 +98,6 @@
         <q-pagination @click="selectReply((current-1)*20,current*20)" v-model="current" :max="pageCnt" color="black"
             active-color="orange" />
     </div>
-    <!-- </q-pagination> -->
 
 
 
@@ -123,13 +121,17 @@ export default {
     setup() {
         const $q = useQuasar();
         const jsdata = ref([])
-        const pageJsData = []
         const submitResult = ref([])
         const route = useRoute()
         onMounted(() => {
             if (route.query.auth) {
                 axios.get("http://localhost:3000/api/login").then((res) => {
                     const id = res.data.id
+                    if(id === ''){
+                        axios.get("http://localhost:3000/api/kakao_login").then((res)=>{
+                            id = res.data.id
+                        })
+                    }
                     if (id !== route.query.auth) {
                         $q.notify({
                             color: 'negative',
@@ -146,6 +148,11 @@ export default {
                 id: '',
                 name: ''
             },
+            social : {
+                id : '',
+                nickname : '',
+                method : ''
+            },
             form: {
                 loginId: "",
                 loginPw: ""
@@ -155,22 +162,25 @@ export default {
         axios.get("http://localhost:3000/api/login").then((res) => {
             state.account = res.data;
         });
+        axios.get("http://localhost:3000/api/kakao_login").then((res) => {
+            state.social = res.data;
+        });
 
         return {
-
+            STARRATE:ref(),
             idx: ref(null),
             pageCnt: ref(null),
             state,
             editContent: ref([]),
             $q,
             id: ref([]),
-            current: ref(),
+            current: ref(0),
             jsdata,
             slide: ref(1),
             fullscreen: ref(false),
             content: ref([]),
             files: ref(null),
-            quality: ref(),
+            quality: ref(null),
             submitResult,
 
             onSubmit(evt) {
@@ -193,13 +203,6 @@ export default {
             headers: { 'X-Requested-With': 'XMLHttpRequest' },
             responseType: 'json'
         }).then((Response) => {
-            for (let i = 0; i < Response.data.length; i++) {
-                if (Response.data[i].UUID) {
-                    const uuid = Response.data[i].UUID
-                    const path = Response.data[i].PATH
-                    const url = 'https://jejuprojectimage.s3.ap-northeast-2.amazonaws.com/'
-                }
-            }
             this.pageCnt = Math.round(Response.data[0] / 20)
         }).catch((err) => {
             console(err.toJSON)
@@ -244,6 +247,7 @@ export default {
                             imgurl: url + path + '/' + uuid,
                             uuid
                         })
+                        
                     }
                     else {
                         this.jsdata.push({
@@ -264,11 +268,17 @@ export default {
                 })
         },
         creatReply(quality, content) {
-            if (quality == null) {
-                quality = 0
+            console.log("버튼을눌렀습니다.")
+            // if (quality == null) {
+            //     quality = 0
                 if (this.$route.query.auth) {
                     this.id = []
-                    axios.get("http://localhost:3000/api/login").then((res) => {
+                    axios({
+                        method: 'get',
+                        url: 'http://localhost:3000/api/login',
+                        headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                        responseType: 'json'
+                    }).then((res) => {
                         this.id[0] = res.data.id
                     }).then(() => {
                         if (this.id[0] !== this.$route.query.auth) {
@@ -300,7 +310,7 @@ export default {
                                     }
                                     axios({
                                         method: 'post',
-                                        url: 'http://localhost:3000/reply/insertAttach',
+                                        url: 'http://localhost:3000/replyInsertAttach',
                                         data: {
                                             UUID: uuidv4(),
                                             PATH: 'ReplyPic/' + this.$route.params.id,
@@ -454,7 +464,7 @@ export default {
             }
 
         },
-    }
+    // }
 
 };
 

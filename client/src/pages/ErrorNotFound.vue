@@ -1,18 +1,27 @@
 <template>
-  <div class="fullscreen bg-blue text-white text-center q-pa-md flex flex-center">
+  <div
+    class="fullscreen text-white text-center q-pa-md flex flex-center"
+    style="background-color: antiquewhite;"
+  >
     <div>
-      <div style="font-size: 30vh">
-        404
+      <div>
+        <img
+          src="https://velog.velcdn.com/images/kimjyunny_dev/post/daea10d9-d096-45e1-b218-0ebef17ab028/image.svg"
+          width="1500"
+          height="200"
+        />
       </div>
-
-      <div class="text-h2" style="opacity:.4">
-        Oops. Nothing here...
+      <div
+        style="color: black; font-size: 1.8rem; font-family: 'Nanum Gothic Coding', monospace;"
+      >
+        죄송합니다 <br />
+        요청하신 페이지를 찾을 수 없습니다.
       </div>
 
       <q-btn
         class="q-mt-xl"
         color="white"
-        text-color="blue"
+        text-color="orange"
         unelevated
         to="/"
         label="Go Home"
@@ -23,9 +32,11 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent } from "vue";
 
 export default defineComponent({
-  name: 'ErrorNotFound'
-})
+  name: "ErrorNotFound",
+});
 </script>
+
+<style></style>

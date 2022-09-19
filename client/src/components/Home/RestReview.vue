@@ -127,6 +127,11 @@ export default {
             if (route.query.auth) {
                 axios.get("http://localhost:3000/api/login").then((res) => {
                     const id = res.data.id
+                    if(id === ''){
+                        axios.get("http://localhost:3000/api/kakao_login").then((res)=>{
+                            id = res.data.id
+                        })
+                    }
                     if (id !== route.query.auth) {
                         $q.notify({
                             color: 'negative',
@@ -143,6 +148,11 @@ export default {
                 id: '',
                 name: ''
             },
+            social : {
+                id : '',
+                nickname : '',
+                method : ''
+            },
             form: {
                 loginId: "",
                 loginPw: ""
@@ -151,6 +161,9 @@ export default {
         });
         axios.get("http://localhost:3000/api/login").then((res) => {
             state.account = res.data;
+        });
+        axios.get("http://localhost:3000/api/kakao_login").then((res) => {
+            state.social = res.data;
         });
 
         return {
@@ -255,8 +268,9 @@ export default {
                 })
         },
         creatReply(quality, content) {
-            if (quality == null) {
-                quality = 0
+            console.log("버튼을눌렀습니다.")
+            // if (quality == null) {
+            //     quality = 0
                 if (this.$route.query.auth) {
                     this.id = []
                     axios({
@@ -450,7 +464,7 @@ export default {
             }
 
         },
-    }
+    // }
 
 };
 

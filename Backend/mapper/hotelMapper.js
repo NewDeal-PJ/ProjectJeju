@@ -1006,17 +1006,17 @@ app.post('/api/reply/insert', function (request, response) {
       })
     })
 })
-app.post('/replyInsertAttach', function (request, response) {
-  const generateRandomString = (num) => {
-    const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-    let result = '';
-    const charactersLength = characters.length;
-    for (let i = 0; i < num; i++) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-  
-    return result;
+const generateRandomString = (num) => {
+  const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+  let result = '';
+  const charactersLength = characters.length;
+  for (let i = 0; i < num; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
   }
+
+  return result;
+}
+app.post('/replyInsertAttach', function (request, response) {
   
   let randomStr = generateRandomString(10);
   const upload = multer({
@@ -1249,7 +1249,7 @@ app.post('/api/writinginfo', function (req, res) {
         return;
       }
       var param = {
-        nickname: req.body.nickname
+        NICKNAME: req.body.nickname
       }
       var format = { language: 'sql', indent: ' ' }
       var query = mybatisMapper.getStatement('oracleMapper', 'getReplyMypage', param, format);
@@ -1269,8 +1269,9 @@ app.post('/api/writinginfo', function (req, res) {
               STOREID: rows[3],
               CONTENT: rows[4],
               STARRATE: rows[5],
-              UUID: rows[7],
-              PATH: rows[8],
+              UUID: rows[6],
+              PATH: rows[7],
+              STORENAME: rows[8],
             }
             replymypageData.push(jsonData)
           }

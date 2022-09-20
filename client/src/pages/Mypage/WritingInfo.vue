@@ -21,8 +21,8 @@
                   <div>
                     <div style="display: flex; font-size: 15px;">
                       <span>🍽️　</span>
-                      <a href="'#/detail/' + dataItem.STOREID">
-                        <p> {{ dataItem.STOREID }} </p> 
+                      <a :href="'#/detail/' + dataItem.STOREID">
+                        <p> {{ dataItem.STORENAME }} </p> 
                       </a>
                     </div>
                     <div style="display: flex; font-size: 15px;">

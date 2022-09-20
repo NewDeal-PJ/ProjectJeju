@@ -181,7 +181,15 @@
   <!-- 리뷰 사진 크롤링 완료 후 -> 테이블 V_REPLY 로 변경해야됨 -->
   <select id="getReplyMypage">
     SELECT
-    * FROM TBL_REPLY full join tbl_reply_attach Using(rno) WHERE NICKNAME=#{nickname} ORDER BY REGDATE DESC
+   RNO,
+NICKNAME,
+REGDATE,
+STOREID,
+CONTENT,
+QCSJ_C000000000400001,
+UUID,
+PATH,
+STORENAME FROM (select * from TBL_store full join TBL_REPLY using(storeid)) full join tbl_reply_attach Using(rno) WHERE NICKNAME=#{NICKNAME} ORDER BY REGDATE DESC
   </select>
 	<insert id="insertProduct">
 	INSERT INTO TBL_PRODUCT(PRODUCTID,PRODUCTNAME,PRICE,DESCRIPTION) 

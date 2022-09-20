@@ -83,11 +83,13 @@ export default {
   //CORS 이슈는 quasar.config.js 파일에서 proxy 설정을 통해서 우회했다.
   data() {
     return {
-      foobar: null,
+      foobar: null
     };
   },
   setup() {
+    // const user = window.localStorage.getItem("token");
     const $q = useQuasar();
+    const user = window.localStorage.getItem("token");
     const state = reactive({
       account: {
         id: "",
@@ -115,6 +117,8 @@ export default {
         .post("http://localhost:3000/api/login", args)
         .then((res) => {
           //로그인에 성공
+          // console.log(res)
+          // window.localStorage.setItem('token',res.data)
           state.account = res.data;
           if (res.data.id == "admin") {
             $q.notify({
@@ -140,8 +144,8 @@ export default {
             message: "로그인에 실패하셨습니다. 계정정보를 확인해 주세요!",
           });
           console.log(error.toJSON());
-          // window.location.href = '#/api/login';
-          //login 실패서 login 페이지로 이동
+          window.location.href = '#/api/login';
+          // login 실패서 login 페이지로 이동
         });
 
       //submit함수가 실행이 되면 server에 post방식으로 던진다.
@@ -159,17 +163,22 @@ export default {
         state.account.name = "";
       });
     };
-
     // 백엔드의 계정정보를 호출
     axios.get("http://localhost:3000/api/login").then((res) => {
       state.account = res.data;
     });
-    // // 백엔드의 소셜 계정정보를 호출
-    // axios.get("/api/kakao_login").then((res) => {
-    //   state.social = res.data;
-    // });
-    return { state, submit, logout, isPwd: ref(true) };
+    // 백엔드의 계정정보를 호출
+    axios.get("http://localhost:3000/api/login").then((res) => {
+      state.account = res.data;
+    });
+    // 백엔드의 소셜 계정정보를 호출
+    axios.get("/api/kakao_login").then((res) => {
+      state.social = res.data;
+    });
+    return { state, submit, logout, isPwd: ref(true), user };
   },
+  mounted(){
+  }
 };
 </script>
 

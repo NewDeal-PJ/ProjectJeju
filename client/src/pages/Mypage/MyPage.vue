@@ -27,7 +27,7 @@
 
           <div class="item">
             <div class="myPageOrder">
-              <a href="#/api/orderinfo" type="button" style="color: black;">
+              <a :href="orderinfoUrl" type="button" style="color: black;">
                 <img
                   src="https://velog.velcdn.com/images/kimjyunny_dev/post/2422b5e0-250f-4a47-b0ec-631ca1c4ee94/image.png"
                 />
@@ -86,6 +86,11 @@ export default {
     onMounted(() =>
       axios.get("http://localhost:3000/api/login").then((res) => {
         const id = res.data.id;
+        if(id === ''){
+          axios.get("http://localhost:3000/api/kakao_login").then((res)=>{
+              id = res.data.id
+          })
+        }
         if (id !== route.params.id) {
           $q.notify({
             color: "negative",
@@ -97,9 +102,11 @@ export default {
       })
     );
     const writinginfoUrl = "#/api/writinginfo?auth=" + route.params.id;
+    const orderinfoUrl = "#/api/orderinfo?auth=" + route.params.id;
     return {
       writinginfoUrl,
       $q,
+      orderinfoUrl
     };
   },
   mounted() {
@@ -110,11 +117,20 @@ export default {
         window.location.href = "#/api/login";
         alert("로그인 해주세요");
       }
+      if(this.account.id !==''){
+        window.localStorage.setItem('userid',this.account.id)
+      }
     });
     // 백엔드의 소셜 계정정보를 호출
     axios.get("http://localhost:3000/api/kakao_login").then((res) => {
       this.social = res.data;
+      console.log(this.social.id)
+      if(this.social.id !==''){
+        window.localStorage.setItem('userid',this.social.id)
+      }
     });
+    
+   
   },
   methods: {
     social_info() {

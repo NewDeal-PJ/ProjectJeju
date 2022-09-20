@@ -652,6 +652,90 @@ app.post("/api/cart_info", async (req, res) => {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//구매내역 부분 /////////////////////////////////////////////////////////////////////////////////////////////////////
+app.post('/api/OrderInfo', function (request, response) {
+  console.log(request.body)
+  const orderData = [];
+  OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
+    function (err, connection) {
+      if (err) {
+        console.error(err.message);
+        return;
+      }
+      var param = {
+        userid: request.body.userid
+      }
+      var format = { language: 'sql', indent: ' ' }
+      var query = mybatisMapper.getStatement('oracleMapper', 'getOrderInfo',param,format);
+      connection.execute(query, {}, function (err, result) {
+        if (err) {
+          console.error(err.message);
+          return;
+        }
+        for (const i in result.rows) {
+          if (Object.hasOwnProperty.call(result.rows, i)) {
+            let rows = result.rows[i]
+            const jsonData = {
+              order_id : rows[1],
+              order_name : rows[2],
+              order_email : rows[5],
+              order_addrs : rows[6],
+              order_userid : rows[0],
+              order_userphone : rows[7],
+              order_recipient : rows[8],
+              order_totalprice : rows[10]
+
+            }
+            orderData.push(jsonData)
+          }
+        }
+        console.log(orderData)
+        response.send(orderData)
+      })
+    })
+});
+
+app.post('/api/OrderProductInfo', function (request, response) {
+  console.log(request.body)
+  const orderProductData = [];
+  OracleDB.getConnection({ user: db_user, password: db_password, connectString: db_string },
+    function (err, connection) {
+      if (err) {
+        console.error(err.message);
+        return;
+      }
+      var param = {
+        userid: request.body.userid
+      }
+      var format = { language: 'sql', indent: ' ' }
+      var query = mybatisMapper.getStatement('oracleMapper', 'getOrderProductInfo',param,format);
+      connection.execute(query, {}, function (err, result) {
+        if (err) {
+          console.error(err.message);
+          return;
+        }
+        for (const i in result.rows) {
+          if (Object.hasOwnProperty.call(result.rows, i)) {
+            let rows = result.rows[i]
+            const jsonData = {
+              product_orderid : rows[0],
+              product_name : rows[14],
+              product_id : rows[9],
+              product_quantity : rows[11],
+              product_price : rows[13],
+              product_uuid : rows[17],
+              product_path : rows[18]
+
+            }
+            orderProductData.push(jsonData)
+          }
+        }
+        console.log(orderProductData)
+        response.send(orderProductData)
+      })
+    })
+});
+
 //결제부분 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // "/payments/complete"에 대한 POST 요청을 처리
 app.post("/api/payments/complete", async (req, res) => {
@@ -706,6 +790,7 @@ app.post("/api/payments/complete", async (req, res) => {
         var param = {
           ORDERNAME: req.body.name,
           PAID: paymentData.status,
+          RECIPIENT :req.body.buyer_name,
           EMAIL: req.body.buyer_email,
           ADDRESS: req.body.buyer_addr,
           USERID: payments_id,
@@ -760,7 +845,6 @@ app.post("/api/payments/complete", async (req, res) => {
 app.post("/api/orderItem", (req, res) => {
   console.log("orderItem의 LIST",orderItem)
   console.log("새로운orderitem:", orderItem.length)
-  console.log("QUANTITY:", orderItem[0].QUANTITY)
   //    //데이터베이스 ORDERITEM 푸시
   //orderItem도 데이터 가져와서 디비에 넣어보자
   for (let i = 0; i < orderItem.length; i++) {
@@ -788,8 +872,9 @@ app.post("/api/orderItem", (req, res) => {
           console.log('Insert  성공 : ' + result.rowsAffected)
         })
       })
+      connectionRelease(res, connection, result.rowsAffected)
   }
-  connectionRelease(res, connection, result.rowsAffected)
+ 
 });
 
 

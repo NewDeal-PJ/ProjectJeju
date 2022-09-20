@@ -1007,13 +1007,24 @@ app.post('/api/reply/insert', function (request, response) {
     })
 })
 app.post('/replyInsertAttach', function (request, response) {
-  const date_uuid =  Date.now().toString()
+  const generateRandomString = (num) => {
+    const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    let result = '';
+    const charactersLength = characters.length;
+    for (let i = 0; i < num; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+  
+    return result;
+  }
+  
+  let randomStr = generateRandomString(10);
   const upload = multer({
     storage: multerS3({
       s3: s3,
       bucket: 'jejuprojectimage/' + request.body.PATH,
       key: function (req, file, cb) {
-        cb(null, date_uuid + request.body.UUID);
+        cb(null, randomStr + request.body.UUID);
       },
       acl: 'public-read-write',
       contentType: multerS3.AUTO_CONTENT_TYPE
@@ -1029,7 +1040,7 @@ app.post('/replyInsertAttach', function (request, response) {
         return;
       }
       var param = {
-        uuid: date_uuid + request.body.UUID,
+        uuid: randomStr + request.body.UUID,
         path: request.body.PATH,
       }
       var format = { language: 'sql', indent: ' ' }

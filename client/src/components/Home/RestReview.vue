@@ -333,7 +333,7 @@ export default {
                                 }).catch(function (error) {
                                     console.log(error.toJSON())
                                 });
-                            }, 600);
+                            }, 500);
                             setTimeout(() => {
                                 this.$q.notify({
                                     color: 'orange-7',
@@ -343,9 +343,9 @@ export default {
                                     timeout: 1200
                                 })
                             }, 1300);
-                            // setTimeout(() => {
-                            //     window.location.reload()
-                            // }, 1500);
+                            setTimeout(() => {
+                                window.location.reload()
+                            }, 1500);
                         }
                         else {
                             this.$q.notify({

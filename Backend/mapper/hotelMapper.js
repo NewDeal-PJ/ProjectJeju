@@ -676,20 +676,20 @@ app.post('/api/OrderInfo', function (request, response) {
           if (Object.hasOwnProperty.call(result.rows, i)) {
             let rows = result.rows[i]
             const jsonData = {
-              order_id : rows[1],
-              order_name : rows[2],
-              order_email : rows[5],
-              order_addrs : rows[6],
-              order_userid : rows[0],
+              order_id : rows[0],
+              order_name : rows[1],
+              order_email : rows[4],
+              order_addrs : rows[5],
+              order_userid : rows[6],
               order_userphone : rows[7],
               order_recipient : rows[8],
-              order_totalprice : rows[10]
+              order_totalprice : rows[9]
 
             }
             orderData.push(jsonData)
+            console.log(orderData)
           }
         }
-        console.log(orderData)
         response.send(orderData)
       })
     })
@@ -870,9 +870,11 @@ app.post("/api/orderItem", (req, res) => {
             return;
           }
           console.log('Insert  성공 : ' + result.rowsAffected)
+          connectionRelease(res,connection, result.rowsAffected)
         })
+        
       })
-      connectionRelease(res, connection, result.rowsAffected)
+      
   }
  
 });

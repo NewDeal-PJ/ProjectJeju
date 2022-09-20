@@ -69,7 +69,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(product, index) in OrderProductInfo"
+          <tr v-for="product in OrderProductInfo"
         :key="product.product_orderid"
         :name="product.product_orderid">
             <th class="text-middle">
@@ -110,7 +110,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(order, index) in OrderInfo"
+          <tr v-for="order in OrderInfo"
         :key="order.order_id"
         :name="order.order_id">
             <th class="text-middle">{{order.order_name}}</th>

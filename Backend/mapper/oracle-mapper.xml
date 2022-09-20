@@ -229,7 +229,10 @@ STORENAME FROM (select * from TBL_store full join TBL_REPLY using(storeid)) full
 		select * from tbl_hotel_wordcloud full outer join tbL_hotel using(hotelid) where uuid is null
 	</select>
 	<select id="getOrderInfo">
-	SELECT * FROM (SELECt * FROM TBL_ORDER inner join tbl_PAYMENT Using(USERID) WHERE USERID=USERID) WHERE USERID=#{userid}
+SELECT * FROM(SELECT A.*, b.paymentprice FROM TBL_ORDER A
+LEFT JOIN TBL_PAYMENT B
+ON A.ORDERID=B.ORDERID)
+WHERE USERID=#{userid}
 	</select>
 	<select id="getOrderProductInfo">
 	SELECT *

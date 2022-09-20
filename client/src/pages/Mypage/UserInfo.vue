@@ -257,7 +257,7 @@ export default {
                 .put("http://localhost:3000/api/userinfo/update", args)
                 .then((res) => {
                   state.data = res.data;
-                  window.location.href = `#/api/mypage`;
+                  window.location.href = `#/`;
                   $q.notify({
                     color: 'orange-7',
                     icon: 'thumb_up',

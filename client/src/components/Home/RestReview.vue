@@ -97,7 +97,7 @@
     </div>
 
     <div class="q-pa-lg flex flex-center">
-        <q-pagination @click="selectReply((current-1)*20,current*20); GoToTop()" v-model="current" :max="pageCnt" color="black"
+        <q-pagination @click="[selectReply((current-1)*20,current*20), GoToTop()]" v-model="current" :max="pageCnt" color="black"
             active-color="orange" />
         <q-pagination  />
     </div>
@@ -301,7 +301,9 @@ export default {
                             headers: { 'X-Requested-With': 'XMLHttpRequest' },
                             responseType: 'json'
                         })
-                        if (this.file !== undefined) {
+                        console.log(this.file)
+                        if (this.file !== null) {
+                            console.log(this.file)
                             setTimeout(() => {
 
                                 function uuidv4() {
